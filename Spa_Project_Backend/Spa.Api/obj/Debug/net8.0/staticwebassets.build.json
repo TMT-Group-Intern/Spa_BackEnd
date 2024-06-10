@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "HBVaQrPGacq9W9cHbSRXTpMOH9sbwl1s9pL/ZEM8XOE=",
+  "Source": "Spa.Api",
+  "BasePath": "_content/Spa.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

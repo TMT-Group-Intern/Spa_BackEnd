@@ -1,0 +1,17 @@
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\bin\Debug\net8.0\Spa.Infrastructure.deps.json
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\bin\Debug\net8.0\Spa.Infrastructure.runtimeconfig.json
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\bin\Debug\net8.0\Spa.Infrastructure.dll
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\bin\Debug\net8.0\Spa.Infrastructure.pdb
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\bin\Debug\net8.0\Spa.Domain.dll
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\bin\Debug\net8.0\Spa.Domain.pdb
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\obj\Debug\net8.0\Spa.Infrastructure.csproj.AssemblyReference.cache
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\obj\Debug\net8.0\Spa.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\obj\Debug\net8.0\Spa.Infrastructure.AssemblyInfoInputs.cache
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\obj\Debug\net8.0\Spa.Infrastructure.AssemblyInfo.cs
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\obj\Debug\net8.0\Spa.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\obj\Debug\net8.0\Spa.Infr.DA758A6A.Up2Date
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\obj\Debug\net8.0\Spa.Infrastructure.dll
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\obj\Debug\net8.0\refint\Spa.Infrastructure.dll
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\obj\Debug\net8.0\Spa.Infrastructure.pdb
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\obj\Debug\net8.0\Spa.Infrastructure.genruntimeconfig.cache
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Infrastructure\obj\Debug\net8.0\ref\Spa.Infrastructure.dll

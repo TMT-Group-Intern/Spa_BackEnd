@@ -1,0 +1,102 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Spa.Domain.Entities;
+using Spa.Domain.IRepository;
+using Spa.Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Spa.Infrastructures
+{
+    public class CustomerRepository : EfRepository<Customer>, ICustomerRepository
+    {
+        public CustomerRepository(SpaDbContext spaDbContext) : base(spaDbContext)
+        {
+        }
+
+        public Customer CreateCustomers(Customer customer)
+        {
+            Add(customer);
+            return customer;
+        }
+
+        public async Task<bool> DeleteCustomer(Customer customer) //delete customer
+        {
+            if (customer != null)
+            {
+                // customer.IsActive = false;
+                // Update(customer);
+                DeleteById(customer);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> DeleteCustomerOnAppoinmentAndSale(long idCustomer)
+        {
+            try
+            {
+                var appointment = await _spaDbContext.Appointments.Where(a => a.CustomerID == idCustomer).ToListAsync();
+                // var chooseService = _spaDbContext.ChooseServices.Where(c => c.ServiceID.)
+                var sale = await _spaDbContext.Sales.Where(s => s.CustomerID == idCustomer).ToListAsync();
+                if (appointment != null || sale != null)
+                {
+                    _spaDbContext.Appointments.RemoveRange(appointment);
+                    _spaDbContext.Sales.RemoveRange(sale);
+                }
+                await _spaDbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return true;
+            }
+            return true;
+        }
+
+        public IEnumerable<Customer> GetAllCustomer()
+        {
+            return GetAll();
+        }
+
+        public Customer GetCustomerById(long id) //get customer by Id
+        {
+            return GetById(id);
+        }
+
+        public async Task<Customer> GetCustomerByPhone(string phone)  //get customer by phone
+        {
+            Customer cus = null;
+            cus = await _spaDbContext.Customers.FirstOrDefaultAsync(c => c.Phone == phone);
+            return cus;
+        }
+
+        public async Task<Customer> GetLastCustomerAsync()
+        {
+            try
+            {
+                return await _spaDbContext.Customers.OrderByDescending(c => c.CustomerID).FirstOrDefaultAsync();  
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<bool> UpdateCustomer(Customer customer)  //update customer
+        {
+            Update(customer);
+            return true;
+        }
+
+        public async Task<List<Customer>> GetCustomersFromSpecificCodeAsync(string specificCode)
+        {
+            return await _spaDbContext.Customers
+                .Where(c => c.CustomerCode.CompareTo(specificCode) >= 0)
+                .OrderBy(c => c.CustomerCode)
+                .ToListAsync();
+        }
+    }
+}
+
