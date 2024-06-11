@@ -65,11 +65,11 @@ namespace Spa.Infrastructures
             return GetById(id);
         }
 
-        public async Task<Customer> GetCustomerByPhone(string phone)  //get customer by phone
+        public async Task<Customer> GetCustomerByPhone(string phone, long id)  //get customer by phone
         {
-            Customer cus = null;
-            cus = await _spaDbContext.Customers.FirstOrDefaultAsync(c => c.Phone == phone);
-            return cus;
+           // Customer cus = null;
+          return await _spaDbContext.Customers.FirstOrDefaultAsync(c => c.Phone == phone && id != c.CustomerID);           
+          
         }
 
         public async Task<Customer> GetLastCustomerAsync()

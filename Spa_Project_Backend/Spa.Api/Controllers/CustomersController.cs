@@ -24,7 +24,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Customer>> Get()
+        public ActionResult GetAll()
         {
             var customersFromService = _service.GetAllCustomer();
             return Ok(customersFromService);

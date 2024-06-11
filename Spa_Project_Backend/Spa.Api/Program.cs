@@ -54,6 +54,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();  //sử dụng swagger
 }
+//allow accept api to font-end
+
+app.UseCors(op => op.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseHttpsRedirection();  //thêm middleware để chuyển http sang https để thêm bảo mật
 

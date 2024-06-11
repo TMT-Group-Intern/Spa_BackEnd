@@ -15,9 +15,9 @@ namespace Spa.Domain.IService
 
         Task CreateService(ServiceEntity serviceEntity); //create
 
-        void UpdateService(long serviceId, ServiceEntity serviceEntity); //update
+        Task UpdateService(long serviceId, ServiceEntity serviceEntity); //update
 
-        Task<bool> DeleteService(long ServiceId);
+        Task DeleteService(long ServiceId);
 
         ServiceEntity GetServiceById(long id); //get by id
 

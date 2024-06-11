@@ -21,7 +21,7 @@ namespace Spa.Domain.IRepository
 
         Customer GetCustomerById(long id);
 
-        Task<Customer> GetCustomerByPhone(string phone);
+        Task<Customer> GetCustomerByPhone(string phone, long id);
 
         Task<List<Customer>> GetCustomersFromSpecificCodeAsync(string specificCode);
 
