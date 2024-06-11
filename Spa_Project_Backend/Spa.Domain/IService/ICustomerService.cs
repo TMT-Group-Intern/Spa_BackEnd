@@ -1,4 +1,5 @@
-﻿using Spa.Domain.Entities;
+﻿using Microsoft.Identity.Client;
+using Spa.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace Spa.Domain.IService
 
         bool isExistCustomer(long id); // check customer exist by Id
 
-        bool GetCustomerByPhone(string phone);
+        Task<bool> GetCustomerByPhone(string phone, long id);
 
 
     }

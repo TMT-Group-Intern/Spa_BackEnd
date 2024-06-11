@@ -53,7 +53,8 @@ namespace Spa.Domain.Service
         {      
             try {
                 var customerFromId = _customerRepository.GetCustomerById(customerId);
-                if (GetCustomerByPhone(customerFromId.Phone))
+                bool checckPhone = await GetCustomerByPhone(customer.Phone, customerId);
+                if (checckPhone)
                 {
                     throw new DuplicatePhoneNumberException("The phone number already exists in the system.");
                 }         
@@ -97,8 +98,9 @@ namespace Spa.Domain.Service
             }      
         }
 
-        public bool GetCustomerByPhone(string phone)
-        {     
+        public async Task<bool> GetCustomerByPhone(string phone, long id)
+        {
+            bool flag = true;
             //if (phone == null)
             //{
             //    throw new ArgumentNullException(nameof(phone));
@@ -107,9 +109,15 @@ namespace Spa.Domain.Service
             //{
             //    throw new ArgumentException("Phone number cannot be empty", nameof(phone));
             //}
-            var customer = _customerRepository.GetCustomerByPhone(phone);
+            var customer = await _customerRepository.GetCustomerByPhone(phone,  id);
+            if (customer == null)
+            {
+                flag = false;
+            }
 
-            return customer == null ? false:true;
+            //return customer == null ? false:true;
+
+            return flag;
         }
 
 

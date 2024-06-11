@@ -1,4 +1,7 @@
-﻿using Spa.Domain.Entities;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Spa.Domain.Entities;
+using Spa.Domain.Exceptions;
 using Spa.Domain.IRepository;
 using Spa.Domain.IService;
 using System;
@@ -25,9 +28,17 @@ namespace Spa.Domain.Service
             _serviceRepository.CreateServiceEntitys(serviceEntity);
         }
 
-        public Task<bool> DeleteService(long ServiceId)
+        public async Task DeleteService(long serviceId)
         {
-            throw new NotImplementedException();
+            var cusToDelete = _serviceRepository.GetServiceEntityById(serviceId);
+            try
+            {
+                await _serviceRepository.DeleteServiceEntity(cusToDelete);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx && sqlEx.Number == 547)
+            {
+                throw new ForeignKeyViolationException("Cannot delete customer because it is referenced by other entities.");
+            }
         }
 
         public async Task<string> GenerateServiceCodeAsync()
@@ -56,12 +67,35 @@ namespace Spa.Domain.Service
 
         public bool isExistService(long id)
         {
-            throw new NotImplementedException();
+            return _serviceRepository.GetServiceEntityById(id) == null ? false : true;
         }
 
-        public void UpdateService(long serviceId, ServiceEntity serviceEntity)
+
+
+        public async Task UpdateService(long serviceId, ServiceEntity serviceEntity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var serviceFromId = _serviceRepository.GetServiceEntityById(serviceId);
+                bool checkName = await _serviceRepository.GetServiceEntityByName(serviceEntity.ServiceName, serviceId);
+                if (checkName)
+                {
+                    throw new DuplicatePhoneNumberException("The name of service already exists in the system.");
+                }
+            
+                serviceFromId.ServiceName = serviceEntity.ServiceName;
+                serviceFromId.Price = serviceEntity.Price;
+                serviceFromId.Description = serviceEntity.Description;
+                await _serviceRepository.UpdateServiceEntity(serviceFromId);
+            }
+            catch (DuplicatePhoneNumberException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while updating customer", ex);
+            }
         }
     }
 }

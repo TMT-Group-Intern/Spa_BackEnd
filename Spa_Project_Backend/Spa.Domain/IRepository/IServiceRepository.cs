@@ -16,12 +16,13 @@ namespace Spa.Domain.IRepository
 
         Task<ServiceEntity> GetLastServiceEntityAsync();
 
-        void UpdateServiceEntity(ServiceEntity ServiceEntity);
+        Task<bool> UpdateServiceEntity(ServiceEntity ServiceEntity);
 
         Task<bool> DeleteServiceEntity(ServiceEntity ServiceEntity);
 
         ServiceEntity GetServiceEntityById(long id);
 
-        Task<ServiceEntity> GetServiceEntityByPhone(string phone);
+
+        Task<bool> GetServiceEntityByName(string nameService, long id);
     }
 }

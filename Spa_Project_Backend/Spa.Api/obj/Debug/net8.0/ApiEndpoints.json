@@ -21,23 +21,13 @@
   },
   {
     "ContainingType": "Spa.Api.Controllers.CustomersController",
-    "Method": "Get",
+    "Method": "GetAll",
     "RelativePath": "api/Customers",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Spa.Domain.Entities.Customer, Spa.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Spa.Api.Controllers.CustomersController",
@@ -94,23 +84,13 @@
   },
   {
     "ContainingType": "Spa.Api.Controllers.ServicesController",
-    "Method": "Get",
+    "Method": "GetAll",
     "RelativePath": "api/Services",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Spa.Domain.Entities.ServiceEntity, Spa.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Spa.Api.Controllers.ServicesController",
@@ -156,34 +136,7 @@
   },
   {
     "ContainingType": "Spa.Api.Controllers.ServicesController",
-    "Method": "Put",
-    "RelativePath": "api/Services/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "value",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Spa.Api.Controllers.ServicesController",
-    "Method": "Delete",
+    "Method": "DeleteService",
     "RelativePath": "api/Services/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -195,12 +148,27 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Spa.Api.Controllers.ServicesController",
+    "Method": "UpdateService",
+    "RelativePath": "api/Services/{serviceId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
       {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
+        "Name": "serviceId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "serviceDto",
+        "Type": "Spa.Application.Models.ServiceDTO",
+        "IsRequired": true
       }
-    ]
+    ],
+    "ReturnTypes": []
   }
 ]

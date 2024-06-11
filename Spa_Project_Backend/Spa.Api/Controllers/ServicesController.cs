@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Spa.Application.Commands;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
+using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,7 +26,7 @@ namespace Spa.Api.Controllers
 
         // GET: api/<ServicesController>
         [HttpGet]
-        public ActionResult<IEnumerable<ServiceEntity>> Get()
+        public ActionResult GetAll()
         {
             var allService = _service.GetAllService();
             var serviceDTO = allService.Select(s => new ServiceDTO
@@ -61,15 +62,63 @@ namespace Spa.Api.Controllers
         }
 
         // PUT api/<ServicesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{serviceId}")]
+        public async Task<IActionResult> UpdateService(int serviceId, [FromBody] ServiceDTO serviceDto)
         {
+            try
+            {
+                if (serviceDto == null || !ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (!_service.isExistService(serviceId))
+                {
+                    return NotFound();
+                }
+                ServiceEntity service = new ServiceEntity
+                {
+                    ServiceName = serviceDto.ServiceName,
+                    Description = serviceDto.Description,
+                    Price = serviceDto.Price,                  
+                };
+                await _service.UpdateService(serviceId, service);
+                return Ok(true);
+            }
+            catch (DuplicatePhoneNumberException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         // DELETE api/<ServicesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult>  DeleteService(int id)
         {
+            try
+            {
+                if (_service.isExistService(id))
+                {
+                    await _service.DeleteService(id);
+                    return Ok(true);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (ForeignKeyViolationException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
     }
 }

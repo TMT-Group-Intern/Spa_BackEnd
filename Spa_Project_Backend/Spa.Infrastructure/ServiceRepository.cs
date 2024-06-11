@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Spa.Infrastructure
 {
-    public class ServiceRepository : EfRepository<ServiceEntity>,IServiceRepository
+    public class ServiceRepository : EfRepository<ServiceEntity>, IServiceRepository
     {
         public ServiceRepository(SpaDbContext spaDbContext) : base(spaDbContext)
         {
@@ -27,7 +27,7 @@ namespace Spa.Infrastructure
             {
                 // customer.IsActive = false;
                 // Update(customer);
-                 DeleteById(serviceEntity);
+                DeleteById(serviceEntity);
                 return true;
             }
             return false;
@@ -50,6 +50,23 @@ namespace Spa.Infrastructure
             }
         }
 
+        public async Task<bool> GetServiceEntityByName(string nameService, long id)
+        {
+            try
+            {
+               var service = await _spaDbContext.Services.FirstOrDefaultAsync(s => s.ServiceName == nameService && s.ServiceID != id);
+                if(service != null)
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return false;
+        }
+
         public ServiceEntity GetServiceEntityById(long idService)
         {
             return GetById(idService);
@@ -60,9 +77,10 @@ namespace Spa.Infrastructure
             throw new NotImplementedException();
         }
 
-        public void UpdateServiceEntity(ServiceEntity ServiceEntity)
+        public async Task<bool> UpdateServiceEntity(ServiceEntity ServiceEntity)
         {
-           Update(ServiceEntity);
+            Update(ServiceEntity);
+            return true;
         }
     }
 }
