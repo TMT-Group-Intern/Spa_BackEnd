@@ -8,7 +8,7 @@ namespace Spa.Application.Models
 {
     public class AppoinmentDTO
     {
-        public long AppointmentID { get; set; }
+       // public long AppointmentID { get; set; }
         public DateTime AppointmentDate { get; set; }
         public long? BranchID { get; set; }
         public long CustomerID { get; set; }

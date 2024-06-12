@@ -30,6 +30,30 @@ namespace Spa.Api.Controllers
             return Ok(customersFromService);
         }
 
+        [HttpGet ("{id}")]
+        public ActionResult GetCusomerById(long id)
+        {
+            if (_service.isExistCustomer(id))
+            {
+                var getByCusByID = _service.GetCustomerById(id);
+
+                CustomerDTO customerDTO = new CustomerDTO
+                {
+                    DateOfBirth = getByCusByID.DateOfBirth,
+                    Email = getByCusByID.Email,
+                    FirstName = getByCusByID.FirstName,
+                    LastName = getByCusByID.LastName,
+                    Gender = getByCusByID.Gender,
+                    Phone = getByCusByID.Phone
+                };
+                return Ok(new { customerDTO });
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateCustomer([FromBody] CustomerDTO customerDto)
@@ -39,7 +63,7 @@ namespace Spa.Api.Controllers
                 FirstName = customerDto.FirstName,
                 LastName = customerDto.LastName,
                 Email = customerDto.Email,
-                DateOfBirth = customerDto.DateOfBirth,
+                DateOfBirth =customerDto.DateOfBirth,
                 Gender = customerDto.Gender,
                 Phone = customerDto.Phone
             };

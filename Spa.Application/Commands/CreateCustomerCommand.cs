@@ -14,13 +14,12 @@ namespace Spa.Application.Commands
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
+        public string? Email { get; set; }
         public string Phone { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public string Gender { get; set; }
-        public string Address { get; set; }
-        public string MembershipType { get; set; }  //loại thành viên
-        public string Notes { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public string? Gender { get; set; }
+        public string? Address { get; set; }
+        public string? Notes { get; set; }
     }
 
     public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, string>

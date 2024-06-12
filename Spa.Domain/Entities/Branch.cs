@@ -10,8 +10,8 @@ namespace Spa.Domain.Entities
     {
         public long BranchID { get; set; }
         public string BranchName { get; set; }
-        public string BranchAddress { get; set; }
-        public string BranchPhone { get; set; }
+        public string? BranchAddress { get; set; }
+        public string? BranchPhone { get; set; }
 
         
         public ICollection<Employee> Employees { get; set; }
