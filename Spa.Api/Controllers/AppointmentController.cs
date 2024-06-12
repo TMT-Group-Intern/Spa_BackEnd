@@ -5,6 +5,7 @@ using Spa.Domain.Entities;
 using Spa.Domain.IService;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Spa.Api.Controllers
 {
@@ -28,17 +29,13 @@ namespace Spa.Api.Controllers
                 ReferenceHandler = ReferenceHandler.Preserve
             };    
             var app = await _service.GetAllAppoment();
-            Appointment a = new Appointment
-            {
-                AppointmentDate = app.Select(x => x.AppointmentDate).FirstOrDefault()
-            };
-            var b = a.AppointmentDate;
+            //Appointment a = new Appointment
+            //{
+            //    AppointmentDate = app.Select(x => x.AppointmentDate).FirstOrDefault()
+            //};
+            //var b = a.AppointmentDate;         
 
             var json = JsonSerializer.Serialize(app, options);
-            if (app == null)
-            {
-                NotFound();
-            }
             return Ok(json);
         }
     }

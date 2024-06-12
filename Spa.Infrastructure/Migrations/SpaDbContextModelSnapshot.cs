@@ -34,11 +34,10 @@ namespace Spa.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -46,7 +45,6 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -54,11 +52,9 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AdminID");
@@ -74,23 +70,22 @@ namespace Spa.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("AppointmentID"));
 
-                    b.Property<DateTime>("AppointmentDate")
+                    b.Property<DateTime?>("AppointmentDate")
                         .HasColumnType("datetime2");
 
                     b.Property<long?>("BranchID")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("CustomerID")
+                    b.Property<long?>("CustomerID")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("EmployeeID")
+                    b.Property<long?>("EmployeeID")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Total")
+                    b.Property<double?>("Total")
                         .HasColumnType("float");
 
                     b.HasKey("AppointmentID");
@@ -113,7 +108,6 @@ namespace Spa.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("BranchID"));
 
                     b.Property<string>("BranchAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BranchName")
@@ -121,7 +115,6 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BranchPhone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BranchID");
@@ -159,11 +152,10 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<int>("CustomerTypeID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -171,7 +163,6 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -417,14 +408,12 @@ namespace Spa.Infrastructure.Migrations
                     b.HasOne("Spa.Domain.Entities.Customer", "Customer")
                         .WithMany("Appointments")
                         .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Spa.Domain.Entities.Employee", "Employee")
                         .WithMany("Appointments")
                         .HasForeignKey("EmployeeID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Branch");
 

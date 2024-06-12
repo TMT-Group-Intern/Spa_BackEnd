@@ -31,7 +31,7 @@ namespace Spa.Api.Controllers
             var allService = _service.GetAllService();
             var serviceDTO = allService.Select(s => new ServiceDTO
             {
-                ServiceID = s.ServiceID,
+              //  ServiceID = s.ServiceID,
                 Description = s.Description,
                 Price = s.Price,
                 ServiceCode = s.ServiceCode,
@@ -41,11 +41,27 @@ namespace Spa.Api.Controllers
             return Ok(serviceDTO);
         }
 
-        // GET api/<ServicesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult GetServiceById(long id)
         {
-            return "value";
+           if(_service.isExistService(id))
+            {
+                var getByCusByID = _service.GetServiceById(id);
+
+                ServiceDTO serviceDTO = new ServiceDTO
+                {
+                    ServiceCode = getByCusByID.ServiceCode,
+                    ServiceID = getByCusByID.ServiceID,
+                    Description = getByCusByID.Description,
+                    Price = getByCusByID.Price,
+                    ServiceName = getByCusByID.ServiceName,
+                };
+                return Ok(new { serviceDTO });
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // POST api/<ServicesController>
@@ -54,11 +70,14 @@ namespace Spa.Api.Controllers
         {
             var command = new CreateServiceCommand
             {
-               serviceDTO = serviceDto
+                ServiceName = serviceDto.ServiceName,
+                Description = serviceDto.Description,
+                Price = serviceDto.Price,
+            
             };
             var id = await _mediator.Send(command);
             //  return Ok(true);
-            return Ok(new {id});
+            return Ok( new {id});
         }
 
         // PUT api/<ServicesController>/5

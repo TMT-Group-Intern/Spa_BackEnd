@@ -62,7 +62,7 @@ namespace Spa.Domain.Service
 
         public ServiceEntity GetServiceById(long id)
         {
-            throw new NotImplementedException();
+            return _serviceRepository.GetServiceEntityById(id);
         }
 
         public bool isExistService(long id)
