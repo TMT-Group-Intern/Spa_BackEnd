@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Numerics;
 
 namespace Spa.Domain.Service
 {
@@ -30,7 +31,10 @@ namespace Spa.Domain.Service
         public async Task CreateCustomer(Customer customer)
         {
             var lastCusID = await GenerateCustomerCodeAsync();
-
+            if(await _customerRepository.CheckPhoneToCreateCustomer(customer.Phone) != null)
+            {
+                 throw new DuplicateException("The phone number already exists in the system.");
+            }
             customer.CustomerCode = lastCusID;
             _customerRepository.CreateCustomers(customer);
         }
@@ -56,7 +60,7 @@ namespace Spa.Domain.Service
                 bool checckPhone = await GetCustomerByPhone(customer.Phone, customerId);
                 if (checckPhone)
                 {
-                    throw new DuplicatePhoneNumberException("The phone number already exists in the system.");
+                    throw new DuplicateException("The phone number already exists in the system.");
                 }         
                 customerFromId.Gender = customer.Gender;
                 customerFromId.FirstName = customer.FirstName;
@@ -66,7 +70,7 @@ namespace Spa.Domain.Service
                 customerFromId.DateOfBirth = customer.DateOfBirth;
                await _customerRepository.UpdateCustomer(customerFromId);              
             }
-            catch (DuplicatePhoneNumberException)
+            catch (DuplicateException)
             {             
                 throw;
             }
@@ -101,23 +105,25 @@ namespace Spa.Domain.Service
         public async Task<bool> GetCustomerByPhone(string phone, long id)
         {
             bool flag = true;
-            //if (phone == null)
-            //{
-            //    throw new ArgumentNullException(nameof(phone));
-            //}
-            //else if (phone.Length == 0)
-            //{
-            //    throw new ArgumentException("Phone number cannot be empty", nameof(phone));
-            //}
             var customer = await _customerRepository.GetCustomerByPhone(phone,  id);
             if (customer == null)
             {
                 flag = false;
             }
-
-            //return customer == null ? false:true;
-
             return flag;
+        }
+
+        public async Task<bool> CheckPhoneCreateCustomer(string phone)
+        {
+
+           return  await _customerRepository.CheckPhoneToCreateCustomer(phone) == null? false: true;
+            //bool flag = true;
+            //var customer = await _customerRepository.CheckPhoneToCreateCustomer(phone);
+            //if (customer == null)
+            //{
+            //    flag = false;
+            //}
+            //return flag;
         }
 
 

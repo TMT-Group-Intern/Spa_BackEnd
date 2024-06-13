@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {}
+    "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {}
   },
   "projects": {
-    "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {
+    "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj",
+        "projectUniqueName": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj",
         "projectName": "Spa.Domain",
-        "projectPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj",
+        "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\obj\\",
+        "outputPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

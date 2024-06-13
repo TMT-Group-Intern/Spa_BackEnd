@@ -27,10 +27,22 @@ namespace Spa.Api.Controllers
         public ActionResult GetAll()
         {
             var customersFromService = _service.GetAllCustomer();
-            return Ok(customersFromService);
+
+            var customerDTO = customersFromService.Select(c => new CustomerDTO
+            {
+                CustomerID = c.CustomerID,
+                CustomerCode = c.CustomerCode,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                DateOfBirth = c.DateOfBirth,
+                Email = c.Email,
+                Gender = c.Gender,
+                Phone = c.Phone
+            });
+            return Ok(new { item = customerDTO });
         }
 
-        [HttpGet ("{id}")]
+        [HttpGet("{id}")]
         public ActionResult GetCusomerById(long id)
         {
             if (_service.isExistCustomer(id))
@@ -39,6 +51,8 @@ namespace Spa.Api.Controllers
 
                 CustomerDTO customerDTO = new CustomerDTO
                 {
+                    CustomerID = getByCusByID.CustomerID,
+                    CustomerCode = getByCusByID.CustomerCode,
                     DateOfBirth = getByCusByID.DateOfBirth,
                     Email = getByCusByID.Email,
                     FirstName = getByCusByID.FirstName,
@@ -58,18 +72,29 @@ namespace Spa.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCustomer([FromBody] CustomerDTO customerDto)
         {
-            var command = new CreateCustomerCommand
+            try
             {
-                FirstName = customerDto.FirstName,
-                LastName = customerDto.LastName,
-                Email = customerDto.Email,
-                DateOfBirth =customerDto.DateOfBirth,
-                Gender = customerDto.Gender,
-                Phone = customerDto.Phone
-            };
-            var id = await _mediator.Send(command);
-            //  return Ok(true);
-            return Ok(new {id});
+                var command = new CreateCustomerCommand
+                {
+                    FirstName = customerDto.FirstName,
+                    LastName = customerDto.LastName,
+                    Email = customerDto.Email,
+                    DateOfBirth = customerDto.DateOfBirth,
+                    Gender = customerDto.Gender,
+                    Phone = customerDto.Phone
+                };
+                var id = await _mediator.Send(command);
+                //  return Ok(true);
+                return Ok(id);
+            }
+            catch (DuplicateException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
 
@@ -96,10 +121,10 @@ namespace Spa.Api.Controllers
                     Gender = customerDto.Gender,
                     Phone = customerDto.Phone
                 };
-               await _service.UpdateCustomer(customerId, customer);
+                await _service.UpdateCustomer(customerId, customer);
                 return Ok(true);
             }
-            catch (DuplicatePhoneNumberException ex)
+            catch (DuplicateException ex)
             {
                 return BadRequest(new { Message = ex.Message });
             }

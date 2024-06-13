@@ -23,6 +23,8 @@ namespace Spa.Domain.IRepository
 
         Task<Customer> GetCustomerByPhone(string phone, long id);
 
+        Task<Customer> CheckPhoneToCreateCustomer(string phone);
+
         Task<List<Customer>> GetCustomersFromSpecificCodeAsync(string specificCode);
 
         Task<bool> DeleteCustomerOnAppoinmentAndSale(long idCustomer);

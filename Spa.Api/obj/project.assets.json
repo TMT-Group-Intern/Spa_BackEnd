@@ -2,6 +2,22 @@
   "version": 3,
   "targets": {
     "net8.0": {
+      "AutoMapper/13.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Options": "6.0.0"
+        },
+        "compile": {
+          "lib/net6.0/AutoMapper.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/AutoMapper.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Azure.Core/1.35.0": {
         "type": "package",
         "dependencies": {
@@ -1827,6 +1843,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "AutoMapper": "13.0.1",
           "MediatR": "12.2.0",
           "Spa.Domain": "1.0.0",
           "Spa.Infrastructure": "1.0.0"
@@ -1872,6 +1889,21 @@
     }
   },
   "libraries": {
+    "AutoMapper/13.0.1": {
+      "sha512": "/Fx1SbJ16qS7dU4i604Sle+U9VLX+WSNVJggk6MupKVkYvvBm4XqYaeFuf67diHefHKHs50uQIS2YEDFhPCakQ==",
+      "type": "package",
+      "path": "automapper/13.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "automapper.13.0.1.nupkg.sha512",
+        "automapper.nuspec",
+        "icon.png",
+        "lib/net6.0/AutoMapper.dll",
+        "lib/net6.0/AutoMapper.xml"
+      ]
+    },
     "Azure.Core/1.35.0": {
       "sha512": "hENcx03Jyuqv05F4RBEPbxz29UrM3Nbhnr6Wl6NQpoU9BCIbL3XLentrxDCTrH54NLS11Exxi/o8MYgT/cnKFA==",
       "type": "package",
@@ -5662,6 +5694,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "AutoMapper >= 13.0.1",
       "MediatR >= 12.2.0",
       "MediatR.Extensions.Microsoft.DependencyInjection >= 11.1.0",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.6",
@@ -5677,11 +5710,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Api\\Spa.Api.csproj",
+      "projectUniqueName": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Spa.Api.csproj",
       "projectName": "Spa.Api",
-      "projectPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Api\\Spa.Api.csproj",
+      "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Spa.Api.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Api\\obj\\",
+      "outputPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5698,14 +5731,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Application\\Spa.Application.csproj": {
-              "projectPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Application\\Spa.Application.csproj"
+            "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Spa.Application.csproj": {
+              "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Spa.Application.csproj"
             },
-            "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {
-              "projectPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj"
+            "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {
+              "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj"
             },
-            "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj": {
-              "projectPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj"
+            "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj": {
+              "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj"
             }
           }
         }
@@ -5725,6 +5758,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "AutoMapper": {
+            "target": "Package",
+            "version": "[13.0.1, )"
+          },
           "MediatR": {
             "target": "Package",
             "version": "[12.2.0, )"

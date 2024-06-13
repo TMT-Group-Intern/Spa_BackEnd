@@ -10,16 +10,3 @@ D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\refint\Spa.Dom
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\Spa.Domain.pdb
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\ref\Spa.Domain.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\Spa.Domain.csproj.AssemblyReference.cache
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\bin\Debug\net8.0\Spa.Domain.deps.json
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\bin\Debug\net8.0\Spa.Domain.dll
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\bin\Debug\net8.0\Spa.Domain.pdb
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\Spa.Domain.csproj.AssemblyReference.cache
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\Spa.Domain.GeneratedMSBuildEditorConfig.editorconfig
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\Spa.Domain.AssemblyInfoInputs.cache
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\Spa.Domain.AssemblyInfo.cs
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\Spa.Domain.csproj.CoreCompileInputs.cache
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\Spa.Domain.sourcelink.json
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\Spa.Domain.dll
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\refint\Spa.Domain.dll
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\Spa.Domain.pdb
-D:\Intern_TMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\ref\Spa.Domain.dll

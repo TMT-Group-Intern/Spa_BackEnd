@@ -31,53 +31,45 @@ namespace Spa.Api.Controllers
             var allService = _service.GetAllService();
             var serviceDTO = allService.Select(s => new ServiceDTO
             {
-              //  ServiceID = s.ServiceID,
+                ServiceID = s.ServiceID,
                 Description = s.Description,
                 Price = s.Price,
                 ServiceCode = s.ServiceCode,
                 ServiceName = s.ServiceName,
 
             }).ToList();
-            return Ok(serviceDTO);
+            return Ok(new { items = serviceDTO });
         }
 
+        // GET api/<ServicesController>/5
         [HttpGet("{id}")]
-        public ActionResult GetServiceById(long id)
+        public string Get(int id)
         {
-           if(_service.isExistService(id))
-            {
-                var getByCusByID = _service.GetServiceById(id);
-
-                ServiceDTO serviceDTO = new ServiceDTO
-                {
-                    ServiceCode = getByCusByID.ServiceCode,
-                    ServiceID = getByCusByID.ServiceID,
-                    Description = getByCusByID.Description,
-                    Price = getByCusByID.Price,
-                    ServiceName = getByCusByID.ServiceName,
-                };
-                return Ok(new { serviceDTO });
-            }
-            else
-            {
-                return NotFound();
-            }
+            return "value";
         }
 
         // POST api/<ServicesController>
         [HttpPost]
         public async Task<IActionResult> CreateService([FromBody] ServiceDTO serviceDto)
         {
-            var command = new CreateServiceCommand
+            try
             {
-                ServiceName = serviceDto.ServiceName,
-                Description = serviceDto.Description,
-                Price = serviceDto.Price,
-            
-            };
-            var id = await _mediator.Send(command);
-            //  return Ok(true);
-            return Ok( new {id});
+                var command = new CreateServiceCommand
+                {
+                    serviceDTO = serviceDto
+                };
+                var id = await _mediator.Send(command);
+                //  return Ok(true);
+                return Ok(id);
+            }
+            catch (DuplicateException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         // PUT api/<ServicesController>/5
@@ -99,12 +91,12 @@ namespace Spa.Api.Controllers
                 {
                     ServiceName = serviceDto.ServiceName,
                     Description = serviceDto.Description,
-                    Price = serviceDto.Price,                  
+                    Price = serviceDto.Price,
                 };
                 await _service.UpdateService(serviceId, service);
                 return Ok(true);
             }
-            catch (DuplicatePhoneNumberException ex)
+            catch (DuplicateException ex)
             {
                 return BadRequest(new { Message = ex.Message });
             }
@@ -116,7 +108,7 @@ namespace Spa.Api.Controllers
 
         // DELETE api/<ServicesController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult>  DeleteService(int id)
+        public async Task<ActionResult> DeleteService(int id)
         {
             try
             {

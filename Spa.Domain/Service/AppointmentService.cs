@@ -17,16 +17,21 @@ namespace Spa.Domain.Service
         {
             _appointmentRepository = appointmentRepository;
         }
-        public Task<Appointment> CreateAppointmentAsync(Appointment appointment)
+        public async Task CreateAppointmentAsync(Appointment appointment)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<Appointment>> GetAllAppoment()
-        {
-            return await _appointmentRepository.GetAllAppointment();
+            _appointmentRepository.CreateAppointment(appointment);
+          
         }
 
 
+        public IEnumerable<Appointment> GetAllAppoinment()
+        {
+            return _appointmentRepository.GetAllAppointment();
+        }
+
+        public  Appointment GetAppointmentByIdAsync(long id)
+        {                 
+            return _appointmentRepository.GetAppointmentByID(id) ;
+        }
     }
 }

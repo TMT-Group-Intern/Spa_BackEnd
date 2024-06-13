@@ -1,0 +1,106 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.domain\\service\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:service\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.api\\controllers\\customerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{847EA113-34B0-413E-811C-015641748DE0}|..\\Spa.Infrastructure\\Spa.Infrastructure.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.infrastructure\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.domain\\irepository\\icustomerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:irepository\\icustomerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.api\\controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ServicesController.cs",
+              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\ServicesController.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\ServicesController.cs",
+              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\ServicesController.cs",
+              "RelativeToolTip": "..\\Spa.Api\\Controllers\\ServicesController.cs",
+              "ViewState": "AQIAADIAAAAAAAAAAAAgwEYAAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-13T07:19:38.337Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CustomersController.cs",
+              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\CustomersController.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\CustomersController.cs",
+              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\CustomersController.cs",
+              "RelativeToolTip": "..\\Spa.Api\\Controllers\\CustomersController.cs",
+              "ViewState": "AQIAAEgAAAAAAAAAAAAQwEwAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-13T07:14:49.693Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CustomerRepository.cs",
+              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\CustomerRepository.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Infrastructure\\CustomerRepository.cs",
+              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\CustomerRepository.cs",
+              "RelativeToolTip": "..\\Spa.Infrastructure\\CustomerRepository.cs",
+              "ViewState": "AQIAADwAAAAAAAAAAAAwwEgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-13T07:18:32.49Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ICustomerRepository.cs",
+              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\IRepository\\ICustomerRepository.cs",
+              "RelativeDocumentMoniker": "IRepository\\ICustomerRepository.cs",
+              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\IRepository\\ICustomerRepository.cs",
+              "RelativeToolTip": "IRepository\\ICustomerRepository.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAMwBcAAABBAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-13T07:16:54.416Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CustomerService.cs",
+              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Service\\CustomerService.cs",
+              "RelativeDocumentMoniker": "Service\\CustomerService.cs",
+              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Service\\CustomerService.cs",
+              "RelativeToolTip": "Service\\CustomerService.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAywCUAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-13T07:15:45.965Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

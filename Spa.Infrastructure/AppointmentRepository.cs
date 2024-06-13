@@ -16,9 +16,10 @@ namespace Spa.Infrastructure
         {
         }
 
-        public Appointment CreateAppointment(Appointment customer)
+        public Appointment CreateAppointment(Appointment appointment)
         {
-            throw new NotImplementedException();
+            Add(appointment);
+            return appointment;
         }
 
         public Task<bool> DeleteAppointment(int id)
@@ -26,12 +27,19 @@ namespace Spa.Infrastructure
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Appointment>> GetAllAppointment()
+        public IEnumerable<Appointment> GetAllAppointment()
         {
-            return await _spaDbContext.Appointments.Include(c => c.Customer)
-                                              .Include(e => e.Employee)
-                                               .Include(b => b.Branch)
-                                              .ToListAsync();
+            return _spaDbContext.Appointments
+                                .Include(c => c.Customer)
+                                .Include(e => e.Employee).ToList();
+        }
+
+        public Appointment GetAppointmentByID(long appointmentId)
+        {
+            return _spaDbContext.Appointments.Where(a => a.AppointmentID == appointmentId)
+                                             .Include(c => c.Customer)
+                                             .Include(e => e.Employee).FirstOrDefault();
+
         }
 
         public void UpdateAppointment(Appointment customer)
