@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "AoqMo5T0y+wmH/BBrmFiBQeYVIs5YiDR1Mt39qV+FBAMU63+CX3sR3TfC1tcOL0fWnAlip4e8pqnIdX8ZF9l8w==",
+  "dgSpecHash": "lkJEYTrtlZ5eGB2wggA4R4jTksS+GD+snPIFczo4k0K8KO1rBpudnUF28qVSWLYdRjp+MiBfgk86Q7FHs5mD2A==",
   "success": true,
-  "projectFilePath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Application\\Spa.Application.csproj",
+  "projectFilePath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Spa.Application.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\admin\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",

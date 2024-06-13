@@ -67,6 +67,23 @@ namespace Spa.Infrastructure
             return false;
         }
 
+        public async Task<bool> CheckExistNameCreateService(string nameService)
+        {
+            try
+            {
+                var service = await _spaDbContext.Services.FirstOrDefaultAsync(s => s.ServiceName == nameService);
+                if (service != null)
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return false;
+        }
+
         public ServiceEntity GetServiceEntityById(long idService)
         {
             return GetById(idService);

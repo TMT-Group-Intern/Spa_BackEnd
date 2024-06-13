@@ -1,6 +1,8 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Spa.Application.Automapper;
 using Spa.Application.Commands;
 using Spa.Domain.IRepository;
 using Spa.Domain.IService;
@@ -22,8 +24,21 @@ builder.Services.AddControllers();  //xử lí request http và phản hồi d�
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); //add swagger để test api 
 
+
+//MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateCustomerCommand).Assembly));
+
+
+
+//add Mapper
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new MappingProfile());
+});
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
 //register Configuration
 ConfigurationManager configuration = builder.Configuration;
 

@@ -12,6 +12,8 @@ namespace Spa.Domain.IRepository
         void UpdateAppointment(Appointment customer);
         Task<bool> DeleteAppointment(int id);
         Appointment CreateAppointment(Appointment customer);
-         Task<IEnumerable<Appointment>> GetAllAppointment();
+        IEnumerable<Appointment> GetAllAppointment();
+
+        Appointment GetAppointmentByID(long appointmentId) ;
     }
 }

@@ -12,9 +12,7 @@ namespace Spa.Application.Commands
 {
     public class CreateServiceCommand :IRequest<long>
     {
-        public string ServiceName { get; set; }
-        public string Description { get; set; }
-        public double Price { get; set; }
+       public ServiceDTO serviceDTO { get; set; }
     }
 
     public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand, long>
@@ -28,10 +26,12 @@ namespace Spa.Application.Commands
         public async Task<long> Handle(CreateServiceCommand request, CancellationToken cancellationToken)
         {
             var serviceNew = new ServiceEntity
-            {             
-                ServiceName = request.ServiceName,  
-                Description = request.Description,
-                Price = request.Price               
+            {
+              
+                ServiceName = request.serviceDTO.ServiceName,
+                ServiceCode = request.serviceDTO.ServiceCode,   
+                Description = request.serviceDTO.Description,
+                Price = request.serviceDTO.Price               
             };
            await _serviceService.CreateService(serviceNew);
             return serviceNew.ServiceID;

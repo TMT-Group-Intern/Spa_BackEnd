@@ -68,8 +68,13 @@ namespace Spa.Infrastructures
         public async Task<Customer> GetCustomerByPhone(string phone, long id)  //get customer by phone
         {
            // Customer cus = null;
-          return await _spaDbContext.Customers.FirstOrDefaultAsync(c => c.Phone == phone && id != c.CustomerID);           
-          
+          return await _spaDbContext.Customers.FirstOrDefaultAsync(c => c.Phone == phone && id != c.CustomerID);                    
+        }
+
+        public async Task<Customer> CheckPhoneToCreateCustomer(string phone)  //check phone
+        {
+         
+            return await _spaDbContext.Customers.FirstOrDefaultAsync(c => c.Phone == phone);
         }
 
         public async Task<Customer> GetLastCustomerAsync()

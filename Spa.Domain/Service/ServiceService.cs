@@ -23,8 +23,11 @@ namespace Spa.Domain.Service
         public async Task CreateService(ServiceEntity serviceEntity)
         {
             var lastSerID = await GenerateServiceCodeAsync();
-
-            serviceEntity.ServiceCode = lastSerID;
+           if(await _serviceRepository.CheckExistNameCreateService(serviceEntity.ServiceName))
+            {
+                throw new DuplicateException("The name of service already exists in the system.");
+            }
+             serviceEntity.ServiceCode = lastSerID;
             _serviceRepository.CreateServiceEntitys(serviceEntity);
         }
 
@@ -60,11 +63,6 @@ namespace Spa.Domain.Service
             return _serviceRepository.GetAllServiceEntity();
         }
 
-        public ServiceEntity GetServiceById(long id)
-        {
-            return _serviceRepository.GetServiceEntityById(id);
-        }
-
         public bool isExistService(long id)
         {
             return _serviceRepository.GetServiceEntityById(id) == null ? false : true;
@@ -80,7 +78,7 @@ namespace Spa.Domain.Service
                 bool checkName = await _serviceRepository.GetServiceEntityByName(serviceEntity.ServiceName, serviceId);
                 if (checkName)
                 {
-                    throw new DuplicatePhoneNumberException("The name of service already exists in the system.");
+                    throw new DuplicateException("The name of service already exists in the system.");
                 }
             
                 serviceFromId.ServiceName = serviceEntity.ServiceName;
@@ -88,7 +86,7 @@ namespace Spa.Domain.Service
                 serviceFromId.Description = serviceEntity.Description;
                 await _serviceRepository.UpdateServiceEntity(serviceFromId);
             }
-            catch (DuplicatePhoneNumberException)
+            catch (DuplicateException)
             {
                 throw;
             }

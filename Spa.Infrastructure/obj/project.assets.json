@@ -5133,11 +5133,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj",
+      "projectUniqueName": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj",
       "projectName": "Spa.Infrastructure",
-      "projectPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj",
+      "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Infrastructure\\obj\\",
+      "outputPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5154,8 +5154,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {
-              "projectPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj"
+            "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {
+              "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj"
             }
           }
         }

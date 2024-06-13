@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KZWAY4L8w0jj5Sp24PvIqcH0FOM545q9ZYWFmNXXZ+PQ+/tQGeRJICrdfqZ83X2LRvauXNyLWKk/aDifsLIPUA==",
+  "dgSpecHash": "Ngpom0ENjKqLf9VqdCRA6DjnO20oMEZGf4lv5KacLcwcuXowwrvVjaHNECodVFj/rVyOKCR6hiXMorH9dE44vw==",
   "success": true,
-  "projectFilePath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj",
+  "projectFilePath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

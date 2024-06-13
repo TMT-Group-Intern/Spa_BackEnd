@@ -39,8 +39,7 @@ namespace Spa.Infrastructure
         {
             _spaDbContext.Set<T>().Update(entity);
             _spaDbContext.SaveChanges();
-      
-    
+
         }
 
         public void DeleteById(T entity)

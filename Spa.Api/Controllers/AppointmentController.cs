@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spa.Application;
+using Spa.Application.Commands;
+using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.IService;
-using System.Text.Json.Serialization;
 using System.Text.Json;
-using Microsoft.IdentityModel.Tokens;
+using System.Text.Json.Serialization;
 
 namespace Spa.Api.Controllers
 {
@@ -14,29 +18,95 @@ namespace Spa.Api.Controllers
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointmentService _service;
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
+        private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public AppointmentController(IAppointmentService service)
+        public AppointmentController(IAppointmentService service, IMediator mediator, IMapper mapper)
         {
             _service = service;
+            _mediator = mediator;
+            _mapper = mapper;
+            _jsonSerializerOptions = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                ReferenceHandler = ReferenceHandler.IgnoreCycles
+            };
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll()
+        public ActionResult GetAll()
         {
 
-            var options = new JsonSerializerOptions
-            {
-                ReferenceHandler = ReferenceHandler.Preserve
-            };    
-            var app = await _service.GetAllAppoment();
-            //Appointment a = new Appointment
+            // JsonResult result = new JsonResult(0);
+            //var config = new MapperConfiguration(cfg =>
             //{
-            //    AppointmentDate = app.Select(x => x.AppointmentDate).FirstOrDefault()
-            //};
-            //var b = a.AppointmentDate;         
+            //    cfg.CreateMap<Customer, CustomerDTO>();
+            //});
+            //   var _mapper = config.CreateMapper();
+            var app = _service.GetAllAppoinment().Select(a => new AppointmentDTO
+            {
+                AppointmentID = a.AppointmentID,
+                Status = a.Status,
+                AppointmentDate = a.AppointmentDate,
+                Customer = _mapper.Map<CustomerDTO>(a.Customer),
+                //  Employee = a.Employee,
 
-            var json = JsonSerializer.Serialize(app, options);
-            return Ok(json);
+            });
+            if (app == null)
+            {
+                NotFound();
+            }
+            return new JsonResult(app, _jsonSerializerOptions);
+
+            //     return Ok(json);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Add([FromBody] CreateAppointmentDTO appointmentCreateDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var command = new CreateAppointmentCommand
+                {
+                    CustomerID = appointmentCreateDto.CustomerID,
+                    AppointmentDate = appointmentCreateDto.AppointmentDate,
+                    BranchID = appointmentCreateDto.BranchID,
+                    EmployeeID = appointmentCreateDto.EmployeeID,
+                    Status = appointmentCreateDto.Status,
+                    Total = appointmentCreateDto.Total,
+                    ChooseServices = appointmentCreateDto.ChooseServices,
+                    
+                };
+                var id = await _mediator.Send(command);
+
+                return Ok(new { id });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetAppointmentById(long id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var appByid = _mapper.Map<AppointmentDTO>(_service.GetAppointmentByIdAsync(id));
+            if(appByid == null)
+            {
+                return NotFound();
+            }
+
+            return new JsonResult(appByid, _jsonSerializerOptions); ;
         }
     }
 }
