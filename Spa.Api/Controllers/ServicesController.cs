@@ -38,14 +38,32 @@ namespace Spa.Api.Controllers
                 ServiceName = s.ServiceName,
 
             }).ToList();
-            return Ok(new { items = serviceDTO });
+            return Ok(new { serviceDTO });
         }
 
         // GET api/<ServicesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult GetServiceById(long id)
         {
-            return "value";
+         
+            if (_service.isExistService(id))
+            {
+                var getByCusByID = _service.GetServiceById(id);
+
+                ServiceDTO serviceDTO = new ServiceDTO
+                {
+                    ServiceCode = getByCusByID.ServiceCode,
+                    ServiceID = getByCusByID.ServiceID,
+                    Description = getByCusByID.Description,
+                    Price = getByCusByID.Price,
+                    ServiceName = getByCusByID.ServiceName,
+                };
+                return Ok(new { serviceDTO });
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         // POST api/<ServicesController>
