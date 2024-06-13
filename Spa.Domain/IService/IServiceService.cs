@@ -19,7 +19,7 @@ namespace Spa.Domain.IService
 
         Task DeleteService(long ServiceId);
 
-      //  ServiceEntity GetServiceById(long id); //get by id
+         ServiceEntity GetServiceById(long id); //get by id
 
         bool isExistService(long id); // check customer exist by Id
 

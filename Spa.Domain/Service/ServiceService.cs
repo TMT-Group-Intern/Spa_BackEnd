@@ -63,6 +63,11 @@ namespace Spa.Domain.Service
             return _serviceRepository.GetAllServiceEntity();
         }
 
+        public ServiceEntity GetServiceById(long id)
+        {
+           return _serviceRepository.GetServiceEntityById(id);
+        }
+
         public bool isExistService(long id)
         {
             return _serviceRepository.GetServiceEntityById(id) == null ? false : true;

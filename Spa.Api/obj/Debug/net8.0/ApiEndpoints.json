@@ -148,7 +148,7 @@
   },
   {
     "ContainingType": "Spa.Api.Controllers.ServicesController",
-    "Method": "Get",
+    "Method": "GetServiceById",
     "RelativePath": "api/Services/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -156,21 +156,11 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Int64",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "System.String",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Spa.Api.Controllers.ServicesController",
