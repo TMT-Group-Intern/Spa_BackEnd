@@ -7,6 +7,7 @@ using Spa.Application;
 using Spa.Application.Commands;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
+using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -47,10 +48,14 @@ namespace Spa.Api.Controllers
             var app = _service.GetAllAppoinment().Select(a => new AppointmentDTO
             {
                 AppointmentID = a.AppointmentID,
+                BranchID = a.BranchID,
+                CustomerID = a.CustomerID,
+                EmployeeID = a.EmployeeID,
                 Status = a.Status,
+                Total = a.Total,
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
-                //  Employee = a.Employee,
+                Employee = _mapper.Map<EmployeeDTO>(a.Employee),
 
             });
             if (app == null)
@@ -80,8 +85,7 @@ namespace Spa.Api.Controllers
                     EmployeeID = appointmentCreateDto.EmployeeID,
                     Status = appointmentCreateDto.Status,
                     Total = appointmentCreateDto.Total,
-                    ChooseServices = appointmentCreateDto.ChooseServices,
-                    
+                    ServiceID = appointmentCreateDto.ServiceID,
                 };
                 var id = await _mediator.Send(command);
 
@@ -101,12 +105,37 @@ namespace Spa.Api.Controllers
                 return BadRequest(ModelState);
             }
             var appByid = _mapper.Map<AppointmentDTO>(_service.GetAppointmentByIdAsync(id));
-            if(appByid == null)
+            if (appByid == null)
             {
                 return NotFound();
             }
 
             return new JsonResult(appByid, _jsonSerializerOptions); ;
+        }
+
+        [HttpDelete ("{id}")]
+        public async Task<ActionResult> DeleteAppointmentById(long id)
+        {
+         try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (await _service.DeleteAppointment(id))
+                {
+                    return Ok(new { id });
+                }
+            }
+            catch (ErrorMessage ex)
+            {
+                 return BadRequest(new { Message = ex.Message }); ;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+            return NotFound();
         }
     }
 }

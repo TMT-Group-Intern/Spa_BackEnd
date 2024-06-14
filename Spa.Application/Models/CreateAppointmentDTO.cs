@@ -17,6 +17,7 @@ namespace Spa.Application.Models
         public string? Status { get; set; }
         public double? Total { get; set; }
 
-        public ICollection<ChooseService>? ChooseServices { get; set; }
+        public List<long> ServiceID { get; set; }
+     //   public ICollection<ChooseServiceDTO>? ChooseServicesDTO{ get; set; }
     }
 }

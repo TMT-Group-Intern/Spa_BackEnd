@@ -30,7 +30,7 @@ namespace Spa.Api.Controllers
 
             var customerDTO = customersFromService.Select(c => new CustomerDTO
             {
-                CustomerID = c.CustomerID,
+                //CustomerID = c.CustomerID,
                 CustomerCode = c.CustomerCode,
                 FirstName = c.FirstName,
                 LastName = c.LastName,
