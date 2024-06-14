@@ -16,15 +16,32 @@ namespace Spa.Infrastructure
         {
         }
 
+        public async Task<bool> AddChooseService(long idApp, long idSer)
+        {
+            ChooseService chooseService = new ChooseService
+            {
+                AppointmentID = idApp,
+                ServiceID = idSer
+            };
+            await _spaDbContext.AddAsync(chooseService);
+            await _spaDbContext.SaveChangesAsync();
+            return true;
+        }
+
         public Appointment CreateAppointment(Appointment appointment)
         {
             Add(appointment);
             return appointment;
         }
 
-        public Task<bool> DeleteAppointment(int id)
+        public bool DeleteAppointment(Appointment appointment)
         {
-            throw new NotImplementedException();
+           var idApp = appointment.AppointmentID;
+            var listIdDelete = _spaDbContext.ChooseServices.Where(c => c.AppointmentID == appointment.AppointmentID).ToList();
+            _spaDbContext.RemoveRange(listIdDelete);
+            _spaDbContext.Appointments.Remove(appointment);
+            _spaDbContext.SaveChanges();
+            return true;
         }
 
         public IEnumerable<Appointment> GetAllAppointment()
@@ -38,13 +55,26 @@ namespace Spa.Infrastructure
         {
             return _spaDbContext.Appointments.Where(a => a.AppointmentID == appointmentId)
                                              .Include(c => c.Customer)
-                                             .Include(e => e.Employee).FirstOrDefault();
-
+                                             .Include(e => e.Employee)
+                                             .Include(s => s.ChooseServices).ThenInclude(se => se.Service)
+                                             .FirstOrDefault();
         }
 
         public void UpdateAppointment(Appointment customer)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Appointment> GetNewAppoinmentAsync()
+        {
+            try
+            {
+                return await _spaDbContext.Appointments.OrderByDescending(c => c.AppointmentID).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

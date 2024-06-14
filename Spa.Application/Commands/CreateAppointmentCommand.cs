@@ -4,6 +4,7 @@ using Spa.Domain.Entities;
 using Spa.Domain.IService;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,9 @@ namespace Spa.Application.Commands
         public long EmployeeID { get; set; }
         public string? Status { get; set; }
         public double? Total { get; set; }
-        public ICollection<ChooseService>? ChooseServices { get; set; }
+
+        public List<long> ServiceID { get; set; }
+        //public ICollection<ChooseServiceDTO>? ChooseServicesDTO { get; set; }
     }
 
     public class CreateAppontmentCommandHandler : IRequestHandler<CreateAppointmentCommand, long>
@@ -40,11 +43,21 @@ namespace Spa.Application.Commands
                 BranchID = request.BranchID = 1,
                 EmployeeID  = request.EmployeeID,   
                 Status = request.Status,
-                Total = request.Total
+                Total = request.Total ,
+               // ChooseServices = (ICollection<ChooseService>)request.ChooseServicesDTO               
             };
 
+            //   ICollection <ChooseServiceDTO>  chooseSer = request.ChooseServicesDTO;
+            CreateAppointmentDTO service = new CreateAppointmentDTO
+            {
+                ServiceID = request.ServiceID
+            };
             await _appointmentService.CreateAppointmentAsync(app);
-            
+            var newAppointment = await _appointmentService.GetIdNewAppointment();
+            foreach( var i in service.ServiceID)
+            {
+                _appointmentService.AddChooseServiceToappointment(newAppointment.AppointmentID, i);
+            }
             return app.AppointmentID;
         }
     }

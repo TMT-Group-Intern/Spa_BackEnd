@@ -17,7 +17,6 @@ namespace Spa.Domain.Entities
         public double? Total { get; set; }
 
 
-
         public Branch Branch { get; set; }
         public Employee Employee { get; set; }
         public Customer Customer { get; set; }

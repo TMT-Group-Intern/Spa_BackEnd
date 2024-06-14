@@ -3,18 +3,22 @@
   "WorkspaceRootPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.domain\\service\\serviceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:service\\serviceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.api\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.application\\models\\servicedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{847EA113-34B0-413E-811C-015641748DE0}|..\\Spa.Infrastructure\\Spa.Infrastructure.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.infrastructure\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.api\\controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.domain\\service\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:service\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.domain\\iservice\\iserviceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:iservice\\iserviceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.domain\\irepository\\iappointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:irepository\\iappointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.domain\\iservice\\iappointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:iservice\\iappointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -24,21 +28,8 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ServiceDTO.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Models\\ServiceDTO.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Application\\Models\\ServiceDTO.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Models\\ServiceDTO.cs*",
-              "RelativeToolTip": "..\\Spa.Application\\Models\\ServiceDTO.cs*",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-13T08:16:13.928Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
@@ -46,40 +37,66 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ServiceService.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Service\\ServiceService.cs",
-              "RelativeDocumentMoniker": "Service\\ServiceService.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Service\\ServiceService.cs",
-              "RelativeToolTip": "Service\\ServiceService.cs",
-              "ViewState": "AQIAADkAAAAAAAAAAAAawD4AAAA8AAAA",
+              "Title": "AppointmentController.cs",
+              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\AppointmentController.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\AppointmentController.cs",
+              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\AppointmentController.cs",
+              "RelativeToolTip": "..\\Spa.Api\\Controllers\\AppointmentController.cs",
+              "ViewState": "AQIAAF8AAAAAAAAAAAAgwAoAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-13T08:08:10.491Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IServiceService.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\IService\\IServiceService.cs",
-              "RelativeDocumentMoniker": "IService\\IServiceService.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\IService\\IServiceService.cs",
-              "RelativeToolTip": "IService\\IServiceService.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABQAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-13T08:06:56.68Z",
+              "WhenOpened": "2024-06-14T03:59:01.854Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ServicesController.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\ServicesController.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\ServicesController.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\ServicesController.cs",
-              "RelativeToolTip": "..\\Spa.Api\\Controllers\\ServicesController.cs",
-              "ViewState": "AQIAAFwAAAAAAAAAAAAowF4AAABbAAAA",
+              "Title": "AppointmentService.cs",
+              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Service\\AppointmentService.cs",
+              "RelativeDocumentMoniker": "Service\\AppointmentService.cs",
+              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Service\\AppointmentService.cs",
+              "RelativeToolTip": "Service\\AppointmentService.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAYwB8AAAAbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-13T08:05:33.708Z",
+              "WhenOpened": "2024-06-14T03:59:27.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IAppointmentService.cs",
+              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\IService\\IAppointmentService.cs",
+              "RelativeDocumentMoniker": "IService\\IAppointmentService.cs",
+              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\IService\\IAppointmentService.cs",
+              "RelativeToolTip": "IService\\IAppointmentService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-14T03:59:29.107Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AppointmentRepository.cs",
+              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\AppointmentRepository.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Infrastructure\\AppointmentRepository.cs",
+              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\AppointmentRepository.cs*",
+              "RelativeToolTip": "..\\Spa.Infrastructure\\AppointmentRepository.cs*",
+              "ViewState": "AQIAAC4AAAAAAAAAAAAkwDoAAABqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-14T03:59:33.972Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IAppointmentRepository.cs",
+              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\IRepository\\IAppointmentRepository.cs",
+              "RelativeDocumentMoniker": "IRepository\\IAppointmentRepository.cs",
+              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\IRepository\\IAppointmentRepository.cs",
+              "RelativeToolTip": "IRepository\\IAppointmentRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-14T03:59:32.307Z",
               "EditorCaption": ""
             }
           ]

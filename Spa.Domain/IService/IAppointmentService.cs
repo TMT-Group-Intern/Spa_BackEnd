@@ -9,10 +9,16 @@ namespace Spa.Domain.IService
 {
     public interface IAppointmentService
     {
-        Task CreateAppointmentAsync(Appointment appointment);
+       Task CreateAppointmentAsync(Appointment appointment);
 
        IEnumerable<Appointment> GetAllAppoinment();
 
         Appointment GetAppointmentByIdAsync(long id);
+
+        Task<bool> AddChooseServiceToappointment(long idApp, long idSer);
+
+        Task<Appointment> GetIdNewAppointment();
+
+        Task<bool> DeleteAppointment(long idApp);
     }
 }

@@ -16,7 +16,7 @@ namespace Spa.Application.Automapper
             CreateMap<Customer, CustomerDTO>();
             CreateMap<Appointment, AppointmentDTO>();
             CreateMap<Employee, EmployeeDTO>();
-
+            CreateMap<ChooseService, ChooseServiceDTO>();
         }
     }
 }
