@@ -5,6 +5,7 @@ using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
+using Spa.Domain.Service;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -59,7 +60,7 @@ namespace Spa.Api.Controllers
                     LastName = getByCusByID.LastName,
                     Gender = getByCusByID.Gender,
                     Phone = getByCusByID.Phone
-                    
+
                 };
                 return Ok(new { customerDTO });
             }
@@ -86,7 +87,7 @@ namespace Spa.Api.Controllers
                 };
                 var id = await _mediator.Send(command);
                 //  return Ok(true);
-                return Ok(id);
+                return Ok(new { id = id });
             }
             catch (DuplicateException ex)
             {
@@ -158,6 +159,21 @@ namespace Spa.Api.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+
+
+        [HttpGet("search")]
+        public async Task<ActionResult<List<Customer>>> SearchCustomers([FromBody] string searchTerm)
+        {
+            try
+            {
+                var customers = await _service.SearchCustomersAsync(searchTerm);
+                return Ok( new {customers});
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

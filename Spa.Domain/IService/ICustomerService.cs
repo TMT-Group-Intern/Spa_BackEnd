@@ -28,6 +28,8 @@ namespace Spa.Domain.IService
 
         Task<bool> GetCustomerByPhone(string phone, long id);
 
+        Task<List<Customer>> SearchCustomersAsync(string searchTerm);  //search
+
 
     }
 }

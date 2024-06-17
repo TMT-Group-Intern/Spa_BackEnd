@@ -28,5 +28,7 @@ namespace Spa.Domain.IRepository
         Task<List<Customer>> GetCustomersFromSpecificCodeAsync(string specificCode);
 
         Task<bool> DeleteCustomerOnAppoinmentAndSale(long idCustomer);
+
+        Task<List<Customer>> SearchCustomersAsync(string searchTerm);
     }
 }

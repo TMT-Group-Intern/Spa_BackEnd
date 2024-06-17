@@ -102,6 +102,13 @@ namespace Spa.Infrastructures
                 .OrderBy(c => c.CustomerCode)
                 .ToListAsync();
         }
+
+        public async Task<List<Customer>> SearchCustomersAsync(string searchTerm)
+        {
+            return await _spaDbContext.Customers
+                .Where(c => c.FirstName.Contains(searchTerm) || c.LastName.Contains(searchTerm) || c.Phone.Contains(searchTerm))
+                .ToListAsync();
+        }
     }
 }
 
