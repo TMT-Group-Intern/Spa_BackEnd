@@ -10,5 +10,6 @@ namespace Spa.Application.Models
     {
         public long AppointmentID { get; set; }
         public long ServiceID { get; set; }
+        public ServiceDTO service { get; set; }
     }
 }

@@ -50,8 +50,6 @@ namespace Spa.Infrastructure
             }
         }
 
-
-
         public async Task<bool> GetServiceEntityByName(string nameService, long id)
         {
             try

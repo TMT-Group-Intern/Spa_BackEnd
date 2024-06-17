@@ -15,7 +15,7 @@ namespace Spa.Infrastructure
         public SpaDbContext(DbContextOptions<SpaDbContext> options) : base(options)
         {
         }
-
+        public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Admin> Admins { get; set; }
@@ -44,6 +44,7 @@ namespace Spa.Infrastructure
             modelBuilder.ApplyConfiguration(new SaleConfiguration());
             modelBuilder.ApplyConfiguration(new ServiceConfiguration());
             modelBuilder.ApplyConfiguration(new WarehouseConfiguration());
+            modelBuilder.ApplyConfiguration(new AssignmentConfiguration());
       ///////////////////////////////////////////////////////////////////////////////
         }
     }

@@ -13,11 +13,14 @@ namespace Spa.Application.Models
         public DateTime AppointmentDate { get; set; }
         public long BranchID { get; set; }
         public long CustomerID { get; set; }
-        public long EmployeeID { get; set; }
+      //  public long EmployeeID { get; set; }
         public string Status { get; set; }
         public double? Total { get; set; }
 
         public  CustomerDTO? Customer { get; set; }
-        public EmployeeDTO? Employee { get; set; }
+       // public EmployeeDTO? Employee { get; set; }
+        public ICollection<ChooseServiceDTO>? ChooseServices { get; set; }
+
+        public ICollection<AssignmentDTO>? Assignments { get; set; }
     }
 }

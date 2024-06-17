@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Spa.Infrastructure
 {
-    public class EfRepository<T> where T : class
+    public class EfRepository<T> where T : class    
     {
         public readonly SpaDbContext _spaDbContext;
 

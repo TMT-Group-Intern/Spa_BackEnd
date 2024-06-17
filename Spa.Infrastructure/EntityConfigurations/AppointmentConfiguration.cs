@@ -27,12 +27,6 @@ namespace Spa.Infrastructure.EntityConfigurations
            .HasForeignKey(x => x.BranchID)
            .OnDelete(DeleteBehavior.Restrict);
 
-            //one to many with Employee
-            builder.HasOne(x => x.Employee)
-            .WithMany(x => x.Appointments)
-           .HasForeignKey(x => x.EmployeeID)
-           .OnDelete(DeleteBehavior.Restrict); 
-
             //one to many with Customer
             builder.HasOne(x => x.Customer)
             .WithMany(x => x.Appointments)

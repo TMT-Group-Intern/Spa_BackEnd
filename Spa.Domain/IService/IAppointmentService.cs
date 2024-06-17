@@ -17,8 +17,13 @@ namespace Spa.Domain.IService
 
         Task<bool> AddChooseServiceToappointment(long idApp, long idSer);
 
+        Task<bool> AddAssignment(long idApp, long idEm);
+
+
         Task<Appointment> GetIdNewAppointment();
 
         Task<bool> DeleteAppointment(long idApp);
+
+        Task<bool> UpdateAppointmentWithoutService(long id, Appointment appointment);
     }
 }
