@@ -30,13 +30,33 @@ namespace Spa.Infrastructure
 
         public Appointment CreateAppointment(Appointment appointment)
         {
+            //  Add(appointment);
+            //Assignment assignment = new Assignment
+            //{
+            //    AppointmentID = appointment.AppointmentID,
+            //    EmployerID = appointment.Assignments.Select(e => e.EmployerID),
+            //};
+            // _spaDbContext.Assignments.Add(appointment.Assignments);
             Add(appointment);
             return appointment;
         }
 
+        public async Task<bool> UpdateAppointmentWithoutService(Appointment appointment)
+        {
+            _spaDbContext.UpdateRange(appointment);
+            _spaDbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public Assignment CreateAssignment(Assignment assignment)
+        {
+            _spaDbContext.Assignments.Add(assignment);
+            return assignment;
+        }
+
         public bool DeleteAppointment(Appointment appointment)
         {
-           var idApp = appointment.AppointmentID;
+            var idApp = appointment.AppointmentID;
             var listIdDelete = _spaDbContext.ChooseServices.Where(c => c.AppointmentID == appointment.AppointmentID).ToList();
             _spaDbContext.RemoveRange(listIdDelete);
             _spaDbContext.Appointments.Remove(appointment);
@@ -48,17 +68,20 @@ namespace Spa.Infrastructure
         {
             return _spaDbContext.Appointments
                                 .Include(c => c.Customer)
-                                .Include(e => e.Employee).ToList();
+                                .Include(a => a.Assignments).ThenInclude(e => e.Employees)
+                                 .Include(s => s.ChooseServices).ThenInclude(se => se.Service).ToList();
         }
 
         public Appointment GetAppointmentByID(long appointmentId)
         {
             return _spaDbContext.Appointments.Where(a => a.AppointmentID == appointmentId)
                                              .Include(c => c.Customer)
-                                             .Include(e => e.Employee)
+                                             .Include(e => e.Assignments).ThenInclude(em => em.Employees)
                                              .Include(s => s.ChooseServices).ThenInclude(se => se.Service)
                                              .FirstOrDefault();
         }
+
+
 
         public void UpdateAppointment(Appointment customer)
         {
@@ -75,6 +98,19 @@ namespace Spa.Infrastructure
             {
                 return null;
             }
+        }
+
+        public async Task<bool> AddAssignment(long idApp, long idEm)
+        {
+
+            Assignment assignment = new Assignment
+            {
+                AppointmentID = idApp,
+                EmployerID = idEm
+            };
+            await _spaDbContext.AddAsync(assignment);
+            await _spaDbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

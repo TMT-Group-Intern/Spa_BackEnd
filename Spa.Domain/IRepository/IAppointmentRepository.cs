@@ -21,5 +21,9 @@ namespace Spa.Domain.IRepository
         Task<Appointment> GetNewAppoinmentAsync();
 
         bool DeleteAppointment(Appointment appointment);
+
+        Task<bool> AddAssignment(long idApp, long idEm);
+
+        Task<bool> UpdateAppointmentWithoutService(Appointment appointment);
     }
 }

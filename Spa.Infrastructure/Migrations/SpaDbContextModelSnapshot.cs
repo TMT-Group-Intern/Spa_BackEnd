@@ -77,7 +77,7 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<DateTime>("AppointmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("BranchID")
+                    b.Property<long>("BranchID")
                         .HasColumnType("bigint");
 
                     b.Property<long>("CustomerID")
@@ -87,10 +87,9 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Total")
+                    b.Property<double?>("Total")
                         .HasColumnType("float");
 
                     b.HasKey("AppointmentID");
@@ -99,9 +98,22 @@ namespace Spa.Infrastructure.Migrations
 
                     b.HasIndex("CustomerID");
 
-                    b.HasIndex("EmployeeID");
-
                     b.ToTable("Appointments");
+                });
+
+            modelBuilder.Entity("Spa.Domain.Entities.Assignment", b =>
+                {
+                    b.Property<long>("EmployerID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AppointmentID")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("EmployerID", "AppointmentID");
+
+                    b.HasIndex("AppointmentID");
+
+                    b.ToTable("Assignments");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Branch", b =>
@@ -159,11 +171,10 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<int>("CustomerTypeID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -171,7 +182,6 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -412,7 +422,8 @@ namespace Spa.Infrastructure.Migrations
                     b.HasOne("Spa.Domain.Entities.Branch", "Branch")
                         .WithMany("Appointments")
                         .HasForeignKey("BranchID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Spa.Domain.Entities.Customer", "Customer")
                         .WithMany("Appointments")
@@ -420,17 +431,28 @@ namespace Spa.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Spa.Domain.Entities.Employee", "Employee")
-                        .WithMany("Appointments")
-                        .HasForeignKey("EmployeeID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Branch");
 
                     b.Navigation("Customer");
+                });
 
-                    b.Navigation("Employee");
+            modelBuilder.Entity("Spa.Domain.Entities.Assignment", b =>
+                {
+                    b.HasOne("Spa.Domain.Entities.Appointment", "Appointment")
+                        .WithMany("Assignments")
+                        .HasForeignKey("AppointmentID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Spa.Domain.Entities.Employee", "Employees")
+                        .WithMany("Assignments")
+                        .HasForeignKey("EmployerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.ChooseService", b =>
@@ -541,6 +563,8 @@ namespace Spa.Infrastructure.Migrations
 
             modelBuilder.Entity("Spa.Domain.Entities.Appointment", b =>
                 {
+                    b.Navigation("Assignments");
+
                     b.Navigation("ChooseServices");
                 });
 
@@ -567,7 +591,7 @@ namespace Spa.Infrastructure.Migrations
 
             modelBuilder.Entity("Spa.Domain.Entities.Employee", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("Assignments");
 
                     b.Navigation("Sales");
                 });

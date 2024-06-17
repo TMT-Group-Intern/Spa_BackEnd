@@ -17,6 +17,9 @@ namespace Spa.Application.Automapper
             CreateMap<Appointment, AppointmentDTO>();
             CreateMap<Employee, EmployeeDTO>();
             CreateMap<ChooseService, ChooseServiceDTO>();
+            CreateMap<ServiceEntity, ServiceDTO>();
+            CreateMap<Assignment, AssignmentDTO>();
+            
         }
     }
 }

@@ -50,21 +50,18 @@ namespace Spa.Api.Controllers
                 AppointmentID = a.AppointmentID,
                 BranchID = a.BranchID,
                 CustomerID = a.CustomerID,
-                EmployeeID = a.EmployeeID,
+              //  EmployeeID = a.EmployeeID,
                 Status = a.Status,
                 Total = a.Total,
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
-                Employee = _mapper.Map<EmployeeDTO>(a.Employee),
-
-            });
+               
+            });;
             if (app == null)
             {
                 NotFound();
             }
             return new JsonResult(app, _jsonSerializerOptions);
-
-            //     return Ok(json);
         }
 
         [HttpPost]
@@ -111,6 +108,31 @@ namespace Spa.Api.Controllers
             }
 
             return new JsonResult(appByid, _jsonSerializerOptions); ;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> updateAppointmentWithoutService(long id, [FromBody] UpdateAppointmentWithoutServiceDTO updateAppointmentWithoutServiceDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            Appointment app = new Appointment
+            {
+                AppointmentDate = updateAppointmentWithoutServiceDTO.AppointmentDate,
+                BranchID = updateAppointmentWithoutServiceDTO.BranchID,
+                CustomerID = updateAppointmentWithoutServiceDTO.CustomerID,
+                Status = updateAppointmentWithoutServiceDTO.Status,
+                Total = updateAppointmentWithoutServiceDTO.Total,   
+                Assignments = updateAppointmentWithoutServiceDTO.Assignments.Select(a => new Assignment
+                {
+                    AppointmentID = id,
+                    EmployerID = a.EmployerID,
+                }).ToList()
+            };
+            await _service.UpdateAppointmentWithoutService(id, app);
+
+            return Ok(new { id });
         }
 
         [HttpDelete ("{id}")]
