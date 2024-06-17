@@ -15,7 +15,6 @@ namespace Spa.Application.Models
         public string Status { get; set; }
         public double? Total { get; set; }
 
-
         public ICollection<AssignmentDTO>? Assignments { get; set; }
     }
 }

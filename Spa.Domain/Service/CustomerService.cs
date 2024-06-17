@@ -126,6 +126,11 @@ namespace Spa.Domain.Service
             //return flag;
         }
 
+        public async Task<List<Customer>> SearchCustomersAsync(string searchTerm)
+        {
+            return await _customerRepository.SearchCustomersAsync(searchTerm);
+        }
+
 
     }
 }

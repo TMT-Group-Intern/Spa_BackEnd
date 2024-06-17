@@ -158,6 +158,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Spa.Api.Controllers.CustomersController",
+    "Method": "SearchCustomers",
+    "RelativePath": "api/Customers/search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchTerm",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[Spa.Domain.Entities.Customer, Spa.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Spa.Api.Controllers.ServicesController",
     "Method": "GetAll",
     "RelativePath": "api/Services",

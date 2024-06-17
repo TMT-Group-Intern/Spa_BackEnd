@@ -9,7 +9,7 @@ namespace Spa.Application.Models
 {
     public class CustomerDTO
     {
-         public string? CustomerCode { get; set; }
+        public string? CustomerCode { get; set; }
         public long? CustomerID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
