@@ -4,6 +4,7 @@ using Spa.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,6 +21,9 @@ namespace Spa.Infrastructure.EntityConfigurations
                 .WithMany(e => e.Customers)
                 .HasForeignKey(e => e.CustomerTypeID)
                 .OnDelete(DeleteBehavior.Restrict);
+
+      
+
         }
     }
 }

@@ -17,11 +17,13 @@ namespace Spa.Api.Controllers
     {
         private readonly ICustomerService _service;
         private readonly IMediator _mediator;
+        private readonly IWebHostEnvironment _env;
 
-        public CustomersController(ICustomerService service, IMediator mediator)
+        public CustomersController(ICustomerService service, IMediator mediator, IWebHostEnvironment env)
         {
             _service = service;
             _mediator = mediator;
+            _env = env;
         }
 
         [HttpGet]
@@ -164,7 +166,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpGet("search")]
-        public async Task<ActionResult<List<Customer>>> SearchCustomers([FromBody] string searchTerm)
+        public async Task<ActionResult<List<Customer>>> SearchCustomers(string searchTerm)
         {
             try
             {
@@ -175,6 +177,30 @@ namespace Spa.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+        }
+
+        [HttpPost("upload")]
+        public async Task<ActionResult> UploadImage(IFormFile file)
+        {
+            try
+            {
+                //var httpRequest = Request.Form;
+                //var postFile = httpRequest.Files[0];
+                string fileName = file.FileName ;
+                var physicalPath = Path.Combine(_env.ContentRootPath, "Photos", fileName);
+
+                using (var stream = new FileStream( physicalPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+                return Ok(new {fileName});
+            }
+            catch(Exception ex)
+            {
+                return new JsonResult("aaa.png");
+            }
+
+           
         }
     }
 }

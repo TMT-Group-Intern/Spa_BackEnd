@@ -25,5 +25,11 @@ namespace Spa.Domain.IRepository
         Task<bool> AddAssignment(long idApp, long idEm);
 
         Task<bool> UpdateAppointmentWithoutService(Appointment appointment);
+
+        Task<bool> updateServiceInAppointmentByDoctor(long id, List<long> serviceID);
+
+        Task<IEnumerable<ChooseService>> ListService(long id);
+
+        Task RemoveChooseService(long id, List<long> serviceID);
     }
 }

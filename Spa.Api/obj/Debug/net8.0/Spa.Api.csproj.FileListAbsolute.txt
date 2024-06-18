@@ -5,6 +5,7 @@ D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Spa.Api.deps.json
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Spa.Api.runtimeconfig.json
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Spa.Api.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Spa.Api.pdb
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\AutoMapper.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Azure.Core.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Azure.Identity.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Humanizer.dll
@@ -35,6 +36,7 @@ D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Microsoft.OpenApi
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Mono.TextTemplating.dll
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\NMemory.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -143,5 +145,3 @@ D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\obj\Debug\net8.0\refint\Spa.Api.dl
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\obj\Debug\net8.0\Spa.Api.pdb
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\obj\Debug\net8.0\Spa.Api.genruntimeconfig.cache
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\obj\Debug\net8.0\ref\Spa.Api.dll
-D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\NMemory.dll
-D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\AutoMapper.dll

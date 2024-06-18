@@ -36,7 +36,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAll()
+        public ActionResult GetAll(long idBrand)
         {
 
             // JsonResult result = new JsonResult(0);
@@ -48,7 +48,7 @@ namespace Spa.Api.Controllers
             var app = _service.GetAllAppoinment().Select(a => new AppointmentDTO
             {
                 AppointmentID = a.AppointmentID,
-                BranchID = a.BranchID,
+                BranchID = a.BranchID, 
                 CustomerID = a.CustomerID,
               //  EmployeeID = a.EmployeeID,
                 Status = a.Status,
@@ -56,12 +56,13 @@ namespace Spa.Api.Controllers
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
                
-            });;
+            });
+            var appByBrand = app.Where(e=> e.BranchID == idBrand);
             if (app == null)
             {
                 NotFound();
             }
-            return new JsonResult(app, _jsonSerializerOptions);
+            return new JsonResult(appByBrand, _jsonSerializerOptions);
         }
 
         [HttpPost]
@@ -131,6 +132,18 @@ namespace Spa.Api.Controllers
                 }).ToList()
             };
             await _service.UpdateAppointmentWithoutService(id, app);
+
+            return Ok(new { id });
+        }
+
+        [HttpPut("api/Appointment/UpdateWithService/{id}")]
+        public async Task<ActionResult> updateAppointmentWithService(long id, [FromBody] List<long> serviceID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            await _service.UpdateAppointmentWithService(id, serviceID);
 
             return Ok(new { id });
         }

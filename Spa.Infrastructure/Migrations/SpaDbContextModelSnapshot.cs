@@ -83,9 +83,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<long>("CustomerID")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("EmployeeID")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
@@ -197,6 +194,31 @@ namespace Spa.Infrastructure.Migrations
                     b.HasIndex("CustomerTypeID");
 
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("Spa.Domain.Entities.CustomerPhoto", b =>
+                {
+                    b.Property<long>("PhotoID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PhotoID"));
+
+                    b.Property<long>("CustomerID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("PhotoPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PhotoID");
+
+                    b.HasIndex("CustomerID");
+
+                    b.ToTable("CustomerPhotos");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.CustomerType", b =>
@@ -485,6 +507,17 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("CustomerType");
                 });
 
+            modelBuilder.Entity("Spa.Domain.Entities.CustomerPhoto", b =>
+                {
+                    b.HasOne("Spa.Domain.Entities.Customer", "Customer")
+                        .WithMany("CustomerPhotos")
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("Spa.Domain.Entities.Employee", b =>
                 {
                     b.HasOne("Spa.Domain.Entities.Branch", "Branch")
@@ -580,6 +613,8 @@ namespace Spa.Infrastructure.Migrations
             modelBuilder.Entity("Spa.Domain.Entities.Customer", b =>
                 {
                     b.Navigation("Appointments");
+
+                    b.Navigation("CustomerPhotos");
 
                     b.Navigation("Sales");
                 });
