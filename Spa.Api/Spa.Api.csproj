@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Spa.Infrastructure\Spa.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Photos\" />
+  </ItemGroup>
+
 </Project>

@@ -100,9 +100,26 @@ namespace Spa.Infrastructure
             }
         }
 
+        public async Task<bool> updateServiceInAppointmentByDoctor(long id, List<long> serviceID)
+        {
+          //  ChooseService chooseservice = null;
+            foreach (var i in serviceID)
+            {
+                ChooseService chooseservice = new ChooseService
+                {
+                    AppointmentID = id,
+                    ServiceID = i
+                };
+             await _spaDbContext.AddAsync(chooseservice);
+             await _spaDbContext.SaveChangesAsync();
+            }
+            return true;
+        }
+            
+    
+
         public async Task<bool> AddAssignment(long idApp, long idEm)
         {
-
             Assignment assignment = new Assignment
             {
                 AppointmentID = idApp,
@@ -111,6 +128,26 @@ namespace Spa.Infrastructure
             await _spaDbContext.AddAsync(assignment);
             await _spaDbContext.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<IEnumerable<ChooseService>> ListService(long id)
+        {
+            return await _spaDbContext.ChooseServices.Where(a => a.AppointmentID == id).ToListAsync();
+        }
+
+        public async Task RemoveChooseService(long id, List<long> serviceIDs)
+        {
+            foreach (var serviceID in serviceIDs)
+            {
+                var chooseservice = await _spaDbContext.ChooseServices
+                    .FirstOrDefaultAsync(cs => cs.AppointmentID == id && cs.ServiceID == serviceID);
+
+                if (chooseservice != null)
+                {
+                    _spaDbContext.ChooseServices.Remove(chooseservice);
+                }
+            }
+            await _spaDbContext.SaveChangesAsync();
         }
     }
 }

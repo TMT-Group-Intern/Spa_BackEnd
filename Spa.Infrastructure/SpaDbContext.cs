@@ -30,6 +30,8 @@ namespace Spa.Infrastructure
         public DbSet<ServiceEntity> Services { get; set; }
         public DbSet<ChooseService> ChooseServices { get; set; }
 
+        public DbSet<CustomerPhoto> CustomerPhotos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AdminConfiguration());         
@@ -45,6 +47,7 @@ namespace Spa.Infrastructure
             modelBuilder.ApplyConfiguration(new ServiceConfiguration());
             modelBuilder.ApplyConfiguration(new WarehouseConfiguration());
             modelBuilder.ApplyConfiguration(new AssignmentConfiguration());
+            modelBuilder.ApplyConfiguration(new CustomerPhotoConfiguration());
       ///////////////////////////////////////////////////////////////////////////////
         }
     }

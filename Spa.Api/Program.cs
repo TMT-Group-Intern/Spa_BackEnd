@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Spa.Application.Automapper;
 using Spa.Application.Commands;
 using Spa.Domain.IRepository;
@@ -71,6 +72,12 @@ if (app.Environment.IsDevelopment())
 //allow accept api to font-end
 
 app.UseCors(op => op.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Photos")),
+    RequestPath = "/Photos"
+});;
 
 app.UseHttpsRedirection();  //thêm middleware để chuyển http sang https để thêm bảo mật
 

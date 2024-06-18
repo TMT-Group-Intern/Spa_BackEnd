@@ -20,7 +20,7 @@ namespace Spa.Domain.Service
         }
         public async Task CreateAppointmentAsync(Appointment appointment)
         {
-            _appointmentRepository.CreateAppointment(appointment);                 
+            _appointmentRepository.CreateAppointment(appointment);
         }
 
         public IEnumerable<Appointment> GetAllAppoinment()
@@ -28,26 +28,26 @@ namespace Spa.Domain.Service
             return _appointmentRepository.GetAllAppointment();
         }
 
-        public  Appointment GetAppointmentByIdAsync(long id)
-        {                 
-            return _appointmentRepository.GetAppointmentByID(id) ;
+        public Appointment GetAppointmentByIdAsync(long id)
+        {
+            return _appointmentRepository.GetAppointmentByID(id);
         }
 
         public async Task<Appointment> GetIdNewAppointment()
         {
             return await _appointmentRepository.GetNewAppoinmentAsync();
-           
+
         }
 
         public Task<bool> AddChooseServiceToappointment(long idApp, long idSer)
         {
-            return _appointmentRepository.AddChooseService(idApp, idSer) ;
+            return _appointmentRepository.AddChooseService(idApp, idSer);
         }
 
         public async Task<bool> DeleteAppointment(long idApp)
         {
-         var checkAppointment =  _appointmentRepository.GetAppointmentByID(idApp);
-          if (checkAppointment != null)
+            var checkAppointment = _appointmentRepository.GetAppointmentByID(idApp);
+            if (checkAppointment != null)
             {
                 if (checkAppointment.Status.Equals("Completed"))
                 {
@@ -56,7 +56,7 @@ namespace Spa.Domain.Service
                 _appointmentRepository.DeleteAppointment(checkAppointment);
                 return true;
             }
-          return false;
+            return false;
         }
 
 
@@ -68,10 +68,11 @@ namespace Spa.Domain.Service
 
         public async Task<bool> UpdateAppointmentWithoutService(long id, Appointment appointment)
         {
-            var appointmentToUpdate =  _appointmentRepository.GetAppointmentByID(id);
+            var appointmentToUpdate = _appointmentRepository.GetAppointmentByID(id);
+
             var currentAssign = appointment.Assignments.ToList();
-            
-            var currentEmployees  = appointmentToUpdate.Assignments.Select(e => e.EmployerID).ToList();
+
+            var currentEmployees = appointmentToUpdate.Assignments.Select(e => e.EmployerID).ToList();
 
             var employeeToRemove = currentEmployees.Except(currentAssign.Select(e => e.EmployerID));
 
@@ -79,7 +80,7 @@ namespace Spa.Domain.Service
             {
                 var assign = appointmentToUpdate.Assignments.FirstOrDefault(e => e.EmployerID == employee);
 
-                if(assign != null)
+                if (assign != null)
                 {
                     appointmentToUpdate.Assignments.Remove(assign);
                 }
@@ -88,12 +89,41 @@ namespace Spa.Domain.Service
             var employeeToAdd = currentAssign.Select(e => e.EmployerID).Except(currentEmployees).ToList();
             foreach (var employeeId in employeeToAdd)
             {
-                appointmentToUpdate.Assignments.Add(new Assignment {
-                   AppointmentID = id,
-                    EmployerID = employeeId 
+                appointmentToUpdate.Assignments.Add(new Assignment
+                {
+                    AppointmentID = id,
+                    EmployerID = employeeId
                 });
             }
-            return await _appointmentRepository.UpdateAppointmentWithoutService(appointmentToUpdate) ;
+            return await _appointmentRepository.UpdateAppointmentWithoutService(appointmentToUpdate);
+        }
+
+        public async Task<bool> UpdateAppointmentWithService(long id, List<long> serviceIDs)
+        {
+            var getChooseServiceByAppointment = await _appointmentRepository.ListService(id);
+
+            if (getChooseServiceByAppointment == null)
+            {
+                await _appointmentRepository.updateServiceInAppointmentByDoctor(id, serviceIDs);
+            }
+            else
+            {
+                var currentServiceIDs = getChooseServiceByAppointment.Select(se => se.ServiceID).ToList();
+
+                var serviceToRemove = currentServiceIDs.Except(serviceIDs).ToList();
+                if (serviceToRemove.Count > 0)
+                {
+                    await _appointmentRepository.RemoveChooseService(id, serviceToRemove);
+                }
+
+                var serviceToAdd = serviceIDs.Except(currentServiceIDs).ToList();
+                if (serviceToAdd.Count > 0)
+                {
+                    await _appointmentRepository.updateServiceInAppointmentByDoctor(id, serviceToAdd);
+                }
+            }
+
+            return true;
         }
     }
 }

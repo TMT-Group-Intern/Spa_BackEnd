@@ -22,5 +22,7 @@ namespace Spa.Domain.Entities
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<Sale> Sales { get; set; }
         public CustomerType CustomerType { get; set; }
+
+        public ICollection<CustomerPhoto> CustomerPhotos { get; set; }
     }
 }
