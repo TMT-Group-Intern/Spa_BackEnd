@@ -149,5 +149,17 @@ namespace Spa.Infrastructure
             }
             await _spaDbContext.SaveChangesAsync();
         }
+
+        public async Task<List<double>> GetAllPriceService(long idApp)
+        {
+            return await _spaDbContext.ChooseServices.Where(c => c.AppointmentID == idApp).Include(se => se.Service).Select(p => p.Service.Price).ToListAsync();           
+        }
+
+        public bool UpdateTotalAppointment(Appointment appointment)
+        {
+           Update(appointment);
+            return true;
+        }
+
     }
 }

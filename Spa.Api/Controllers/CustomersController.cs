@@ -180,7 +180,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPost("upload")]
-        public async Task<ActionResult> UploadImage(IFormFile file)
+        public async Task<ActionResult> UploadImage(IFormFile file, long id)
         {
             try
             {
@@ -193,6 +193,7 @@ namespace Spa.Api.Controllers
                 {
                     file.CopyTo(stream);
                 }
+               await  _service.UploadImage(id, fileName);
                 return Ok(new {fileName});
             }
             catch(Exception ex)

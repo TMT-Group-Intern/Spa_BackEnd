@@ -31,5 +31,8 @@ namespace Spa.Domain.IRepository
         Task<IEnumerable<ChooseService>> ListService(long id);
 
         Task RemoveChooseService(long id, List<long> serviceID);
+
+        Task<List<double>> GetAllPriceService(long idApp);
+        bool UpdateTotalAppointment(Appointment appointment);
     }
 }
