@@ -131,6 +131,16 @@ namespace Spa.Domain.Service
             return await _customerRepository.SearchCustomersAsync(searchTerm);
         }
 
+        public async Task<string> UploadImage(long idCus, string fileName)
+        {
+            CustomerPhoto customerPhoto = new CustomerPhoto
+            {
+                CustomerID = idCus,
+                PhotoPath = fileName,
+            };
+            await _customerRepository.UploadImageCustomer(customerPhoto);
+            return customerPhoto.PhotoPath;
+        }
 
     }
 }

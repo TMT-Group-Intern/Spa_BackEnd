@@ -95,6 +95,7 @@ namespace Spa.Domain.Service
                     EmployerID = employeeId
                 });
             }
+           
             return await _appointmentRepository.UpdateAppointmentWithoutService(appointmentToUpdate);
         }
 
@@ -122,7 +123,14 @@ namespace Spa.Domain.Service
                     await _appointmentRepository.updateServiceInAppointmentByDoctor(id, serviceToAdd);
                 }
             }
-
+           var app = GetAppointmentByIdAsync(id);
+           var listPrice = await _appointmentRepository.GetAllPriceService(id);
+            app.Total = 0;
+            foreach (var price in listPrice)
+            {
+                app.Total += price;
+            }
+            _appointmentRepository.UpdateTotalAppointment(app);
             return true;
         }
     }

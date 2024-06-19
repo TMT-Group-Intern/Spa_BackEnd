@@ -86,7 +86,6 @@ namespace Spa.Api.Controllers
                     ServiceID = appointmentCreateDto.ServiceID,
                 };
                 var id = await _mediator.Send(command);
-
                 return Ok(new { id });
             }
             catch (Exception ex)
@@ -136,7 +135,7 @@ namespace Spa.Api.Controllers
             return Ok(new { id });
         }
 
-        [HttpPut("api/Appointment/UpdateWithService/{id}")]
+        [HttpPut("api/UpdateAppointmentWithService/{id}")]
         public async Task<ActionResult> updateAppointmentWithService(long id, [FromBody] List<long> serviceID)
         {
             if (!ModelState.IsValid)

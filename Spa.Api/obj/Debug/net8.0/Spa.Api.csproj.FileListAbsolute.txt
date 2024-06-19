@@ -145,3 +145,4 @@ D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\obj\Debug\net8.0\refint\Spa.Api.dl
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\obj\Debug\net8.0\Spa.Api.pdb
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\obj\Debug\net8.0\Spa.Api.genruntimeconfig.cache
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\obj\Debug\net8.0\ref\Spa.Api.dll
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Spa.Api.staticwebassets.runtime.json

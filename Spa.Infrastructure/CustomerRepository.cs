@@ -109,6 +109,13 @@ namespace Spa.Infrastructures
                 .Where(c => c.FirstName.Contains(searchTerm) || c.LastName.Contains(searchTerm) || c.Phone.Contains(searchTerm))
                 .ToListAsync();
         }
+
+        public async Task<string> UploadImageCustomer(CustomerPhoto customerPhoto)
+        {
+            await _spaDbContext.CustomerPhotos.AddAsync(customerPhoto);
+            await _spaDbContext.SaveChangesAsync();
+            return customerPhoto.PhotoPath;
+        }
     }
 }
 
