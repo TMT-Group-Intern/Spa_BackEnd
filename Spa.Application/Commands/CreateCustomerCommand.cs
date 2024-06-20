@@ -40,7 +40,7 @@ namespace Spa.Application.Commands
                 Email = request.Email,
                 Phone = request.Phone,
                 DateOfBirth = request.DateOfBirth,
-                Gender = request.Gender,         
+                Gender = request.Gender,
             };
             await _customerService.CreateCustomer(customer);
 

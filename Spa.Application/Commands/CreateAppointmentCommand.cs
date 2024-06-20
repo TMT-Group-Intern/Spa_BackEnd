@@ -17,7 +17,7 @@ namespace Spa.Application.Commands
         public DateTime AppointmentDate { get; set; }
         public long BranchID { get; set; }
         public long CustomerID { get; set; }
-      //  public long EmployeeID { get; set; }
+        //  public long EmployeeID { get; set; }
         public string? Status { get; set; }
         public double? Total { get; set; }
 
@@ -44,13 +44,13 @@ namespace Spa.Application.Commands
                 CustomerID = request.CustomerID,
                 BranchID = request.BranchID = 1,
                 Status = request.Status,
-                Total = request.Total ,
-                           
+                Total = request.Total,
+
             };
             await _appointmentService.CreateAppointmentAsync(app);
             var newAppointment = await _appointmentService.GetIdNewAppointment();
 
-          
+
 
             CreateAppointmentDTO employees = new CreateAppointmentDTO
             {
@@ -58,22 +58,22 @@ namespace Spa.Application.Commands
             };
 
             foreach (var i in employees.EmployeeID)
-                   {
-                        _appointmentService.AddAssignment(newAppointment.AppointmentID, i);
-                   }   
-                //if (request.ServiceID != null)
-                //{              
-                //    CreateAppointmentDTO service = new CreateAppointmentDTO
-                //    {
-                //        ServiceID = request.ServiceID,
-                //    };             
-                //    foreach (var i in service.ServiceID)
-                //    {
-                //        _appointmentService.AddChooseServiceToappointment(newAppointment.AppointmentID, i);
-                //    }              
-                //}
+            {
+                _appointmentService.AddAssignment(newAppointment.AppointmentID, i);
+            }
+            //if (request.ServiceID != null)
+            //{              
+            //    CreateAppointmentDTO service = new CreateAppointmentDTO
+            //    {
+            //        ServiceID = request.ServiceID,
+            //    };             
+            //    foreach (var i in service.ServiceID)
+            //    {
+            //        _appointmentService.AddChooseServiceToappointment(newAppointment.AppointmentID, i);
+            //    }              
+            //}
 
-                return app.AppointmentID;
+            return app.AppointmentID;
 
         }
     }

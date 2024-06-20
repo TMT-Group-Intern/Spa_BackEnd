@@ -24,5 +24,6 @@ namespace Spa.Domain.Entities
         public CustomerType CustomerType { get; set; }
 
         public ICollection<CustomerPhoto> CustomerPhotos { get; set; }
+        public ICollection<Payment> Payments { get; set; }
     }
 }

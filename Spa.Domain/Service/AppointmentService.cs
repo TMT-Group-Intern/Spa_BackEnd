@@ -39,9 +39,9 @@ namespace Spa.Domain.Service
 
         }
 
-        public Task<bool> AddChooseServiceToappointment(long idApp, long idSer)
+        public async Task<bool> AddChooseServiceToappointment(long idApp, long idSer)
         {
-            return _appointmentRepository.AddChooseService(idApp, idSer);
+            return await _appointmentRepository.AddChooseService(idApp, idSer);
         }
 
         public async Task<bool> DeleteAppointment(long idApp)
@@ -76,6 +76,15 @@ namespace Spa.Domain.Service
 
             var employeeToRemove = currentEmployees.Except(currentAssign.Select(e => e.EmployerID));
 
+            if (appointment.AppointmentDate != null)
+            {
+                appointmentToUpdate.AppointmentDate = appointment.AppointmentDate;
+            }
+            if (appointment.Status != null)
+            {
+                appointmentToUpdate.Status = appointment.Status;
+            }
+
             foreach (var employee in employeeToRemove)
             {
                 var assign = appointmentToUpdate.Assignments.FirstOrDefault(e => e.EmployerID == employee);
@@ -95,7 +104,7 @@ namespace Spa.Domain.Service
                     EmployerID = employeeId
                 });
             }
-           
+
             return await _appointmentRepository.UpdateAppointmentWithoutService(appointmentToUpdate);
         }
 
@@ -123,8 +132,8 @@ namespace Spa.Domain.Service
                     await _appointmentRepository.updateServiceInAppointmentByDoctor(id, serviceToAdd);
                 }
             }
-           var app = GetAppointmentByIdAsync(id);
-           var listPrice = await _appointmentRepository.GetAllPriceService(id);
+            var app = GetAppointmentByIdAsync(id);
+            var listPrice = await _appointmentRepository.GetAllPriceService(id);
             app.Total = 0;
             foreach (var price in listPrice)
             {
