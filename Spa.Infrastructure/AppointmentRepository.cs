@@ -44,7 +44,7 @@ namespace Spa.Infrastructure
         public async Task<bool> UpdateAppointmentWithoutService(Appointment appointment)
         {
             _spaDbContext.UpdateRange(appointment);
-            _spaDbContext.SaveChangesAsync();
+           await _spaDbContext.SaveChangesAsync();
             return true;
         }
 
@@ -88,11 +88,16 @@ namespace Spa.Infrastructure
             throw new NotImplementedException();
         }
 
-        public async Task<Appointment> GetNewAppoinmentAsync()
+        public async Task<Appointment?> GetNewAppoinmentAsync()
         {
             try
             {
-                return await _spaDbContext.Appointments.OrderByDescending(c => c.AppointmentID).FirstOrDefaultAsync();
+                var app = await _spaDbContext.Appointments.OrderByDescending(c => c.AppointmentID).FirstOrDefaultAsync();
+                if (app is not null)
+                {
+                    return app;
+                }
+                return null;
             }
             catch (Exception ex)
             {
@@ -102,7 +107,7 @@ namespace Spa.Infrastructure
 
         public async Task<bool> updateServiceInAppointmentByDoctor(long id, List<long> serviceID)
         {
-          //  ChooseService chooseservice = null;
+            //  ChooseService chooseservice = null;
             foreach (var i in serviceID)
             {
                 ChooseService chooseservice = new ChooseService
@@ -110,13 +115,13 @@ namespace Spa.Infrastructure
                     AppointmentID = id,
                     ServiceID = i
                 };
-             await _spaDbContext.AddAsync(chooseservice);
-             await _spaDbContext.SaveChangesAsync();
+                await _spaDbContext.AddAsync(chooseservice);
+                await _spaDbContext.SaveChangesAsync();
             }
             return true;
         }
-            
-    
+
+
 
         public async Task<bool> AddAssignment(long idApp, long idEm)
         {
@@ -152,12 +157,12 @@ namespace Spa.Infrastructure
 
         public async Task<List<double>> GetAllPriceService(long idApp)
         {
-            return await _spaDbContext.ChooseServices.Where(c => c.AppointmentID == idApp).Include(se => se.Service).Select(p => p.Service.Price).ToListAsync();           
+            return await _spaDbContext.ChooseServices.Where(c => c.AppointmentID == idApp).Include(se => se.Service).Select(p => p.Service.Price).ToListAsync();
         }
 
         public bool UpdateTotalAppointment(Appointment appointment)
         {
-           Update(appointment);
+            Update(appointment);
             return true;
         }
 

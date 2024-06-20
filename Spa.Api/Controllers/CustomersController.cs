@@ -171,7 +171,7 @@ namespace Spa.Api.Controllers
             try
             {
                 var customers = await _service.SearchCustomersAsync(searchTerm);
-                return Ok( new {customers});
+                return Ok(new { customers });
             }
             catch (Exception ex)
             {
@@ -186,22 +186,22 @@ namespace Spa.Api.Controllers
             {
                 //var httpRequest = Request.Form;
                 //var postFile = httpRequest.Files[0];
-                string fileName = file.FileName ;
+                string fileName = file.FileName;
                 var physicalPath = Path.Combine(_env.ContentRootPath, "Photos", fileName);
 
-                using (var stream = new FileStream( physicalPath, FileMode.Create))
+                using (var stream = new FileStream(physicalPath, FileMode.Create))
                 {
                     file.CopyTo(stream);
                 }
-               await  _service.UploadImage(id, fileName);
-                return Ok(new {fileName});
+                await _service.UploadImage(id, fileName);
+                return Ok(new { fileName });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new JsonResult("aaa.png");
             }
 
-           
+
         }
     }
 }

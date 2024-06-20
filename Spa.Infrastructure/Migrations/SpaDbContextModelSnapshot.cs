@@ -312,6 +312,52 @@ namespace Spa.Infrastructure.Migrations
                     b.ToTable("JobTypes");
                 });
 
+            modelBuilder.Entity("Spa.Domain.Entities.Payment", b =>
+                {
+                    b.Property<long>("PaymentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PaymentID"));
+
+                    b.Property<double?>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<long>("AppointmentID")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("CustomerID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PaymentID");
+
+                    b.HasIndex("AppointmentID");
+
+                    b.HasIndex("CustomerID");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("Spa.Domain.Entities.Product", b =>
                 {
                     b.Property<long>("ProductID")
@@ -537,6 +583,25 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("JobType");
                 });
 
+            modelBuilder.Entity("Spa.Domain.Entities.Payment", b =>
+                {
+                    b.HasOne("Spa.Domain.Entities.Appointment", "Appointment")
+                        .WithMany("Payments")
+                        .HasForeignKey("AppointmentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Spa.Domain.Entities.Customer", "Customer")
+                        .WithMany("Payments")
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("Spa.Domain.Entities.Purchase", b =>
                 {
                     b.HasOne("Spa.Domain.Entities.Product", "Product")
@@ -599,6 +664,8 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("Assignments");
 
                     b.Navigation("ChooseServices");
+
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Branch", b =>
@@ -615,6 +682,8 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("CustomerPhotos");
+
+                    b.Navigation("Payments");
 
                     b.Navigation("Sales");
                 });

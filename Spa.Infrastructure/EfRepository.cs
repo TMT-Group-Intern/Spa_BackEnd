@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Spa.Infrastructure
 {
-    public class EfRepository<T> where T : class    
+    public class EfRepository<T> where T : class
     {
         public readonly SpaDbContext _spaDbContext;
 
@@ -33,7 +33,7 @@ namespace Spa.Infrastructure
         public T GetById(long id)
         {
             return _spaDbContext.Set<T>().Find(id);
-        }  
+        }
 
         public void Update(T entity)
         {
@@ -44,11 +44,11 @@ namespace Spa.Infrastructure
 
         public void DeleteById(T entity)
         {
-          //  var entity = GetById(id);
+            //  var entity = GetById(id);
             _spaDbContext.Set<T>().Remove(entity);
             _spaDbContext.SaveChanges();
         }
 
-   
+
     }
 }

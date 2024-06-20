@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Spa.Application.Commands
 {
-    public class CreateServiceCommand :IRequest<long>
+    public class CreateServiceCommand : IRequest<long>
     {
-       public ServiceDTO serviceDTO { get; set; }
+        public ServiceDTO serviceDTO { get; set; }
     }
 
     public class CreateServiceCommandHandler : IRequestHandler<CreateServiceCommand, long>
@@ -27,13 +27,13 @@ namespace Spa.Application.Commands
         {
             var serviceNew = new ServiceEntity
             {
-              
+
                 ServiceName = request.serviceDTO.ServiceName,
-                ServiceCode = request.serviceDTO.ServiceCode,   
+                ServiceCode = request.serviceDTO.ServiceCode,
                 Description = request.serviceDTO.Description,
-                Price = request.serviceDTO.Price               
+                Price = request.serviceDTO.Price
             };
-           await _serviceService.CreateService(serviceNew);
+            await _serviceService.CreateService(serviceNew);
             return serviceNew.ServiceID;
         }
     }

@@ -58,6 +58,10 @@ builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 //Service
 builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+
+//Payment
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 //Register services
 
 
