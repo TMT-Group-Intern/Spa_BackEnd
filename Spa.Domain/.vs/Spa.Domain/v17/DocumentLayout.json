@@ -1,42 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.api\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.application\\commands\\createpaymentcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.api\\controllers\\paymentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.domain\\service\\paymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:service\\paymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{847EA113-34B0-413E-811C-015641748DE0}|..\\Spa.Infrastructure\\Spa.Infrastructure.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.infrastructure\\paymentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.domain\\entities\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:entities\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.application\\commands\\createappointmentcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.domain\\irepository\\ipaymentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:irepository\\ipaymentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.domain\\iservice\\ipaymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:iservice\\ipaymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "WorkspaceRootPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -44,141 +9,55 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:136:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:137:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CreateAppointmentCommand.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Commands\\CreateAppointmentCommand.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Application\\Commands\\CreateAppointmentCommand.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Commands\\CreateAppointmentCommand.cs",
-              "RelativeToolTip": "..\\Spa.Application\\Commands\\CreateAppointmentCommand.cs",
-              "ViewState": "AQIAAB4AAAAAAAAAAAAIwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T08:51:53.038Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CreatePaymentCommand.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Commands\\CreatePaymentCommand.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Application\\Commands\\CreatePaymentCommand.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Commands\\CreatePaymentCommand.cs",
-              "RelativeToolTip": "..\\Spa.Application\\Commands\\CreatePaymentCommand.cs",
-              "ViewState": "AQIAACQAAAAAAAAAAAA2wDEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T02:57:38.51Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Program.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Api\\Program.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Program.cs",
-              "RelativeToolTip": "..\\Spa.Api\\Program.cs",
-              "ViewState": "AQIAADMAAAAAAAAAAAAswEEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T07:32:18.927Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AppointmentController.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\AppointmentController.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\AppointmentController.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\AppointmentController.cs",
-              "RelativeToolTip": "..\\Spa.Api\\Controllers\\AppointmentController.cs",
-              "ViewState": "AQIAACoAAAAAAAAAAAAYwDkAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T07:22:13.321Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PaymentService.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Service\\PaymentService.cs",
-              "RelativeDocumentMoniker": "Service\\PaymentService.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Service\\PaymentService.cs",
-              "RelativeToolTip": "Service\\PaymentService.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAIwBcAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T02:49:41.535Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "IPaymentService.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\IService\\IPaymentService.cs",
-              "RelativeDocumentMoniker": "IService\\IPaymentService.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\IService\\IPaymentService.cs",
-              "RelativeToolTip": "IService\\IPaymentService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAgAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T02:48:02.669Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Payment.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Entities\\Payment.cs",
-              "RelativeDocumentMoniker": "Entities\\Payment.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Entities\\Payment.cs",
-              "RelativeToolTip": "Entities\\Payment.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABEAAAAqAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T04:17:25.5Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PaymentRepository.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\PaymentRepository.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Infrastructure\\PaymentRepository.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\PaymentRepository.cs",
-              "RelativeToolTip": "..\\Spa.Infrastructure\\PaymentRepository.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAIwBYAAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T02:50:38.2Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "IPaymentRepository.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\IRepository\\IPaymentRepository.cs",
-              "RelativeDocumentMoniker": "IRepository\\IPaymentRepository.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\IRepository\\IPaymentRepository.cs",
-              "RelativeToolTip": "IRepository\\IPaymentRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAnAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T02:50:12.079Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PaymentController.cs",
-              "DocumentMoniker": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\PaymentController.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\PaymentController.cs",
-              "ToolTip": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\PaymentController.cs",
-              "RelativeToolTip": "..\\Spa.Api\\Controllers\\PaymentController.cs",
-              "ViewState": "AQIAABkAAAAAAAAAAAAUwCQAAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-20T02:43:57.476Z",
-              "EditorCaption": ""
             }
           ]
         }
