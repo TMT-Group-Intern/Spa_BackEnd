@@ -101,6 +101,11 @@
         "Name": "serviceID",
         "Type": "System.Collections.Generic.List\u00601[[System.Int64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -248,6 +253,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Spa.Api.Controllers.PaymentController",
+    "Method": "ExportExelPayment",
+    "RelativePath": "api/Payment/ExportExel",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "branchID",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Spa.Api.Controllers.ServicesController",
     "Method": "GetAll",
     "RelativePath": "api/Services",
@@ -329,7 +350,7 @@
   {
     "ContainingType": "Spa.Api.Controllers.AppointmentController",
     "Method": "GetAllByStatus",
-    "RelativePath": "Status",
+    "RelativePath": "GetAppointmentByStatus",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -345,6 +366,48 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Spa.Api.Controllers.CustomersController",
+    "Method": "GetHistoryCustomerById",
+    "RelativePath": "GetHistory",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cutomerId",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Spa.Api.Controllers.PaymentController",
+    "Method": "GetPaymentByBranch",
+    "RelativePath": "GetPaymentByBranch",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "branchID",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Spa.Api.Controllers.PaymentController",
+    "Method": "GetPaymentByDay",
+    "RelativePath": "GetRevenueToday",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

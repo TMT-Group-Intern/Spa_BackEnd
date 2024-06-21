@@ -10,5 +10,9 @@ namespace Spa.Domain.IRepository
     public interface IPaymentRepository
     {
         Task<bool> AddPayment(Payment payment);
+
+        Task<double?> GetRevenue();
+
+        Task<List<Payment>> GetAllPaymentByBranch(long branchID);
     }
 }

@@ -146,3 +146,10 @@ D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\obj\Debug\net8.0\Spa.Api.pdb
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\obj\Debug\net8.0\Spa.Api.genruntimeconfig.cache
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\obj\Debug\net8.0\ref\Spa.Api.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Spa.Api.staticwebassets.runtime.json
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\ClosedXML.dll
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\ExcelNumberFormat.dll
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\Irony.dll
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\SixLabors.Fonts.dll
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\System.IO.Packaging.dll
+D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Api\bin\Debug\net8.0\XLParser.dll
