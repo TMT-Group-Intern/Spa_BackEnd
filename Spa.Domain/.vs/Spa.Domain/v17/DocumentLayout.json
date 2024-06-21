@@ -1,11 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.application\\commands\\registercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -13,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,19 +58,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RegisterCommand.cs",
-              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Commands\\RegisterCommand.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Application\\Commands\\RegisterCommand.cs",
-              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Commands\\RegisterCommand.cs",
-              "RelativeToolTip": "..\\Spa.Application\\Commands\\RegisterCommand.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-21T03:21:48.69Z",
-              "EditorCaption": ""
             }
           ]
         }

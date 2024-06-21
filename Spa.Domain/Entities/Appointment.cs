@@ -23,5 +23,7 @@ namespace Spa.Domain.Entities
         public ICollection<ChooseService> ChooseServices { get; set; }
 
         public ICollection<Assignment> Assignments { get; set; }
+
+        public ICollection<Payment> Payments { get; set; }
     }
 }

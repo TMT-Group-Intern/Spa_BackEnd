@@ -32,24 +32,26 @@ namespace Spa.Infrastructure
         public DbSet<ServiceEntity> Services { get; set; }
         public DbSet<ChooseService> ChooseServices { get; set; }
 
+        public DbSet<Payment> Payments { get; set; }
         public DbSet<CustomerPhoto> CustomerPhotos { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new AdminConfiguration());         
+            modelBuilder.ApplyConfiguration(new AdminConfiguration());
             modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
             modelBuilder.ApplyConfiguration(new BranchConfiguration());
             modelBuilder.ApplyConfiguration(new ChooseServiceConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
-            modelBuilder.ApplyConfiguration (new JobTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new JobTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
-            modelBuilder.ApplyConfiguration ( new PurchaseConfiguration());
+            modelBuilder.ApplyConfiguration(new PurchaseConfiguration());
             modelBuilder.ApplyConfiguration(new SaleConfiguration());
             modelBuilder.ApplyConfiguration(new ServiceConfiguration());
             modelBuilder.ApplyConfiguration(new WarehouseConfiguration());
             modelBuilder.ApplyConfiguration(new AssignmentConfiguration());
+            modelBuilder.ApplyConfiguration(new PaymentConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerPhotoConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             ///////////////////////////////////////////////////////////////////////////////

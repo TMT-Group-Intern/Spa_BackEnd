@@ -45,7 +45,7 @@ namespace Spa.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult GetServiceById(long id)
         {
-         
+
             if (_service.isExistService(id))
             {
                 var getByCusByID = _service.GetServiceById(id);

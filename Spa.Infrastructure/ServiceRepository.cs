@@ -54,8 +54,8 @@ namespace Spa.Infrastructure
         {
             try
             {
-               var service = await _spaDbContext.Services.FirstOrDefaultAsync(s => s.ServiceName == nameService && s.ServiceID != id);
-                if(service != null)
+                var service = await _spaDbContext.Services.FirstOrDefaultAsync(s => s.ServiceName == nameService && s.ServiceID != id);
+                if (service != null)
                 {
                     return true;
                 }

@@ -23,11 +23,11 @@ namespace Spa.Domain.Service
         public async Task CreateService(ServiceEntity serviceEntity)
         {
             var lastSerID = await GenerateServiceCodeAsync();
-           if(await _serviceRepository.CheckExistNameCreateService(serviceEntity.ServiceName))
+            if (await _serviceRepository.CheckExistNameCreateService(serviceEntity.ServiceName))
             {
                 throw new DuplicateException("The name of service already exists in the system.");
             }
-             serviceEntity.ServiceCode = lastSerID;
+            serviceEntity.ServiceCode = lastSerID;
             _serviceRepository.CreateServiceEntitys(serviceEntity);
         }
 
@@ -65,7 +65,7 @@ namespace Spa.Domain.Service
 
         public ServiceEntity GetServiceById(long id)
         {
-           return _serviceRepository.GetServiceEntityById(id);
+            return _serviceRepository.GetServiceEntityById(id);
         }
 
         public bool isExistService(long id)
@@ -85,7 +85,7 @@ namespace Spa.Domain.Service
                 {
                     throw new DuplicateException("The name of service already exists in the system.");
                 }
-            
+
                 serviceFromId.ServiceName = serviceEntity.ServiceName;
                 serviceFromId.Price = serviceEntity.Price;
                 serviceFromId.Description = serviceEntity.Description;

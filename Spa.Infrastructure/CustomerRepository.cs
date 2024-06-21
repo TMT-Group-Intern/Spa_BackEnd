@@ -67,13 +67,13 @@ namespace Spa.Infrastructures
 
         public async Task<Customer> GetCustomerByPhone(string phone, long id)  //get customer by phone
         {
-           // Customer cus = null;
-          return await _spaDbContext.Customers.FirstOrDefaultAsync(c => c.Phone == phone && id != c.CustomerID);                    
+            // Customer cus = null;
+            return await _spaDbContext.Customers.FirstOrDefaultAsync(c => c.Phone == phone && id != c.CustomerID);
         }
 
         public async Task<Customer> CheckPhoneToCreateCustomer(string phone)  //check phone
         {
-         
+
             return await _spaDbContext.Customers.FirstOrDefaultAsync(c => c.Phone == phone);
         }
 
@@ -81,7 +81,7 @@ namespace Spa.Infrastructures
         {
             try
             {
-                return await _spaDbContext.Customers.OrderByDescending(c => c.CustomerID).FirstOrDefaultAsync();  
+                return await _spaDbContext.Customers.OrderByDescending(c => c.CustomerID).FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {
@@ -108,6 +108,13 @@ namespace Spa.Infrastructures
             return await _spaDbContext.Customers
                 .Where(c => c.FirstName.Contains(searchTerm) || c.LastName.Contains(searchTerm) || c.Phone.Contains(searchTerm))
                 .ToListAsync();
+        }
+
+        public async Task<string> UploadImageCustomer(CustomerPhoto customerPhoto)
+        {
+            await _spaDbContext.CustomerPhotos.AddAsync(customerPhoto);
+            await _spaDbContext.SaveChangesAsync();
+            return customerPhoto.PhotoPath;
         }
     }
 }

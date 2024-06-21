@@ -31,9 +31,9 @@ namespace Spa.Domain.Service
         public async Task CreateCustomer(Customer customer)
         {
             var lastCusID = await GenerateCustomerCodeAsync();
-            if(await _customerRepository.CheckPhoneToCreateCustomer(customer.Phone) != null)
+            if (await _customerRepository.CheckPhoneToCreateCustomer(customer.Phone) != null)
             {
-                 throw new DuplicateException("The phone number already exists in the system.");
+                throw new DuplicateException("The phone number already exists in the system.");
             }
             customer.CustomerCode = lastCusID;
             _customerRepository.CreateCustomers(customer);
@@ -54,29 +54,30 @@ namespace Spa.Domain.Service
         }
 
         public async Task UpdateCustomer(long customerId, Customer customer)
-        {      
-            try {
+        {
+            try
+            {
                 var customerFromId = _customerRepository.GetCustomerById(customerId);
                 bool checckPhone = await GetCustomerByPhone(customer.Phone, customerId);
                 if (checckPhone)
                 {
                     throw new DuplicateException("The phone number already exists in the system.");
-                }         
+                }
                 customerFromId.Gender = customer.Gender;
                 customerFromId.FirstName = customer.FirstName;
                 customerFromId.LastName = customer.LastName;
                 customerFromId.Email = customer.Email;
                 customerFromId.Phone = customer.Phone;
                 customerFromId.DateOfBirth = customer.DateOfBirth;
-               await _customerRepository.UpdateCustomer(customerFromId);              
+                await _customerRepository.UpdateCustomer(customerFromId);
             }
             catch (DuplicateException)
-            {             
+            {
                 throw;
             }
             catch (Exception ex)
-            {              
-                throw new Exception("An error occurred while updating customer", ex); 
+            {
+                throw new Exception("An error occurred while updating customer", ex);
             }
         }
 
@@ -93,19 +94,20 @@ namespace Spa.Domain.Service
         public async Task DeleteCustomer(long customerId)  //Delete cus
         {
             var cusToDelete = GetCustomerById(customerId);
-            try {
+            try
+            {
                 await _customerRepository.DeleteCustomer(cusToDelete);
             }
             catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx && sqlEx.Number == 547)
-            { 
-               throw new ForeignKeyViolationException("Cannot delete customer because it is referenced by other entities.");
-            }      
+            {
+                throw new ForeignKeyViolationException("Cannot delete customer because it is referenced by other entities.");
+            }
         }
 
         public async Task<bool> GetCustomerByPhone(string phone, long id)
         {
             bool flag = true;
-            var customer = await _customerRepository.GetCustomerByPhone(phone,  id);
+            var customer = await _customerRepository.GetCustomerByPhone(phone, id);
             if (customer == null)
             {
                 flag = false;
@@ -116,7 +118,7 @@ namespace Spa.Domain.Service
         public async Task<bool> CheckPhoneCreateCustomer(string phone)
         {
 
-           return  await _customerRepository.CheckPhoneToCreateCustomer(phone) == null? false: true;
+            return await _customerRepository.CheckPhoneToCreateCustomer(phone) == null ? false : true;
             //bool flag = true;
             //var customer = await _customerRepository.CheckPhoneToCreateCustomer(phone);
             //if (customer == null)
@@ -131,6 +133,16 @@ namespace Spa.Domain.Service
             return await _customerRepository.SearchCustomersAsync(searchTerm);
         }
 
+        public async Task<string> UploadImage(long idCus, string fileName)
+        {
+            CustomerPhoto customerPhoto = new CustomerPhoto
+            {
+                CustomerID = idCus,
+                PhotoPath = fileName,
+            };
+            await _customerRepository.UploadImageCustomer(customerPhoto);
+            return customerPhoto.PhotoPath;
+        }
 
     }
 }

@@ -30,5 +30,7 @@ namespace Spa.Domain.IRepository
         Task<bool> DeleteCustomerOnAppoinmentAndSale(long idCustomer);
 
         Task<List<Customer>> SearchCustomersAsync(string searchTerm);
+
+        Task<string> UploadImageCustomer(CustomerPhoto customerPhoto);
     }
 }

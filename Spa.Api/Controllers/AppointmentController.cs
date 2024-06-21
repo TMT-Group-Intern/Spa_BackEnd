@@ -38,32 +38,45 @@ namespace Spa.Api.Controllers
         [HttpGet]
         public ActionResult GetAll(long idBrand)
         {
-
-            // JsonResult result = new JsonResult(0);
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<Customer, CustomerDTO>();
-            //});
-            //   var _mapper = config.CreateMapper();
             var app = _service.GetAllAppoinment().Select(a => new AppointmentDTO
             {
                 AppointmentID = a.AppointmentID,
-                BranchID = a.BranchID, 
+                BranchID = a.BranchID,
                 CustomerID = a.CustomerID,
-              //  EmployeeID = a.EmployeeID,
                 Status = a.Status,
                 Total = a.Total,
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
-               
             });
-            var appByBrand = app.Where(e=> e.BranchID == idBrand);
+            var appByBrand = app.Where(e => e.BranchID == idBrand);
             if (app == null)
             {
                 NotFound();
             }
             return new JsonResult(appByBrand, _jsonSerializerOptions);
         }
+
+        [HttpGet("/Status")]
+        public ActionResult GetAllByStatus(long idBrand, string status)
+        {
+            var app = _service.GetAllAppoinment().Select(a => new AppointmentDTO
+            {
+                AppointmentID = a.AppointmentID,
+                BranchID = a.BranchID,
+                CustomerID = a.CustomerID,
+                Status = a.Status,
+                Total = a.Total,
+                AppointmentDate = a.AppointmentDate,
+                Customer = _mapper.Map<CustomerDTO>(a.Customer),
+            });
+            var appByBrand = app.Where(e => e.BranchID == idBrand && e.Status == status);
+            if (app == null)
+            {
+                NotFound();
+            }
+            return new JsonResult(appByBrand, _jsonSerializerOptions);
+        }
+
 
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] CreateAppointmentDTO appointmentCreateDto)
@@ -86,7 +99,6 @@ namespace Spa.Api.Controllers
                     ServiceID = appointmentCreateDto.ServiceID,
                 };
                 var id = await _mediator.Send(command);
-
                 return Ok(new { id });
             }
             catch (Exception ex)
@@ -121,10 +133,10 @@ namespace Spa.Api.Controllers
             Appointment app = new Appointment
             {
                 AppointmentDate = updateAppointmentWithoutServiceDTO.AppointmentDate,
-                BranchID = updateAppointmentWithoutServiceDTO.BranchID,
-                CustomerID = updateAppointmentWithoutServiceDTO.CustomerID,
+              //  BranchID = updateAppointmentWithoutServiceDTO.BranchID,
+               // CustomerID = updateAppointmentWithoutServiceDTO.CustomerID,
                 Status = updateAppointmentWithoutServiceDTO.Status,
-                Total = updateAppointmentWithoutServiceDTO.Total,   
+                Total = updateAppointmentWithoutServiceDTO.Total,
                 Assignments = updateAppointmentWithoutServiceDTO.Assignments.Select(a => new Assignment
                 {
                     AppointmentID = id,
@@ -136,7 +148,7 @@ namespace Spa.Api.Controllers
             return Ok(new { id });
         }
 
-        [HttpPut("api/Appointment/UpdateWithService/{id}")]
+        [HttpPut("api/UpdateAppointmentWithService/{id}")]
         public async Task<ActionResult> updateAppointmentWithService(long id, [FromBody] List<long> serviceID)
         {
             if (!ModelState.IsValid)
@@ -148,10 +160,10 @@ namespace Spa.Api.Controllers
             return Ok(new { id });
         }
 
-        [HttpDelete ("{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAppointmentById(long id)
         {
-         try
+            try
             {
                 if (!ModelState.IsValid)
                 {
@@ -164,7 +176,7 @@ namespace Spa.Api.Controllers
             }
             catch (ErrorMessage ex)
             {
-                 return BadRequest(new { Message = ex.Message }); ;
+                return BadRequest(new { Message = ex.Message }); ;
             }
             catch (Exception ex)
             {
