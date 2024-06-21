@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Spa.Domain.Entities;
 using Spa.Infrastructure.EntityConfigurations;
@@ -15,6 +16,7 @@ namespace Spa.Infrastructure
         public SpaDbContext(DbContextOptions<SpaDbContext> options) : base(options)
         {
         }
+
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
@@ -32,6 +34,7 @@ namespace Spa.Infrastructure
 
         public DbSet<Payment> Payments { get; set; }
         public DbSet<CustomerPhoto> CustomerPhotos { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,6 +53,7 @@ namespace Spa.Infrastructure
             modelBuilder.ApplyConfiguration(new AssignmentConfiguration());
             modelBuilder.ApplyConfiguration(new PaymentConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerPhotoConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
             ///////////////////////////////////////////////////////////////////////////////
         }
     }
@@ -59,7 +63,7 @@ namespace Spa.Infrastructure
         public SpaDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<SpaDbContext>();
-            optionsBuilder.UseSqlServer("Data Source=LAPTOP-5ABH3PVT;Initial Catalog=SpaShop;Persist Security Info=True;User ID=sa;Password=sa;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Data Source=fuco;Initial Catalog=SpaShop;Persist Security Info=True;User ID=sa;Password=fuco;Trust Server Certificate=True");
 
             return new SpaDbContext(optionsBuilder.Options);
         }

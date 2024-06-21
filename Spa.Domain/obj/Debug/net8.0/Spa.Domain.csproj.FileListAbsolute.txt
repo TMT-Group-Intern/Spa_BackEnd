@@ -10,3 +10,16 @@ D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\Spa.Domain.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\refint\Spa.Domain.dll
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\Spa.Domain.pdb
 D:\Git_ProjectTMT\Spa_Project_Backend\Spa.Domain\obj\Debug\net8.0\ref\Spa.Domain.dll
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\bin\Debug\net8.0\Spa.Domain.deps.json
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\bin\Debug\net8.0\Spa.Domain.dll
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\bin\Debug\net8.0\Spa.Domain.pdb
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\obj\Debug\net8.0\Spa.Domain.csproj.AssemblyReference.cache
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\obj\Debug\net8.0\Spa.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\obj\Debug\net8.0\Spa.Domain.AssemblyInfoInputs.cache
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\obj\Debug\net8.0\Spa.Domain.AssemblyInfo.cs
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\obj\Debug\net8.0\Spa.Domain.csproj.CoreCompileInputs.cache
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\obj\Debug\net8.0\Spa.Domain.sourcelink.json
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\obj\Debug\net8.0\Spa.Domain.dll
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\obj\Debug\net8.0\refint\Spa.Domain.dll
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\obj\Debug\net8.0\Spa.Domain.pdb
+E:\OJT\spa\BE_FINAK\Spa_BackEnd\Spa.Domain\obj\Debug\net8.0\ref\Spa.Domain.dll

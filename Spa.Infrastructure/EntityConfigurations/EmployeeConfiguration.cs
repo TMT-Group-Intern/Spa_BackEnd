@@ -25,6 +25,10 @@ namespace Spa.Infrastructure.EntityConfigurations
                .WithMany(e => e.Employees)
                .HasForeignKey(e => e.JobTypeID)
                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(u => u.User)
+               .WithMany(e => e.Employee)
+               .HasForeignKey(e => e.Id);
         }
     }
 }

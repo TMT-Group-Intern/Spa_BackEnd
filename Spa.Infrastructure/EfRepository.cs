@@ -34,6 +34,10 @@ namespace Spa.Infrastructure
         {
             return _spaDbContext.Set<T>().Find(id);
         }
+        public T GetByEmail(string email)
+        {
+            return _spaDbContext.Set<T>().Find(email);
+        }
 
         public void Update(T entity)
         {

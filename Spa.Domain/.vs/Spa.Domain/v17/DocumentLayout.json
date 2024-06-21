@@ -1,5 +1,6 @@
 {
   "Version": 1,
+<<<<<<< HEAD
   "WorkspaceRootPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\",
   "Documents": [
     {
@@ -34,6 +35,10 @@
       "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|d:\\git_projecttmt\\spa_project_backend\\spa.application\\models\\historyforcustomerbyiddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
+=======
+  "WorkspaceRootPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\",
+  "Documents": [],
+>>>>>>> 0deda5a6d636e51e06c88a8157309922a5d3d96b
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -41,7 +46,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< HEAD
           "SelectedChildIndex": 2,
+=======
+          "SelectedChildIndex": -1,
+>>>>>>> 0deda5a6d636e51e06c88a8157309922a5d3d96b
           "Children": [
             {
               "$type": "Document",
@@ -58,7 +67,52 @@
             },
             {
               "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:136:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:137:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+<<<<<<< HEAD
             },
             {
               "$type": "Document",
@@ -163,6 +217,8 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-21T07:26:15.303Z",
               "EditorCaption": ""
+=======
+>>>>>>> 0deda5a6d636e51e06c88a8157309922a5d3d96b
             }
           ]
         }
