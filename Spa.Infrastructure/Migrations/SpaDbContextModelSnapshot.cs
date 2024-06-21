@@ -24,17 +24,16 @@ namespace Spa.Infrastructure.Migrations
 
             modelBuilder.Entity("Spa.Domain.Entities.Admin", b =>
                 {
-                    b.Property<long>("AdminID")
+                    b.Property<long?>("AdminID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("AdminID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("AdminID"));
 
                     b.Property<string>("AdminCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -46,22 +45,28 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AdminID");
+
+                    b.HasIndex("Id");
 
                     b.ToTable("Admins");
                 });
@@ -240,16 +245,16 @@ namespace Spa.Infrastructure.Migrations
 
             modelBuilder.Entity("Spa.Domain.Entities.Employee", b =>
                 {
-                    b.Property<long>("EmployeeID")
+                    b.Property<long?>("EmployeeID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("EmployeeID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("EmployeeID"));
 
-                    b.Property<long>("BranchID")
+                    b.Property<long?>("BranchID")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -257,7 +262,6 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmployeeCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -265,13 +269,15 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("HireDate")
+                    b.Property<DateTime?>("HireDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("JobTypeID")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long?>("JobTypeID")
                         .HasColumnType("bigint");
 
                     b.Property<string>("LastName")
@@ -279,16 +285,20 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EmployeeID");
 
                     b.HasIndex("BranchID");
+
+                    b.HasIndex("Id");
 
                     b.HasIndex("JobTypeID");
 
@@ -418,6 +428,78 @@ namespace Spa.Infrastructure.Migrations
                     b.ToTable("Services");
                 });
 
+            modelBuilder.Entity("Spa.Domain.Entities.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Spa.Domain.Entities.Warehouse", b =>
                 {
                     b.Property<long>("BranchID")
@@ -437,6 +519,15 @@ namespace Spa.Infrastructure.Migrations
                     b.HasIndex("ProductID");
 
                     b.ToTable("Warehouses");
+                });
+
+            modelBuilder.Entity("Spa.Domain.Entities.Admin", b =>
+                {
+                    b.HasOne("Spa.Domain.Entities.User", "User")
+                        .WithMany("Admin")
+                        .HasForeignKey("Id");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Appointment", b =>
@@ -523,18 +614,22 @@ namespace Spa.Infrastructure.Migrations
                     b.HasOne("Spa.Domain.Entities.Branch", "Branch")
                         .WithMany("Employees")
                         .HasForeignKey("BranchID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Spa.Domain.Entities.User", "User")
+                        .WithMany("Employee")
+                        .HasForeignKey("Id");
 
                     b.HasOne("Spa.Domain.Entities.JobType", "JobType")
                         .WithMany("Employees")
                         .HasForeignKey("JobTypeID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Branch");
 
                     b.Navigation("JobType");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Purchase", b =>
@@ -651,6 +746,13 @@ namespace Spa.Infrastructure.Migrations
             modelBuilder.Entity("Spa.Domain.Entities.ServiceEntity", b =>
                 {
                     b.Navigation("ChooseServices");
+                });
+
+            modelBuilder.Entity("Spa.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Admin");
+
+                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

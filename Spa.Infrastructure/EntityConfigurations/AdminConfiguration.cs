@@ -15,8 +15,10 @@ namespace Spa.Infrastructure.EntityConfigurations
         {
             builder.HasKey(e => e.AdminID);              
             builder.Property(e => e.AdminID).ValueGeneratedOnAdd();
-          
 
+            builder.HasOne(u => u.User)
+            .WithMany(e => e.Admin)
+            .HasForeignKey(e => e.Id);
         }
     }
 }

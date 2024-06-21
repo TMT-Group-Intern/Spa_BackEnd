@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Spa.Api.csproj": {}
+    "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Spa.Api.csproj": {}
   },
   "projects": {
-    "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Spa.Api.csproj": {
+    "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Spa.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Spa.Api.csproj",
+        "projectUniqueName": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Spa.Api.csproj",
         "projectName": "Spa.Api",
-        "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\Spa.Api.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\obj\\",
+        "projectPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Spa.Api.csproj",
+        "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
+        "outputPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,20 +22,21 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Spa.Application.csproj": {
-                "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Spa.Application.csproj"
+              "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Spa.Application.csproj": {
+                "projectPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Spa.Application.csproj"
               },
-              "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {
-                "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj"
+              "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj": {
+                "projectPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj"
               },
-              "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj": {
-                "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj"
+              "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\Spa.Infrastructure.csproj": {
+                "projectPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\Spa.Infrastructure.csproj"
               }
             }
           }
@@ -61,11 +62,31 @@
             },
             "MediatR": {
               "target": "Package",
-              "version": "[12.2.0, )"
+              "version": "[12.3.0, )"
             },
             "MediatR.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
               "version": "[11.1.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.6, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -75,7 +96,11 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[6.6.2, )"
+            },
+            "Swashbuckle.AspNetCore.Filters": {
+              "target": "Package",
+              "version": "[8.0.2, )"
             }
           },
           "imports": [
@@ -97,21 +122,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Spa.Application.csproj": {
+    "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Spa.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Spa.Application.csproj",
+        "projectUniqueName": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Spa.Application.csproj",
         "projectName": "Spa.Application",
-        "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\Spa.Application.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Application\\obj\\",
+        "projectPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Spa.Application.csproj",
+        "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
+        "outputPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -119,17 +144,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {
-                "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj"
+              "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj": {
+                "projectPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj"
               },
-              "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj": {
-                "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj"
+              "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\Spa.Infrastructure.csproj": {
+                "projectPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\Spa.Infrastructure.csproj"
               }
             }
           }
@@ -155,7 +181,23 @@
             },
             "MediatR": {
               "target": "Package",
-              "version": "[12.2.0, )"
+              "version": "[12.3.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.6, )"
             }
           },
           "imports": [
@@ -174,21 +216,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {
+    "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj",
+        "projectUniqueName": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj",
         "projectName": "Spa.Domain",
-        "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\obj\\",
+        "projectPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj",
+        "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
+        "outputPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -196,6 +238,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -219,11 +262,23 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
             "Microsoft.Data.SqlClient": {
               "target": "Package",
-              "version": "[5.1.5, )"
+              "version": "[5.2.1, )"
             },
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.6, )"
             },
@@ -248,21 +303,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj": {
+    "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\Spa.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj",
+        "projectUniqueName": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\Spa.Infrastructure.csproj",
         "projectName": "Spa.Infrastructure",
-        "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\Spa.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Infrastructure\\obj\\",
+        "projectPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\Spa.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
+        "outputPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -270,14 +325,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {
-                "projectPath": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj"
+              "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj": {
+                "projectPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj"
               }
             }
           }
@@ -297,6 +353,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.6, )"
@@ -304,6 +364,10 @@
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
               "version": "[8.0.6, )"
             },
@@ -338,7 +402,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

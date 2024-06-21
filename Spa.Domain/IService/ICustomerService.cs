@@ -30,6 +30,5 @@ namespace Spa.Domain.IService
 
         Task<List<Customer>> SearchCustomersAsync(string searchTerm);  //search
 
-
     }
 }
