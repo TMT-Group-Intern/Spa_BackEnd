@@ -32,5 +32,7 @@ namespace Spa.Domain.IRepository
         Task<List<Customer>> SearchCustomersAsync(string searchTerm);
 
         Task<string> UploadImageCustomer(CustomerPhoto customerPhoto);
+
+        Task<List<Appointment>> GetHistoryCustomer(long id);
     }
 }

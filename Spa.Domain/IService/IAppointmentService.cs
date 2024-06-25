@@ -26,6 +26,10 @@ namespace Spa.Domain.IService
 
         Task<bool> UpdateAppointmentWithoutService(long id, Appointment appointment);
 
-        Task<bool> UpdateAppointmentWithService(long id,List<long> serviceID);
+        Task<bool> UpdateAppointmentWithService(long id,List<long> serviceID, string status);
+
+        Task<bool> UpdateStatus(long id, string status);
+
+        Task<bool> UpdateDiscount(long id, int perDiscount);
     }
 }

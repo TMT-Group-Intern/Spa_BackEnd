@@ -108,7 +108,7 @@ namespace Spa.Domain.Service
             return await _appointmentRepository.UpdateAppointmentWithoutService(appointmentToUpdate);
         }
 
-        public async Task<bool> UpdateAppointmentWithService(long id, List<long> serviceIDs)
+        public async Task<bool> UpdateAppointmentWithService(long id, List<long> serviceIDs, string? status)
         {
             var getChooseServiceByAppointment = await _appointmentRepository.ListService(id);
 
@@ -135,6 +135,7 @@ namespace Spa.Domain.Service
             var app = GetAppointmentByIdAsync(id);
             var listPrice = await _appointmentRepository.GetAllPriceService(id);
             app.Total = 0;
+            app.Status = status;
             foreach (var price in listPrice)
             {
                 app.Total += price;
@@ -142,5 +143,27 @@ namespace Spa.Domain.Service
             _appointmentRepository.UpdateTotalAppointment(app);
             return true;
         }
+
+        public async Task<bool> UpdateStatus(long id, string status)
+        {
+            var appointmentToUpdate = _appointmentRepository.GetAppointmentByID(id);
+            appointmentToUpdate.Status = status;
+            await _appointmentRepository.UpdateAppointmentWithoutService(appointmentToUpdate);
+            return true;
+        }
+
+        public async Task<bool> UpdateDiscount(long id, int perDiscount)
+        {
+            var app = _appointmentRepository.GetAppointmentByID(id);
+
+            if(perDiscount != null)
+            {
+                app.DiscountPercentage = perDiscount;
+                app.DiscountAmount = app.Total * ((double)perDiscount / 100);
+                _appointmentRepository.UpdateAppointment(app);
+            }
+            return true;
+        }
+
     }
 }

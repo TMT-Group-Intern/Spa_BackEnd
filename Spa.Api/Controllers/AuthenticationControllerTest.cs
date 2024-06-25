@@ -68,7 +68,7 @@ namespace Spa.Api.Controllers
                     Email = user.Email,
                     EmployeeCode = user.Code,
                     Password = user.PasswordHash,
-                    Role = user.Role,
+
                     //Id = user.Id
                 };
                 await _spaDbContext.Employees.AddAsync(emp);
@@ -145,7 +145,7 @@ namespace Spa.Api.Controllers
                     Email = userDTO.Email,
                     EmployeeCode = userDTO.Code,
                     //Password = userDTO.Password,
-                    Role = userDTO.Role,
+   
                 };
                 await _spaDbContext.Employees.AddAsync(emp);
                 await _spaDbContext.SaveChangesAsync();
@@ -155,8 +155,8 @@ namespace Spa.Api.Controllers
                     LastName = emp.LastName,
                     Email = emp.Email,
                     Code = emp.EmployeeCode,
-                    PasswordHash = userDTO.Password,
-                    Role = emp.Role,
+                    PasswordHash = userDTO.Password
+         
                 };
                 await _userService.CreateUser(user);
                 return Ok(emp);

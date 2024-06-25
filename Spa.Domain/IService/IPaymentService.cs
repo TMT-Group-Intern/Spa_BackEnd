@@ -10,5 +10,9 @@ namespace Spa.Domain.IService
     public interface IPaymentService
     {
         Task<bool> AddPayment(Payment payment);
+
+        Task<double?> GetRevenueToday();
+
+        Task<List<Payment>> GetAllPaymentsByBranch(long branchID);
     }
 }

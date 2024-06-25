@@ -137,7 +137,6 @@ namespace Spa.Infrastructure
                 FirstName = empDTO.FirstName,
                 LastName = empDTO.LastName,
                 Password = empDTO.Password,
-                Role = empDTO.Role,
                 EmployeeCode = empDTO.EmployeeCode,
                 Id = empDTO.Id,
                 Phone = empDTO.Phone,
@@ -314,7 +313,7 @@ namespace Spa.Infrastructure
                 JobTypeID = EmpDTO.JobTypeID,
                 BranchID = EmpDTO.BranchID,            
                 //EmployeeCode = EmpDTO.EmployeeCode,
-                Role = EmpDTO.Role
+
             };
             var empUpdate = await _spaDbContext.Employees.FindAsync(EmpDTO.Email);
             if (empUpdate is null) return false;
@@ -323,7 +322,7 @@ namespace Spa.Infrastructure
             empUpdate.FirstName = EmpDTO.FirstName;
             empUpdate.LastName = EmpDTO.LastName;
             empUpdate.Email = EmpDTO.Email;
-            empUpdate.Role = EmpDTO.Role;
+
             empUpdate.Phone = EmpDTO.Phone;
             empUpdate.DateOfBirth = EmpDTO.DateOfBirth;
             empUpdate.Gender = EmpDTO.Gender;

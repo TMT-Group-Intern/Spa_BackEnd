@@ -144,5 +144,10 @@ namespace Spa.Domain.Service
             return customerPhoto.PhotoPath;
         }
 
+        public async Task<List<Appointment>> GetHistoryCustomerById(long id)
+        {
+            return await _customerRepository.GetHistoryCustomer(id);
+        }
+
     }
 }

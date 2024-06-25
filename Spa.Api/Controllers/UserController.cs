@@ -102,7 +102,7 @@ namespace Spa.Api.Controllers
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Password = user.PasswordHash,
-                        Role = user.Role,
+      
                         Gender= updateDto.Gender,
                         HireDate = updateDto.HireDate,
                         Phone = updateDto.Phone,
