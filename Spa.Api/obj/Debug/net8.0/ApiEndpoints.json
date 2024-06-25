@@ -166,7 +166,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "Spa.Application.Authentication.AuthenticationResult",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Spa.Api.Controllers.AuthenticationController",
@@ -472,7 +482,7 @@
   {
     "ContainingType": "Spa.Api.Controllers.UserController",
     "Method": "GetAllUsers",
-    "RelativePath": "api/User",
+    "RelativePath": "api/User/allUser",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -481,45 +491,8 @@
   },
   {
     "ContainingType": "Spa.Api.Controllers.UserController",
-    "Method": "GetUserByEmail",
-    "RelativePath": "api/User/{email}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Spa.Api.Controllers.UserController",
-    "Method": "UpdateUser",
-    "RelativePath": "api/User/{email}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "updateDto",
-        "Type": "Spa.Application.Models.UpdateDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Spa.Api.Controllers.UserController",
     "Method": "DeleteUser",
-    "RelativePath": "api/User/{email}",
+    "RelativePath": "api/User/deleteUser",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -527,6 +500,75 @@
       {
         "Name": "email",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Spa.Api.Controllers.UserController",
+    "Method": "GetAdminByEmail",
+    "RelativePath": "api/User/getUserByAdmin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Spa.Api.Controllers.UserController",
+    "Method": "GetUserByEmail",
+    "RelativePath": "api/User/getUserByEmail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Spa.Api.Controllers.UserController",
+    "Method": "GetEmpByEmail",
+    "RelativePath": "api/User/getUserByEmployee",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Spa.Api.Controllers.UserController",
+    "Method": "UpdateUser",
+    "RelativePath": "api/User/updateUser",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "updateDto",
+        "Type": "Spa.Application.Models.UpdateDTO",
         "IsRequired": true
       }
     ],
