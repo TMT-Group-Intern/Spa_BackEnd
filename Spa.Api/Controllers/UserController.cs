@@ -86,8 +86,8 @@ namespace Spa.Api.Controllers
                 EmployeeID = getEmpByEmail.Result.EmployeeID,
                 FirstName = getEmpByEmail.Result.FirstName,
                 LastName = getEmpByEmail.Result.LastName,
-                Email = getEmpByEmail.Result.Email,
-                Role = getEmpByEmail.Result.Role,
+                Email = getEmpByEmail.Result.Email
+
             };
             return Ok(new { empDTO });
         }
@@ -134,7 +134,6 @@ namespace Spa.Api.Controllers
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Password = user.PasswordHash,
-                        Role = user.Role,
                         Gender = updateDto.Gender,
                         HireDate = updateDto.HireDate,
                         Phone = updateDto.Phone,

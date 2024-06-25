@@ -145,7 +145,6 @@ namespace Spa.Infrastructure
                 FirstName = empDTO.FirstName,
                 LastName = empDTO.LastName,
                 Password = empDTO.Password,
-                Role = empDTO.Role,
                 EmployeeCode = empDTO.EmployeeCode,
                 Id = empDTO.Id,
                 Phone = empDTO.Phone,
