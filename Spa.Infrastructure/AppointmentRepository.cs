@@ -83,9 +83,10 @@ namespace Spa.Infrastructure
 
 
 
-        public void UpdateAppointment(Appointment customer)
+        public void UpdateAppointment(Appointment appointment)
         {
-            throw new NotImplementedException();
+            Update(appointment);
+        
         }
 
         public async Task<Appointment?> GetNewAppoinmentAsync()

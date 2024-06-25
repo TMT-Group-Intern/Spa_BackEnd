@@ -3,7 +3,7 @@
     public class Employee
     {
         public long? EmployeeID { get; set; }
-        public string Id { get; set; }
+        public string? Id { get; set; }
         public string? EmployeeCode { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -15,8 +15,7 @@
         public DateTime? HireDate { get; set; }
         public long? JobTypeID { get; set; }
         public long? BranchID { get; set; }
-        public string Role { get; set; }
-       
+          
         
         public JobType? JobType { get; set; }
         public Branch? Branch { get; set; }

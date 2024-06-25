@@ -198,10 +198,32 @@ namespace Spa.Api.Controllers
             }
             catch (Exception ex)
             {
-                return new JsonResult("aaa.png");
+                return new JsonResult("Update not succeess");
             }
-
-
         }
+
+        [HttpGet("/GetHistory")]
+        public async Task<ActionResult> GetHistoryCustomerById(long cutomerId)
+        {
+           var listHistoryByAppointment = await _service.GetHistoryCustomerById(cutomerId);
+            List<HistoryForCustomerByIdDTO> listHistoryForCus = new List<HistoryForCustomerByIdDTO>();
+
+
+            foreach (var i in listHistoryByAppointment)
+            {
+                HistoryForCustomerByIdDTO historyById = new HistoryForCustomerByIdDTO
+                {
+                    CustomerName = i.Customer.FirstName + " " + i.Customer.LastName,
+                    ServiceUsed = i.ChooseServices.Select(e => e.ServiceID).ToList(),
+                    Date = i.AppointmentDate,
+                    PhotoCustomer = i.Customer.CustomerPhotos.Select(p => p.PhotoPath).FirstOrDefault() ?? "Done have Image"
+                };
+
+                listHistoryForCus.Add(historyById);
+            }
+            
+            return Ok(new { listHistoryForCus });
+        }
+        
     }
 }

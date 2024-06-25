@@ -1,11 +1,27 @@
 {
   "Version": 1,
+<<<<<<< HEAD
   "Hash": "HBVaQrPGacq9W9cHbSRXTpMOH9sbwl1s9pL/ZEM8XOE=",
+=======
+  "Hash": "ZEuZQB781svJvLrdKRRbJNrVVnSQeHX0PymyV96r9Hs=",
+>>>>>>> e39399b1613a981577340394589877fa51630be3
   "Source": "Spa.Api",
   "BasePath": "_content/Spa.Api",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
+<<<<<<< HEAD
   "DiscoveryPatterns": [],
+=======
+  "DiscoveryPatterns": [
+    {
+      "Name": "Spa.Api\\wwwroot",
+      "Source": "Spa.Api",
+      "ContentRoot": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Api\\wwwroot\\",
+      "BasePath": "_content/Spa.Api",
+      "Pattern": "**"
+    }
+  ],
+>>>>>>> e39399b1613a981577340394589877fa51630be3
   "Assets": []
 }

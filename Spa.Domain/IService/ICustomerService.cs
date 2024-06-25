@@ -31,5 +31,7 @@ namespace Spa.Domain.IService
         Task<List<Customer>> SearchCustomersAsync(string searchTerm);  //search
 
         Task<string> UploadImage(long idCus, string fileName);
+
+        Task<List<Appointment>> GetHistoryCustomerById(long id);
     }
 }
