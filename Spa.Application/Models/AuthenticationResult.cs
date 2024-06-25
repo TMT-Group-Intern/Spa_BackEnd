@@ -1,4 +1,4 @@
-﻿using Spa.Domain.Entities;
+﻿using Spa.Application.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Spa.Application.Authentication
 {
-    public record AuthenticationResult(User? User, string? Token);
+    public record AuthenticationResult(UserSession? User, string? Token);
 }

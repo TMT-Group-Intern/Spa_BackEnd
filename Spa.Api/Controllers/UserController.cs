@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Spa.Application.Commands;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
@@ -27,19 +29,17 @@ namespace Spa.Api.Controllers
             _env = env;
         }
 
-        [HttpGet]
+        [HttpGet("allUser")]
         public async Task<IActionResult> GetAllUsers()
         {
             var allUsers = await _userService.GetAllUsers();
             return Ok(allUsers);
         }
 
-        [HttpGet("{email}")]
+        [HttpGet("getUserByEmail")]
         public async Task<IActionResult> GetUserByEmail(string email)
         {
 
-            if (_userService.isExistUser(email))
-            {
                 var getUserByEmail = _userService.GetUserByEmail(email);
 
                 UserDTO userDTO = new UserDTO
@@ -52,14 +52,46 @@ namespace Spa.Api.Controllers
                     Role = getUserByEmail.Result.Role,
                 };
                 return Ok(new { userDTO });
-            }
-            else
-            {
-                return NotFound();
-            }
         }
+        [HttpGet("getUserByAdmin")]
+        public async Task<IActionResult> GetAdminByEmail(string email)
+        {
 
-        [HttpPut("{email}")]
+            var getAdminByEmail = _userService.GetAdminByEmail(email);
+
+            AdminDTO adminDTO = new AdminDTO
+            {
+                AdminID = getAdminByEmail.Result.AdminID,
+                FirstName = getAdminByEmail.Result.FirstName,
+                LastName = getAdminByEmail.Result.LastName,
+                Email = getAdminByEmail.Result.Email,
+                AdminCode = getAdminByEmail.Result.AdminCode,
+                Role = getAdminByEmail.Result.Role,
+                DateOfBirth=getAdminByEmail.Result.DateOfBirth,
+                Gender = getAdminByEmail.Result.Gender,
+                Password = getAdminByEmail.Result.Password,
+                Phone = getAdminByEmail.Result.Phone
+                
+            };
+            return Ok(new { adminDTO });
+        }
+        [HttpGet("getUserByEmployee")]
+        public async Task<IActionResult> GetEmpByEmail(string email)
+        {
+
+            var getEmpByEmail = _userService.GetEmpByEmail(email);
+
+            EmployeeDTO empDTO = new EmployeeDTO
+            {
+                EmployeeID = getEmpByEmail.Result.EmployeeID,
+                FirstName = getEmpByEmail.Result.FirstName,
+                LastName = getEmpByEmail.Result.LastName,
+                Email = getEmpByEmail.Result.Email,
+                Role = getEmpByEmail.Result.Role,
+            };
+            return Ok(new { empDTO });
+        }
+        [HttpPut("updateUser")]
         public async Task<IActionResult> UpdateUser(string email, [FromBody] UpdateDTO updateDto)
         {
             try
@@ -68,32 +100,32 @@ namespace Spa.Api.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-
-                if (!_userService.isExistUser(email))
-                {
-                    return NotFound();
-                }
                 User user = new User
                 {
                     FirstName = updateDto.FirstName,
                     LastName = updateDto.LastName,
                     PasswordHash=updateDto.Password,
                     Role = updateDto.Role,
+                    PhoneNumber=updateDto.Phone,
+                    Email = email,
                 };
-                await _userService.UpdateUser(user);
-                if(user.Role == "Admin")
+                //await _userService.UpdateUser(user);
+                if (user.Role == "Admin")
                 {
                     Admin admin = new Admin
                     {
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Password = user.PasswordHash,
-                        Role = user.Role,
+                        //Role = user.Role,
                         DateOfBirth = updateDto.DateOfBirth,
                         Phone = updateDto.Phone,
-                        Gender = updateDto.Gender,  
+                        Gender = updateDto.Gender,
+                        Email = user.Email
                     };
-                 await _userService.UpdateAdmin(admin);   
+                    await _userService.UpdateAdmin(admin);
+                    await _userService.UpdateUser(user);
+                    return Ok(true);
                 }
                 else
                 {
@@ -102,18 +134,19 @@ namespace Spa.Api.Controllers
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Password = user.PasswordHash,
-      
-                        Gender= updateDto.Gender,
+                        Role = user.Role,
+                        Gender = updateDto.Gender,
                         HireDate = updateDto.HireDate,
                         Phone = updateDto.Phone,
                         BranchID = updateDto.BranchID,
-                        DateOfBirth= updateDto.DateOfBirth,
+                        DateOfBirth = updateDto.DateOfBirth,
                         JobTypeID = updateDto.JobTypeID,
-                        
+                        Email = user.Email
                     };
                     await _userService.UpdateEmployee(emp);
+                    await _userService.UpdateUser(user);
+                    return Ok(true);
                 }
-                return Ok(true);
             }
             catch (DuplicateException ex)
             {
@@ -124,20 +157,13 @@ namespace Spa.Api.Controllers
                 return StatusCode(500, "An unexpected error occurred.");
             }
         }
-        [HttpDelete("{email}")]
+        [HttpDelete("deleteUser")]
         public async Task<ActionResult> DeleteUser(string email)
         {
             try
             {
-                if (_userService.isExistUser(email))
-                {
                     await _userService.DeleteUser(email);
                     return Ok(true);
-                }
-                else
-                {
-                    return NotFound();
-                }
             }
             catch (ForeignKeyViolationException ex)
             {

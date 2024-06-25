@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Diagnostics.Metrics;
 using NMemory.Linq;
 using Azure.Core;
+using Spa.Domain.Authentication;
 
 namespace Spa.Infrastructure
 {
@@ -45,6 +46,18 @@ namespace Spa.Infrastructure
         {
             var user = await _userManager.FindByEmailAsync(email);
             return user;
+        }
+        public async Task<Admin> GetAdminByEmail(string email)
+        {
+            var admin = await _spaDbContext.Admins.FirstOrDefaultAsync(a => a.Email == email);
+            //await _spaDbContext.SaveChangesAsync();
+            return admin;
+        }
+        public async Task<Employee> GetEmpByEmail(string email)
+        {
+            var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(a => a.Email == email);
+            //await _spaDbContext.SaveChangesAsync();
+            return emp;
         }
 
         //
@@ -126,17 +139,13 @@ namespace Spa.Infrastructure
         
         public async Task CreateEmployee(Employee empDTO)
         {
-/*            var userEmployee = await _spaDbContext.Employees.FindAsync(empDTO.Email);
-            if (userEmployee is not null)
-            {
-                throw new Exception("User exist!");
-            }*/
             var newEmployee = new Employee()
             {
                 Email = empDTO.Email,
                 FirstName = empDTO.FirstName,
                 LastName = empDTO.LastName,
                 Password = empDTO.Password,
+                Role = empDTO.Role,
                 EmployeeCode = empDTO.EmployeeCode,
                 Id = empDTO.Id,
                 Phone = empDTO.Phone,
@@ -148,7 +157,6 @@ namespace Spa.Infrastructure
             };
             await _spaDbContext.Employees.AddAsync(newEmployee);
             await _spaDbContext.SaveChangesAsync();
-            //return newEmployee;
         }
 
         //
@@ -160,12 +168,11 @@ namespace Spa.Infrastructure
 
             var getUser = await _userManager.FindByEmailAsync(Email);
             if (getUser is null)
-                return "Email not exist!";
+                return "User not exist";
             bool checkUserPasswords = await _userManager.CheckPasswordAsync(getUser, Password);
             if (!checkUserPasswords)
-                return "Invalid password!";
-            string token = GenerateToken(getUser.Code, (getUser.FirstName + getUser.LastName), getUser.Email, getUser.Role);
-            //string token = getUser.Email;
+                return null;
+            string token = await GenerateToken(getUser.Code, (getUser.FirstName + " " + getUser.LastName), getUser.Email, getUser.Role);
             return token;
         }
 
@@ -178,7 +185,7 @@ namespace Spa.Infrastructure
                     "Audience": "https://localhost:7192"
             }
         */
-        public string GenerateToken(string Id, string Name, string Email, string Role)
+        public async Task<string> GenerateToken(string Id, string Name, string Email, string Role)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -197,6 +204,7 @@ namespace Spa.Infrastructure
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: credentials
                 );
+
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
@@ -209,52 +217,49 @@ namespace Spa.Infrastructure
             {
                 return false;
             }
-
-            await _userManager.DeleteAsync(user);
-
             if (user.Role == "Admin")
             {
-                var admin = new Admin();
-                admin = await _spaDbContext.Admins.FindAsync(Email);
+                var admin = await _spaDbContext.Admins.FirstOrDefaultAsync(a => a.Email == Email);
                 _spaDbContext.Admins.Remove(admin);
                 _spaDbContext.SaveChanges();
+                await _userManager.DeleteAsync(user);
+                return true;
             }
             else
             {
-                var emp = new Employee();
-                emp = await _spaDbContext.Employees.FindAsync(Email);
+                var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == Email);
                 _spaDbContext.Employees.Remove(emp);
                 _spaDbContext.SaveChanges();
+                await _userManager.DeleteAsync(user);
+                return true;
             }
-            return true;
+
         }
 
         //
         //Update
         public async Task<bool> UpdateUser(User UserDTO)
         {
-            if (UserDTO is null) return false;
-
             var newUpdate = new User
             {
                 FirstName = UserDTO.FirstName,
                 LastName = UserDTO.LastName,
                 Email = UserDTO.Email,
                 PasswordHash = UserDTO.PasswordHash,
-                Role = UserDTO.Role
+                Role = UserDTO.Role,
+                PhoneNumber = UserDTO.PhoneNumber,               
             };
             var userUpdate = await _userManager.FindByEmailAsync(UserDTO.Email);
             if (userUpdate is null) return false;
-
-
-            userUpdate.FirstName = UserDTO.FirstName;
-            userUpdate.LastName = UserDTO.LastName;
-            userUpdate.Email = UserDTO.Email;
-            userUpdate.Role = UserDTO.Role;
+            userUpdate.FirstName = newUpdate.FirstName;
+            userUpdate.LastName = newUpdate.LastName;
+            //userUpdate.Email = newUpdate.Email;
+            userUpdate.Role = newUpdate.Role;
+            userUpdate.PhoneNumber = newUpdate.PhoneNumber;
 
             //user.PasswordHash = updateUserDTO.Password;
             var passwordHasher = new PasswordHasher<User>();
-            userUpdate.PasswordHash = passwordHasher.HashPassword(userUpdate, UserDTO.PasswordHash);
+            userUpdate.PasswordHash = passwordHasher.HashPassword(userUpdate, newUpdate.PasswordHash);
             var updateUserResult = await _userManager.UpdateAsync(userUpdate);
             if (!updateUserResult.Succeeded)
                 return false;
@@ -263,11 +268,8 @@ namespace Spa.Infrastructure
 
         public async Task<bool> UpdateAdmin(Admin AdminDTO)
         {
-            if (AdminDTO is null) return false;
-
             var newUpdate = new Admin
             {
-                //AdminID = AdminDTO.AdminID,
                 FirstName = AdminDTO.FirstName,
                 LastName = AdminDTO.LastName,
                 Email = AdminDTO.Email,
@@ -275,33 +277,30 @@ namespace Spa.Infrastructure
                 Phone = AdminDTO.Phone,
                 DateOfBirth = AdminDTO.DateOfBirth,
                 Gender = AdminDTO.Gender,
-                //AdminCode = AdminDTO.AdminCode,
-                Role = AdminDTO.Role
+                //Role = AdminDTO.Role,
+                
             };
-            var adminUpdate = await _spaDbContext.Admins.FindAsync(AdminDTO.Email);
+            var adminUpdate = await _spaDbContext.Admins.FirstOrDefaultAsync(a => a.Email == newUpdate.Email);
             if (adminUpdate is null) return false;
-
-
-            adminUpdate.FirstName = AdminDTO.FirstName;
-            adminUpdate.LastName = AdminDTO.LastName;
-            adminUpdate.Email = AdminDTO.Email;
-            adminUpdate.Role = AdminDTO.Role;
-            adminUpdate.Phone = AdminDTO.Phone;
-            adminUpdate.DateOfBirth = AdminDTO.DateOfBirth;
-            adminUpdate.Gender = AdminDTO.Gender;
-
+            {
+                adminUpdate.FirstName = newUpdate.FirstName;
+                adminUpdate.LastName = newUpdate.LastName;
+                adminUpdate.Email = newUpdate.Email;
+                //adminUpdate.Role = newUpdate.Role;
+                adminUpdate.Phone = newUpdate.Phone;
+                adminUpdate.DateOfBirth = newUpdate.DateOfBirth;
+                adminUpdate.Gender = newUpdate.Gender;
+            }
             var passwordHasher = new PasswordHasher<Admin>();
-            adminUpdate.Password = passwordHasher.HashPassword(adminUpdate, AdminDTO.Password);
+            adminUpdate.Password = passwordHasher.HashPassword(adminUpdate, newUpdate.Password);
             _spaDbContext.Admins.Update(adminUpdate);
+            _spaDbContext.SaveChanges();
             return true;
         }
         public async Task<bool> UpdateEmployee(Employee EmpDTO)
         {
-            if (EmpDTO is null) return false;
-
             var newUpdate = new Employee
             {
-                //EmployeeID = EmpDTO.EmployeeID,
                 FirstName = EmpDTO.FirstName,
                 LastName = EmpDTO.LastName,
                 Email = EmpDTO.Email,
@@ -312,27 +311,25 @@ namespace Spa.Infrastructure
                 HireDate = EmpDTO.HireDate,
                 JobTypeID = EmpDTO.JobTypeID,
                 BranchID = EmpDTO.BranchID,            
-                //EmployeeCode = EmpDTO.EmployeeCode,
 
             };
-            var empUpdate = await _spaDbContext.Employees.FindAsync(EmpDTO.Email);
+            var empUpdate = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == newUpdate.Email);
             if (empUpdate is null) return false;
-
-
-            empUpdate.FirstName = EmpDTO.FirstName;
-            empUpdate.LastName = EmpDTO.LastName;
-            empUpdate.Email = EmpDTO.Email;
-
-            empUpdate.Phone = EmpDTO.Phone;
-            empUpdate.DateOfBirth = EmpDTO.DateOfBirth;
-            empUpdate.Gender = EmpDTO.Gender;
-            empUpdate.HireDate = EmpDTO.HireDate;
-            empUpdate.JobType = EmpDTO.JobType;
-            empUpdate.BranchID = EmpDTO.BranchID;
-
+            {
+                empUpdate.FirstName = newUpdate.FirstName;
+                empUpdate.LastName = newUpdate.LastName;
+                empUpdate.Email = newUpdate.Email;
+                empUpdate.Phone = newUpdate.Phone;
+                empUpdate.DateOfBirth = newUpdate.DateOfBirth;
+                empUpdate.Gender = newUpdate.Gender;
+                empUpdate.HireDate = newUpdate.HireDate;
+                empUpdate.JobType = newUpdate.JobType;
+                empUpdate.BranchID = newUpdate.BranchID;
+            }
             var passwordHasher = new PasswordHasher<Employee>();
-            empUpdate.Password = passwordHasher.HashPassword(empUpdate, EmpDTO.Password);
+            empUpdate.Password = passwordHasher.HashPassword(empUpdate, newUpdate.Password);
             _spaDbContext.Employees.Update(empUpdate);
+            _spaDbContext.SaveChanges();
             return true;
         }
 
