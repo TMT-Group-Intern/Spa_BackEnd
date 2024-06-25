@@ -9,7 +9,7 @@ namespace Spa.Application.Models
     public class AssignmentDTO
     {
         public long EmployerID { get; set; }
-        public long AppointmentID { get; set; }
+        public long? AppointmentID { get; set; }
 
         public EmployeeDTO? Employees { get; set; }
     }

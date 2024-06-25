@@ -63,7 +63,7 @@ namespace Spa.Infrastructure
         public SpaDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<SpaDbContext>();
-            optionsBuilder.UseSqlServer("Data Source=LAPTOP-5ABH3PVT;Initial Catalog=SpaShop;Persist Security Info=True;User ID=sa;Password=sa;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Data Source=LAPTOP-5ABH3PVT;Initial Catalog=SpaShop5;Persist Security Info=True;User ID=sa;Password=sa;Trust Server Certificate=True");
 
             return new SpaDbContext(optionsBuilder.Options);
         }

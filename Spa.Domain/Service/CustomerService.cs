@@ -137,7 +137,7 @@ namespace Spa.Domain.Service
         {
             CustomerPhoto customerPhoto = new CustomerPhoto
             {
-                CustomerID = idCus,
+                AppointmentID = idCus,
                 PhotoPath = fileName,
             };
             await _customerRepository.UploadImageCustomer(customerPhoto);

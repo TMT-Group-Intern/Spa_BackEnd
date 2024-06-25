@@ -10,11 +10,7 @@ namespace Spa.Application.Models
     {
 
         public DateTime AppointmentDate { get; set; }
-        public long BranchID { get; set; }
-        public long CustomerID { get; set; }
-        public string Status { get; set; }
-        public double? Total { get; set; }
-
+        public string? Status { get; set; }
         public ICollection<AssignmentDTO>? Assignments { get; set; }
     }
 }

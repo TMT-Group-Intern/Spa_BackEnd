@@ -213,10 +213,10 @@ namespace Spa.Api.Controllers
             {
                 HistoryForCustomerByIdDTO historyById = new HistoryForCustomerByIdDTO
                 {
-                    CustomerName = i.Customer.FirstName + " " + i.Customer.LastName,
+                   // CustomerName = i.Customer.FirstName + " " + i.Customer.LastName,
                     ServiceUsed = i.ChooseServices.Select(e => e.ServiceID).ToList(),
                     Date = i.AppointmentDate,
-                    PhotoCustomer = i.Customer.CustomerPhotos.Select(p => p.PhotoPath).FirstOrDefault() ?? "Done have Image"
+                    PhotoCustomer = i.CustomerPhotos.Select(p => p.PhotoPath).ToList() 
                 };
 
                 listHistoryForCus.Add(historyById);

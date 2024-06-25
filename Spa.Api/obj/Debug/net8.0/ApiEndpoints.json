@@ -87,7 +87,7 @@
   {
     "ContainingType": "Spa.Api.Controllers.AppointmentController",
     "Method": "updateAppointmentWithService",
-    "RelativePath": "api/Appointment/api/UpdateAppointmentWithService/{id}",
+    "RelativePath": "api/Appointment/api/UpdateAppointmentWithService/{id}/{status}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -98,14 +98,14 @@
         "IsRequired": true
       },
       {
-        "Name": "serviceID",
-        "Type": "System.Collections.Generic.List\u00601[[System.Int64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "Name": "status",
+        "Type": "System.String",
         "IsRequired": true
       },
       {
-        "Name": "status",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "serviceID",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -528,6 +528,22 @@
         "Name": "email",
         "Type": "System.String",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Spa.Api.Controllers.AppointmentController",
+    "Method": "GetAllByBranch",
+    "RelativePath": "GetAllByBranch",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idBrand",
+        "Type": "System.Int64",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

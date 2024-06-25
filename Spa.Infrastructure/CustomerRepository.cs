@@ -126,7 +126,7 @@ namespace Spa.Infrastructures
 
         public async Task<List<Appointment>> GetHistoryCustomer(long id)
         {
-            List<Appointment> a = await _spaDbContext.Appointments.Where(c => c.CustomerID == id).Include(c=>c.ChooseServices).Include(cus=>cus.Customer).ThenInclude(p => p.CustomerPhotos).ToListAsync();
+            List<Appointment> a = await _spaDbContext.Appointments.Where(c => c.CustomerID == id).Include(c=>c.ChooseServices).Include(p => p.CustomerPhotos).ToListAsync();
             return a;
         }
     }
