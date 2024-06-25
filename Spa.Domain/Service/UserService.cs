@@ -1,4 +1,6 @@
-﻿using Spa.Domain.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using Spa.Domain.Authentication;
+using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IRepository;
 using Spa.Domain.IService;
@@ -13,9 +15,11 @@ namespace Spa.Domain.Service
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository)
+        private readonly UserManager<User> _userManager;
+        public UserService(IUserRepository userRepository, UserManager<User> userManager)
         {
             _userRepository = userRepository;
+            _userManager = userManager;
         }
 
 
@@ -71,35 +75,13 @@ namespace Spa.Domain.Service
             //return newEmp;
         }
 
-        public async Task<bool> DeleteUser(string Email)
+        public async Task DeleteUser(string Email)
         {
             await _userRepository.DeleteUser(Email);
-            return true;
         }
 
         public async Task<string> GenerateAdminCodeAsync()
         {
-            /*            var lastAdminCode = await _userRepository.GetLastAdminAsync();
-
-                        if (lastAdminCode == null || lastAdminCode.AdminID == null)
-                        {
-                            return "AD0001";
-                        }
-
-                        string lastAdminCodeStr = lastAdminCode.AdminID.Value.ToString();
-                        if (lastAdminCodeStr.Length < 3 || !lastAdminCodeStr.StartsWith("AD"))
-                        {
-                            throw new Exception("Invalid last admin code format");
-                        }
-
-                        long numericPart;
-                        if (!long.TryParse(lastAdminCodeStr.Substring(2), out numericPart))
-                        {
-                            throw new Exception("Invalid last admin code format");
-                        }
-
-                        numericPart++;
-                        return "AD" + numericPart.ToString("D4");*/
             var lastAdminCode = await _userRepository.GetLastAdminAsync();
 
             if (lastAdminCode == null)
@@ -126,9 +108,9 @@ namespace Spa.Domain.Service
             return "EM" + numericPart.ToString("D4");
         }
 
-        public string GenerateToken(string Id, string Name, string Email, string Role)
+        public async Task<string> GenerateToken(string Id, string Name, string Email, string Role)
         {
-            var token = _userRepository.GenerateToken(Id, Name, Email, Role);
+            string token = await _userRepository.GenerateToken(Id, Name, Email, Role);
             return token;
         }
 
@@ -143,6 +125,16 @@ namespace Spa.Domain.Service
             var user = await _userRepository.GetUserByEmail(email);
             return user;
         }
+        public async Task<Admin> GetAdminByEmail(string email)
+        {
+            var admin = await _userRepository.GetAdminByEmail(email);
+            return admin;
+        }
+        public async Task<Employee> GetEmpByEmail(string email)
+        {
+            var emp = await _userRepository.GetEmpByEmail(email);
+            return emp;
+        }
 
         public async Task<string> LoginAccount(string Email, string Password)
         {
@@ -150,22 +142,19 @@ namespace Spa.Domain.Service
             return token;
         }
 
-        public async Task<bool> UpdateAdmin(Admin AdminDTO)
+        public async Task UpdateAdmin(Admin AdminDTO)
         {
-            await UpdateAdmin(AdminDTO);
-            return true;
+            await _userRepository.UpdateAdmin(AdminDTO);
         }
 
-        public async Task<bool> UpdateEmployee(Employee EmpDTO)
+        public async Task UpdateEmployee(Employee EmpDTO)
         {
-            await UpdateEmployee(EmpDTO);
-            return true;
+            await _userRepository.UpdateEmployee(EmpDTO);
         }
 
-        public async Task<bool> UpdateUser(User UserDTO)
+        public async Task UpdateUser(User UserDTO)
         {
-            await UpdateUser(UserDTO);
-            return true;
+            await _userRepository.UpdateUser(UserDTO);
         }
         public bool isExistUser(string Email)
         {

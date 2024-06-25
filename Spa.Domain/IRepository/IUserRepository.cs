@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
+using Spa.Domain.Authentication;
 using Spa.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -16,9 +18,12 @@ namespace Spa.Domain.IRepository
         //
         //Get User By Email
         Task<User> GetUserByEmail(string email);
+        Task<Admin> GetAdminByEmail(string email);
+        Task<Employee> GetEmpByEmail(string email);
         //
         //Get All User
         Task<List<User>> GetAllUsers();
+
         //
         //Create User
         Task<User> CreateUser(User userDTO);
@@ -29,7 +34,7 @@ namespace Spa.Domain.IRepository
         Task<string> LoginAccount(string Email, string Password);
         //
         //Token
-        string GenerateToken(string Id, string Name, string Email, string Role);
+        Task<string> GenerateToken(string Id, string Name, string Email, string Role);
         //
         //Delete User
         Task<bool> DeleteUser(string Email);

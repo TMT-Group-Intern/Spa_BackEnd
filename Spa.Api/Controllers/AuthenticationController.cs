@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 //using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Spa.Application.Authentication;
 using Spa.Application.Commands;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
@@ -68,34 +69,31 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDTO loginDto)
+        public async Task<AuthenticationResult> Login([FromBody] LoginDTO loginDto)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return new AuthenticationResult(null,"Empty");
             }
             try
             {
                 var command = new LoginCommand
                 {
                     loginDTO = loginDto
+                    //loginDTO = loginDto
                 };
                 var id = await _mediator.Send(command);
                 //  return Ok(true);
-                return Ok(id);
+                return id;
             }
             catch (DuplicateException ex)
             {
-                return Conflict(new { message = ex.Message });
+                return new AuthenticationResult(null, "Error");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error");
+                return new AuthenticationResult(null, "Error");
             }
-/*
-            var user = await _userService.LoginAccount(loginDto.Email, loginDto.Password);
-            if (user is null) return BadRequest("Invalid email or password.");
-            return Ok(user);*/
         }
     }
 }
