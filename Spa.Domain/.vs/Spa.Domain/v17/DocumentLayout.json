@@ -1,7 +1,21 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|d:\\intern_tmt\\spa_project_backend\\spa.api\\controllers\\customerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|d:\\intern_tmt\\spa_project_backend\\spa.application\\models\\historyforcustomerbyiddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|d:\\intern_tmt\\spa_project_backend\\spa.domain\\service\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:service\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{847EA113-34B0-413E-811C-015641748DE0}|..\\Spa.Infrastructure\\Spa.Infrastructure.csproj|d:\\intern_tmt\\spa_project_backend\\spa.infrastructure\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +23,67 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HistoryForCustomerByIdDTO.cs",
+              "DocumentMoniker": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Application\\Models\\HistoryForCustomerByIdDTO.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Application\\Models\\HistoryForCustomerByIdDTO.cs",
+              "ToolTip": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Application\\Models\\HistoryForCustomerByIdDTO.cs",
+              "RelativeToolTip": "..\\Spa.Application\\Models\\HistoryForCustomerByIdDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAkAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-25T09:55:22.933Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CustomerService.cs",
+              "DocumentMoniker": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Service\\CustomerService.cs",
+              "RelativeDocumentMoniker": "Service\\CustomerService.cs",
+              "ToolTip": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Service\\CustomerService.cs",
+              "RelativeToolTip": "Service\\CustomerService.cs",
+              "ViewState": "AQIAAH4AAAAAAAAAAAAYwJgAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-25T09:39:44.173Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CustomerRepository.cs",
+              "DocumentMoniker": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Infrastructure\\CustomerRepository.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Infrastructure\\CustomerRepository.cs",
+              "ToolTip": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Infrastructure\\CustomerRepository.cs",
+              "RelativeToolTip": "..\\Spa.Infrastructure\\CustomerRepository.cs",
+              "ViewState": "AQIAAG8AAAAAAAAAAAAgwIIAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-25T09:38:39.892Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CustomersController.cs",
+              "DocumentMoniker": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\CustomersController.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\CustomersController.cs",
+              "ToolTip": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Api\\Controllers\\CustomersController.cs",
+              "RelativeToolTip": "..\\Spa.Api\\Controllers\\CustomersController.cs",
+              "ViewState": "AQIAAMcAAAAAAAAAAADwv9AAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-25T09:38:28.861Z",
+              "EditorCaption": ""
             }
           ]
         }

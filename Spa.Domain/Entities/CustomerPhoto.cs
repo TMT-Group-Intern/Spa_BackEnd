@@ -3,10 +3,9 @@
     public class CustomerPhoto
     {
         public long PhotoID { get; set; }
-        public long CustomerID { get; set; }
         public string PhotoPath { get; set; }
+        public long AppointmentID { get; set; }
         public DateTime UploadedAt { get; set; } = DateTime.Now;
-
-        public Customer Customer { get; set; }
+        public Appointment Appointments { get; set; }
     }
 }

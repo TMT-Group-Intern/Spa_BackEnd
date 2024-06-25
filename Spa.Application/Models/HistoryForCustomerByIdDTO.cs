@@ -8,8 +8,8 @@ namespace Spa.Application.Models
 {
     public class HistoryForCustomerByIdDTO
     {
-        public string CustomerName { get; set; }
-        public string PhotoCustomer {  get; set; }
+        //public string CustomerName { get; set; }
+        public List<string> PhotoCustomer {  get; set; }
 
         public List<long> ServiceUsed {  get; set; }
         public DateTime Date { get; set; }
