@@ -16,7 +16,8 @@ namespace Spa.Application.Models
       //  public long EmployeeID { get; set; }
         public string Status { get; set; }
         public double? Total { get; set; }
-
+        public double? DiscountAmount { get; set; }
+        public int? DiscountPercentage { get; set; }
         public  CustomerDTO? Customer { get; set; }
        // public EmployeeDTO? Employee { get; set; }
         public ICollection<ChooseServiceDTO>? ChooseServices { get; set; }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "V9UkGSxjz9JL+haIBwbc+xOCR+BAacd4mt+WObXpc6c=",
+  "Hash": "ZEuZQB781svJvLrdKRRbJNrVVnSQeHX0PymyV96r9Hs=",
   "Source": "Spa.Api",
   "BasePath": "_content/Spa.Api",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "Spa.Api\\wwwroot",
       "Source": "Spa.Api",
-      "ContentRoot": "D:\\Git_ProjectTMT\\Spa_Project_Backend\\Spa.Api\\wwwroot\\",
+      "ContentRoot": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Api\\wwwroot\\",
       "BasePath": "_content/Spa.Api",
       "Pattern": "**"
     }

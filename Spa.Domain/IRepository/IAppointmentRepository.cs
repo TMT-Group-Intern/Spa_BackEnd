@@ -9,7 +9,7 @@ namespace Spa.Domain.IRepository
 {
     public interface IAppointmentRepository
     {
-        void UpdateAppointment(Appointment customer);
+        void UpdateAppointment(Appointment appointment);
      //   Task<bool> DeleteAppointment(int id);
         Appointment CreateAppointment(Appointment customer);
         IEnumerable<Appointment> GetAllAppointment();

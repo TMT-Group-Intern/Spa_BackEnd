@@ -17,10 +17,6 @@ namespace Spa.Infrastructure.EntityConfigurations
             builder.Property(s => s.ServiceID)
             .ValueGeneratedOnAdd();
 
-            //builder.HasMany(s => s.ChooseServices)
-            //.WithOne(cs => cs.Service) 
-            //.HasForeignKey(cs => cs.ServiceID);
-
         }
     }
 }

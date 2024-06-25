@@ -116,6 +116,19 @@ namespace Spa.Infrastructures
             await _spaDbContext.SaveChangesAsync();
             return customerPhoto.PhotoPath;
         }
+
+        //public async Task<List<Customer>> GetHistoryCustomer(long id)
+        //{
+        //   List<Customer>a  = await _spaDbContext.Customers.Where(c => c.CustomerID == id).Include(a => a.Appointments).ThenInclude(c => c.ChooseServices).ThenInclude(s => s.Service)
+        //                                           .Include(p => p.CustomerPhotos).ToListAsync();
+        //    return a;                             
+        //}
+
+        public async Task<List<Appointment>> GetHistoryCustomer(long id)
+        {
+            List<Appointment> a = await _spaDbContext.Appointments.Where(c => c.CustomerID == id).Include(c=>c.ChooseServices).Include(cus=>cus.Customer).ThenInclude(p => p.CustomerPhotos).ToListAsync();
+            return a;
+        }
     }
 }
 
