@@ -151,5 +151,19 @@ namespace Spa.Domain.Service
             await _appointmentRepository.UpdateAppointmentWithoutService(appointmentToUpdate);
             return true;
         }
+
+        public async Task<bool> UpdateDiscount(long id, int perDiscount)
+        {
+            var app = _appointmentRepository.GetAppointmentByID(id);
+
+            if(perDiscount != null)
+            {
+                app.DiscountPercentage = perDiscount;
+                app.DiscountAmount = app.Total * ((double)perDiscount / 100);
+                _appointmentRepository.UpdateAppointment(app);
+            }
+            return true;
+        }
+
     }
 }

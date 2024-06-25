@@ -9,6 +9,7 @@ using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
+using Spa.Domain.Service;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -18,14 +19,14 @@ namespace Spa.Api.Controllers
     [ApiController]
     public class AppointmentController : ControllerBase
     {
-        private readonly IAppointmentService _service;
+        private readonly IAppointmentService _appointmentService;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-        public AppointmentController(IAppointmentService service, IMediator mediator, IMapper mapper)
+        public AppointmentController(IAppointmentService appointmentService, IMediator mediator, IMapper mapper)
         {
-            _service = service;
+            _appointmentService = appointmentService;
             _mediator = mediator;
             _mapper = mapper;
             _jsonSerializerOptions = new JsonSerializerOptions
@@ -38,7 +39,7 @@ namespace Spa.Api.Controllers
         [HttpGet]
         public ActionResult GetAll(long idBrand)
         {
-            var app = _service.GetAllAppoinment().Select(a => new AppointmentDTO
+            var app = _appointmentService.GetAllAppoinment().Select(a => new AppointmentDTO
             {
                 AppointmentID = a.AppointmentID,
                 BranchID = a.BranchID,
@@ -59,7 +60,7 @@ namespace Spa.Api.Controllers
         [HttpGet("/GetAppointmentByStatus")]
         public ActionResult GetAllByStatus(long idBrand, string status)
         {
-            var app = _service.GetAllAppoinment().Select(a => new AppointmentDTO
+            var app = _appointmentService.GetAllAppoinment().Select(a => new AppointmentDTO
             {
                 AppointmentID = a.AppointmentID,
                 BranchID = a.BranchID,
@@ -114,7 +115,7 @@ namespace Spa.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var appByid = _mapper.Map<AppointmentDTO>(_service.GetAppointmentByIdAsync(id));
+            var appByid = _mapper.Map<AppointmentDTO>(_appointmentService.GetAppointmentByIdAsync(id));
             if (appByid == null)
             {
                 return NotFound();
@@ -123,11 +124,11 @@ namespace Spa.Api.Controllers
             return new JsonResult(appByid, _jsonSerializerOptions); ;
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> updateStatus(long id, string status) 
-        {            
-             await _service.UpdateStatus(id, status);
-              return Ok();
+        [HttpPut("updatestatus/{id}")]
+        public async Task<ActionResult> updateStatus(long id, string status)
+        {
+            await _appointmentService.UpdateStatus(id, status);
+            return Ok();
         }
 
 
@@ -141,8 +142,8 @@ namespace Spa.Api.Controllers
             Appointment app = new Appointment
             {
                 AppointmentDate = updateAppointmentWithoutServiceDTO.AppointmentDate,
-              //  BranchID = updateAppointmentWithoutServiceDTO.BranchID,
-               // CustomerID = updateAppointmentWithoutServiceDTO.CustomerID,
+                //  BranchID = updateAppointmentWithoutServiceDTO.BranchID,
+                // CustomerID = updateAppointmentWithoutServiceDTO.CustomerID,
                 Status = updateAppointmentWithoutServiceDTO.Status,
                 Total = updateAppointmentWithoutServiceDTO.Total,
                 Assignments = updateAppointmentWithoutServiceDTO.Assignments.Select(a => new Assignment
@@ -151,19 +152,19 @@ namespace Spa.Api.Controllers
                     EmployerID = a.EmployerID,
                 }).ToList()
             };
-            await _service.UpdateAppointmentWithoutService(id, app);
+            await _appointmentService.UpdateAppointmentWithoutService(id, app);
 
             return Ok(new { id });
         }
 
         [HttpPut("api/UpdateAppointmentWithService/{id}")]
-        public async Task<ActionResult> updateAppointmentWithService(long id, [FromBody] List<long> serviceID,string? status)
+        public async Task<ActionResult> updateAppointmentWithService(long id, [FromBody] List<long> serviceID, string? status)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            await _service.UpdateAppointmentWithService(id, serviceID, status);
+            await _appointmentService.UpdateAppointmentWithService(id, serviceID, status);
 
             return Ok(new { id });
         }
@@ -177,7 +178,7 @@ namespace Spa.Api.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                if (await _service.DeleteAppointment(id))
+                if (await _appointmentService.DeleteAppointment(id))
                 {
                     return Ok(new { id });
                 }
@@ -193,6 +194,13 @@ namespace Spa.Api.Controllers
             return NotFound();
         }
 
-        
+        [HttpPut("UpdateDiscount")]
+        public async Task<ActionResult> UpdateDiscount(long id ,int perDiscount)
+        {
+          var a =  await _appointmentService.UpdateDiscount(id, perDiscount);
+            return Ok(a);
+        }
+
     }
+    
 }

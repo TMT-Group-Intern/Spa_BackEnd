@@ -17,8 +17,11 @@ namespace Spa.Domain.Entities
         public double? Total { get; set; }
 
         public Branch Branch { get; set; }
-       // public Employee Employee { get; set; }
+        // public Employee Employee { get; set; }
         public Customer Customer { get; set; }
+
+        public double? DiscountAmount { get; set; }
+        public int? DiscountPercentage {  get; set; }
 
         public ICollection<ChooseService> ChooseServices { get; set; }
 

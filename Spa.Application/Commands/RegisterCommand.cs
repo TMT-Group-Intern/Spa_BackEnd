@@ -83,7 +83,6 @@ namespace Spa.Application.Commands
                     Email = newUser.Email,
                     EmployeeCode = newUser.Code,
                     Password = newUser.PasswordHash,
-                    Role = newUser.Role,
                     Phone = newUser.PhoneNumber,
                     Id = newUser.Id.ToString(),
                     DateOfBirth= request.DateOfBirth,

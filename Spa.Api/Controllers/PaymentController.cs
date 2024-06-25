@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -43,22 +44,36 @@ namespace Spa.Api.Controllers
             try
             {
                 Appointment app = _appointmentService.GetAppointmentByIdAsync(Id);
-                var command = new CreatePaymentCommand
+                if (app != null)
                 {
-                    AppointmentID = Id,
-                    Amount = app.Total,
-                    CustomerID = app.CustomerID,
-                    CreatedAt = DateTime.Now,
-                    PaymentDate = DateTime.Now,
-                    Status = "Completed",
-                    PaymentMethod = "Cash"
-                };
-                var a = await _mediator.Send(command);
-                return Ok(new { a });
+                    var command = new CreatePaymentCommand
+                    {
+                        AppointmentID = Id,
+                        CustomerID = app.CustomerID,
+                        CreatedAt = DateTime.Now,
+                        PaymentDate = DateTime.Now,
+                        Status = "Completed",
+                        PaymentMethod = "Cash",
+                        Amount = app.DiscountPercentage != null ? app.Total - (app.Total * ((double)app.DiscountPercentage / 100)) : app.Total
+                    };
+                    var item = await _mediator.Send(command);
+                    if (item != null)
+                    {
+                        //Appointment updateSuccsess = _appointmentService.GetAppointmentByIdAsync(Id);
+                        //updateSuccsess.Status = "already paid";
+                        await _appointmentService.UpdateStatus(Id, "Already paid");
+                    }
+                    return Ok(new { item });
+                }
+                return NotFound();
+            }
+            catch (ErrorMessage ex)
+            {
+                return BadRequest(new { Message = ex.Message });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return StatusCode(500, "Internal server error");
             }
         }
 
@@ -90,7 +105,7 @@ namespace Spa.Api.Controllers
 
         private FileResult GenerateExel(string filename, List<Payment> payments)
         {
-            DataTable dataTable = new DataTable("Payment");
+            System.Data.DataTable dataTable = new System.Data.DataTable("Payment");
             dataTable.Columns.AddRange(new DataColumn[]
             {
                 new DataColumn ("Customer Code"),
@@ -102,12 +117,12 @@ namespace Spa.Api.Controllers
                 new DataColumn ("Note")
             });
 
-            foreach( var payment in payments)
+            foreach (var payment in payments)
             {
-                dataTable.Rows.Add(payment.Customer.CustomerCode, payment.Customer.FirstName +" "+ payment.Customer.LastName, payment.PaymentDate, payment.Amount, payment.PaymentMethod, payment.CreatedAt, payment.Notes == null? "": payment.Notes);
+                dataTable.Rows.Add(payment.Customer.CustomerCode, payment.Customer.FirstName + " " + payment.Customer.LastName, payment.PaymentDate, payment.Amount, payment.PaymentMethod, payment.CreatedAt, payment.Notes == null ? "" : payment.Notes);
             }
 
-            using(XLWorkbook wb = new XLWorkbook())
+            using (XLWorkbook wb = new XLWorkbook())
             {
                 wb.Worksheets.Add(dataTable);
                 using (MemoryStream stream = new MemoryStream())

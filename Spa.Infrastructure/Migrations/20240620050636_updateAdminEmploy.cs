@@ -7,16 +7,17 @@ namespace Spa.Infrastructure.Migrations
     /// <inheritdoc />
     public partial class updateAdminEmploy : Migration
     {
+
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Admins_Users_Email",
-                table: "Admins");
+            //migrationBuilder.DropForeignKey(
+            //    name: "FK_Admins_Users_Email",
+            //    table: "Admins");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Employees_Users_Email",
-                table: "Employees");
+            //migrationBuilder.DropForeignKey(
+            //    name: "FK_Employees_Users_Email",
+            //    table: "Employees");
 
             migrationBuilder.DropIndex(
                 name: "IX_Employees_Email",
