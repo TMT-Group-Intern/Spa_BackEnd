@@ -69,8 +69,6 @@ namespace Spa.Application.Commands
                     DateOfBirth= request.DateOfBirth,
                     Gender= request.Gender,
                 };
-                //await _spaDbContext.Admins.AddAsync(admin);
-                //await _spaDbContext.SaveChangesAsync();
                 await _userService.CreateAdmin(admin);
                 return "Create Success!";
             }
@@ -92,8 +90,6 @@ namespace Spa.Application.Commands
                     JobTypeID=request.JobTypeID,
                     BranchID=request.BranchID
                 };
-                /*await _spaDbContext.Employees.AddAsync(emp);
-                await _spaDbContext.SaveChangesAsync();*/
                 await _userService.CreateEmployee(emp);
                 return "Create Success!";
             }

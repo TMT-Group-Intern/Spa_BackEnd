@@ -14,7 +14,7 @@ namespace Spa.Application.Models
         public string LastName { get; set; } = string.Empty;
 
         [Required]
-        [EmailAddress]
+        //[EmailAddress]
         [DataType(DataType.EmailAddress)]
 
         public string Email { get; set; } = string.Empty;

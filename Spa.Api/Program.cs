@@ -31,18 +31,18 @@ var builder = WebApplication.CreateBuilder(args); // cấu hình service và mid
 builder.Services.AddControllers();  //xử lí request http và phản hồi dựa trên controller
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyPolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
 //builder.Services.AddSwaggerGen(); //add swagger để test api 
 //Add authentication to Swagger UI
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey
-    });
-    options.OperationFilter<SecurityRequirementsOperationFilter>();
-});
+builder.Services.AddSwaggerGen();
 
 
 //MediatR
@@ -94,6 +94,17 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
     };
 });
+/*//Add authentication to Swagger UI
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});*/
 
 //Register services
 //Customer
@@ -124,8 +135,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();  //sử dụng swagger
 }
 //allow accept api to font-end
+app.UseCors("MyPolicy");
 
-app.UseCors(op => op.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+//app.UseCors(op => op.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseStaticFiles(new StaticFileOptions
 {

@@ -1,4 +1,5 @@
-﻿using Spa.Domain.Entities;
+﻿using Spa.Domain.Authentication;
+using Spa.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,15 @@ namespace Spa.Domain.IService
         Task CreateAdmin(Admin adminDTO);
         Task CreateEmployee(Employee empDTO);
         Task<string> LoginAccount(string Email, string Password); //Login
-        string GenerateToken(string Id, string Name, string Email, string Role); //Token
-        Task<bool> DeleteUser(string Email);//Delete User
-        Task<bool> UpdateUser(User UserDTO);//Update User
-        Task<bool> UpdateAdmin(Admin AdminDTO);//Update Admin
-        Task<bool> UpdateEmployee(Employee EmpDTO);//Update Employee
+        Task<string> GenerateToken(string Id, string Name, string Email, string Role); //Token
+        Task DeleteUser(string Email);//Delete User
+
+        Task UpdateUser(User UserDTO);//Update User
+        Task UpdateAdmin(Admin AdminDTO);//Update Admin
+        Task UpdateEmployee(Employee EmpDTO);//Update Employee
         Task<User> GetUserByEmail(string email);//Get User by Email
+        Task<Admin> GetAdminByEmail(string email);
+        Task<Employee> GetEmpByEmail(string email);
         bool isExistUser(string email);
     }
 }
