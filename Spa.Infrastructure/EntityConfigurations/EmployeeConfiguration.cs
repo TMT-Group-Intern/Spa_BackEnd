@@ -15,6 +15,7 @@ namespace Spa.Infrastructure.EntityConfigurations
         {
             builder.HasKey(e => e.EmployeeID);
             builder.Property(e => e.EmployeeID).ValueGeneratedOnAdd();
+         
 
             builder.HasOne(e => e.Branch)
                 .WithMany(e => e.Employees)
@@ -26,9 +27,11 @@ namespace Spa.Infrastructure.EntityConfigurations
                .HasForeignKey(e => e.JobTypeID)
                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(u => u.User)
-               .WithMany(e => e.Employee)
-               .HasForeignKey(e => e.Id);
+            //builder.HasOne(u => u.User)
+            //       .WithOne(e => e.Employee)
+            //       .HasForeignKey(e=> e.)
+
+
         }
     }
 }

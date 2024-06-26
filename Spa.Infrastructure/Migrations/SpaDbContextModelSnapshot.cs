@@ -48,7 +48,7 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -65,8 +65,6 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AdminID");
-
-                    b.HasIndex("Id");
 
                     b.ToTable("Admins");
                 });
@@ -281,7 +279,7 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long?>("JobTypeID")
                         .HasColumnType("bigint");
@@ -299,8 +297,6 @@ namespace Spa.Infrastructure.Migrations
                     b.HasKey("EmployeeID");
 
                     b.HasIndex("BranchID");
-
-                    b.HasIndex("Id");
 
                     b.HasIndex("JobTypeID");
 
@@ -485,6 +481,9 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<long>("AdminID")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
@@ -497,6 +496,9 @@ namespace Spa.Infrastructure.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<long>("EmployeeID")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -542,7 +544,13 @@ namespace Spa.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AdminID")
+                        .IsUnique();
+
                     b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("EmployeeID")
                         .IsUnique();
 
                     b.ToTable("Users");
@@ -567,15 +575,6 @@ namespace Spa.Infrastructure.Migrations
                     b.HasIndex("ProductID");
 
                     b.ToTable("Warehouses");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.Admin", b =>
-                {
-                    b.HasOne("Spa.Domain.Entities.User", "User")
-                        .WithMany("Admin")
-                        .HasForeignKey("Id");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Appointment", b =>
@@ -664,10 +663,6 @@ namespace Spa.Infrastructure.Migrations
                         .HasForeignKey("BranchID")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Spa.Domain.Entities.User", "User")
-                        .WithMany("Employee")
-                        .HasForeignKey("Id");
-
                     b.HasOne("Spa.Domain.Entities.JobType", "JobType")
                         .WithMany("Employees")
                         .HasForeignKey("JobTypeID")
@@ -676,8 +671,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("Branch");
 
                     b.Navigation("JobType");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Payment", b =>
@@ -737,6 +730,25 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("Employee");
                 });
 
+            modelBuilder.Entity("Spa.Domain.Entities.User", b =>
+                {
+                    b.HasOne("Spa.Domain.Entities.Admin", "Admin")
+                        .WithMany("User")
+                        .HasForeignKey("AdminID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Spa.Domain.Entities.Employee", "Employee")
+                        .WithMany("User")
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Admin");
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("Spa.Domain.Entities.Warehouse", b =>
                 {
                     b.HasOne("Spa.Domain.Entities.Branch", "Branch")
@@ -754,6 +766,11 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("Branch");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Spa.Domain.Entities.Admin", b =>
+                {
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Appointment", b =>
@@ -795,6 +812,8 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("Assignments");
 
                     b.Navigation("Sales");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.JobType", b =>
@@ -817,13 +836,6 @@ namespace Spa.Infrastructure.Migrations
             modelBuilder.Entity("Spa.Domain.Entities.ServiceEntity", b =>
                 {
                     b.Navigation("ChooseServices");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Admin");
-
-                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

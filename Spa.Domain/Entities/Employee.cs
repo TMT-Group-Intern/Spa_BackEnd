@@ -16,13 +16,14 @@
         public long? JobTypeID { get; set; }
         public long? BranchID { get; set; }
           
-        
         public JobType? JobType { get; set; }
         public Branch? Branch { get; set; }
       //  public ICollection<Appointment> Appointments { get; set; }
         public ICollection<Sale>? Sales { get; set; }
 
         public ICollection<Assignment>? Assignments { get; set; }
-        public User? User { get; set; }
+      //  public User? User { get; set; }
+
+        public ICollection<User>? User { get; set; }
     }
 }

@@ -12,18 +12,19 @@ namespace Spa.Domain.Entities
         public DateTime AppointmentDate { get; set; }
         public long BranchID { get; set; }
         public long CustomerID { get; set; }
-      //  public long EmployeeID { get; set; }
         public string? Status { get; set; }
         public double? Total { get; set; }
 
         public Branch Branch { get; set; }
-        // public Employee Employee { get; set; }
+
         public Customer Customer { get; set; }
 
         public double? DiscountAmount { get; set; }
         public int? DiscountPercentage {  get; set; }
 
         public ICollection<ChooseService> ChooseServices { get; set; }
+
+        public ICollection<CustomerPhoto> CustomerPhotos { get; set; }
 
         public ICollection<Assignment> Assignments { get; set; }
 

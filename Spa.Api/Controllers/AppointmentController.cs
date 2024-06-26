@@ -49,7 +49,28 @@ namespace Spa.Api.Controllers
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
             });
-            var appByBrand = app.Where(e => e.BranchID == idBrand);
+            var appByBrand = app.Where(e => e.BranchID == idBrand && e.AppointmentDate >= DateTime.Today);
+            if (app == null)
+            {
+                NotFound();
+            }
+            return new JsonResult(appByBrand, _jsonSerializerOptions);
+        }
+
+        [HttpGet("/GetAllByBranch")]
+        public ActionResult GetAllByBranch(long idBrand)
+        {
+            var app = _appointmentService.GetAllAppoinment().Select(a => new AppointmentDTO
+            {
+                AppointmentID = a.AppointmentID,
+                BranchID = a.BranchID,
+                CustomerID = a.CustomerID,
+                Status = a.Status,
+                Total = a.Total,
+                AppointmentDate = a.AppointmentDate,
+                Customer = _mapper.Map<CustomerDTO>(a.Customer),
+            });
+            var appByBrand = app.Where(e => e.BranchID == idBrand && e.AppointmentDate >= DateTime.Today);
             if (app == null)
             {
                 NotFound();
@@ -70,7 +91,7 @@ namespace Spa.Api.Controllers
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
             });
-            var appByBrand = app.Where(e => e.BranchID == idBrand && e.Status == status);
+            var appByBrand = app.Where(e => e.BranchID == idBrand && e.Status == status && e.AppointmentDate >= DateTime.Today);
             if (app == null)
             {
                 NotFound();
@@ -145,10 +166,9 @@ namespace Spa.Api.Controllers
                 //  BranchID = updateAppointmentWithoutServiceDTO.BranchID,
                 // CustomerID = updateAppointmentWithoutServiceDTO.CustomerID,
                 Status = updateAppointmentWithoutServiceDTO.Status,
-                Total = updateAppointmentWithoutServiceDTO.Total,
                 Assignments = updateAppointmentWithoutServiceDTO.Assignments.Select(a => new Assignment
                 {
-                    AppointmentID = id,
+                 //   AppointmentID = id,
                     EmployerID = a.EmployerID,
                 }).ToList()
             };
@@ -157,8 +177,8 @@ namespace Spa.Api.Controllers
             return Ok(new { id });
         }
 
-        [HttpPut("api/UpdateAppointmentWithService/{id}")]
-        public async Task<ActionResult> updateAppointmentWithService(long id, [FromBody] List<long> serviceID, string? status)
+        [HttpPut("api/UpdateAppointmentWithService/{id}/{status}")]
+        public async Task<ActionResult> updateAppointmentWithService(long id, string status, [FromBody] List<long> serviceID)
         {
             if (!ModelState.IsValid)
             {

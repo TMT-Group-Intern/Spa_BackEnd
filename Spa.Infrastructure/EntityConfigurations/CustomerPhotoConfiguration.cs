@@ -16,9 +16,9 @@ namespace Spa.Infrastructure.EntityConfigurations
             builder.HasKey(e => e.PhotoID);
             builder.Property(e => e.PhotoID).ValueGeneratedOnAdd();
 
-            builder.HasOne(e => e.Customer)
+            builder.HasOne(e => e.Appointments)
                     .WithMany(e => e.CustomerPhotos)
-                    .HasForeignKey(e => e.CustomerID)
+                    .HasForeignKey(e => e.AppointmentID)
                     .OnDelete(DeleteBehavior.Restrict);
         }
     }

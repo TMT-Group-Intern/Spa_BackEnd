@@ -33,6 +33,11 @@ namespace Spa.Infrastructure.EntityConfigurations
            .HasForeignKey(x => x.CustomerID)
            .OnDelete(DeleteBehavior.Restrict);
 
+        /*    builder.HasMany(e => e.CustomerPhotos)
+                .WithOne(e => e.Appointments)
+                .HasForeignKey(e => e.AppointmentID);*/
+                
+
 
         }
     }

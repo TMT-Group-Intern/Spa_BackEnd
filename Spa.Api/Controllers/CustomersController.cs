@@ -45,6 +45,31 @@ namespace Spa.Api.Controllers
             return Ok(new { item = customerDTO });
         }
 
+        [HttpGet("Page")]
+        public async Task<ActionResult> GetAllByPage(int pageNumber = 1, int pageSize = 20)
+        {
+            var customersFromService = await _service.GetByPages(pageNumber, pageSize);
+
+            var customerDTO = customersFromService.Select(c => new CustomerDTO
+            {
+                CustomerID = c.CustomerID,
+                CustomerCode = c.CustomerCode,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                DateOfBirth = c.DateOfBirth,
+                Email = c.Email,
+                Gender = c.Gender,
+                Phone = c.Phone
+            });
+
+            var totalItems = await _service.GetAllItem();
+
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+
+            return Ok(new { item = customerDTO, totalItems, totalPages });
+        }
+
         [HttpGet("{id}")]
         public ActionResult GetCusomerById(long id)
         {
@@ -205,7 +230,7 @@ namespace Spa.Api.Controllers
         [HttpGet("/GetHistory")]
         public async Task<ActionResult> GetHistoryCustomerById(long cutomerId)
         {
-           var listHistoryByAppointment = await _service.GetHistoryCustomerById(cutomerId);
+            var listHistoryByAppointment = await _service.GetHistoryCustomerById(cutomerId);
             List<HistoryForCustomerByIdDTO> listHistoryForCus = new List<HistoryForCustomerByIdDTO>();
 
 
@@ -213,17 +238,17 @@ namespace Spa.Api.Controllers
             {
                 HistoryForCustomerByIdDTO historyById = new HistoryForCustomerByIdDTO
                 {
-                    CustomerName = i.Customer.FirstName + " " + i.Customer.LastName,
+                    // CustomerName = i.Customer.FirstName + " " + i.Customer.LastName,
                     ServiceUsed = i.ChooseServices.Select(e => e.ServiceID).ToList(),
                     Date = i.AppointmentDate,
-                    PhotoCustomer = i.Customer.CustomerPhotos.Select(p => p.PhotoPath).FirstOrDefault() ?? "Done have Image"
+                    PhotoCustomer = i.CustomerPhotos.Select(p => p.PhotoPath).ToList()
                 };
 
                 listHistoryForCus.Add(historyById);
             }
-            
+
             return Ok(new { listHistoryForCus });
         }
-        
+
     }
 }
