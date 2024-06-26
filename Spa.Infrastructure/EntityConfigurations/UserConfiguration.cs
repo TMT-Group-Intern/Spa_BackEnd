@@ -19,6 +19,19 @@ namespace Spa.Infrastructure.EntityConfigurations
             builder.Property(u => u.Email).IsRequired();
             builder.HasIndex(u => u.Email).IsUnique();
             builder.Property(u => u.Role).IsRequired();
+            builder.HasIndex(u => u.EmployeeID).IsUnique();
+
+            builder.HasIndex(u => u.AdminID).IsUnique();
+
+            builder.HasOne(u => u.Employee)
+                 .WithMany(e => e.User)
+                 .HasForeignKey(u => u.EmployeeID)
+                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(u => u.Admin)
+              .WithMany(e => e.User)
+              .HasForeignKey(u => u.AdminID)
+              .OnDelete(DeleteBehavior.Cascade);
 
 
         }

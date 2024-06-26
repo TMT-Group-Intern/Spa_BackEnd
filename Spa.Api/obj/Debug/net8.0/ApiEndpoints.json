@@ -195,54 +195,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Spa.Api.Controllers.AuthenticationControllerTest",
-    "Method": "Login",
-    "RelativePath": "api/AuthenticationControllerTest/login",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "loginDto",
-        "Type": "Spa.Application.Models.LoginDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Spa.Api.Controllers.AuthenticationControllerTest",
-    "Method": "Register",
-    "RelativePath": "api/AuthenticationControllerTest/register",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userDto",
-        "Type": "Spa.Application.Models.UserDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Spa.Api.Controllers.AuthenticationControllerTest",
-    "Method": "Register2",
-    "RelativePath": "api/AuthenticationControllerTest/register2",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userDTO",
-        "Type": "Spa.Application.Models.UserDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "Spa.Api.Controllers.CustomersController",
     "Method": "GetAll",
     "RelativePath": "api/Customers",
@@ -317,6 +269,27 @@
         "Name": "id",
         "Type": "System.Int64",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Spa.Api.Controllers.CustomersController",
+    "Method": "GetAllByPage",
+    "RelativePath": "api/Customers/Page",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
