@@ -23,7 +23,9 @@ namespace Spa.Domain.IRepository
         //
         //Get All User
         Task<List<User>> GetAllUsers();
-
+        Task<List<Employee>> GetAllEmployee();
+        Task<List<Employee>> GetEmployeeByBranchAndJob(long branchID, long jobTypeID);
+        Task<List<Admin>> GetAllAdmin();
         //
         //Create User
         Task<User> CreateUser(User userDTO);

@@ -215,7 +215,7 @@ namespace Spa.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PhotoID"));
 
-                    b.Property<long>("CustomerID")
+                    b.Property<long>("AppointmentID")
                         .HasColumnType("bigint");
 
                     b.Property<string>("PhotoPath")
@@ -227,7 +227,7 @@ namespace Spa.Infrastructure.Migrations
 
                     b.HasKey("PhotoID");
 
-                    b.HasIndex("CustomerID");
+                    b.HasIndex("AppointmentID");
 
                     b.ToTable("CustomerPhotos");
                 });
@@ -648,13 +648,13 @@ namespace Spa.Infrastructure.Migrations
 
             modelBuilder.Entity("Spa.Domain.Entities.CustomerPhoto", b =>
                 {
-                    b.HasOne("Spa.Domain.Entities.Customer", "Customer")
+                    b.HasOne("Spa.Domain.Entities.Appointment", "Appointments")
                         .WithMany("CustomerPhotos")
-                        .HasForeignKey("CustomerID")
+                        .HasForeignKey("AppointmentID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Customer");
+                    b.Navigation("Appointments");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Employee", b =>
@@ -762,6 +762,8 @@ namespace Spa.Infrastructure.Migrations
 
                     b.Navigation("ChooseServices");
 
+                    b.Navigation("CustomerPhotos");
+
                     b.Navigation("Payments");
                 });
 
@@ -777,8 +779,6 @@ namespace Spa.Infrastructure.Migrations
             modelBuilder.Entity("Spa.Domain.Entities.Customer", b =>
                 {
                     b.Navigation("Appointments");
-
-                    b.Navigation("CustomerPhotos");
 
                     b.Navigation("Payments");
 

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {}
+    "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj": {}
   },
   "projects": {
-    "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj": {
+    "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj",
+        "projectUniqueName": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj",
         "projectName": "Spa.Domain",
-        "projectPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\Spa.Domain.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Domain\\obj\\",
+        "projectPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Spa.Domain.csproj",
+        "packagesPath": "C:\\Users\\thanh\\.nuget\\packages\\",
+        "outputPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\thanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -86,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
