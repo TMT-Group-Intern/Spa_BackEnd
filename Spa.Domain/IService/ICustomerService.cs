@@ -33,5 +33,9 @@ namespace Spa.Domain.IService
         Task<string> UploadImage(long idCus, string fileName);
 
         Task<List<Appointment>> GetHistoryCustomerById(long id);
+
+        Task<IEnumerable<Customer>> GetByPages(int pageNumber, int pageSize); // quản lí phân trang
+
+        Task<int> GetAllItem();
     }
 }

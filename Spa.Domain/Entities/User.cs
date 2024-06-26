@@ -13,7 +13,9 @@ namespace Spa.Domain.Entities
         public string LastName {get;set;}
         public string Role {get;set;}
         public string? Code { get;set;}
-        public ICollection<Admin> Admin { get; set; }
-        public ICollection<Employee> Employee { get; set; }
+        public long EmployeeID { get;set;}
+        public long AdminID { get; set; }
+        public Admin Admin { get; set; }
+        public Employee Employee { get; set; }
     }
 }

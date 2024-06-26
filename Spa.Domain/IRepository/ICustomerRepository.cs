@@ -34,5 +34,9 @@ namespace Spa.Domain.IRepository
         Task<string> UploadImageCustomer(CustomerPhoto customerPhoto);
 
         Task<List<Appointment>> GetHistoryCustomer(long id);
+
+        Task<IEnumerable<Customer>> GetByPages(int pageNumber, int pageSize); // quản lí phân trang
+
+        Task<int> GetAllItemProduct(); //Lấy all số lượng customer
     }
 }

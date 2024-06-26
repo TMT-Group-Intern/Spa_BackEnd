@@ -19,6 +19,6 @@ namespace Spa.Domain.Entities
         public DateTime? DateOfBirth { get; set; }
         public string? Gender { get; set; }
         public string Role { get; set; }
-        public User? User { get; set; }
+        public ICollection<User>? User { get; set; }
     }
 }

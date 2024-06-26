@@ -28,6 +28,13 @@ namespace Spa.Domain.Service
             return customers;
         }
 
+        public async Task<IEnumerable<Customer>> GetByPages(int pageNumber, int pageSize)
+        {
+            var listCustomer = await _customerRepository.GetByPages(pageNumber, pageSize);
+            return listCustomer;
+        }
+
+
         public async Task CreateCustomer(Customer customer)
         {
             var lastCusID = await GenerateCustomerCodeAsync();
@@ -147,6 +154,11 @@ namespace Spa.Domain.Service
         public async Task<List<Appointment>> GetHistoryCustomerById(long id)
         {
             return await _customerRepository.GetHistoryCustomer(id);
+        }
+
+        public async Task<int> GetAllItem()
+        {
+          return await _customerRepository.GetAllItemProduct();
         }
 
     }
