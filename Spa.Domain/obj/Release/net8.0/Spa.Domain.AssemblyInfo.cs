@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Spa.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+634e39de704d30420e9b626c0888aeac6672df72")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c9d66f4cbec77f3d0a0e8064f380e622c9aeacf0")]
 [assembly: System.Reflection.AssemblyProductAttribute("Spa.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Spa.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,6 +1,10 @@
 {
   "Version": 1,
+<<<<<<< HEAD
+  "Hash": "e/97ovExSfMp3xcbAPZQ10SAzjP7hYX/h2QulUsBnno=",
+=======
   "Hash": "ZEuZQB781svJvLrdKRRbJNrVVnSQeHX0PymyV96r9Hs=",
+>>>>>>> c09103ed5bcfe934f3dc5ad31975a444a4b15bd7
   "Source": "Spa.Api",
   "BasePath": "_content/Spa.Api",
   "Mode": "Default",
@@ -10,7 +14,7 @@
     {
       "Name": "Spa.Api\\wwwroot",
       "Source": "Spa.Api",
-      "ContentRoot": "D:\\Intern_TMT\\Spa_Project_Backend\\Spa.Api\\wwwroot\\",
+      "ContentRoot": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\wwwroot\\",
       "BasePath": "_content/Spa.Api",
       "Pattern": "**"
     }

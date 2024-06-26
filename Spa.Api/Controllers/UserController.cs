@@ -35,6 +35,24 @@ namespace Spa.Api.Controllers
             var allUsers = await _userService.GetAllUsers();
             return Ok(allUsers);
         }
+        [HttpGet("allEmployee")]
+        public async Task<IActionResult> GetAllEmployee()
+        {
+            var allEmps = await _userService.GetAllEmployee();
+            return Ok(allEmps);
+        }
+        [HttpGet("EmployeeByBranchAndJob")]
+        public async Task<IActionResult> GetEmployeeByBranchAndJob(long branchID, long jobTypeID)
+        {
+            var allEmps = await _userService.GetEmployeeByBranchAndJob(branchID, jobTypeID);
+            return Ok(allEmps);
+        }
+        [HttpGet("allAdmin")]
+        public async Task<IActionResult> GetAllAdmin()
+        {
+            var allAdmins = await _userService.GetAllAdmin();
+            return Ok(allAdmins);
+        }
 
         [HttpGet("getUserByEmail")]
         public async Task<IActionResult> GetUserByEmail(string email)
@@ -86,8 +104,8 @@ namespace Spa.Api.Controllers
                 EmployeeID = getEmpByEmail.Result.EmployeeID,
                 FirstName = getEmpByEmail.Result.FirstName,
                 LastName = getEmpByEmail.Result.LastName,
-                Email = getEmpByEmail.Result.Email
-
+                Email = getEmpByEmail.Result.Email,
+                //Role = getEmpByEmail.Result.Role,
             };
             return Ok(new { empDTO });
         }
@@ -134,6 +152,7 @@ namespace Spa.Api.Controllers
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Password = user.PasswordHash,
+                        //Role = user.Role,
                         Gender = updateDto.Gender,
                         HireDate = updateDto.HireDate,
                         Phone = updateDto.Phone,

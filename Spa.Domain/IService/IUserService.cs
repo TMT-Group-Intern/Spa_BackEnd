@@ -1,5 +1,6 @@
 ﻿using Spa.Domain.Authentication;
 using Spa.Domain.Entities;
+using Spa.Domain.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,9 @@ namespace Spa.Domain.IService
         Task<string> GenerateAdminCodeAsync();  //generate Id Admin
         Task<string> GenerateEmployeeCodeAsync();  //generate Id Employee
         Task<List<User>> GetAllUsers(); //Get all
+        Task<List<Employee>> GetAllEmployee();
+        Task<List<Employee>> GetEmployeeByBranchAndJob(long branchID, long jobTypeID);
+        Task<List<Admin>> GetAllAdmin();
         Task<User> CreateUser(User userDTO); //Create User
         Task CreateAdmin(Admin adminDTO);
         Task CreateEmployee(Employee empDTO);

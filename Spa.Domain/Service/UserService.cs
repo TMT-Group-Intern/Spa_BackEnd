@@ -21,27 +21,6 @@ namespace Spa.Domain.Service
             _userRepository = userRepository;
             _userManager = userManager;
         }
-
-
-        /*        public async Task<User> CreateUser(User userDTO)
-                {
-                    if (userDTO.Role == "Admin")
-                    {
-                        var lastAdminID = await GenerateAdminCodeAsync();
-                        userDTO.Code = lastAdminID;
-                        var newAdmin = await _userRepository.CreateUser(userDTO);
-                        return newAdmin;
-                    }
-                    else
-                    {
-                        var lastEmpID = await GenerateEmployeeCodeAsync();
-                        userDTO.Code = lastEmpID;
-                        var newEmployee = await _userRepository.CreateUser(userDTO);
-                        return newEmployee;
-                    }
-                }*/
-
-
         public async Task<User> CreateUser(User userDTO)
         {
             if (userDTO.Role.Equals("Admin")) {
@@ -61,18 +40,12 @@ namespace Spa.Domain.Service
 
         public async Task CreateAdmin(Admin adminDTO)
         {
-/*            var lastAdminID = await GenerateAdminCodeAsync();
-            adminDTO.AdminCode = lastAdminID;*/
             await _userRepository.CreateAdmin(adminDTO);
-            //return newAdmin;
         }
 
         public async Task CreateEmployee(Employee empDTO)
         {
-/*            var lastEmpID = await GenerateEmployeeCodeAsync();
-            empDTO.EmployeeCode = lastEmpID;*/
             await _userRepository.CreateEmployee(empDTO);
-            //return newEmp;
         }
 
         public async Task DeleteUser(string Email)
@@ -118,6 +91,21 @@ namespace Spa.Domain.Service
         {
             var users = await _userRepository.GetAllUsers();
             return users;
+        }
+        public async Task<List<Employee>> GetAllEmployee()
+        {
+            var emps = await _userRepository.GetAllEmployee();
+            return emps;
+        }
+        public async Task<List<Employee>> GetEmployeeByBranchAndJob(long branchID, long jobTypeID)
+        {
+            var emps = await _userRepository.GetEmployeeByBranchAndJob(branchID, jobTypeID);
+            return emps;
+        }
+        public async Task<List<Admin>> GetAllAdmin()
+        {
+            var admins = await _userRepository.GetAllAdmin();
+            return admins;
         }
 
         public async Task<User> GetUserByEmail(string email)

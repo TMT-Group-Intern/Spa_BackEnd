@@ -50,13 +50,11 @@ namespace Spa.Infrastructure
         public async Task<Admin> GetAdminByEmail(string email)
         {
             var admin = await _spaDbContext.Admins.FirstOrDefaultAsync(a => a.Email == email);
-            //await _spaDbContext.SaveChangesAsync();
             return admin;
         }
         public async Task<Employee> GetEmpByEmail(string email)
         {
             var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(a => a.Email == email);
-            //await _spaDbContext.SaveChangesAsync();
             return emp;
         }
 
@@ -89,6 +87,100 @@ namespace Spa.Infrastructure
             }
             userDTOs = userDTOs.OrderBy(u => u.Role).ToList();
             return userDTOs;
+        }
+        public async Task<List<Employee>> GetAllEmployee()
+        {
+            var emps = await _spaDbContext.Employees.ToListAsync();
+            if (emps is null)
+            {
+                return null;
+            }
+
+            var empDTOs = _employee;
+
+            foreach (var emp in emps)
+            {
+                var empDTO = new Employee
+                {
+                    EmployeeCode = emp.EmployeeCode,
+                    FirstName = emp.FirstName,
+                    LastName = emp.LastName,
+                    Email = emp.Email,
+                    Phone = emp.Phone,
+                    Gender = emp.Gender,
+                    BranchID = emp.BranchID,
+                    DateOfBirth = emp.DateOfBirth,
+                    HireDate = emp.HireDate,                    
+                    Assignments = emp.Assignments,
+                    JobTypeID = emp.JobTypeID,
+                };
+
+                empDTOs.Add(empDTO);
+            }
+            empDTOs = empDTOs.OrderBy(e => e.EmployeeCode).ToList();
+            return empDTOs;
+        }
+        public async Task<List<Employee>> GetEmployeeByBranchAndJob(long branchID, long jobTypeID)
+        {
+            var emps = await _spaDbContext.Employees.ToListAsync();
+            if (emps is null)
+            {
+                return null;
+            }
+
+            var empDTOs = _employee;
+
+            foreach (var emp in emps)
+            {
+                if (emp.JobTypeID == jobTypeID && emp.BranchID == branchID)
+                {
+                    var empDTO = new Employee
+                    {
+                        EmployeeCode = emp.EmployeeCode,
+                        FirstName = emp.FirstName,
+                        LastName = emp.LastName,
+                        Email = emp.Email,
+                        Phone = emp.Phone,
+                        Gender = emp.Gender,
+                        BranchID = emp.BranchID,
+                        DateOfBirth = emp.DateOfBirth,
+                        HireDate = emp.HireDate,
+                        Assignments = emp.Assignments,
+                        JobTypeID = emp.JobTypeID,
+                    };
+                    empDTOs.Add(empDTO);
+                }
+            }
+            empDTOs = empDTOs.OrderBy(e => e.EmployeeCode).ToList();
+            return empDTOs;
+        }
+        public async Task<List<Admin>> GetAllAdmin()
+        {
+            var admins = await _spaDbContext.Admins.ToListAsync();
+            if (admins is null)
+            {
+                return null;
+            }
+
+            var adminDTOs = _admin;
+
+            foreach (var admin in admins)
+            {
+                var adminDTO = new Admin
+                {
+                    AdminCode = admin.AdminCode,
+                    FirstName = admin.FirstName,
+                    LastName = admin.LastName,
+                    Email = admin.Email,
+                    Phone = admin.Phone,
+                    Gender = admin.Gender,
+                    DateOfBirth = admin.DateOfBirth
+                };
+
+                adminDTOs.Add(adminDTO);
+            }
+            adminDTOs = adminDTOs.OrderBy(a => a.AdminCode).ToList();
+            return adminDTOs;
         }
 
         public async Task<User> CreateUser(User userDTO)
@@ -145,6 +237,7 @@ namespace Spa.Infrastructure
                 FirstName = empDTO.FirstName,
                 LastName = empDTO.LastName,
                 Password = empDTO.Password,
+                //Role = empDTO.Role,
                 EmployeeCode = empDTO.EmployeeCode,
                 Id = empDTO.Id,
                 Phone = empDTO.Phone,
@@ -232,7 +325,6 @@ namespace Spa.Infrastructure
                 await _userManager.DeleteAsync(user);
                 return true;
             }
-
         }
 
         //
