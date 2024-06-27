@@ -14,11 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Spa.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e89725f47c02020e0ca5b4bc682409fa3354c17")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+79ed6940fc911a4e06396f0aa9d79231759cbc6e")]
->>>>>>> c09103ed5bcfe934f3dc5ad31975a444a4b15bd7
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+740394f8aa8d94c08213a0dbfeabca9fb992b150")]
 [assembly: System.Reflection.AssemblyProductAttribute("Spa.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Spa.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

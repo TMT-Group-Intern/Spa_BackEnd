@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Spa.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e89725f47c02020e0ca5b4bc682409fa3354c17")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+740394f8aa8d94c08213a0dbfeabca9fb992b150")]
 [assembly: System.Reflection.AssemblyProductAttribute("Spa.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Spa.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

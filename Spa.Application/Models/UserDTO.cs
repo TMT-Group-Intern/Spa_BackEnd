@@ -29,6 +29,8 @@ namespace Spa.Application.Models
         [Compare(nameof(Password))]
 
         public string ConfirmPassword { get; set; } = string.Empty;
+        public long? AdminID { get; set; }
+        public long? EmployeeID { get; set; }
 
         public string? Phone { get; set; }
         public string? Gender { get; set; }

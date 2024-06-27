@@ -12,13 +12,8 @@ using Spa.Infrastructure;
 namespace Spa.Infrastructure.Migrations
 {
     [DbContext(typeof(SpaDbContext))]
-<<<<<<<< HEAD:Spa.Infrastructure/Migrations/20240625071035_InitialCreate.Designer.cs
     [Migration("20240625071035_InitialCreate")]
     partial class InitialCreate
-========
-    [Migration("20240626064933_changeUser")]
-    partial class changeUser
->>>>>>>> c09103ed5bcfe934f3dc5ad31975a444a4b15bd7:Spa.Infrastructure/Migrations/20240626064933_changeUser.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
