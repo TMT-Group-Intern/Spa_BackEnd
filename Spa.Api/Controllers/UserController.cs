@@ -8,6 +8,7 @@ using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
+using Spa.Infrastructure;
 
 namespace Spa.Api.Controllers
 {
@@ -35,6 +36,31 @@ namespace Spa.Api.Controllers
             var allUsers = await _userService.GetAllUsers();
             return Ok(allUsers);
         }
+
+        [HttpGet("UserPage")]
+        public async Task<ActionResult> GetAllUserByPage(int pageNumber = 1, int pageSize = 20)
+        {
+            var userFromService = await _userService.GetByPages(pageNumber, pageSize);
+
+            var userDTO = userFromService.Select(u => new UserDTO
+            {
+                Code = u.Code,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Email = u.Email,
+                Phone = u.PhoneNumber,
+                Role = u.Role,
+                
+            });
+
+            var totalItems = await _userService.GetAllItem();
+
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+
+            return Ok(new { item = userDTO, totalItems, totalPages });
+        }
+
         [HttpGet("allEmployee")]
         public async Task<IActionResult> GetAllEmployee()
         {
@@ -105,7 +131,6 @@ namespace Spa.Api.Controllers
                 FirstName = getEmpByEmail.Result.FirstName,
                 LastName = getEmpByEmail.Result.LastName,
                 Email = getEmpByEmail.Result.Email,
-                //Role = getEmpByEmail.Result.Role,
             };
             return Ok(new { empDTO });
         }
@@ -127,7 +152,6 @@ namespace Spa.Api.Controllers
                     PhoneNumber=updateDto.Phone,
                     Email = email,
                 };
-                //await _userService.UpdateUser(user);
                 if (user.Role == "Admin")
                 {
                     Admin admin = new Admin
@@ -135,14 +159,14 @@ namespace Spa.Api.Controllers
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Password = user.PasswordHash,
-                        //Role = user.Role,
+                        Role = user.Role,
                         DateOfBirth = updateDto.DateOfBirth,
                         Phone = updateDto.Phone,
                         Gender = updateDto.Gender,
                         Email = user.Email
                     };
-                    await _userService.UpdateAdmin(admin);
                     await _userService.UpdateUser(user);
+                    await _userService.UpdateAdmin(admin);
                     return Ok(true);
                 }
                 else
@@ -161,8 +185,9 @@ namespace Spa.Api.Controllers
                         JobTypeID = updateDto.JobTypeID,
                         Email = user.Email
                     };
-                    await _userService.UpdateEmployee(emp);
+                    user.Role = await _userService.GetJobTypeName(emp.JobTypeID);
                     await _userService.UpdateUser(user);
+                    await _userService.UpdateEmployee(emp);
                     return Ok(true);
                 }
             }

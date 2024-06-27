@@ -1,10 +1,6 @@
 {
   "Version": 1,
-<<<<<<< HEAD
   "Hash": "e/97ovExSfMp3xcbAPZQ10SAzjP7hYX/h2QulUsBnno=",
-=======
-  "Hash": "ZEuZQB781svJvLrdKRRbJNrVVnSQeHX0PymyV96r9Hs=",
->>>>>>> c09103ed5bcfe934f3dc5ad31975a444a4b15bd7
   "Source": "Spa.Api",
   "BasePath": "_content/Spa.Api",
   "Mode": "Default",

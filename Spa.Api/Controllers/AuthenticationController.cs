@@ -67,6 +67,33 @@ namespace Spa.Api.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+        [HttpPost("CreateUserForEmployee")]
+        public async Task<IActionResult> CreateUserForEmployee([FromBody] UserForEmployeeDTO userDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var command = new CreateUserForEmployeeCommand
+                {
+                    Email = userDto.Email,
+                    Password = userDto.Password
+                };
+                var id = await _mediator.Send(command);
+                return Ok(id);
+            }
+            catch (DuplicateException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
 
         [HttpPost("login")]
         public async Task<AuthenticationResult> Login([FromBody] LoginDTO loginDto)

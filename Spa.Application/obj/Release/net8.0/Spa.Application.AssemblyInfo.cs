@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Spa.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c9d66f4cbec77f3d0a0e8064f380e622c9aeacf0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+740394f8aa8d94c08213a0dbfeabca9fb992b150")]
 [assembly: System.Reflection.AssemblyProductAttribute("Spa.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Spa.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
