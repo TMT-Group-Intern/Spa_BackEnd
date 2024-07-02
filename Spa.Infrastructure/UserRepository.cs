@@ -79,10 +79,50 @@ namespace Spa.Infrastructure
                 Role = user.Role,
                 PhoneNumber = user.PhoneNumber,
                 Code = user.Code,
-            }).OrderBy(u => u.Role).ToList();
+            }).OrderBy(u => u.Code).ToList();
 
             return userDTOs;
         }
+        public async Task<List<Employee>> GetAllAdminsAndEmployees()
+        {
+     /*       //var users = await _userManager.Users.ToListAsync();
+            var admins = await _spaDbContext.Admins.ToListAsync();
+            var emps = await _spaDbContext.Employees.ToListAsync();
+            if (admins is null && emps is null)
+            {
+                return null;
+            }
+
+            var users = new List<User>();
+            users.AddRange(admins.Select(a => new User
+            {
+                //Id = a.Id,
+                FirstName = a.FirstName,
+                LastName = a.LastName,
+                Email = a.Email,
+                Role = a.Role,
+                PhoneNumber = a.Phone,
+                Code = a.AdminCode,
+                
+            }));
+
+            users.AddRange(emps.Select(e => new User
+            {
+                //Id = e.Id,
+                FirstName = e.FirstName,
+                LastName = e.LastName,
+                Email = e.Email,
+                Role = e.JobTypeID.ToString(),
+                PhoneNumber = e.Phone,
+                Code = e.EmployeeCode,
+            }));
+            return users.OrderBy(u => u.Code).ToList();*/
+
+          var user = await _spaDbContext.Employees.OrderBy(u => u.EmployeeCode).Include(j => j.JobType).ToListAsync();
+
+            return user;
+        }
+
         public async Task<int> GetAllItemProduct()
         {
             return await _userManager.Users.CountAsync();
@@ -114,6 +154,10 @@ namespace Spa.Infrastructure
                 }).OrderBy(e=>e.EmployeeCode).ToList();
             return empDTOs;
         }
+/*        public async Task<IEnumerable<Employee>> GetAllEmployeeByPage(int pageNumber, int pageSize)
+        {
+            return await _spaDbContext.Employees.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+        }*/
         public async Task<List<Employee>> GetEmployeeByBranchAndJob(long branchID, long jobTypeID)
         {
             var emps = await _spaDbContext.Employees
@@ -181,11 +225,11 @@ namespace Spa.Infrastructure
             var createUser = await _userManager.CreateAsync(newUser!, userDTO.PasswordHash);
             if (!createUser.Succeeded)
             {
-                throw new Exception("Failed to create user");
+                throw null;
             }
             return newUser;
         }
-        public async Task<User> CreateUserForEmployee(string Email, string Password)
+        public async Task<User> CreateUserForEmployee(string Email)
         {
             var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == Email);
             if (emp is null) return null;
@@ -194,7 +238,7 @@ namespace Spa.Infrastructure
                 FirstName = emp.FirstName,
                 LastName = emp.LastName,
                 Email = emp.Email,
-                PasswordHash = Password,
+                PasswordHash = "Spa@12345",
                 Code = emp.EmployeeCode,
                 UserName = emp.Email,
                 PhoneNumber = emp.Phone,
@@ -204,14 +248,14 @@ namespace Spa.Infrastructure
             var user = await _userManager.FindByEmailAsync(newUser.Email);
             if (user is not null)
             {
-                throw new Exception("User exist!");
+                return null;
             }
             var userRole = await _spaDbContext.JobTypes.FindAsync(emp.JobTypeID);
             newUser.Role = userRole.JobTypeName;
-            var createUser = await _userManager.CreateAsync(newUser!, Password);
+            var createUser = await _userManager.CreateAsync(newUser!, newUser.PasswordHash);
             if (!createUser.Succeeded)
             {
-                throw new Exception("Failed to create user");
+                return null;
             }
             return newUser;
         }
@@ -250,6 +294,26 @@ namespace Spa.Infrastructure
                 BranchID = empDTO.BranchID
             };
             await _spaDbContext.Employees.AddAsync(newEmployee);
+            await _spaDbContext.SaveChangesAsync();
+        }
+        public async Task CreateJob(JobType jobDTO)
+        {
+            var newJob = new JobType()
+            {
+                JobTypeName = jobDTO.JobTypeName
+            };
+            await _spaDbContext.JobTypes.AddAsync(newJob);
+            await _spaDbContext.SaveChangesAsync();
+        }
+        public async Task CreateBranch(Branch branchDTO)
+        {
+            var newBranch = new Branch()
+            {
+                BranchName = branchDTO.BranchName,
+                BranchAddress = branchDTO.BranchAddress,
+                BranchPhone = branchDTO.BranchPhone,               
+            };
+            await _spaDbContext.Branches.AddAsync(newBranch);
             await _spaDbContext.SaveChangesAsync();
         }
         public async Task<string> LoginAccount(string Email, string Password)

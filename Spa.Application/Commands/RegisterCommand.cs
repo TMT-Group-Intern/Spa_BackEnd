@@ -68,7 +68,7 @@ namespace Spa.Application.Commands
                 var newUser = await _userService.CreateUser(user);
                 if (newUser is null)
                 {
-                    throw new Exception("Error!");
+                    return null;
                 }
                 return "Create Success!";
             }
