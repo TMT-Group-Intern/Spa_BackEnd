@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Spa.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+740394f8aa8d94c08213a0dbfeabca9fb992b150")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e7e243f8d52efd02639f844385b8cc65241c0c8d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Spa.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Spa.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

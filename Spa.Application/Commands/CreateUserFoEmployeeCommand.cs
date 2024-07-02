@@ -14,7 +14,6 @@ namespace Spa.Application.Commands
     public class CreateUserForEmployeeCommand : IRequest<string>
     { 
         public string Email { get; set; }
-        public string Password { get; set; }
     }
     public class CreateUserForEmployeeCommandHandler : IRequestHandler<CreateUserForEmployeeCommand, string>
     {
@@ -28,20 +27,19 @@ namespace Spa.Application.Commands
         }
         public async Task<string> Handle(CreateUserForEmployeeCommand request, CancellationToken cancellationToken)
         {
-            var emp = await _userService.GetEmpByEmail(request.Email);
+            /*var emp = await _userService.GetEmpByEmail(request.Email);
             if (emp is null)
             {
-                throw new Exception("Employee not exist");
-            }
+                return "Employee not exist";
+            }*/
             var user = new UserForEmployeeDTO
             {
-                Email = emp.Email,
-                Password=request.Password
+                Email = request.Email,
             };
-            var newUser = await _userService.CreateUserForEmployee(user.Email, user.Password);
+            var newUser = await _userService.CreateUserForEmployee(user.Email);
             if (newUser is null)
             {
-                throw new Exception("Error!");
+                return "";
             }
             return "Create Success!";
         }

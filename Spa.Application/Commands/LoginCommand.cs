@@ -33,15 +33,15 @@ namespace Spa.Application.Commands
             var user = await _userRepository.GetUserByEmail(request.loginDTO.Email);
             if (user == null)
             {
-                return new AuthenticationResult(null,"User not exit.");
+                return new AuthenticationResult(false,"User not exit.",null);
             }
             string token = await _userRepository.LoginAccount(request.loginDTO.Email, request.loginDTO.Password);
             if (token is null)
             {
-                return new AuthenticationResult(null,"Invalid email or password.");
+                return new AuthenticationResult(false,"Invalid email or password.",null);
             }
-            var userSession = new UserSession(user.Code,user.Email,user.FirstName+" "+user.LastName,user.Role);
-            return new AuthenticationResult(userSession,token);
+            //var userSession = new UserSession(user.Code,user.Email,user.FirstName+" "+user.LastName,user.Role);
+            return new AuthenticationResult(true,"Hello",token);
         }
     }
 }

@@ -9,6 +9,8 @@ using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
 using Spa.Infrastructure;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace Spa.Api.Controllers
 {
@@ -16,14 +18,20 @@ namespace Spa.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        
+        private readonly JsonSerializerOptions _jsonSerializerOptions;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
         private readonly IWebHostEnvironment _env;
+        private readonly ILogger _logger;
 
         public UserController(IUserService userService, IMapper mapper, IMediator mediator, IWebHostEnvironment env)
         {
+            _jsonSerializerOptions = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                ReferenceHandler = ReferenceHandler.IgnoreCycles
+            };
             _userService = userService;
             _mapper = mapper;
             _mediator = mediator;
@@ -35,6 +43,49 @@ namespace Spa.Api.Controllers
         {
             var allUsers = await _userService.GetAllUsers();
             return Ok(allUsers);
+        }
+        [HttpGet("allUser2")]
+        public async Task<IActionResult> GetAllAdminsAndEmployees()
+        {
+            var allUsers = await _userService.GetAllAdminsAndEmployees();
+            var admin = await _userService.GetAllAdmin();
+
+            List<AllUsers> listAllUser = new List<AllUsers>();
+
+
+            foreach (var i in admin)
+            {
+                AllUsers b = new AllUsers
+                {
+                    Name = i.FirstName + " " + i.LastName,
+                    Email = i.Email,
+                    Phone = i.Phone,
+                    Role = "Admin",
+                    UserCode = i.AdminCode,
+                    Gender = i.Gender,
+                    DateOfBirth = i.DateOfBirth
+                };
+                listAllUser.Add(b);
+            }
+
+
+            foreach (var i in allUsers) {
+              AllUsers a = new AllUsers
+              {
+                  Name = i.FirstName+" "+i.LastName,  
+                  Email = i.Email,
+                  Phone = i.Phone,
+                  Role = i.JobType.JobTypeName,
+                  UserCode = i.EmployeeCode,
+                  DateOfBirth = i.DateOfBirth,
+                  Gender=i.Gender,
+              };
+                listAllUser.Add(a);
+            }
+
+
+            return new JsonResult(listAllUser, _jsonSerializerOptions);
+          /*  return Ok(allUsers);*/
         }
 
         [HttpGet("UserPage")]

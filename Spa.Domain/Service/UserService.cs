@@ -24,8 +24,8 @@ namespace Spa.Domain.Service
         public async Task<User> CreateUser(User userDTO)
         {
             if (userDTO.Role.Equals("Admin")) {
-                var adminCheck = await _userManager.FindByEmailAsync(userDTO.Email);
-                if (adminCheck != null) { throw new Exception("User Exist"); }
+                //var adminCheck = await _userManager.FindByEmailAsync(userDTO.Email);
+                //if (adminCheck != null) { throw new Exception("User Exist"); }
                 var admin = await _userRepository.GetAdminByEmail(userDTO.Email);
                 long? AdminID= admin.AdminID;
                 userDTO.AdminID = AdminID;
@@ -41,16 +41,17 @@ namespace Spa.Domain.Service
                 return newUser;
             }
         }
-        public async Task<User> CreateUserForEmployee(string Email, string Password)
+        public async Task<User> CreateUserForEmployee(string Email)
         {
-            var newUser = await _userRepository.CreateUserForEmployee(Email, Password);
+            var newUser = await _userRepository.CreateUserForEmployee(Email);
             return newUser;
         }
 
         public async Task CreateAdmin(Admin adminDTO)
         {
             var adminCheck = await _userRepository.GetAdminByEmail(adminDTO.Email);
-            if (adminCheck != null) { throw new Exception("User Exist"); }
+            var empCheck = await _userRepository.GetEmpByEmail(adminDTO.Email);
+            if (adminCheck != null|| empCheck is not null) { throw new Exception("null"); }
             var lastAdminID = await GenerateAdminCodeAsync();
             adminDTO.AdminCode = lastAdminID;
             await _userRepository.CreateAdmin(adminDTO);
@@ -60,7 +61,7 @@ namespace Spa.Domain.Service
         {
             var empCheck = await _userRepository.GetEmpByEmail(empDTO.Email);
             var empCheckUser= await _userManager.FindByEmailAsync(empDTO.Email);
-            if (empCheck != null||empCheckUser is not null) { throw new Exception("User Exist"); }
+            if (empCheck != null||empCheckUser is not null) { throw new Exception(""); }
             var lastEmpID = await GenerateEmployeeCodeAsync();
             empDTO.EmployeeCode = lastEmpID;
             await _userRepository.CreateEmployee(empDTO);
@@ -109,6 +110,14 @@ namespace Spa.Domain.Service
         {
             var users = await _userRepository.GetAllUsers();
             return users;
+        }
+        public async Task<List<Employee>> GetAllAdminsAndEmployees()
+        {
+           // var admin = await _userRepository.GetAllAdmin();
+            var employ = await _userRepository.GetAllAdminsAndEmployees();
+
+         
+            return employ;
         }
         public async Task<IEnumerable<User>> GetByPages(int pageNumber, int pageSize)
         {

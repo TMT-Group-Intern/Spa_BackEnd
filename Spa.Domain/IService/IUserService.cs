@@ -14,12 +14,13 @@ namespace Spa.Domain.IService
         Task<string> GenerateAdminCodeAsync();  //generate Id Admin
         Task<string> GenerateEmployeeCodeAsync();  //generate Id Employee
         Task<List<User>> GetAllUsers(); //Get all
+        Task<List<Employee>> GetAllAdminsAndEmployees();
         Task<IEnumerable<User>> GetByPages(int pageNumber, int pageSize); // quản lí phân trang
         Task<List<Employee>> GetAllEmployee();
         Task<List<Employee>> GetEmployeeByBranchAndJob(long branchID, long jobTypeID);
         Task<List<Admin>> GetAllAdmin();
         Task<User> CreateUser(User userDTO); //Create User
-        Task<User> CreateUserForEmployee(string Email, string Password);
+        Task<User> CreateUserForEmployee(string Email);
         Task CreateAdmin(Admin adminDTO);
         Task CreateEmployee(Employee empDTO);
         Task<string> LoginAccount(string Email, string Password); //Login

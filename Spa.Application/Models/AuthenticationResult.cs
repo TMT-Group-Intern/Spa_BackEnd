@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Spa.Application.Authentication
 {
-    public record AuthenticationResult(UserSession? User, string? Token);
+    public record AuthenticationResult(bool? flag,string? mess, string? Token);
 }
