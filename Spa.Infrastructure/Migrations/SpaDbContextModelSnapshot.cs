@@ -481,7 +481,7 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<long>("AdminID")
+                    b.Property<long?>("AdminID")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Code")
@@ -497,7 +497,7 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<long>("EmployeeID")
+                    b.Property<long?>("EmployeeID")
                         .HasColumnType("bigint");
 
                     b.Property<string>("FirstName")
@@ -545,13 +545,15 @@ namespace Spa.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AdminID")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[AdminID] IS NOT NULL");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
                     b.HasIndex("EmployeeID")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[EmployeeID] IS NOT NULL");
 
                     b.ToTable("Users");
                 });
@@ -735,14 +737,12 @@ namespace Spa.Infrastructure.Migrations
                     b.HasOne("Spa.Domain.Entities.Admin", "Admin")
                         .WithMany("User")
                         .HasForeignKey("AdminID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Spa.Domain.Entities.Employee", "Employee")
                         .WithMany("User")
                         .HasForeignKey("EmployeeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Admin");
 

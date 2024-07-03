@@ -31,5 +31,7 @@ namespace Spa.Domain.IService
         Task<bool> UpdateStatus(long id, string status);
 
         Task<bool> UpdateDiscount(long id, int perDiscount);
+
+        Task<bool> AssignTechnicalStaff(long idApp, long idEm);
     }
 }

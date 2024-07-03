@@ -48,6 +48,7 @@ namespace Spa.Api.Controllers
                 Total = a.Total,
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
+                     Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 1).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
             });
             var appByBrand = app.Where(e => e.BranchID == idBrand && e.AppointmentDate >= DateTime.Today);
             if (app == null)
@@ -69,6 +70,7 @@ namespace Spa.Api.Controllers
                 Total = a.Total,
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
+                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
             });
             var appByBrand = app.Where(e => e.BranchID == idBrand && e.AppointmentDate >= DateTime.Today);
             if (app == null)
@@ -90,6 +92,10 @@ namespace Spa.Api.Controllers
                 Total = a.Total,
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
+                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
+                TeachnicalStaff = a.Assignments.Where(e=> e.Employees.JobTypeID == 3).Select(e => e.Employees.FirstName +" "+ e.Employees.LastName).FirstOrDefault(),
+                EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault()
+                
             });
             var appByBrand = app.Where(e => e.BranchID == idBrand && e.Status == status && e.AppointmentDate >= DateTime.Today);
             if (app == null)
@@ -150,6 +156,13 @@ namespace Spa.Api.Controllers
         {
             await _appointmentService.UpdateStatus(id, status);
             return Ok();
+        }
+
+        [HttpPut("assigntechnicalstaff")]
+        public async Task<ActionResult> AssignTechnicalStaff(long idApp, long idEmploy)
+        {
+            await _appointmentService.AssignTechnicalStaff(idApp, idEmploy);
+            return Ok(true);
         }
 
 
