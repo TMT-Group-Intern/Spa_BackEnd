@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.IService;
@@ -47,47 +48,44 @@ namespace Spa.Application.Commands
                 Email = request.Email,
                 Role = request.Role,
                 PhoneNumber = request.PhoneNumber,
-                //Code = request.userDTO.Code,
             };
-            var newUser = await _userService.CreateUser(user);
-            if (newUser is null)
-            {
-                throw new Exception("Error!");
-            }
+
             if (user.Role == "Admin")
             {
                 var admin = new Admin
                 {
-                    FirstName = newUser.FirstName,
-                    LastName = newUser.LastName,
-                    Email = newUser.Email,
-                    AdminCode = newUser.Code,
-                    Password = newUser.PasswordHash,
-                    Role = newUser.Role,
-                    Phone= newUser.PhoneNumber,
-                    Id= newUser.Id.ToString(),
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Role = user.Role,
+                    Phone= user.PhoneNumber,
+                    Id= user.Id.ToString(),
                     DateOfBirth= request.DateOfBirth,
                     Gender= request.Gender,
                 };
                 await _userService.CreateAdmin(admin);
+                user.Code=admin.AdminCode;
+                var newUser = await _userService.CreateUser(user);
+                if (newUser is null)
+                {
+                    return null;
+                }
                 return "Create Success!";
             }
             else
             {
                 var emp = new Employee
                 {
-                    FirstName = newUser.FirstName,
-                    LastName = newUser.LastName,
-                    Email = newUser.Email,
-                    EmployeeCode = newUser.Code,
-                    Password = newUser.PasswordHash,
-                    Phone = newUser.PhoneNumber,
-                    Id = newUser.Id.ToString(),
-                    DateOfBirth= request.DateOfBirth,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Phone = user.PhoneNumber,
+                    Id = user.Id.ToString(),
+                    DateOfBirth = request.DateOfBirth,
                     HireDate = request.HireDate,
                     Gender = request.Gender,
-                    JobTypeID=request.JobTypeID,
-                    BranchID=request.BranchID
+                    JobTypeID = request.JobTypeID,
+                    BranchID = request.BranchID
                 };
                 await _userService.CreateEmployee(emp);
                 return "Create Success!";

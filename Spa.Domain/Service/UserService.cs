@@ -21,58 +21,50 @@ namespace Spa.Domain.Service
             _userRepository = userRepository;
             _userManager = userManager;
         }
-
-
-        /*        public async Task<User> CreateUser(User userDTO)
-                {
-                    if (userDTO.Role == "Admin")
-                    {
-                        var lastAdminID = await GenerateAdminCodeAsync();
-                        userDTO.Code = lastAdminID;
-                        var newAdmin = await _userRepository.CreateUser(userDTO);
-                        return newAdmin;
-                    }
-                    else
-                    {
-                        var lastEmpID = await GenerateEmployeeCodeAsync();
-                        userDTO.Code = lastEmpID;
-                        var newEmployee = await _userRepository.CreateUser(userDTO);
-                        return newEmployee;
-                    }
-                }*/
-
-
         public async Task<User> CreateUser(User userDTO)
         {
             if (userDTO.Role.Equals("Admin")) {
-                var lastAdminID = await GenerateAdminCodeAsync();
-                userDTO.Code = lastAdminID;
+                //var adminCheck = await _userManager.FindByEmailAsync(userDTO.Email);
+                //if (adminCheck != null) { throw new Exception("User Exist"); }
+                var admin = await _userRepository.GetAdminByEmail(userDTO.Email);
+                long? AdminID= admin.AdminID;
+                userDTO.AdminID = AdminID;
                 var newUser = await _userRepository.CreateUser(userDTO);
                 return newUser;
             }
             else
             {
-                var lastEmpID = await GenerateEmployeeCodeAsync();
-                userDTO.Code = lastEmpID;
+                var emp = await _userRepository.GetEmpByEmail(userDTO.Email);
+                long? empID = emp.EmployeeID;
+                userDTO.EmployeeID = empID;
                 var newUser = await _userRepository.CreateUser(userDTO);
                 return newUser;
             }
         }
+        public async Task<User> CreateUserForEmployee(string Email)
+        {
+            var newUser = await _userRepository.CreateUserForEmployee(Email);
+            return newUser;
+        }
 
         public async Task CreateAdmin(Admin adminDTO)
         {
-/*            var lastAdminID = await GenerateAdminCodeAsync();
-            adminDTO.AdminCode = lastAdminID;*/
+            var adminCheck = await _userRepository.GetAdminByEmail(adminDTO.Email);
+            var empCheck = await _userRepository.GetEmpByEmail(adminDTO.Email);
+            if (adminCheck != null|| empCheck is not null) { throw new Exception("null"); }
+            var lastAdminID = await GenerateAdminCodeAsync();
+            adminDTO.AdminCode = lastAdminID;
             await _userRepository.CreateAdmin(adminDTO);
-            //return newAdmin;
         }
 
         public async Task CreateEmployee(Employee empDTO)
         {
-/*            var lastEmpID = await GenerateEmployeeCodeAsync();
-            empDTO.EmployeeCode = lastEmpID;*/
+            var empCheck = await _userRepository.GetEmpByEmail(empDTO.Email);
+            var empCheckUser= await _userManager.FindByEmailAsync(empDTO.Email);
+            if (empCheck != null||empCheckUser is not null) { throw new Exception(""); }
+            var lastEmpID = await GenerateEmployeeCodeAsync();
+            empDTO.EmployeeCode = lastEmpID;
             await _userRepository.CreateEmployee(empDTO);
-            //return newEmp;
         }
 
         public async Task DeleteUser(string Email)
@@ -119,6 +111,34 @@ namespace Spa.Domain.Service
             var users = await _userRepository.GetAllUsers();
             return users;
         }
+        public async Task<List<Employee>> GetAllAdminsAndEmployees()
+        {
+           // var admin = await _userRepository.GetAllAdmin();
+            var employ = await _userRepository.GetAllAdminsAndEmployees();
+
+         
+            return employ;
+        }
+        public async Task<IEnumerable<User>> GetByPages(int pageNumber, int pageSize)
+        {
+            var listUser = await _userRepository.GetByPages(pageNumber, pageSize);
+            return listUser;
+        }
+        public async Task<List<Employee>> GetAllEmployee()
+        {
+            var emps = await _userRepository.GetAllEmployee();
+            return emps;
+        }
+        public async Task<List<Employee>> GetEmployeeByBranchAndJob(long branchID, long jobTypeID)
+        {
+            var emps = await _userRepository.GetEmployeeByBranchAndJob(branchID, jobTypeID);
+            return emps;
+        }
+        public async Task<List<Admin>> GetAllAdmin()
+        {
+            var admins = await _userRepository.GetAllAdmin();
+            return admins;
+        }
 
         public async Task<User> GetUserByEmail(string email)
         {
@@ -134,6 +154,11 @@ namespace Spa.Domain.Service
         {
             var emp = await _userRepository.GetEmpByEmail(email);
             return emp;
+        }
+        public async Task<string> GetJobTypeName(long? JobTypeId)
+        {
+            var Role = await _userRepository.GetJobTypeName(JobTypeId);
+            return Role;
         }
 
         public async Task<string> LoginAccount(string Email, string Password)
@@ -159,6 +184,10 @@ namespace Spa.Domain.Service
         public bool isExistUser(string Email)
         {
             return _userRepository.GetUserByEmail(Email) == null ? false : true;
+        }
+        public async Task<int> GetAllItem()
+        {
+            return await _userRepository.GetAllItemProduct();
         }
     }
 }

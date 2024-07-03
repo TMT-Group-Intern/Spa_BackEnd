@@ -23,10 +23,15 @@ namespace Spa.Domain.IRepository
         //
         //Get All User
         Task<List<User>> GetAllUsers();
-
+        Task<List<Employee>> GetAllAdminsAndEmployees();
+        Task<IEnumerable<User>> GetByPages(int pageNumber, int pageSize); // quản lí phân trang
+        Task<List<Employee>> GetAllEmployee();
+        Task<List<Employee>> GetEmployeeByBranchAndJob(long branchID, long jobTypeID);
+        Task<List<Admin>> GetAllAdmin();
         //
         //Create User
         Task<User> CreateUser(User userDTO);
+        Task<User> CreateUserForEmployee(string Email);
         Task CreateAdmin(Admin adminDTO);
         Task CreateEmployee(Employee empDTO);
         //
@@ -43,9 +48,11 @@ namespace Spa.Domain.IRepository
         Task<bool> UpdateUser(User UserDTO);
         Task<bool> UpdateAdmin(Admin AdminDTO);
         Task<bool> UpdateEmployee(Employee EmpDTO);
+        Task<string> GetJobTypeName(long? JobTypeId);
         //
         //Get last
         Task<Admin> GetLastAdminAsync();
         Task<Employee> GetLastEmployeeAsync();
+        Task<int> GetAllItemProduct();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 //using Microsoft.AspNetCore.Identity.Data;
@@ -56,24 +57,50 @@ namespace Spa.Api.Controllers
                     BranchID=userDto.BranchID,
     };
                 var id = await _mediator.Send(command);
-                return Ok(id);
+                return Ok(new {status = id});
+            }
+            catch (DuplicateException ex1)
+            {
+                return Ok(new {});
+            }
+            catch (Exception ex2)
+            {
+                return Ok(new {});
+            }
+        }
+        [HttpPost("CreateUserForEmployee")]
+        public async Task<IActionResult> CreateUserForEmployee([FromBody] UserForEmployeeDTO userDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var command = new CreateUserForEmployeeCommand
+                {
+                    Email = userDTO.Email,
+                };
+                var id = await _mediator.Send(command);
+                return Ok(new { status = id });
             }
             catch (DuplicateException ex)
             {
-                return Conflict(new { message = ex.Message });
+                return  Ok(new {});
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Internal server error");
+                return  Ok(new {});
             }
         }
+
 
         [HttpPost("login")]
         public async Task<AuthenticationResult> Login([FromBody] LoginDTO loginDto)
         {
             if (!ModelState.IsValid)
             {
-                return new AuthenticationResult(null,"Empty");
+                return new AuthenticationResult(false,"Empty",null);
             }
             try
             {
@@ -88,11 +115,11 @@ namespace Spa.Api.Controllers
             }
             catch (DuplicateException ex)
             {
-                return new AuthenticationResult(null, "Error");
+                return new AuthenticationResult(false, "Error",null);
             }
             catch (Exception ex)
             {
-                return new AuthenticationResult(null, "Error");
+                return new AuthenticationResult(false, "Error", null);
             }
         }
     }
