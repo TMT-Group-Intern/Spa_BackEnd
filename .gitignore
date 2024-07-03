@@ -1,4 +1,3 @@
-
 .vs/
 Spa.Api/bin/
 Spa.Api/obj/
@@ -9,3 +8,4 @@ Spa.Domain/bin/
 Spa.Domain/obj/
 Spa.Infrastructure/bin/
 Spa.Infrastructure/obj/ 
+Spa.Domain/.vs/ 
