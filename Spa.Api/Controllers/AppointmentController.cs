@@ -48,7 +48,7 @@ namespace Spa.Api.Controllers
                 Total = a.Total,
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
-                     Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 1).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
+                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
             });
             var appByBrand = app.Where(e => e.BranchID == idBrand && e.AppointmentDate >= DateTime.Today);
             if (app == null)
@@ -169,25 +169,33 @@ namespace Spa.Api.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> updateAppointmentWithoutService(long id, [FromBody] UpdateAppointmentWithoutServiceDTO updateAppointmentWithoutServiceDTO)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
-            Appointment app = new Appointment
-            {
-                AppointmentDate = updateAppointmentWithoutServiceDTO.AppointmentDate,
-                //  BranchID = updateAppointmentWithoutServiceDTO.BranchID,
-                // CustomerID = updateAppointmentWithoutServiceDTO.CustomerID,
-                Status = updateAppointmentWithoutServiceDTO.Status,
-                Assignments = updateAppointmentWithoutServiceDTO.Assignments.Select(a => new Assignment
-                {
-                 //   AppointmentID = id,
-                    EmployerID = a.EmployerID,
-                }).ToList()
-            };
-            await _appointmentService.UpdateAppointmentWithoutService(id, app);
 
-            return Ok(new { id });
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                Appointment app = new Appointment
+                {
+                    AppointmentDate = updateAppointmentWithoutServiceDTO.AppointmentDate,
+                    //  BranchID = updateAppointmentWithoutServiceDTO.BranchID,
+                    // CustomerID = updateAppointmentWithoutServiceDTO.CustomerID,
+                    Status = updateAppointmentWithoutServiceDTO.Status,
+                    Assignments = updateAppointmentWithoutServiceDTO.Assignments.Select(a => new Assignment
+                    {
+                        //   AppointmentID = id,
+                        EmployerID = a.EmployerID,
+                    }).ToList()
+                };
+                await _appointmentService.UpdateAppointmentWithoutService(id, app);
+
+                return Ok(new { id });
+            }
+            catch( Exception ex)
+            {
+                throw new Exception();
+            }
         }
 
         [HttpPut("api/UpdateAppointmentWithService/{id}/{status}")]

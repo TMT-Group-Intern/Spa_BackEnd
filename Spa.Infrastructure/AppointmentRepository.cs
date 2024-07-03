@@ -69,7 +69,7 @@ namespace Spa.Infrastructure
             return _spaDbContext.Appointments
                                 .Include(c => c.Customer)
                                 .Include(a => a.Assignments).ThenInclude(e => e.Employees)
-                                 .Include(s => s.ChooseServices).ThenInclude(se => se.Service).ToList();
+                                .Include(s => s.ChooseServices).ThenInclude(se => se.Service).ToList();
         }
 
         public Appointment GetAppointmentByID(long appointmentId)

@@ -170,6 +170,7 @@ namespace Spa.Infrastructure
 
             var empDTOs = emps.Select(emp => new Employee
             {
+                EmployeeID = emp.EmployeeID,
                 EmployeeCode = emp.EmployeeCode,
                 FirstName = emp.FirstName,
                 LastName = emp.LastName,
