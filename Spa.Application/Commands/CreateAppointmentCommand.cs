@@ -45,7 +45,7 @@ namespace Spa.Application.Commands
                 BranchID = request.BranchID = 1,
                 Status = request.Status,
                 Total = request.Total,
-
+                
             };
             await _appointmentService.CreateAppointmentAsync(app);
             var newAppointment = await _appointmentService.GetIdNewAppointment();
