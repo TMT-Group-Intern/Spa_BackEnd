@@ -26,7 +26,7 @@ namespace Spa.Domain.Entities
 
         public ICollection<CustomerPhoto> CustomerPhotos { get; set; }
 
-        public ICollection<Assignment> Assignments { get; set; }
+        public ICollection<Assignment>? Assignments { get; set; }
 
         public ICollection<Payment> Payments { get; set; }
     }
