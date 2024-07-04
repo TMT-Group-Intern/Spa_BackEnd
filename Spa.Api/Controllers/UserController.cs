@@ -11,8 +11,6 @@ using Spa.Domain.IService;
 using Spa.Infrastructure;
 using System.Text.Json.Serialization;
 using System.Text.Json;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Spa.Api.Controllers
 {
@@ -46,19 +44,7 @@ namespace Spa.Api.Controllers
             var allUsers = await _userService.GetAllUsers();
             return Ok(allUsers);
         }
-        [HttpGet("allJobs")]
-        public async Task<IActionResult> GetAllJobs()
-        {
-            var allJobs = await _userService.GetAllJobs();
-            return Ok(allJobs);
-        }
-        [HttpGet("allBranches")]
-        public async Task<IActionResult> GetAllBranches()
-        {
-            var allBranches = await _userService.GetAllBranches();
-            return Ok(allBranches);
-        }
-        [HttpGet("allUserAdminAndEmployee")]
+        [HttpGet("allUser2")]
         public async Task<IActionResult> GetAllAdminsAndEmployees()
         {
             var allUsers = await _userService.GetAllAdminsAndEmployees();
@@ -77,8 +63,7 @@ namespace Spa.Api.Controllers
                     Role = "Admin",
                     UserCode = i.AdminCode,
                     Gender = i.Gender,
-                    DateOfBirth = i.DateOfBirth,
-                    isActive=true
+                    DateOfBirth = i.DateOfBirth
                 };
                 listAllUser.Add(b);
             }
@@ -95,15 +80,6 @@ namespace Spa.Api.Controllers
                   DateOfBirth = i.DateOfBirth,
                   Gender=i.Gender,
               };
-                string check = await _userService.GetUserBoolByEmail(i.Email);
-                if (check == "true")
-                {
-                 a.isActive = true;
-                }
-                else
-                {
-                    a.isActive = false;
-                }
                 listAllUser.Add(a);
             }
 
@@ -159,18 +135,18 @@ namespace Spa.Api.Controllers
         public async Task<IActionResult> GetUserByEmail(string email)
         {
 
-             var getUserByEmail = _userService.GetUserByEmail(email);
-             UserDTO userDTO = new UserDTO
-             {
-                 Id = getUserByEmail.Result.Id,
-                 FirstName = getUserByEmail.Result.FirstName,
-                 LastName = getUserByEmail.Result.LastName,
-                 Email = getUserByEmail.Result.Email,
-                 Code = getUserByEmail.Result.Code,
-                 Role = getUserByEmail.Result.Role,
-                 Phone = getUserByEmail.Result.PhoneNumber,
-             };
-             return Ok(new { userDTO });
+                var getUserByEmail = _userService.GetUserByEmail(email);
+
+                UserDTO userDTO = new UserDTO
+                {
+                    Id = getUserByEmail.Result.Id,
+                    FirstName = getUserByEmail.Result.FirstName,
+                    LastName = getUserByEmail.Result.LastName,
+                    Email = getUserByEmail.Result.Email,
+                    Code = getUserByEmail.Result.Code,
+                    Role = getUserByEmail.Result.Role,
+                };
+                return Ok(new { userDTO });
         }
         [HttpGet("getUserByAdmin")]
         public async Task<IActionResult> GetAdminByEmail(string email)
@@ -206,24 +182,8 @@ namespace Spa.Api.Controllers
                 FirstName = getEmpByEmail.Result.FirstName,
                 LastName = getEmpByEmail.Result.LastName,
                 Email = getEmpByEmail.Result.Email,
-                BranchID=getEmpByEmail.Result.BranchID,
-                DateOfBirth=getEmpByEmail.Result.DateOfBirth,
-                EmployeeCode = getEmpByEmail.Result.EmployeeCode,
-                Gender=getEmpByEmail.Result.Gender,
-                HireDate = getEmpByEmail.Result.HireDate,
-                JobTypeID = getEmpByEmail.Result.JobTypeID,
-                Password = getEmpByEmail.Result.Password,
-                Phone=getEmpByEmail.Result.Phone,
-                Role = await _userService.GetJobTypeName(getEmpByEmail.Result.JobTypeID),
-                Branch=await _userService.GetBranchName(getEmpByEmail.Result.BranchID),
             };
             return Ok(new { empDTO });
-        }
-        [HttpGet("getUserBoolByEmail")]
-        public async Task<IActionResult> GetUserBoolByEmail(string email)
-        {
-            string checkUser =await  _userService.GetUserBoolByEmail(email);
-            return Ok(new { check = checkUser });
         }
         [HttpPut("updateUser")]
         public async Task<IActionResult> UpdateUser(string email, [FromBody] UpdateDTO updateDto)

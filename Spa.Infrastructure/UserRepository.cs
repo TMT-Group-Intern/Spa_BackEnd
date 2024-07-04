@@ -49,14 +49,6 @@ namespace Spa.Infrastructure
             var user = await _userManager.FindByEmailAsync(email);
             return user;
         }
-        public async Task<string> GetUserBoolByEmail(string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user is not null) { 
-                return "true";
-            }
-            return "false";
-        }
         public async Task<Admin> GetAdminByEmail(string email)
         {
             var admin = await _spaDbContext.Admins.FirstOrDefaultAsync(a => a.Email == email);
@@ -526,45 +518,6 @@ namespace Spa.Infrastructure
         {
             var Role = await _spaDbContext.JobTypes.FindAsync(JobTypeId);
             return Role.JobTypeName;
-        }
-        public async Task<List<JobType>> GetAllJobs()
-        {
-            var jobs = await _spaDbContext.JobTypes.ToListAsync();
-            if (jobs is null)
-            {
-                return null;
-            }
-
-            var jobDTOs = jobs.Select(job => new JobType
-            {
-                JobTypeID = job.JobTypeID,
-                JobTypeName = job.JobTypeName
-            }).OrderBy(j => j.JobTypeID).ToList();
-
-            return jobDTOs;
-        }
-        public async Task<List<Branch>> GetAllBranches()
-        {
-            var brans = await _spaDbContext.Branches.ToListAsync();
-            if (brans is null)
-            {
-                return null;
-            }
-
-            var branDTOs = brans.Select(bran => new Branch
-            {
-                BranchID = bran.BranchID,
-                BranchName = bran.BranchName,
-                BranchPhone = bran.BranchPhone,
-                BranchAddress = bran.BranchAddress,
-            }).OrderBy(b => b.BranchID).ToList();
-
-            return branDTOs;
-        }
-        public async Task<string> GetBranchName(long? branchID)
-        {
-            var Branch = await _spaDbContext.Branches.FindAsync(branchID);
-            return Branch.BranchName;
         }
     }
 }

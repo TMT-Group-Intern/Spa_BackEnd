@@ -19,7 +19,6 @@ namespace Spa.Domain.IService
         Task<List<Employee>> GetAllEmployee();
         Task<List<Employee>> GetEmployeeByBranchAndJob(long branchID, long jobTypeID);
         Task<List<Admin>> GetAllAdmin();
-        Task<string> GetBranchName(long? branchID);
         Task<User> CreateUser(User userDTO); //Create User
         Task<User> CreateUserForEmployee(string Email);
         Task CreateAdmin(Admin adminDTO);
@@ -32,13 +31,10 @@ namespace Spa.Domain.IService
         Task UpdateAdmin(Admin AdminDTO);//Update Admin
         Task UpdateEmployee(Employee EmpDTO);//Update Employee
         Task<User> GetUserByEmail(string email);//Get User by Email
-        Task<string> GetUserBoolByEmail(string email);
         Task<Admin> GetAdminByEmail(string email);
         Task<Employee> GetEmpByEmail(string email);
         Task<string> GetJobTypeName(long? JobTypeId);
         bool isExistUser(string email);
         Task<int> GetAllItem();
-        Task<List<Branch>> GetAllBranches();
-        Task<List<JobType>> GetAllJobs();
     }
 }

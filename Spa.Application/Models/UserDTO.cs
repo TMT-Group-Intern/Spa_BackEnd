@@ -19,14 +19,16 @@ namespace Spa.Application.Models
 
         public string Email { get; set; } = string.Empty;
 
+        [Required]
         [DataType(DataType.Password)]
 
-        public string? Password { get; set; }
+        public string Password { get; set; } = string.Empty;
 
+        [Required]
         [DataType(DataType.Password)]
         [Compare(nameof(Password))]
 
-        public string? ConfirmPassword { get; set; }
+        public string ConfirmPassword { get; set; } = string.Empty;
         public long? AdminID { get; set; }
         public long? EmployeeID { get; set; }
 
@@ -37,6 +39,8 @@ namespace Spa.Application.Models
         public DateTime? HireDate { get; set; }
         public long? JobTypeID { get; set; }
         public long? BranchID { get; set; }
-        public string? Role { get; set; }
+
+        [Required]
+        public string Role { get; set; } = string.Empty;
     }
 }

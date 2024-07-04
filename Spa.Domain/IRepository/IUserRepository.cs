@@ -18,7 +18,6 @@ namespace Spa.Domain.IRepository
         //
         //Get User By Email
         Task<User> GetUserByEmail(string email);
-        Task<string> GetUserBoolByEmail(string email);
         Task<Admin> GetAdminByEmail(string email);
         Task<Employee> GetEmpByEmail(string email);
         //
@@ -32,7 +31,6 @@ namespace Spa.Domain.IRepository
         //
         //Create User
         Task<User> CreateUser(User userDTO);
-        Task<string> GetBranchName(long? branchID);
         Task<User> CreateUserForEmployee(string Email);
         Task CreateAdmin(Admin adminDTO);
         Task CreateEmployee(Employee empDTO);
@@ -56,7 +54,5 @@ namespace Spa.Domain.IRepository
         Task<Admin> GetLastAdminAsync();
         Task<Employee> GetLastEmployeeAsync();
         Task<int> GetAllItemProduct();
-        Task<List<Branch>> GetAllBranches();
-        Task<List<JobType>> GetAllJobs();
     }
 }
