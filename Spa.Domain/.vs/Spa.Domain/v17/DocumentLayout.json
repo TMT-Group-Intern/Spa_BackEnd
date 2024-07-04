@@ -3,43 +3,43 @@
   "WorkspaceRootPath": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{847EA113-34B0-413E-811C-015641748DE0}|..\\Spa.Infrastructure\\Spa.Infrastructure.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.infrastructure\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.application\\commands\\createuserfoemployeecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.api\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.domain\\service\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:service\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.application\\commands\\registercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.application\\commands\\logincommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.domain\\iservice\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:iservice\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.domain\\irepository\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:irepository\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.api\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.domain\\service\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:service\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{847EA113-34B0-413E-811C-015641748DE0}|..\\Spa.Infrastructure\\Spa.Infrastructure.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.infrastructure\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{847EA113-34B0-413E-811C-015641748DE0}|..\\Spa.Infrastructure\\Spa.Infrastructure.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.infrastructure\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.domain\\service\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{97AA7350-4EB4-4D36-B48C-50CB672EB02D}|Spa.Domain.csproj|solutionrelative:service\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.application\\models\\employeedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.api\\controllers\\customerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.application\\models\\allusers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{847EA113-34B0-413E-811C-015641748DE0}|..\\Spa.Infrastructure\\Spa.Infrastructure.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.infrastructure\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42727B55-726D-45E6-9BC1-CB6DFE224412}|..\\Spa.Api\\Spa.Api.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.api\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.application\\commands\\createuserfoemployeecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.application\\commands\\registercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74B3821A-B1A5-4A77-97BE-68A40A984730}|..\\Spa.Application\\Spa.Application.csproj|e:\\ojt\\spa\\be_finak\\spa_backend\\spa.application\\models\\updateappointmentwithoutservicedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -96,72 +96,16 @@
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "RegisterCommand.cs",
-              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Commands\\RegisterCommand.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Application\\Commands\\RegisterCommand.cs",
-              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Commands\\RegisterCommand.cs",
-              "RelativeToolTip": "..\\Spa.Application\\Commands\\RegisterCommand.cs",
-              "ViewState": "AQIAADIAAAAAAAAAAAAUwD4AAAA1AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T04:51:33.744Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CreateUserFoEmployeeCommand.cs",
-              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Commands\\CreateUserFoEmployeeCommand.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Application\\Commands\\CreateUserFoEmployeeCommand.cs",
-              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Commands\\CreateUserFoEmployeeCommand.cs",
-              "RelativeToolTip": "..\\Spa.Application\\Commands\\CreateUserFoEmployeeCommand.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAQwCoAAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T04:28:17.8Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\UserRepository.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Infrastructure\\UserRepository.cs",
-              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\UserRepository.cs",
-              "RelativeToolTip": "..\\Spa.Infrastructure\\UserRepository.cs",
-              "ViewState": "AQIAAPQAAAAAAAAAAAAAwAQBAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T04:29:33.907Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "LoginCommand.cs",
-              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Commands\\LoginCommand.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Application\\Commands\\LoginCommand.cs",
-              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Commands\\LoginCommand.cs",
-              "RelativeToolTip": "..\\Spa.Application\\Commands\\LoginCommand.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAkwAAAAAAAAAAA",
+              "Title": "EmployeeDTO.cs",
+              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Models\\EmployeeDTO.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Application\\Models\\EmployeeDTO.cs",
+              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Models\\EmployeeDTO.cs",
+              "RelativeToolTip": "..\\Spa.Application\\Models\\EmployeeDTO.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAA5wBcAAAAbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T09:53:19.254Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AuthenticationController.cs",
-              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Controllers\\AuthenticationController.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\AuthenticationController.cs",
-              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Controllers\\AuthenticationController.cs",
-              "RelativeToolTip": "..\\Spa.Api\\Controllers\\AuthenticationController.cs",
-              "ViewState": "AQIAAEIAAAAAAAAAAAAewFMAAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-01T09:01:33.163Z",
+              "WhenOpened": "2024-07-04T08:55:18.362Z",
               "EditorCaption": ""
             },
             {
@@ -172,87 +116,139 @@
               "RelativeDocumentMoniker": "Service\\UserService.cs",
               "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Service\\UserService.cs",
               "RelativeToolTip": "Service\\UserService.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAqwBsAAABPAAAA",
+              "ViewState": "AQIAAMQAAAAAAAAAAAAowM4AAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T09:15:31.737Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\UserController.cs",
-              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Controllers\\UserController.cs",
-              "RelativeToolTip": "..\\Spa.Api\\Controllers\\UserController.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T06:51:20.239Z",
+              "WhenOpened": "2024-07-04T07:33:59.409Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "AppointmentController.cs",
-              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Controllers\\AppointmentController.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\AppointmentController.cs",
-              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Controllers\\AppointmentController.cs",
-              "RelativeToolTip": "..\\Spa.Api\\Controllers\\AppointmentController.cs",
-              "ViewState": "AQIAAIEAAAAAAAAAAAAAAI0AAAAdAAAA",
+              "Title": "AuthenticationController.cs",
+              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Controllers\\AuthenticationController.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\AuthenticationController.cs",
+              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Controllers\\AuthenticationController.cs",
+              "RelativeToolTip": "..\\Spa.Api\\Controllers\\AuthenticationController.cs",
+              "ViewState": "AQIAADAAAAAAAAAAAAAYwDsAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T07:53:06.105Z",
+              "WhenOpened": "2024-07-04T06:53:53.078Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\UserController.cs",
+              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Controllers\\UserController.cs",
+              "RelativeToolTip": "..\\Spa.Api\\Controllers\\UserController.cs",
+              "ViewState": "AQIAALQAAAAAAAAAAAArwLsAAAAzAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-03T08:21:53.307Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\IService\\IUserService.cs",
+              "RelativeDocumentMoniker": "IService\\IUserService.cs",
+              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\IService\\IUserService.cs",
+              "RelativeToolTip": "IService\\IUserService.cs",
+              "ViewState": "AQIAABoAAAAAAAAAAIA5wBUAAAAzAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-04T07:38:27.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\UserRepository.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Infrastructure\\UserRepository.cs",
+              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\UserRepository.cs",
+              "RelativeToolTip": "..\\Spa.Infrastructure\\UserRepository.cs",
+              "ViewState": "AQIAACsCAAAAAAAAAAArwDMCAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-04T07:30:01.537Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "IUserRepository.cs",
               "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\IRepository\\IUserRepository.cs",
               "RelativeDocumentMoniker": "IRepository\\IUserRepository.cs",
               "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\IRepository\\IUserRepository.cs",
               "RelativeToolTip": "IRepository\\IUserRepository.cs",
-              "ViewState": "AQIAACMAAAAAAAAAAAA6wAAAAAAAAAAA",
+              "ViewState": "AQIAABUAAAAAAAAAAAAYwCIAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T09:15:24.436Z",
+              "WhenOpened": "2024-07-04T07:43:35.12Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AppointmentRepository.cs",
-              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\AppointmentRepository.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Infrastructure\\AppointmentRepository.cs",
-              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\AppointmentRepository.cs",
-              "RelativeToolTip": "..\\Spa.Infrastructure\\AppointmentRepository.cs",
-              "ViewState": "AQIAAHAAAAAAAAAAAAAmwJ4AAAA4AAAA",
+              "DocumentIndex": 6,
+              "Title": "AllUsers.cs",
+              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Models\\AllUsers.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Application\\Models\\AllUsers.cs",
+              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Models\\AllUsers.cs",
+              "RelativeToolTip": "..\\Spa.Application\\Models\\AllUsers.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABUAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T07:59:30.246Z",
+              "WhenOpened": "2024-07-04T08:13:50.763Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "CustomersController.cs",
-              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Controllers\\CustomersController.cs",
-              "RelativeDocumentMoniker": "..\\Spa.Api\\Controllers\\CustomersController.cs",
-              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Api\\Controllers\\CustomersController.cs",
-              "RelativeToolTip": "..\\Spa.Api\\Controllers\\CustomersController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "UpdateAppointmentWithoutServiceDTO.cs",
+              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Models\\UpdateAppointmentWithoutServiceDTO.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Application\\Models\\UpdateAppointmentWithoutServiceDTO.cs",
+              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Models\\UpdateAppointmentWithoutServiceDTO.cs",
+              "RelativeToolTip": "..\\Spa.Application\\Models\\UpdateAppointmentWithoutServiceDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T06:51:21.476Z",
+              "WhenOpened": "2024-07-04T06:54:20.829Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CustomerRepository.cs",
+              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\CustomerRepository.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Infrastructure\\CustomerRepository.cs",
+              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Infrastructure\\CustomerRepository.cs",
+              "RelativeToolTip": "..\\Spa.Infrastructure\\CustomerRepository.cs",
+              "ViewState": "AQIAAEkAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-04T07:49:48.33Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CreateUserFoEmployeeCommand.cs",
+              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Commands\\CreateUserFoEmployeeCommand.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Application\\Commands\\CreateUserFoEmployeeCommand.cs",
+              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Commands\\CreateUserFoEmployeeCommand.cs",
+              "RelativeToolTip": "..\\Spa.Application\\Commands\\CreateUserFoEmployeeCommand.cs",
+              "ViewState": "AQIAABcAAAAAAAAAAAAgwCsAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-04T06:54:32.558Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 10,
-              "Title": "AppointmentService.cs",
-              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Service\\AppointmentService.cs",
-              "RelativeDocumentMoniker": "Service\\AppointmentService.cs",
-              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Domain\\Service\\AppointmentService.cs",
-              "RelativeToolTip": "Service\\AppointmentService.cs",
-              "ViewState": "AQIAABQAAAAAAAAAAAArwB8AAAAJAAAA",
+              "Title": "RegisterCommand.cs",
+              "DocumentMoniker": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Commands\\RegisterCommand.cs",
+              "RelativeDocumentMoniker": "..\\Spa.Application\\Commands\\RegisterCommand.cs",
+              "ToolTip": "E:\\OJT\\spa\\BE_FINAK\\Spa_BackEnd\\Spa.Application\\Commands\\RegisterCommand.cs",
+              "RelativeToolTip": "..\\Spa.Application\\Commands\\RegisterCommand.cs",
+              "ViewState": "AQIAAEkAAAAAAAAAAAAqwFoAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-02T07:59:20.035Z",
+              "WhenOpened": "2024-07-04T06:54:40.377Z",
               "EditorCaption": ""
             }
           ]

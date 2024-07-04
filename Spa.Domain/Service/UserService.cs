@@ -145,6 +145,11 @@ namespace Spa.Domain.Service
             var user = await _userRepository.GetUserByEmail(email);
             return user;
         }
+        public async Task<string> GetUserBoolByEmail(string email)
+        {
+            string checkUser = await _userRepository.GetUserBoolByEmail(email);
+            return checkUser;
+        }
         public async Task<Admin> GetAdminByEmail(string email)
         {
             var admin = await _userRepository.GetAdminByEmail(email);
@@ -188,6 +193,21 @@ namespace Spa.Domain.Service
         public async Task<int> GetAllItem()
         {
             return await _userRepository.GetAllItemProduct();
+        }
+        public async Task<List<JobType>> GetAllJobs()
+        {
+            var jobs = await _userRepository.GetAllJobs();
+            return jobs;
+        }
+        public async Task<List<Branch>> GetAllBranches()
+        {
+            var brans = await _userRepository.GetAllBranches();
+            return brans;
+        }
+        public async Task<string> GetBranchName(long? branchID)
+        {
+            var branch = await _userRepository.GetBranchName(branchID);
+            return branch;
         }
     }
 }
