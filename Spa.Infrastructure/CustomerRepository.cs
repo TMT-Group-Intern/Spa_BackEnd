@@ -62,7 +62,7 @@ namespace Spa.Infrastructures
 
         public async Task<IEnumerable<Customer>> GetByPages(int pageNumber, int pageSize)
         {
-            return await _spaDbContext.Customers.OrderByDescending(i=> i.CustomerID).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            return await _spaDbContext.Customers.OrderByDescending(i => i.CustomerID).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task<int> GetAllItemProduct()
@@ -137,7 +137,11 @@ namespace Spa.Infrastructures
 
         public async Task<List<Appointment>> GetHistoryCustomer(long id)
         {
-            List<Appointment> a = await _spaDbContext.Appointments.Where(c => c.CustomerID == id).Include(c => c.ChooseServices).ThenInclude(s=> s.Service).Include(p => p.CustomerPhotos).ToListAsync();
+            List<Appointment> a = await _spaDbContext.Appointments.OrderByDescending(d => d.AppointmentDate)
+                                                                    .Where(c => c.CustomerID == id)    // thiếu điều kiện chỉ khi hoàn thành và đã khám mới hiện lịch sử
+                                                                    .Include(c => c.ChooseServices)
+                                                                    .ThenInclude(s => s.Service).Include(p => p.CustomerPhotos)
+                                                                    .ToListAsync();
             return a;
         }
     }

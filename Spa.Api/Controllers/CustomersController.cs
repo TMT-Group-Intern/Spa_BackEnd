@@ -229,7 +229,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPost("uploadMutil")]
-        public async Task<ActionResult> UploadImages(List<IFormFile> files, long id)
+        public async Task<ActionResult> UploadImages(long id, List<IFormFile> files)
         {
             try
             {
