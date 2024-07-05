@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Microsoft.IdentityModel.Tokens;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IRepository;
@@ -109,7 +110,7 @@ namespace Spa.Domain.Service
             return await _appointmentRepository.UpdateAppointmentWithoutService(appointmentToUpdate);
         }
 
-        public async Task<bool> UpdateAppointmentWithService(long id, List<long> serviceIDs, string? status)
+        public async Task<bool> UpdateAppointmentWithService(long id, List<long> serviceIDs, string? status, string? notes)
         {
             var getChooseServiceByAppointment = await _appointmentRepository.ListService(id);
 
@@ -141,6 +142,12 @@ namespace Spa.Domain.Service
             {
                 app.Total += price;
             }
+
+            if(notes != null)
+            {
+                app.Notes = notes;
+            }
+
             _appointmentRepository.UpdateTotalAppointment(app);
             return true;
         }

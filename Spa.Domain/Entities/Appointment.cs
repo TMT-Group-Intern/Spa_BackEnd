@@ -14,14 +14,11 @@ namespace Spa.Domain.Entities
         public long CustomerID { get; set; }
         public string? Status { get; set; }
         public double? Total { get; set; }
-
         public Branch Branch { get; set; }
-
         public Customer Customer { get; set; }
-
         public double? DiscountAmount { get; set; }
         public int? DiscountPercentage {  get; set; }
-
+        public string? Notes { get; set; }
         public ICollection<ChooseService> ChooseServices { get; set; }
 
         public ICollection<CustomerPhoto> CustomerPhotos { get; set; }

@@ -199,13 +199,13 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("api/UpdateAppointmentWithService/{id}/{status}")]
-        public async Task<ActionResult> updateAppointmentWithService(long id, string status, [FromBody] List<long> serviceID)
+        public async Task<ActionResult> updateAppointmentWithService(long id, string status, [FromBody] List<long> serviceID, string? notes)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            await _appointmentService.UpdateAppointmentWithService(id, serviceID, status);
+            await _appointmentService.UpdateAppointmentWithService(id, serviceID, status, notes);
 
             return Ok(new { id });
         }
