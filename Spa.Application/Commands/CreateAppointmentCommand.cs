@@ -23,7 +23,7 @@ namespace Spa.Application.Commands
 
         public List<long>? ServiceID { get; set; }
 
-        public List<long> EmployeeID { get; set; }
+        public List<long>? EmployeeID { get; set; }
         //public ICollection<ChooseServiceDTO>? ChooseServicesDTO { get; set; }
     }
 
