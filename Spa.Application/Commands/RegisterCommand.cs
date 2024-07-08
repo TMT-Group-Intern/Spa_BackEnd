@@ -25,7 +25,7 @@ namespace Spa.Application.Commands
         public long? JobTypeID { get; set; }
         public long? BranchID { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public DateTime? HireDate { get; set; }= DateTime.Now.Date;
+        public DateTime? HireDate { get; set; }
     }
 
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, string>

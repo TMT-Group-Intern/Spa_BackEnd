@@ -52,7 +52,7 @@ namespace Spa.Api.Controllers
                     PhoneNumber=userDto.Phone,
                     Gender=userDto.Gender,
                     DateOfBirth = userDto.DateOfBirth,
-                    HireDate = DateTime.Now.Date,
+                    HireDate = userDto.HireDate,
                     JobTypeID =userDto.JobTypeID,
                     BranchID=userDto.BranchID,
     };
