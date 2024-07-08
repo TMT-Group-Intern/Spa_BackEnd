@@ -143,7 +143,7 @@ namespace Spa.Domain.Service
                 app.Total += price;
             }
 
-            if(notes != null)
+            if (notes != null)
             {
                 app.Notes = notes;
             }
@@ -164,7 +164,7 @@ namespace Spa.Domain.Service
         {
             var app = _appointmentRepository.GetAppointmentByID(id);
 
-            if(perDiscount != null)
+            if (perDiscount != null)
             {
                 app.DiscountPercentage = perDiscount;
                 app.DiscountAmount = app.Total * ((double)perDiscount / 100);
@@ -176,7 +176,7 @@ namespace Spa.Domain.Service
         public async Task<bool> AssignTechnicalStaff(long idApp, long idEm)
         {
             var appToUpdate = GetAppointmentByIdAsync(idApp);
-            if(appToUpdate.Assignments.FirstOrDefault(e=> e.Employees.JobTypeID == 2) != null)
+            if (appToUpdate.Assignments.FirstOrDefault(e => e.Employees.JobTypeID == 2) != null)
             {
                 if (!appToUpdate.Assignments.Where(em => em.EmployerID == idEm).IsNullOrEmpty())
                 {
@@ -197,8 +197,37 @@ namespace Spa.Domain.Service
                 _appointmentRepository.UpdateAppointment(appToUpdate);
                 return true;
             }
+        }
 
+        public async Task<bool> UpdateAppointment(long idApp, Appointment appointment)
+        {
+            try {
+                var appToUpdate = await _appointmentRepository.GetAppointmentByIdAsync(idApp);
+                UpdateNonNullFields(appToUpdate, appointment);
+                var x = appToUpdate.ChooseServices;
+
+                return await _appointmentRepository.UpdateAppointmentAsync(appToUpdate);
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+            
            
+        }
+
+        private void UpdateNonNullFields(Appointment target, Appointment source)
+        {
+            var properties = typeof(Appointment).GetProperties();
+            target.ChooseServices.Clear();
+
+            foreach (var property in properties)
+            {
+                var sourceValue = property.GetValue(source);
+                if (sourceValue != null)
+                {
+                    property.SetValue(target, sourceValue);
+                }
+            }
         }
 
     }

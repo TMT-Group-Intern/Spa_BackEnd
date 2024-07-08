@@ -33,5 +33,7 @@ namespace Spa.Domain.IService
         Task<bool> UpdateDiscount(long id, int perDiscount);
 
         Task<bool> AssignTechnicalStaff(long idApp, long idEm);
+
+        Task<bool> UpdateAppointment(long idApp, Appointment appointment);
     }
 }
