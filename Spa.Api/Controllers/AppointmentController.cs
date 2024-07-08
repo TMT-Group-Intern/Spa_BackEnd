@@ -219,7 +219,7 @@ namespace Spa.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if (_appointmentService.GetAppointmentByIdAsync(id) != null)
+            if ( _appointmentService.GetAppointmentByIdAsync(id) != null)
             {
                 if (appointment.ListServiceID != null)
                 {
@@ -234,7 +234,7 @@ namespace Spa.Api.Controllers
                 Appointment app = new Appointment
                 {
                     AppointmentID = id,
-                    AppointmentDate = appointment.AppointmentDate,
+                    AppointmentDate = appointment.AppointmentDate ,
                     BranchID = appointment.BranchID,
                     CustomerID = appointment.CustomerID,
                     Notes = appointment.Notes,
