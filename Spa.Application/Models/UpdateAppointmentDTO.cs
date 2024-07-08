@@ -9,9 +9,9 @@ namespace Spa.Application.Models
 {
     public class UpdateAppointmentDTO
     {
-        public DateTime AppointmentDate { get; set; }
-        public long BranchID { get; set; }
-        public long CustomerID { get; set; }
+        public DateTime? AppointmentDate { get; set; }
+        public long? BranchID { get; set; }
+        public long? CustomerID { get; set; }
         public string? Status { get; set; }
         public double? Total { get; set; }
         public double? DiscountAmount { get; set; }
