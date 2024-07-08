@@ -18,7 +18,7 @@ namespace Spa.Domain.IRepository
 
         Task<bool> AddChooseService(long idApp, long idSer);
 
-        Task<Appointment> GetNewAppoinmentAsync();
+        Task<Appointment?> GetNewAppoinmentAsync();
 
         bool DeleteAppointment(Appointment appointment);
 
@@ -34,5 +34,9 @@ namespace Spa.Domain.IRepository
 
         Task<List<double>> GetAllPriceService(long idApp);
         bool UpdateTotalAppointment(Appointment appointment);
+
+        Task<bool> UpdateAppointmentAsync(Appointment appointment); // Update Apppointment
+
+        Task<Appointment> GetAppointmentByIdAsync(long idApp);
     }
 }

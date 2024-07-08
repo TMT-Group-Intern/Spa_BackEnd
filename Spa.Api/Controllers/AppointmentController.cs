@@ -10,6 +10,7 @@ using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
 using Spa.Domain.Service;
+using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -93,9 +94,9 @@ namespace Spa.Api.Controllers
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
                 Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
-                TeachnicalStaff = a.Assignments.Where(e=> e.Employees.JobTypeID == 3).Select(e => e.Employees.FirstName +" "+ e.Employees.LastName).FirstOrDefault(),
+                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
                 EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault()
-                
+
             });
             var appByBrand = app.Where(e => e.BranchID == idBrand && e.Status == status && e.AppointmentDate >= DateTime.Today);
             if (app == null)
@@ -192,7 +193,7 @@ namespace Spa.Api.Controllers
 
                 return Ok(new { id });
             }
-            catch( Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception();
             }
@@ -209,6 +210,46 @@ namespace Spa.Api.Controllers
 
             return Ok(new { id });
         }
+
+        [HttpPut("Test/{id}")]
+        public async Task<ActionResult> UpdateAppointment(long id, UpdateAppointmentDTO appointment)  //Update Appointment (RESTFUll)
+        {
+            ICollection<ChooseService>? chooseServices = new List<ChooseService>();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (_appointmentService.GetAppointmentByIdAsync(id) != null)
+            {
+                if (appointment.ListServiceID != null)
+                {
+                    foreach (var item in appointment.ListServiceID)
+                    {
+                        {
+                            chooseServices!.Add(new ChooseService { AppointmentID = id, ServiceID = item });
+                        };
+                    }
+                }
+
+                Appointment app = new Appointment
+                {
+                    AppointmentID = id,
+                    AppointmentDate = appointment.AppointmentDate,
+                    BranchID = appointment.BranchID,
+                    CustomerID = appointment.CustomerID,
+                    Notes = appointment.Notes,
+                    DiscountPercentage = appointment.DiscountPercentage,
+                    Status = appointment.Status,
+                    ChooseServices = chooseServices
+                };
+                await _appointmentService.UpdateAppointment(id, app);
+
+                return Ok(new { id, appointment });
+            }
+            return NotFound();
+
+        }
+
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAppointmentById(long id)
@@ -236,12 +277,12 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("UpdateDiscount")]
-        public async Task<ActionResult> UpdateDiscount(long id ,int perDiscount)
+        public async Task<ActionResult> UpdateDiscount(long id, int perDiscount)
         {
-          var a =  await _appointmentService.UpdateDiscount(id, perDiscount);
+            var a = await _appointmentService.UpdateDiscount(id, perDiscount);
             return Ok(a);
         }
 
     }
-    
+
 }

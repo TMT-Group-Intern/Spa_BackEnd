@@ -44,7 +44,7 @@ namespace Spa.Infrastructure
         public async Task<bool> UpdateAppointmentWithoutService(Appointment appointment)
         {
             _spaDbContext.UpdateRange(appointment);
-           await _spaDbContext.SaveChangesAsync();
+            await _spaDbContext.SaveChangesAsync();
             return true;
         }
 
@@ -68,17 +68,17 @@ namespace Spa.Infrastructure
         {
             return _spaDbContext.Appointments
                                 .Include(c => c.Customer)
-                                .Include(a => a.Assignments).ThenInclude(e => e.Employees)
-                                .Include(s => s.ChooseServices).ThenInclude(se => se.Service).ToList();
+                                .Include(a => a.Assignments!).ThenInclude(e => e.Employees)
+                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service).ToList();
         }
 
         public Appointment GetAppointmentByID(long appointmentId)
         {
             return _spaDbContext.Appointments.Where(a => a.AppointmentID == appointmentId)
                                              .Include(c => c.Customer)
-                                             .Include(e => e.Assignments).ThenInclude(em => em.Employees)
-                                             .Include(s => s.ChooseServices).ThenInclude(se => se.Service)
-                                             .FirstOrDefault();
+                                             .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
+                                             .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
+                                             .FirstOrDefault()!;
         }
 
 
@@ -86,7 +86,7 @@ namespace Spa.Infrastructure
         public void UpdateAppointment(Appointment appointment)
         {
             Update(appointment);
-        
+
         }
 
         public async Task<Appointment?> GetNewAppoinmentAsync()
@@ -100,7 +100,7 @@ namespace Spa.Infrastructure
                 }
                 return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -108,7 +108,6 @@ namespace Spa.Infrastructure
 
         public async Task<bool> updateServiceInAppointmentByDoctor(long id, List<long> serviceID)
         {
-            //  ChooseService chooseservice = null;
             foreach (var i in serviceID)
             {
                 ChooseService chooseservice = new ChooseService
@@ -165,6 +164,30 @@ namespace Spa.Infrastructure
         {
             Update(appointment);
             return true;
+        }
+
+        public async Task<bool> UpdateAppointmentAsync(Appointment appointment)
+        {
+            try
+            {
+                _spaDbContext.UpdateRange(appointment);
+                await _spaDbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<Appointment> GetAppointmentByIdAsync(long idApp)
+        {
+            var appToUpdate = await _spaDbContext.Appointments.Where(a => a.AppointmentID == idApp)
+                                            .Include(c => c.Customer)
+                                            .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
+                                            .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
+                                            .FirstOrDefaultAsync();
+            return appToUpdate!;
         }
 
     }
