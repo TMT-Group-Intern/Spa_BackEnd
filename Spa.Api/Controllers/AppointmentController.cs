@@ -143,7 +143,15 @@ namespace Spa.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var getDoctorAndStaff = _appointmentService.GetAppointmentByIdAsync(id);
             var appByid = _mapper.Map<AppointmentDTO>(_appointmentService.GetAppointmentByIdAsync(id));
+            AppointmentDTO appointmentDTO = new AppointmentDTO
+            {
+                TeachnicalStaff = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(n => n.Employees.FirstName + " " + n.Employees.LastName).FirstOrDefault(),
+                Doctor = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault()
+            };
+             appByid.Doctor = appointmentDTO.Doctor;
+             appByid.TeachnicalStaff =  appointmentDTO.TeachnicalStaff;
             if (appByid == null)
             {
                 return NotFound();

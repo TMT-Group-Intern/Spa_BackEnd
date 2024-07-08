@@ -175,8 +175,9 @@ namespace Spa.Domain.Service
 
         public async Task<bool> AssignTechnicalStaff(long idApp, long idEm)
         {
+            //Jobid 2 là bác sĩ
             var appToUpdate = GetAppointmentByIdAsync(idApp);
-            if (appToUpdate.Assignments.FirstOrDefault(e => e.Employees.JobTypeID == 2) != null)
+            if (appToUpdate.Assignments.FirstOrDefault(e => e.Employees.JobTypeID == 3) != null)
             {
                 if (!appToUpdate.Assignments.Where(em => em.EmployerID == idEm).IsNullOrEmpty())
                 {
@@ -184,7 +185,7 @@ namespace Spa.Domain.Service
                 }
                 else
                 {
-                    var oldStaff = appToUpdate.Assignments.Where(e => e.Employees.JobTypeID == 2).FirstOrDefault();
+                    var oldStaff = appToUpdate.Assignments.Where(e => e.Employees.JobTypeID == 3).FirstOrDefault();
                     appToUpdate.Assignments.Remove(oldStaff);
                     appToUpdate.Assignments.Add(new Assignment { AppointmentID = idEm, EmployerID = idEm });
                     _appointmentRepository.UpdateAppointment(appToUpdate);
