@@ -24,6 +24,7 @@ namespace Spa.Api.Controllers
             _service = service;
             _mediator = mediator;
             _env = env;
+          
         }
 
         [HttpGet]
@@ -227,6 +228,41 @@ namespace Spa.Api.Controllers
             }
         }
 
+        [HttpPost("uploadMutil")]
+        public async Task<ActionResult> UploadImages(List<IFormFile> files, long id)
+        {
+            try
+            {
+                var uploadedFiles = new List<string>();
+
+                foreach (var file in files)
+                {
+                    if (file.Length > 0)
+                    {
+                        string fileName = file.FileName;
+                        var physicalPath = Path.Combine(_env.ContentRootPath, "Photos", fileName);
+
+                        using (var stream = new FileStream(physicalPath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        // Gọi dịch vụ để xử lý thông tin tệp (nếu có)
+                        await _service.UploadImage(id, fileName);
+
+                        uploadedFiles.Add(fileName);
+                    }
+                }
+
+                return Ok(new { files = uploadedFiles });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult("Update not successful") { StatusCode = 500 };
+            }
+        }
+
+
         [HttpGet("/GetHistory")]
         public async Task<ActionResult> GetHistoryCustomerById(long cutomerId)
         {
@@ -239,7 +275,7 @@ namespace Spa.Api.Controllers
                 HistoryForCustomerByIdDTO historyById = new HistoryForCustomerByIdDTO
                 {
                     // CustomerName = i.Customer.FirstName + " " + i.Customer.LastName,
-                    ServiceUsed = i.ChooseServices.Select(e => e.ServiceID).ToList(),
+                    ServiceUsed = i.ChooseServices.Select(e => e.Service.ServiceName).ToList(),
                     Date = i.AppointmentDate,
                     PhotoCustomer = i.CustomerPhotos.Select(p => p.PhotoPath).ToList()
                 };

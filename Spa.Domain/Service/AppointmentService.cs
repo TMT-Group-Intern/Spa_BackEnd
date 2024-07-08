@@ -1,4 +1,5 @@
-﻿using Spa.Domain.Entities;
+﻿using Microsoft.IdentityModel.Tokens;
+using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IRepository;
 using Spa.Domain.IService;
@@ -163,6 +164,34 @@ namespace Spa.Domain.Service
                 _appointmentRepository.UpdateAppointment(app);
             }
             return true;
+        }
+
+        public async Task<bool> AssignTechnicalStaff(long idApp, long idEm)
+        {
+            var appToUpdate = GetAppointmentByIdAsync(idApp);
+            if(appToUpdate.Assignments.FirstOrDefault(e=> e.Employees.JobTypeID == 2) != null)
+            {
+                if (!appToUpdate.Assignments.Where(em => em.EmployerID == idEm).IsNullOrEmpty())
+                {
+                    return true;
+                }
+                else
+                {
+                    var oldStaff = appToUpdate.Assignments.Where(e => e.Employees.JobTypeID == 2).FirstOrDefault();
+                    appToUpdate.Assignments.Remove(oldStaff);
+                    appToUpdate.Assignments.Add(new Assignment { AppointmentID = idEm, EmployerID = idEm });
+                    _appointmentRepository.UpdateAppointment(appToUpdate);
+                    return true;
+                }
+            }
+            else
+            {
+                appToUpdate.Assignments.Add(new Assignment { AppointmentID = idEm, EmployerID = idEm });
+                _appointmentRepository.UpdateAppointment(appToUpdate);
+                return true;
+            }
+
+           
         }
 
     }

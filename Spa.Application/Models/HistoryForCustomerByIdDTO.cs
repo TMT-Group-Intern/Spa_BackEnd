@@ -11,7 +11,7 @@ namespace Spa.Application.Models
         //public string CustomerName { get; set; }
         public List<string> PhotoCustomer {  get; set; }
 
-        public List<long> ServiceUsed {  get; set; }
+        public List<string> ServiceUsed {  get; set; }
         public DateTime Date { get; set; }
     }
 }

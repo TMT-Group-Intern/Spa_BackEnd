@@ -144,7 +144,7 @@ app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Photos")),
     RequestPath = "/Photos"
-});;
+});
 
 app.UseHttpsRedirection();  //thêm middleware để chuyển http sang https để thêm bảo mật
 

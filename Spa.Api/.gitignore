@@ -1,11 +1,10 @@
 .vs/
-Spa.Api/bin/
-Spa.Api/obj/
+bin/
+obj/
 Spa.Application/bin/
 Spa.Application/obj/
 Spa.Domain/.vs
 Spa.Domain/bin/
 Spa.Domain/obj/
 Spa.Infrastructure/bin/
-Spa.Infrastructure/obj/ 
-Spa.Domain/.vs/ 
+Spa.Infrastructure/obj/
