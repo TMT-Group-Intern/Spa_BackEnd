@@ -250,7 +250,7 @@ namespace Spa.Api.Controllers
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Password = user.PasswordHash,
-                        Role = user.Role,
+                        Role = "Admin",
                         DateOfBirth = updateDto.DateOfBirth,
                         Phone = updateDto.Phone,
                         Gender = updateDto.Gender,

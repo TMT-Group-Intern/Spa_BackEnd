@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Spa.Application.Models
 {
-    public record class UserSession(string? Code, string? Email, string? Name, string? Role);
+    public record class UserSession(string? Email, string? Name, string? Role);
 }

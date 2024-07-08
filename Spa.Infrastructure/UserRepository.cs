@@ -364,7 +364,8 @@ namespace Spa.Infrastructure
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Audience"],
                 claims: userClaims,
-                expires: DateTime.Now.AddDays(1),
+                //expires: DateTime.Now.AddDays(1),
+                expires: DateTime.MaxValue,
                 signingCredentials: credentials
                 );
 
@@ -450,7 +451,7 @@ namespace Spa.Infrastructure
                 Phone = AdminDTO.Phone,
                 DateOfBirth = AdminDTO.DateOfBirth,
                 Gender = AdminDTO.Gender,
-                
+                Role= "Admin",
             };
             var adminUpdate = await _spaDbContext.Admins.FirstOrDefaultAsync(a => a.Email == newUpdate.Email);
             if (adminUpdate is null) return false;
@@ -461,6 +462,7 @@ namespace Spa.Infrastructure
                 adminUpdate.Phone = newUpdate.Phone;
                 adminUpdate.DateOfBirth = newUpdate.DateOfBirth;
                 adminUpdate.Gender = newUpdate.Gender;
+                adminUpdate.Role = newUpdate.Role;
             }
             _spaDbContext.Admins.Update(adminUpdate);
             _spaDbContext.SaveChanges();
@@ -473,14 +475,14 @@ namespace Spa.Infrastructure
                 FirstName = EmpDTO.FirstName,
                 LastName = EmpDTO.LastName,
                 Email = EmpDTO.Email,
-                Password = EmpDTO.Password,
+                //Password = EmpDTO.Password,
                 Phone = EmpDTO.Phone,
                 DateOfBirth = EmpDTO.DateOfBirth,
                 Gender = EmpDTO.Gender,
                 HireDate = EmpDTO.HireDate,
                 JobTypeID = EmpDTO.JobTypeID,
                 BranchID = EmpDTO.BranchID,            
-
+                
             };
             var empUpdate = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == newUpdate.Email);
             if (empUpdate is null) return false;
