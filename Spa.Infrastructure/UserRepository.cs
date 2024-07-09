@@ -4,20 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Spa.Domain.Entities;
 using Spa.Domain.IRepository;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using Spa.Domain.IRepository;
 using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics.Metrics;
-using NMemory.Linq;
-using Azure.Core;
-using Spa.Domain.Authentication;
-using System.Numerics;
-using System.Reflection;
 
 namespace Spa.Infrastructure
 {
@@ -40,10 +29,6 @@ namespace Spa.Infrastructure
             _spaDbContext = spaDbContext;
         }
 
-
-
-        //
-        //Get User By Email
         public async Task<User> GetUserByEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -68,8 +53,6 @@ namespace Spa.Infrastructure
             return emp;
         }
 
-        //
-        //Get All User
         public async Task<List<User>> GetAllUsers()
         {
             var users = await _userManager.Users.ToListAsync();
@@ -93,39 +76,6 @@ namespace Spa.Infrastructure
         }
         public async Task<List<Employee>> GetAllAdminsAndEmployees()
         {
-     /*       //var users = await _userManager.Users.ToListAsync();
-            var admins = await _spaDbContext.Admins.ToListAsync();
-            var emps = await _spaDbContext.Employees.ToListAsync();
-            if (admins is null && emps is null)
-            {
-                return null;
-            }
-
-            var users = new List<User>();
-            users.AddRange(admins.Select(a => new User
-            {
-                //Id = a.Id,
-                FirstName = a.FirstName,
-                LastName = a.LastName,
-                Email = a.Email,
-                Role = a.Role,
-                PhoneNumber = a.Phone,
-                Code = a.AdminCode,
-                
-            }));
-
-            users.AddRange(emps.Select(e => new User
-            {
-                //Id = e.Id,
-                FirstName = e.FirstName,
-                LastName = e.LastName,
-                Email = e.Email,
-                Role = e.JobTypeID.ToString(),
-                PhoneNumber = e.Phone,
-                Code = e.EmployeeCode,
-            }));
-            return users.OrderBy(u => u.Code).ToList();*/
-
           var user = await _spaDbContext.Employees.OrderBy(u => u.EmployeeCode).Include(j => j.JobType).ToListAsync();
 
             return user;
@@ -162,10 +112,7 @@ namespace Spa.Infrastructure
                 }).OrderBy(e=>e.EmployeeCode).ToList();
             return empDTOs;
         }
-/*        public async Task<IEnumerable<Employee>> GetAllEmployeeByPage(int pageNumber, int pageSize)
-        {
-            return await _spaDbContext.Employees.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-        }*/
+
         public async Task<List<Employee>> GetEmployeeByBranchAndJob(long branchID, long jobTypeID)
         {
             var emps = await _spaDbContext.Employees
@@ -340,15 +287,6 @@ namespace Spa.Infrastructure
             return token;
         }
 
-        //
-        //Token
-        /*
-            "Jwt": {
-                    "Key": "qaz1wsx2edc3rfv4tgb5yhn6ujm7ik,8ol.9p;/0qwertyuiop",
-                    "Issuer": "https://localhost:7192",
-                    "Audience": "https://localhost:7192"
-            }
-        */
         public async Task<string> GenerateToken(string Id, string Name, string Email, string Role)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
@@ -373,8 +311,6 @@ namespace Spa.Infrastructure
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        //
-        //Delete User
         public async Task<bool> DeleteUser(string Email)
         {
             var user = await _userManager.FindByEmailAsync(Email);
@@ -413,8 +349,6 @@ namespace Spa.Infrastructure
             }
         }
 
-        //
-        //Update
         public async Task<bool> UpdateUser(User UserDTO)
         {
             var newUpdate = new User
@@ -476,7 +410,6 @@ namespace Spa.Infrastructure
                 FirstName = EmpDTO.FirstName,
                 LastName = EmpDTO.LastName,
                 Email = EmpDTO.Email,
-                //Password = EmpDTO.Password,
                 Phone = EmpDTO.Phone,
                 DateOfBirth = EmpDTO.DateOfBirth,
                 Gender = EmpDTO.Gender,

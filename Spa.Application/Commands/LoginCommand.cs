@@ -33,15 +33,15 @@ namespace Spa.Application.Commands
             var user = await _userRepository.GetUserByEmail(request.loginDTO.Email);
             if (user == null)
             {
-                return new AuthenticationResult(false,"Tài khoản không tồn tại!",null);
+                return new AuthenticationResult(false,"Tài khoản không tồn tại!",null,null);
             }
             string token = await _userRepository.LoginAccount(request.loginDTO.Email, request.loginDTO.Password);
             if (token is null)
             {
-                return new AuthenticationResult(false,"Mật khẩu không đúng!",null);
+                return new AuthenticationResult(false,"Mật khẩu không đúng!",null,null);
             }
-            //var userSession = new UserSession(user.Code,user.Email,user.FirstName+" "+user.LastName,user.Role);
-            return new AuthenticationResult(true,"Hello",token);
+            var userSession = new UserSession(user.Email,user.LastName+" "+user.FirstName,user.Role);
+            return new AuthenticationResult(true,"Thành công!",userSession,token);
         }
     }
 }

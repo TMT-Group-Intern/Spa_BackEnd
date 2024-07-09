@@ -100,7 +100,7 @@ namespace Spa.Api.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return new AuthenticationResult(false,"Empty",null);
+                return new AuthenticationResult(false,"Empty",null,null);
             }
             try
             {
@@ -115,11 +115,11 @@ namespace Spa.Api.Controllers
             }
             catch (DuplicateException ex)
             {
-                return new AuthenticationResult(false, "Error",null);
+                return new AuthenticationResult(false, "Error",null,null);
             }
             catch (Exception ex)
             {
-                return new AuthenticationResult(false, "Error", null);
+                return new AuthenticationResult(false, "Error",null,null);
             }
         }
     }

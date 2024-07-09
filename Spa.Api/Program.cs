@@ -126,6 +126,9 @@ builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+builder.Services.AddScoped<IBranchAndJobService, BranchAndJobService>();
+builder.Services.AddScoped<IBranchAndJobRepository, BranchAndJobRepository>();
+
 
 var app = builder.Build();
 
