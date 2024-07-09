@@ -206,7 +206,12 @@ namespace Spa.Domain.Service
                 var appToUpdate = await _appointmentRepository.GetAppointmentByIdAsync(idApp);
                 UpdateNonNullFields(appToUpdate, appointment);
                 var x = appToUpdate.ChooseServices;
-
+                var listPrice = await _appointmentRepository.GetAllPriceService(idApp);
+                appToUpdate.Total = 0;
+                foreach (var price in listPrice)
+                {
+                    appToUpdate.Total += price;
+                }
                 return await _appointmentRepository.UpdateAppointmentAsync(appToUpdate);
             }
             catch (Exception ex) {
