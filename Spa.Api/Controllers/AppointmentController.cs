@@ -50,6 +50,7 @@ namespace Spa.Api.Controllers
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
                 Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
+                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
             });
             var appByBrand = app.Where(e => e.BranchID == idBrand && e.AppointmentDate >= DateTime.Today);
             if (app == null)

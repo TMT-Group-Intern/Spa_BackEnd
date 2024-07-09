@@ -24,8 +24,6 @@ namespace Spa.Domain.Service
         public async Task<User> CreateUser(User userDTO)
         {
             if (userDTO.Role.Equals("Admin")) {
-                //var adminCheck = await _userManager.FindByEmailAsync(userDTO.Email);
-                //if (adminCheck != null) { throw new Exception("User Exist"); }
                 var admin = await _userRepository.GetAdminByEmail(userDTO.Email);
                 long? AdminID= admin.AdminID;
                 userDTO.AdminID = AdminID;

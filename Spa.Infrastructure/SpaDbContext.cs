@@ -54,7 +54,6 @@ namespace Spa.Infrastructure
             modelBuilder.ApplyConfiguration(new PaymentConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerPhotoConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            ///////////////////////////////////////////////////////////////////////////////
         }
     }
 
