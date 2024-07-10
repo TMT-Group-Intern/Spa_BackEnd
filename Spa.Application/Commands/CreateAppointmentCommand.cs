@@ -60,6 +60,7 @@ namespace Spa.Application.Commands
             foreach (var i in employees.EmployeeID)
             {
               await  _appointmentService.AddAssignment(newAppointment.AppointmentID, i);
+               await _appointmentService.AddAssignment(newAppointment.AppointmentID, i);
             }
             //if (request.ServiceID != null)
             //{              

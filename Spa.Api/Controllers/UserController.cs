@@ -40,7 +40,7 @@ namespace Spa.Api.Controllers
             _env = env;
         }
 
-        [HttpGet("allUser")]
+        [HttpGet("onlyUser")]
         public async Task<IActionResult> GetAllUsers()
         {
             var allUsers = await _userService.GetAllUsers();
@@ -58,8 +58,8 @@ namespace Spa.Api.Controllers
             var allBranches = await _userService.GetAllBranches();
             return Ok(allBranches);
         }
-        [HttpGet("allUserAdminAndEmployee")]
-        public async Task<IActionResult> GetAllAdminsAndEmployees()
+        [HttpGet("allUser")]
+        public async Task<IActionResult> GetAllUser()
         {
             var allUsers = await _userService.GetAllAdminsAndEmployees();
             var admin = await _userService.GetAllAdmin();
@@ -71,10 +71,10 @@ namespace Spa.Api.Controllers
             {
                 AllUsers b = new AllUsers
                 {
-                    Name = i.FirstName + " " + i.LastName,
+                    Name = i.LastName + " " + i.FirstName,
                     Email = i.Email,
                     Phone = i.Phone,
-                    Role = "Admin",
+                    Role = "Quản lý",
                     UserCode = i.AdminCode,
                     Gender = i.Gender,
                     DateOfBirth = i.DateOfBirth,
@@ -87,7 +87,7 @@ namespace Spa.Api.Controllers
             foreach (var i in allUsers) {
               AllUsers a = new AllUsers
               {
-                  Name = i.FirstName+" "+i.LastName,  
+                  Name = i.LastName+" "+i.FirstName,  
                   Email = i.Email,
                   Phone = i.Phone,
                   Role = i.JobType.JobTypeName,
@@ -95,6 +95,14 @@ namespace Spa.Api.Controllers
                   DateOfBirth = i.DateOfBirth,
                   Gender=i.Gender,
               };
+                if (a.Role.Equals("Employee"))
+                {
+                    a.Role = "Nhân viên kỹ thuật";
+                }
+                else if(a.Role.Equals("Doctor"))
+                {
+                    a.Role = "Bác sĩ";
+                }
                 string check = await _userService.GetUserBoolByEmail(i.Email);
                 if (check == "true")
                 {
@@ -107,9 +115,12 @@ namespace Spa.Api.Controllers
                 listAllUser.Add(a);
             }
 
-
+            listAllUser = listAllUser
+                .OrderByDescending(u => u.Role)
+                .ThenBy(u => u.isActive is false)
+                .ThenBy(u => u.UserCode)
+                .ToList();
             return new JsonResult(listAllUser, _jsonSerializerOptions);
-          /*  return Ok(allUsers);*/
         }
 
         [HttpGet("UserPage")]
@@ -267,7 +278,6 @@ namespace Spa.Api.Controllers
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Password = user.PasswordHash,
-                        //Role = user.Role,
                         Gender = updateDto.Gender,
                         HireDate = updateDto.HireDate,
                         Phone = updateDto.Phone,
