@@ -23,7 +23,7 @@ namespace Spa.Application.Commands
 
         public List<long>? ServiceID { get; set; }
 
-        public List<long> EmployeeID { get; set; }
+        public List<long>? EmployeeID { get; set; }
         //public ICollection<ChooseServiceDTO>? ChooseServicesDTO { get; set; }
     }
 
@@ -59,7 +59,7 @@ namespace Spa.Application.Commands
 
             foreach (var i in employees.EmployeeID)
             {
-                _appointmentService.AddAssignment(newAppointment.AppointmentID, i);
+               await _appointmentService.AddAssignment(newAppointment.AppointmentID, i);
             }
             //if (request.ServiceID != null)
             //{              
