@@ -22,10 +22,12 @@ namespace Spa.Application.Commands
     public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthenticationResult>
     {
         private readonly IUserRepository _userRepository;
+        private readonly IBranchRepository _branchRepository;
 
-        public LoginCommandHandler(IUserRepository userRepository)
+        public LoginCommandHandler(IUserRepository userRepository, IBranchRepository branchRepository)
         {
             _userRepository = userRepository;
+            _branchRepository = branchRepository;
         }
 
         public async Task<AuthenticationResult> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -40,8 +42,19 @@ namespace Spa.Application.Commands
             {
                 return new AuthenticationResult(false,"Mật khẩu không đúng!",null,null);
             }
-            var userSession = new UserSession(user.Email,user.LastName+" "+user.FirstName,user.Role);
-            return new AuthenticationResult(true,"Thành công!",userSession,token);
+            if (user.Role != "Admin")
+            {
+                var emp = await _userRepository.GetEmpByEmail(request.loginDTO.Email);
+                string branch = await _branchRepository.GetBranchNameByID(emp.BranchID);
+                var userSession = new UserSession(user.Email, user.LastName + " " + user.FirstName, user.Role, branch,emp.BranchID);
+                return new AuthenticationResult(true, "Thành công!", userSession, token);
+            }
+            else
+            {
+                var userSession = new UserSession(user.Email, user.LastName + " " + user.FirstName, user.Role, null,0);
+                return new AuthenticationResult(true, "Thành công!", userSession, token);
+            }
+            
         }
     }
 }
