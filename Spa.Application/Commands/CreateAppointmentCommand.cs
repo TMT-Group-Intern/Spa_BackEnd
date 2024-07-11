@@ -42,7 +42,7 @@ namespace Spa.Application.Commands
             {
                 AppointmentDate = request.AppointmentDate,
                 CustomerID = request.CustomerID,
-                BranchID = request.BranchID = 1,
+                BranchID = request.BranchID ,
                 Status = request.Status,
                 Total = request.Total,
                 
