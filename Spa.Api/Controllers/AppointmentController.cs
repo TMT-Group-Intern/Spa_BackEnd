@@ -272,7 +272,7 @@ namespace Spa.Api.Controllers
                 if (await _appointmentService.DeleteAppointment(id))
                 {
                     return Ok(new { id });
-                }
+                }   
             }
             catch (ErrorMessage ex)
             {

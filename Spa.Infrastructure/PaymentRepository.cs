@@ -43,5 +43,7 @@ namespace Spa.Infrastructure
                 .Include(a => a.Appointment).Where(a => a.Appointment.BranchID == branchID).ToListAsync();
         }
 
+
+
     }
 }

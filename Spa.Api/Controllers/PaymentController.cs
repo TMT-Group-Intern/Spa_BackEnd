@@ -34,6 +34,20 @@ namespace Spa.Api.Controllers
             return Ok(new { revenue = revenue });
         }
 
+        [HttpGet("/getpaymentofcus")]
+        public async Task<ActionResult> GetPaymenOfCustomer()
+        {
+            try { 
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Ok();
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddPayment(long Id)
         {
