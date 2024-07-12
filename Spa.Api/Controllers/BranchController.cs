@@ -15,23 +15,23 @@ namespace Spa.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BranchAndJobController : ControllerBase
+    public class BranchController : ControllerBase
     {
         private readonly JsonSerializerOptions _jsonSerializerOptions;
-        private readonly IBranchAndJobService _bnjService;
+        private readonly IBranchService _branchService;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
         private readonly IWebHostEnvironment _env;
         private readonly ILogger _logger;
 
-        public BranchAndJobController(IBranchAndJobService bnjService, IMapper mapper, IMediator mediator, IWebHostEnvironment env)
+        public BranchController(IBranchService branchService, IMapper mapper, IMediator mediator, IWebHostEnvironment env)
         {
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 WriteIndented = true,
                 ReferenceHandler = ReferenceHandler.IgnoreCycles
             };
-            _bnjService = bnjService;
+            _branchService = branchService;
             _mapper = mapper;
             _mediator = mediator;
             _env = env;
@@ -40,7 +40,7 @@ namespace Spa.Api.Controllers
         [HttpGet("allBranches")]
         public async Task<IActionResult> GetAllBranches()
         {
-            var allBranches = await _bnjService.GetAllBranches();
+            var allBranches = await _branchService.GetAllBranches();
             return Ok(allBranches);
         }
 
@@ -49,7 +49,7 @@ namespace Spa.Api.Controllers
         {
             try
             {
-                var getBranchByID = _bnjService.GetBranchByID(id);
+                var getBranchByID = _branchService.GetBranchByID(id);
                 if(getBranchByID.Result is null)
                 {
                     throw new Exception("Not Found!");
@@ -68,6 +68,23 @@ namespace Spa.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        [HttpGet("getBranchNameByID")]
+        public async Task<IActionResult> GetBranchNameByID(long id)
+        {
+            try
+            {
+                string getBranchNameByID = await _branchService.GetBranchNameByID(id);
+                if (getBranchNameByID is null)
+                {
+                    throw new Exception("Not Found!");
+                }
+                return Ok(new { getBranchNameByID });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
 
         [HttpPost("createBranch")]
         public async Task<IActionResult> CreateBranch([FromBody] BranchDTO branchDto)
@@ -80,8 +97,7 @@ namespace Spa.Api.Controllers
                     BranchName= branchDto.BranchName,
                     BranchAddress = branchDto.BranchAddress,
                 };
-                var newBranch = await _bnjService.CreateBranch(branch);
-                //  return Ok(true);
+                var newBranch = await _branchService.CreateBranch(branch);
                 return Ok(new { id = newBranch });
             }
             catch (DuplicateException ex)
@@ -111,7 +127,7 @@ namespace Spa.Api.Controllers
                     BranchAddress = updateDto.BranchAddress,
                 };
 
-                    await _bnjService.UpdateBranch(branch);
+                    await _branchService.UpdateBranch(branch);
                     return Ok(true);
                 }
 
@@ -130,107 +146,7 @@ namespace Spa.Api.Controllers
         {
             try
             {
-                await _bnjService.DeleteBranch(id);
-                return Ok(true);
-            }
-            catch (ForeignKeyViolationException ex)
-            {
-                return BadRequest(new { Message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An unexpected error occurred.");
-            }
-        }
-
-        [HttpGet("allJobs")]
-        public async Task<IActionResult> GetAllJobs()
-        {
-            var allJobs = await _bnjService.GetAllJobs();
-            return Ok(allJobs);
-        }
-
-        [HttpGet("getJobTypeNameByID")]
-        public async Task<IActionResult> GetJobTypeByID(long id)
-        {
-            try
-            {
-                var getJobTypeNameByID = _bnjService.GetJobTypeByID(id);
-                if (getJobTypeNameByID.Result is null)
-                {
-                    throw new Exception("Not Found!");
-                }
-                JobDTO jobDTO = new JobDTO
-                {
-                    JobTypeID = getJobTypeNameByID.Result.JobTypeID,
-                    JobTypeName = getJobTypeNameByID.Result.JobTypeName,
-                };
-                return Ok(new { jobDTO });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
-        }
-
-        [HttpPost("createJob")]
-        public async Task<IActionResult> CreateJobType([FromBody] JobDTO jobDto)
-        {
-            try
-            {
-                var job = new JobType
-                {
-                    //JobTypeID= jobDto.JobTypeID,
-                    JobTypeName = jobDto.JobTypeName,
-                };
-                var newjob =await  _bnjService.CreateJobType(job);
-                //  return Ok(true);
-                return Ok(new { id = newjob });
-            }
-            catch (DuplicateException ex)
-            {
-                return Conflict(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        [HttpPut("updateJob")]
-        public async Task<IActionResult> UpdateJob(long id, [FromBody] JobDTO updateDto)
-        {
-            try
-            {
-                if (updateDto == null || !ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                JobType job = new JobType
-                {
-                    JobTypeID = id,
-                    JobTypeName = updateDto.JobTypeName,
-                };
-                await _bnjService.UpdateJob(job);
-                return Ok(true);
-            }
-
-            catch (DuplicateException ex)
-            {
-                return BadRequest(new { Message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An unexpected error occurred.");
-            }
-        }
-
-        [HttpDelete("deleteJob")]
-        public async Task<ActionResult> DeleteJob(long id)
-        {
-            try
-            {
-                await _bnjService.DeleteJob(id);
+                await _branchService.DeleteBranch(id);
                 return Ok(true);
             }
             catch (ForeignKeyViolationException ex)

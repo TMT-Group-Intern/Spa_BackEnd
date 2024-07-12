@@ -7,13 +7,8 @@ using System.Threading.Tasks;
 
 namespace Spa.Domain.IService
 {
-    public interface IBranchAndJobService
+    public interface IJobService
     {
-        Task<List<Branch>> GetAllBranches();
-        Task<Branch>GetBranchByID(long? branchID);
-        Task<Branch> CreateBranch(Branch branchDTO);
-        Task UpdateBranch(Branch branchDTO);
-        Task DeleteBranch(long? id);
         Task<List<JobType>> GetAllJobs();
         Task<JobType> GetJobTypeByID(long? jobTypeID);
         Task<JobType> CreateJobType(JobType jobDTO);
