@@ -13,6 +13,12 @@ namespace Spa.Domain.IService
 
         Task<Bill> GetNewBillAsync();
 
-        Task<bool> AddBillItem(List<BillItem> billItems);   
+        Task<bool> AddBillItem(List<BillItem> billItems);
+
+        Task<Bill?> GetBillByIdAsync(long id);
+
+        Task<IEnumerable<Bill>> GetAllBillAsync();
+
+        Task<Bill> UpdateBill(long id, Bill bill);
     }
 }

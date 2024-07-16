@@ -15,6 +15,11 @@ namespace Spa.Infrastructure
         {
         }
 
+        public async Task<IEnumerable<Bill>> GetAllBillAsync()
+        {
+            return await _spaDbContext.Bill.ToListAsync();
+        }
+
         public async Task<bool> AddBillItem(List<BillItem> billItems)
         {
             try
@@ -38,6 +43,11 @@ namespace Spa.Infrastructure
             return bill;
         }
 
+        public async Task<Bill?> GetBillByIdAsync(long id) //Get By ID
+        {
+         return await _spaDbContext.Bill.Include(i => i.BillItems).Where(b => b.BillID == id).FirstOrDefaultAsync() ?? null;
+        }
+
         public async Task<Bill> GetNewBillAsync()
         {
             try
@@ -54,5 +64,13 @@ namespace Spa.Infrastructure
                 return null;
             }
         }
+
+        public async Task<Bill> UpdateBill(Bill bill)
+        {
+           _spaDbContext.Bill.UpdateRange(bill);
+            await _spaDbContext.SaveChangesAsync();
+            return bill;
+        }
+
     }
 }
