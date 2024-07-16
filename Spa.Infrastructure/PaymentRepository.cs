@@ -39,9 +39,11 @@ namespace Spa.Infrastructure
 
         public async Task<List<Payment>> GetAllPaymentByBranch(long branchID)
         {
-            return await _spaDbContext.Payments.Include(c =>c.Customer)
-                .Include(a => a.Appointment).Where(a => a.Appointment.BranchID == branchID).ToListAsync();
+            return await _spaDbContext.Payments.Include(c =>c.PaymentID)   ///.customer cái cũ
+                .Include(a => a.PaymentID).ToListAsync();
         }
+
+
 
     }
 }

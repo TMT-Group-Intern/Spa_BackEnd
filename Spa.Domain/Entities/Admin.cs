@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace Spa.Domain.Entities
         public DateTime? DateOfBirth { get; set; }
         public string? Gender { get; set; }
         public string Role { get; set; }
+        public bool IsActive { get; set; } = true;
         public ICollection<User>? User { get; set; }
     }
 }

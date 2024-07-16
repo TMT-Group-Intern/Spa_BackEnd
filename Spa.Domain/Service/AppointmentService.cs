@@ -7,6 +7,7 @@ using Spa.Domain.IService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,10 +16,12 @@ namespace Spa.Domain.Service
     public class AppointmentService : IAppointmentService
     {
         private readonly IAppointmentRepository _appointmentRepository;
+        private readonly IServiceRepository _serviceRepository;
 
-        public AppointmentService(IAppointmentRepository appointmentRepository)
+        public AppointmentService(IAppointmentRepository appointmentRepository, IServiceRepository serviceRepository)
         {
             _appointmentRepository = appointmentRepository;
+            _serviceRepository = serviceRepository;
         }
         public async Task CreateAppointmentAsync(Appointment appointment)
         {
@@ -205,20 +208,17 @@ namespace Spa.Domain.Service
             try {
                 var appToUpdate = await _appointmentRepository.GetAppointmentByIdAsync(idApp);
                 UpdateNonNullFields(appToUpdate, appointment);
-                var x = appToUpdate.ChooseServices;
-                var listPrice = await _appointmentRepository.GetAllPriceService(idApp);
+                var chooseService = appToUpdate.ChooseServices;
                 appToUpdate.Total = 0;
-                foreach (var price in listPrice)
+                foreach (var item in chooseService)
                 {
-                    appToUpdate.Total += price;
+                    appToUpdate.Total += await _serviceRepository.GetPriceService(item.ServiceID);
                 }
                 return await _appointmentRepository.UpdateAppointmentAsync(appToUpdate);
             }
             catch (Exception ex) {
                 throw ex;
-            }
-            
-           
+            }           
         }
 
         private void UpdateNonNullFields(Appointment target, Appointment source)

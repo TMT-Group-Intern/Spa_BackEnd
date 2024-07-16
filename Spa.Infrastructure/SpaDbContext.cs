@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Spa.Domain.Entities;
 using Spa.Infrastructure.EntityConfigurations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spa.Infrastructure
 {
@@ -35,6 +29,9 @@ namespace Spa.Infrastructure
         public DbSet<Payment> Payments { get; set; }
         public DbSet<CustomerPhoto> CustomerPhotos { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Bill> Bill { get; set; }
+
+        public DbSet<BillItem> BillItem { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,6 +51,8 @@ namespace Spa.Infrastructure
             modelBuilder.ApplyConfiguration(new PaymentConfiguration());
             modelBuilder.ApplyConfiguration(new CustomerPhotoConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new BillConfiguration());
+            modelBuilder.ApplyConfiguration(new BillItemConfiguration());
         }
     }
 

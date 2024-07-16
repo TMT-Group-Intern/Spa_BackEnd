@@ -99,5 +99,12 @@ namespace Spa.Infrastructure
             Update(ServiceEntity);
             return true;
         }
+
+        public async Task<double> GetPriceService(long serviceID)
+        {
+            return await _spaDbContext.Services.Where(item => item.ServiceID == serviceID).Select(p => p.Price).FirstOrDefaultAsync();
+        }
+
+        
     }
 }

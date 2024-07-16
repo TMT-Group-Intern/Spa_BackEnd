@@ -19,12 +19,13 @@ namespace Spa.Domain.Entities
         public double? DiscountAmount { get; set; }
         public int? DiscountPercentage {  get; set; }
         public string? Notes { get; set; }
+        public Bill? Bill { get; set; }
         public ICollection<ChooseService>? ChooseServices { get; set; }
 
         public ICollection<CustomerPhoto>? CustomerPhotos { get; set; }
 
         public ICollection<Assignment>? Assignments { get; set; }
 
-        public ICollection<Payment> Payments { get; set; }
+      
     }
 }

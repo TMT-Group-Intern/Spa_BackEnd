@@ -17,9 +17,6 @@ namespace Spa.Infrastructure.EntityConfigurations
             builder.HasKey(e => e.AppointmentID);
             builder.Property(e => e.AppointmentID).ValueGeneratedOnAdd(); //tự tăng
 
-           // builder.HasMany(s => s.ChooseServices)
-           //.WithOne(cs => cs.Appointment) 
-           //.HasForeignKey(cs => cs.AppointmentID);
 
             //one to many with branch
             builder.HasOne(x => x.Branch)
@@ -33,10 +30,7 @@ namespace Spa.Infrastructure.EntityConfigurations
            .HasForeignKey(x => x.CustomerID)
            .OnDelete(DeleteBehavior.Restrict);
 
-        /*    builder.HasMany(e => e.CustomerPhotos)
-                .WithOne(e => e.Appointments)
-                .HasForeignKey(e => e.AppointmentID);*/
-                
+
 
 
         }

@@ -34,6 +34,20 @@ namespace Spa.Api.Controllers
             return Ok(new { revenue = revenue });
         }
 
+        [HttpGet("/getpaymentofcus")]
+        public async Task<ActionResult> GetPaymenOfCustomer()
+        {
+            try { 
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Ok();
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddPayment(long Id)
         {
@@ -119,7 +133,7 @@ namespace Spa.Api.Controllers
 
             foreach (var payment in payments)
             {
-                dataTable.Rows.Add(payment.Customer.CustomerCode, payment.Customer.FirstName + " " + payment.Customer.LastName, payment.PaymentDate, payment.Amount, payment.PaymentMethod, payment.CreatedAt, payment.Notes == null ? "" : payment.Notes);
+            //    dataTable.Rows.Add(payment.Customer.CustomerCode, payment.Customer.FirstName + " " + payment.Customer.LastName, payment.PaymentDate, payment.Amount, payment.PaymentMethod, payment.CreatedAt, payment.Notes == null ? "" : payment.Notes);
             }
 
             using (XLWorkbook wb = new XLWorkbook())
