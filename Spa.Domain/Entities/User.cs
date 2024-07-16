@@ -17,5 +17,7 @@ namespace Spa.Domain.Entities
         public long? AdminID { get; set; }
         public Admin Admin { get; set; }
         public Employee Employee { get; set; }
+
+        public bool IsActiveAcount { get; set; }
     }
 }
