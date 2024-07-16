@@ -19,12 +19,14 @@ namespace Spa.Api.Controllers
         private readonly IPaymentService _paymentService;
         private readonly IMediator _mediator;
         private readonly IAppointmentService _appointmentService;
+        private readonly IBillService _billService;
 
-        public PaymentController(IPaymentService paymentService, IMediator mediator, IAppointmentService appointmentService)
+        public PaymentController(IPaymentService paymentService, IMediator mediator, IAppointmentService appointmentService, IBillService billService)
         {
             _paymentService = paymentService;
             _mediator = mediator;
             _appointmentService = appointmentService;
+            _billService = billService;
         }
 
         [HttpGet("/GetRevenueToday")]
@@ -49,7 +51,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPayment(long Id)
+        public async Task<IActionResult> AddPayment( Payment payment) //Id bill
         {
             if (!ModelState.IsValid)
             {
@@ -57,27 +59,10 @@ namespace Spa.Api.Controllers
             }
             try
             {
-                Appointment app = _appointmentService.GetAppointmentByIdAsync(Id);
-                if (app != null)
+               if(await _billService.GetBillByIdAsync(payment.BillID)!= null)
                 {
-                    var command = new CreatePaymentCommand
-                    {
-                        AppointmentID = Id,
-                        CustomerID = app.CustomerID,
-                        CreatedAt = DateTime.Now,
-                        PaymentDate = DateTime.Now,
-                        Status = "Completed",
-                        PaymentMethod = "Cash",
-                        Amount = app.DiscountPercentage != null ? app.Total - (app.Total * ((double)app.DiscountPercentage / 100)) : app.Total
-                    };
-                    var item = await _mediator.Send(command);
-                    if (item != null)
-                    {
-                        //Appointment updateSuccsess = _appointmentService.GetAppointmentByIdAsync(Id);
-                        //updateSuccsess.Status = "already paid";
-                        await _appointmentService.UpdateStatus(Id, "Already paid");
-                    }
-                    return Ok(new { item });
+                    await _paymentService.AddPayment(payment); 
+                    return Ok("success");
                 }
                 return NotFound();
             }
