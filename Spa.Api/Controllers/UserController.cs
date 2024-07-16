@@ -50,10 +50,7 @@ namespace Spa.Api.Controllers
         {
             var allUsers = await _userService.GetAllAdminsAndEmployees();
             var admin = await _userService.GetAllAdmin();
-
             List<AllUsers> listAllUser = new List<AllUsers>();
-
-
             foreach (var i in admin)
             {
                 AllUsers b = new AllUsers
@@ -73,12 +70,10 @@ namespace Spa.Api.Controllers
                     listAllUser.Add(b);
                 }
             }
-
-
             foreach (var i in allUsers) {
               AllUsers a = new AllUsers
               {
-                  Name = i.LastName+" "+i.FirstName,  
+                  Name = i.LastName + " " + i.FirstName,  
                   Email = i.Email,
                   Phone = i.Phone,
                   Role = i.JobType.JobTypeName,
@@ -87,18 +82,14 @@ namespace Spa.Api.Controllers
                   Gender=i.Gender,
                   isActive=i.IsActive
               };
-
                 a.UserCode = i.EmployeeCode;
-
                 string check = await _userService.GetUserBoolByEmail(i.Email);
                 a.haveAccount = check == "true";
-
                 if (i.IsActive)
                 {
                     listAllUser.Add(a);
                 }
             }
-
             listAllUser = listAllUser
                 .OrderByDescending(u => u.Role == "Quản lý")
                 .ThenBy(u => u.Role == "Bảo vệ")
@@ -120,15 +111,10 @@ namespace Spa.Api.Controllers
                 LastName = u.LastName,
                 Email = u.Email,
                 Phone = u.PhoneNumber,
-                Role = u.Role,
-                
+                Role = u.Role, 
             });
-
             var totalItems = await _userService.GetAllItem();
-
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
-
-
             return Ok(new { item = userDTO, totalItems, totalPages });
         }
 
@@ -144,6 +130,7 @@ namespace Spa.Api.Controllers
             var allEmps = await _userService.GetEmployeeByBranchAndJob(branchID, jobTypeID);
             return Ok(allEmps);
         }
+
         [HttpGet("allAdmin")]
         public async Task<IActionResult> GetAllAdmin()
         {
@@ -154,7 +141,6 @@ namespace Spa.Api.Controllers
         [HttpGet("getUserByEmail")]
         public async Task<IActionResult> GetUserByEmail(string email)
         {
-
              var getUserByEmail = _userService.GetUserByEmail(email);
              UserDTO userDTO = new UserDTO
              {
@@ -164,16 +150,16 @@ namespace Spa.Api.Controllers
                  Email = getUserByEmail.Result.Email,
                  Code = getUserByEmail.Result.Code,
                  Role = getUserByEmail.Result.Role,
-                 Phone = getUserByEmail.Result.PhoneNumber,
+                 Phone = getUserByEmail.Result.PhoneNumber,  
+                 isActive=getUserByEmail.Result.IsActiveAcount
              };
              return Ok(new { userDTO });
         }
+
         [HttpGet("getUserByAdmin")]
         public async Task<IActionResult> GetAdminByEmail(string email)
         {
-
             var getAdminByEmail = _userService.GetAdminByEmail(email);
-
             AdminDTO adminDTO = new AdminDTO
             {
                 AdminID = getAdminByEmail.Result.AdminID,
@@ -185,17 +171,16 @@ namespace Spa.Api.Controllers
                 DateOfBirth=getAdminByEmail.Result.DateOfBirth,
                 Gender = getAdminByEmail.Result.Gender,
                 Password = getAdminByEmail.Result.Password,
-                Phone = getAdminByEmail.Result.Phone
-                
+                Phone = getAdminByEmail.Result.Phone,
+                IsActive = getAdminByEmail.Result.IsActive
             };
             return Ok(new { adminDTO });
         }
+
         [HttpGet("getUserByEmployee")]
         public async Task<IActionResult> GetEmpByEmail(string email)
         {
-
             var getEmpByEmail = _userService.GetEmpByEmail(email);
-
             EmployeeDTO empDTO = new EmployeeDTO
             {
                 EmployeeID = getEmpByEmail.Result.EmployeeID,
@@ -210,18 +195,21 @@ namespace Spa.Api.Controllers
                 JobTypeID = getEmpByEmail.Result.JobTypeID,
                 Password = getEmpByEmail.Result.Password,
                 Phone=getEmpByEmail.Result.Phone,
+                IsActive = getEmpByEmail.Result.IsActive,
                 Branch = await _branchService.GetBranchNameByID(getEmpByEmail.Result.BranchID),
             };
             var job = await _jobService.GetJobTypeByID(empDTO.JobTypeID);
             empDTO.Role=job.JobTypeName;
             return Ok(new { empDTO });
         }
+
         [HttpGet("getUserBoolByEmail")]
         public async Task<IActionResult> GetUserBoolByEmail(string email)
         {
             string checkUser =await  _userService.GetUserBoolByEmail(email);
             return Ok(new { check = checkUser });
         }
+
         [HttpPut("updateUser")]
         public async Task<IActionResult> UpdateUser(string email, [FromBody] UpdateDTO updateDto)
         {
@@ -288,6 +276,7 @@ namespace Spa.Api.Controllers
                 return StatusCode(500, "An unexpected error occurred.");
             }
         }
+
         [HttpDelete("deleteUser")]
         public async Task<ActionResult> DeleteUser(string email)
         {

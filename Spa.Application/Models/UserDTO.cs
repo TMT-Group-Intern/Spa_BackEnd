@@ -38,5 +38,6 @@ namespace Spa.Application.Models
         public long? JobTypeID { get; set; }
         public long? BranchID { get; set; }
         public string? Role { get; set; }
+        public bool? isActive { get; set; }
     }
 }
