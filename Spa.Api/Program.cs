@@ -133,6 +133,11 @@ builder.Services.AddScoped<IJobService, JobService>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
 
 
+//Bill
+builder.Services.AddScoped<IBillService, BillService>();
+builder.Services.AddScoped<IBillRepository, BillRepository>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
