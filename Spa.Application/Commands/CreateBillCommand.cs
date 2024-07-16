@@ -14,12 +14,12 @@ namespace Spa.Application.Commands
     {
         public long? CustomerID { get; set; }
         public long AppointmentID { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         public string? BillStatus { get; set; }
         public string? Doctor { get; set; }
         public string? TechnicalStaff { get; set; }
 
-        public double TotalAmount { get; set; }   // tổng tiền
+        public double? TotalAmount { get; set; }   // tổng tiền
         public double? AmountInvoiced { get; set; } = 0;// thanh toán
         public double? AmountResidual { get; set; } = 0; // còn lại
 
@@ -59,13 +59,15 @@ namespace Spa.Application.Commands
                 if (checkChooservice.ChooseServices != null)
                 {
                     List<BillItem> newBillItems = new List<BillItem>();
+                    bill.TotalAmount = 0;
                     foreach (var item in checkChooservice.ChooseServices)
                     {
+                        bill.TotalAmount += item.Service.Price;
                         newBillItems.Add(new BillItem()
                         {
                             BillID = newBillInDatabase.BillID,
                             ServiceID = item.ServiceID,
-                            // Quantity = 
+                             Quantity = 1, // đổi chooseService thêm trường quatity rồi chèn vào đây
                             ServiceName = item.Service.ServiceName,
                             UnitPrice = item.Service.Price,
                         });
