@@ -80,6 +80,13 @@ namespace Spa.Api.Controllers
             return new JsonResult(billLine);
         }
 
+        [HttpGet("getbillbycustomer")]
+        public async Task<ActionResult> GetAllBillByCustomerAsync(long cusId)
+        {
+            var billLine = await _billService.GetAllBillByCustomerAsync(cusId);
+            return new JsonResult(billLine);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult> GetBillByIdAsync(long id)
         {
