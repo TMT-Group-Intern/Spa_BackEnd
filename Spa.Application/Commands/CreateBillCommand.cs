@@ -38,10 +38,11 @@ namespace Spa.Application.Commands
         }
         public async Task<long> Handle(CreateBillCommand request, CancellationToken cancellationToken)
         {
+            long idNewBill = 0;
             Bill bill = new Bill()
             {
                 AppointmentID = request.AppointmentID,
-                AmountResidual = request.AmountResidual,
+                AmountResidual = request.TotalAmount,
                 AmountInvoiced = request.AmountInvoiced,
                 TechnicalStaff = request.TechnicalStaff,
                 Doctor = request.Doctor,
@@ -49,13 +50,14 @@ namespace Spa.Application.Commands
                 // BillItems = request.BillItems,
                 BillStatus = request.BillStatus,
                 CustomerID = request.CustomerID,
-                
+
             };
             var newBill = await _billService.CreateBill(bill);
             if (newBill != null)
             {
                 var checkChooservice = _appointmentService.GetAppointmentByIdAsync(request.AppointmentID); // check service trong appointment
                 var newBillInDatabase = await _billService.GetNewBillAsync();
+                idNewBill = newBillInDatabase.BillID;
                 if (checkChooservice.ChooseServices != null)
                 {
                     List<BillItem> newBillItems = new List<BillItem>();
@@ -67,16 +69,16 @@ namespace Spa.Application.Commands
                         {
                             BillID = newBillInDatabase.BillID,
                             ServiceID = item.ServiceID,
-                             Quantity = 1, // đổi chooseService thêm trường quatity rồi chèn vào đây
+                            Quantity = 1, // đổi chooseService thêm trường quatity rồi chèn vào đây
                             ServiceName = item.Service.ServiceName,
                             UnitPrice = item.Service.Price,
                         });
                     }
-                   await _billService.AddBillItem(newBillItems);
+                    await _billService.AddBillItem(newBillItems);
                 }
             }
 
-            return newBill.AppointmentID;
+            return idNewBill;
         }
     }
 }
