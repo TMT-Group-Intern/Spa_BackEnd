@@ -38,6 +38,7 @@ namespace Spa.Application.Commands
         }
         public async Task<long> Handle(CreateBillCommand request, CancellationToken cancellationToken)
         {
+            long newIdBill = 0;
             Bill bill = new Bill()
             {
                 AppointmentID = request.AppointmentID,
@@ -56,6 +57,7 @@ namespace Spa.Application.Commands
             {
                 var checkChooservice = _appointmentService.GetAppointmentByIdAsync(request.AppointmentID); // check service trong appointment
                 var newBillInDatabase = await _billService.GetNewBillAsync();
+                newIdBill = newBillInDatabase.BillID;
                 if (checkChooservice.ChooseServices != null)
                 {
                     List<BillItem> newBillItems = new List<BillItem>();
@@ -76,7 +78,7 @@ namespace Spa.Application.Commands
                 }
             }
 
-            return newBill.AppointmentID;
+            return newIdBill;
         }
     }
 }
