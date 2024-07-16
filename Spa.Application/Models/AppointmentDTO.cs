@@ -28,6 +28,8 @@ namespace Spa.Application.Models
         
         public string? Doctor { get; set;}
 
+        public string? SpaTherapist { get; set; }
+
         public string? EmployeeCode { get; set; }
         
         public string? Notes { get; set;}
