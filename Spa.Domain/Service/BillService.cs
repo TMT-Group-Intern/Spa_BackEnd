@@ -58,13 +58,19 @@ namespace Spa.Domain.Service
                 {
                     foreach (var item in billToUpdate.BillItems)
                     {
-                        item.UnitPrice = bill.BillItems.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.UnitPrice).FirstOrDefault();
+                        item.Quantity = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.Quantity).FirstOrDefault();
+                        item.UnitPrice = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.UnitPrice).FirstOrDefault();
                     }
                 }
                 await _billRepository.UpdateBill(billToUpdate);
             }
 
             return billToUpdate!;
+        }
+
+        public async Task<IEnumerable<Bill>> GetAllBillByCustomerAsync(long idCus)
+        {
+         return  await _billRepository.GetAllBillByCustomerAsync(idCus);
         }
     }
 }

@@ -22,5 +22,6 @@ namespace Spa.Application.Models
         public long? BranchID { get; set; }
         public string? Role { get; set; }
         public string? Branch { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

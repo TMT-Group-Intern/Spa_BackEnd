@@ -57,7 +57,7 @@ namespace Spa.Api.Controllers
                     TechnicalStaff = createBillDTO.TechnicalStaff,
                     TotalAmount = createBillDTO.TotalAmount,
                     AmountInvoiced = createBillDTO.AmountInvoiced,
-                    AmountResidual = createBillDTO.AmountResidual, //số tiền còn lại (chưa trả)
+                    AmountResidual = createBillDTO.TotalAmount, //số tiền còn lại (chưa trả)
                                                                    //   BillItems = createBillDTO.BillItems
                 };
                 var item = await _mediator.Send(command);
@@ -77,6 +77,13 @@ namespace Spa.Api.Controllers
         public async Task<ActionResult> GetAllBillAsync()
         {
             var billLine = await _billService.GetAllBillAsync();
+            return new JsonResult(billLine);
+        }
+
+        [HttpGet("getbillbycustomer")]
+        public async Task<ActionResult> GetAllBillByCustomerAsync(long cusId)
+        {
+            var billLine = await _billService.GetAllBillByCustomerAsync(cusId);
             return new JsonResult(billLine);
         }
 
