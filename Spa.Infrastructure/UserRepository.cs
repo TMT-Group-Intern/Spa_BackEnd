@@ -252,26 +252,7 @@ namespace Spa.Infrastructure
             await _spaDbContext.Employees.AddAsync(newEmployee);
             await _spaDbContext.SaveChangesAsync();
         }
-        public async Task CreateJob(JobType jobDTO)
-        {
-            var newJob = new JobType()
-            {
-                JobTypeName = jobDTO.JobTypeName
-            };
-            await _spaDbContext.JobTypes.AddAsync(newJob);
-            await _spaDbContext.SaveChangesAsync();
-        }
-        public async Task CreateBranch(Branch branchDTO)
-        {
-            var newBranch = new Branch()
-            {
-                BranchName = branchDTO.BranchName,
-                BranchAddress = branchDTO.BranchAddress,
-                BranchPhone = branchDTO.BranchPhone,               
-            };
-            await _spaDbContext.Branches.AddAsync(newBranch);
-            await _spaDbContext.SaveChangesAsync();
-        }
+
         public async Task<string> LoginAccount(string Email, string Password)
         {
             if (Email is null || Password is null)
@@ -457,50 +438,6 @@ namespace Spa.Infrastructure
             {
                 return null;
             }
-        }
-        public async Task<string>GetJobTypeName(long? JobTypeId)
-        {
-            var Role = await _spaDbContext.JobTypes.FindAsync(JobTypeId);
-            return Role.JobTypeName;
-        }
-        public async Task<List<JobType>> GetAllJobs()
-        {
-            var jobs = await _spaDbContext.JobTypes.ToListAsync();
-            if (jobs is null)
-            {
-                return null;
-            }
-
-            var jobDTOs = jobs.Select(job => new JobType
-            {
-                JobTypeID = job.JobTypeID,
-                JobTypeName = job.JobTypeName
-            }).OrderBy(j => j.JobTypeID).ToList();
-
-            return jobDTOs;
-        }
-        public async Task<List<Branch>> GetAllBranches()
-        {
-            var brans = await _spaDbContext.Branches.ToListAsync();
-            if (brans is null)
-            {
-                return null;
-            }
-
-            var branDTOs = brans.Select(bran => new Branch
-            {
-                BranchID = bran.BranchID,
-                BranchName = bran.BranchName,
-                BranchPhone = bran.BranchPhone,
-                BranchAddress = bran.BranchAddress,
-            }).OrderBy(b => b.BranchID).ToList();
-
-            return branDTOs;
-        }
-        public async Task<string> GetBranchName(long? branchID)
-        {
-            var Branch = await _spaDbContext.Branches.FindAsync(branchID);
-            return Branch.BranchName;
         }
     }
 }

@@ -1,13 +1,7 @@
 ﻿using MediatR;
 using Spa.Application.Models;
-using Spa.Domain.Entities;
 using Spa.Domain.IService;
 using Spa.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spa.Application.Commands
 {

@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spa.Domain.IService;
 using System.Text.Json.Serialization;
 using System.Text.Json;
-using Spa.Domain.Service;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
-using Spa.Application.Commands;
 
 namespace Spa.Api.Controllers
 {
@@ -78,7 +75,7 @@ namespace Spa.Api.Controllers
                 {
                     throw new Exception("Not Found!");
                 }
-                return Ok(new { getBranchNameByID });
+                return Ok(new {getBranchNameByID});
             }
             catch (Exception ex)
             {

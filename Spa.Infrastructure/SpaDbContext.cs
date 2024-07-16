@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Spa.Domain.Entities;
 using Spa.Infrastructure.EntityConfigurations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spa.Infrastructure
 {
@@ -62,7 +56,7 @@ namespace Spa.Infrastructure
         public SpaDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<SpaDbContext>();
-            optionsBuilder.UseSqlServer("Data Source=LAPTOP-5ABH3PVT;Initial Catalog=SpaShop5;Persist Security Info=True;User ID=sa;Password=sa;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Data Source=fuco;Initial Catalog=SpaShop6;Persist Security Info=True;User ID=sa;Password=fuco;Trust Server Certificate=True");
             return new SpaDbContext(optionsBuilder.Options);
         }
     }

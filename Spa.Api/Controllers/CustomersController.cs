@@ -68,7 +68,7 @@ namespace Spa.Api.Controllers
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
 
-            return Ok(new { item = customerDTO, totalItems, totalPages });
+            return Ok(new { item = customerDTO.OrderBy(c => c.CustomerCode), totalItems, totalPages });
         }
 
         [HttpGet("{id}")]

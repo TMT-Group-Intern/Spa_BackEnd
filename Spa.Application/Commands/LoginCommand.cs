@@ -2,12 +2,6 @@
 using Spa.Application.Authentication;
 using Spa.Application.Models;
 using Spa.Domain.IRepository;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spa.Application.Commands
 {
@@ -51,7 +45,7 @@ namespace Spa.Application.Commands
             }
             else
             {
-                var userSession = new UserSession(user.Email, user.LastName + " " + user.FirstName, user.Role, null,0);
+                var userSession = new UserSession(user.Email, user.LastName + " " + user.FirstName, user.Role,null, 1);
                 return new AuthenticationResult(true, "Thành công!", userSession, token);
             }
             
