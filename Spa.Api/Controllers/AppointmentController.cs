@@ -49,8 +49,8 @@ namespace Spa.Api.Controllers
                 Total = a.Total,
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
-                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
-                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
+                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
             });
             var appByBrand = app.Where(e => e.BranchID == idBrand && e.AppointmentDate >= DateTime.Today);
             if (app == null)
@@ -72,7 +72,7 @@ namespace Spa.Api.Controllers
                 Total = a.Total,
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
-                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
+                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
             });
             var appByBrand = app.Where(e => e.BranchID == idBrand && e.AppointmentDate >= DateTime.Today);
             if (app == null)
@@ -94,8 +94,8 @@ namespace Spa.Api.Controllers
                 Total = a.Total,
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
-                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
-                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault(),
+                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
                 EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault()
 
             });
@@ -148,8 +148,8 @@ namespace Spa.Api.Controllers
             var appByid = _mapper.Map<AppointmentDTO>(_appointmentService.GetAppointmentByIdAsync(id));
             AppointmentDTO appointmentDTO = new AppointmentDTO
             {
-                TeachnicalStaff = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(n => n.Employees.FirstName + " " + n.Employees.LastName).FirstOrDefault(),
-                Doctor = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.FirstName + " " + e.Employees.LastName).FirstOrDefault()
+                TeachnicalStaff = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(n => n.Employees.LastName + " " + n.Employees.FirstName).FirstOrDefault(),
+                Doctor = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault()
             };
              appByid.Doctor = appointmentDTO.Doctor;
              appByid.TeachnicalStaff =  appointmentDTO.TeachnicalStaff;
@@ -189,12 +189,9 @@ namespace Spa.Api.Controllers
                 Appointment app = new Appointment
                 {
                     AppointmentDate = updateAppointmentWithoutServiceDTO.AppointmentDate,
-                    //BranchID = updateAppointmentWithoutServiceDTO.BranchID,
-                    // CustomerID = updateAppointmentWithoutServiceDTO.CustomerID,
                     Status = updateAppointmentWithoutServiceDTO.Status,
                     Assignments = updateAppointmentWithoutServiceDTO.Assignments.Select(a => new Assignment
                     {
-                        //   AppointmentID = id,
                         EmployerID = a.EmployerID,
                     }).ToList()
                 };
