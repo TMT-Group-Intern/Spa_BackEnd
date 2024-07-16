@@ -136,6 +136,11 @@ builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<ICustomerTypeService, CustomerTypeService>();
 builder.Services.AddScoped<ICustomerTypeRepository, CustomerTypeRepository>();
 
+//Bill
+builder.Services.AddScoped<IBillService, BillService>();
+builder.Services.AddScoped<IBillRepository, BillRepository>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

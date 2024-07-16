@@ -45,7 +45,7 @@ namespace Spa.Application.Commands
             }
             else
             {
-                var userSession = new UserSession(user.Email, user.LastName + " " + user.FirstName, user.Role,null, 1);
+                var userSession = new UserSession(user.Email, user.LastName + " " + user.FirstName, user.Role, null,1);
                 return new AuthenticationResult(true, "Thành công!", userSession, token);
             }
             
