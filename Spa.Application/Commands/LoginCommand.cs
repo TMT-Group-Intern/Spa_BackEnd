@@ -31,6 +31,10 @@ namespace Spa.Application.Commands
             {
                 return new AuthenticationResult(false,"Tài khoản không tồn tại!",null,null);
             }
+            if (!user.IsActiveAcount)
+            {
+                return new AuthenticationResult(false, "Tài khoản không được phép truy cập!", null, null);
+            }
             string token = await _userRepository.LoginAccount(request.loginDTO.Email, request.loginDTO.Password);
             if (token is null)
             {

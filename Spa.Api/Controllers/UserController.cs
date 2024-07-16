@@ -65,9 +65,13 @@ namespace Spa.Api.Controllers
                     UserCode = i.AdminCode,
                     Gender = i.Gender,
                     DateOfBirth = i.DateOfBirth,
-                    isActive=true
+                    haveAccount = true,
+                    isActive=i.IsActive
                 };
-                listAllUser.Add(b);
+                if (i.IsActive)
+                {
+                    listAllUser.Add(b);
+                }
             }
 
 
@@ -81,20 +85,24 @@ namespace Spa.Api.Controllers
                   UserCode = i.EmployeeCode,
                   DateOfBirth = i.DateOfBirth,
                   Gender=i.Gender,
+                  isActive=i.IsActive
               };
 
                 a.UserCode = i.EmployeeCode;
 
                 string check = await _userService.GetUserBoolByEmail(i.Email);
-                a.isActive = check == "true";
+                a.haveAccount = check == "true";
 
-                listAllUser.Add(a);
+                if (i.IsActive)
+                {
+                    listAllUser.Add(a);
+                }
             }
 
             listAllUser = listAllUser
                 .OrderByDescending(u => u.Role == "Quản lý")
                 .ThenBy(u => u.Role == "Bảo vệ")
-                .ThenBy(u => u.isActive is false)
+                .ThenBy(u => u.haveAccount is false)
                 .ThenBy(u => u.UserCode)
                 .ToList();
             return new JsonResult(listAllUser, _jsonSerializerOptions);
