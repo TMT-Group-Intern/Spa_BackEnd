@@ -36,8 +36,7 @@ namespace Spa.Api.Controllers
                 Price = s.Price,
                 ServiceCode = s.ServiceCode,
                 ServiceName = s.ServiceName,
-
-            }).ToList();
+            }).OrderBy(s => s.ServiceCode).ToList();
             return Ok(new { serviceDTO });
         }
 

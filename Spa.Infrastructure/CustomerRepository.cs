@@ -62,7 +62,7 @@ namespace Spa.Infrastructures
 
         public async Task<IEnumerable<Customer>> GetByPages(int pageNumber, int pageSize)
         {
-            return await _spaDbContext.Customers.OrderByDescending(i => i.CustomerID).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            return await _spaDbContext.Customers.OrderBy(i => i.CustomerCode).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task<int> GetAllItemProduct()
@@ -84,7 +84,6 @@ namespace Spa.Infrastructures
 
         public async Task<Customer> CheckPhoneToCreateCustomer(string phone)  //check phone
         {
-
             return await _spaDbContext.Customers.FirstOrDefaultAsync(c => c.Phone == phone);
         }
 
