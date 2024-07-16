@@ -50,6 +50,9 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -123,6 +126,83 @@ namespace Spa.Infrastructure.Migrations
                     b.HasIndex("AppointmentID");
 
                     b.ToTable("Assignments");
+                });
+
+            modelBuilder.Entity("Spa.Domain.Entities.Bill", b =>
+                {
+                    b.Property<long>("BillID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("BillID"));
+
+                    b.Property<double?>("AmountInvoiced")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("AmountResidual")
+                        .HasColumnType("float");
+
+                    b.Property<long>("AppointmentID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("BillStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("CustomerID")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Doctor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TechnicalStaff")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TotalAmount")
+                        .HasColumnType("float");
+
+                    b.HasKey("BillID");
+
+                    b.HasIndex("AppointmentID")
+                        .IsUnique();
+
+                    b.HasIndex("CustomerID");
+
+                    b.ToTable("Bill");
+                });
+
+            modelBuilder.Entity("Spa.Domain.Entities.BillItem", b =>
+                {
+                    b.Property<long>("BillItemID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("BillItemID"));
+
+                    b.Property<long>("BillID")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<long>("ServiceID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ServiceName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("BillItemID");
+
+                    b.HasIndex("BillID");
+
+                    b.ToTable("BillItem");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Branch", b =>
@@ -284,6 +364,9 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<long?>("JobTypeID")
                         .HasColumnType("bigint");
 
@@ -334,14 +417,11 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<double?>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<long>("AppointmentID")
+                    b.Property<long>("BillID")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<long?>("CustomerID")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
@@ -362,9 +442,7 @@ namespace Spa.Infrastructure.Migrations
 
                     b.HasKey("PaymentID");
 
-                    b.HasIndex("AppointmentID");
-
-                    b.HasIndex("CustomerID");
+                    b.HasIndex("BillID");
 
                     b.ToTable("Payments");
                 });
@@ -507,6 +585,9 @@ namespace Spa.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActiveAcount")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -618,6 +699,36 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("Employees");
                 });
 
+            modelBuilder.Entity("Spa.Domain.Entities.Bill", b =>
+                {
+                    b.HasOne("Spa.Domain.Entities.Appointment", "Appointment")
+                        .WithOne("Bill")
+                        .HasForeignKey("Spa.Domain.Entities.Bill", "AppointmentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Spa.Domain.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Spa.Domain.Entities.BillItem", b =>
+                {
+                    b.HasOne("Spa.Domain.Entities.Bill", "Bill")
+                        .WithMany("BillItems")
+                        .HasForeignKey("BillID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bill");
+                });
+
             modelBuilder.Entity("Spa.Domain.Entities.ChooseService", b =>
                 {
                     b.HasOne("Spa.Domain.Entities.Appointment", "Appointment")
@@ -678,19 +789,13 @@ namespace Spa.Infrastructure.Migrations
 
             modelBuilder.Entity("Spa.Domain.Entities.Payment", b =>
                 {
-                    b.HasOne("Spa.Domain.Entities.Appointment", "Appointment")
+                    b.HasOne("Spa.Domain.Entities.Bill", "Bill")
                         .WithMany("Payments")
-                        .HasForeignKey("AppointmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("BillID")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Spa.Domain.Entities.Customer", "Customer")
-                        .WithMany("Payments")
-                        .HasForeignKey("CustomerID");
-
-                    b.Navigation("Appointment");
-
-                    b.Navigation("Customer");
+                    b.Navigation("Bill");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Purchase", b =>
@@ -776,9 +881,16 @@ namespace Spa.Infrastructure.Migrations
                 {
                     b.Navigation("Assignments");
 
+                    b.Navigation("Bill");
+
                     b.Navigation("ChooseServices");
 
                     b.Navigation("CustomerPhotos");
+                });
+
+            modelBuilder.Entity("Spa.Domain.Entities.Bill", b =>
+                {
+                    b.Navigation("BillItems");
 
                     b.Navigation("Payments");
                 });
@@ -795,8 +907,6 @@ namespace Spa.Infrastructure.Migrations
             modelBuilder.Entity("Spa.Domain.Entities.Customer", b =>
                 {
                     b.Navigation("Appointments");
-
-                    b.Navigation("Payments");
 
                     b.Navigation("Sales");
                 });

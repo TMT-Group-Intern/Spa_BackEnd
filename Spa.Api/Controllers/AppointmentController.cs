@@ -189,7 +189,7 @@ namespace Spa.Api.Controllers
                 Appointment app = new Appointment
                 {
                     AppointmentDate = updateAppointmentWithoutServiceDTO.AppointmentDate,
-                    //  BranchID = updateAppointmentWithoutServiceDTO.BranchID,
+                    //BranchID = updateAppointmentWithoutServiceDTO.BranchID,
                     // CustomerID = updateAppointmentWithoutServiceDTO.CustomerID,
                     Status = updateAppointmentWithoutServiceDTO.Status,
                     Assignments = updateAppointmentWithoutServiceDTO.Assignments.Select(a => new Assignment
@@ -272,7 +272,7 @@ namespace Spa.Api.Controllers
                 if (await _appointmentService.DeleteAppointment(id))
                 {
                     return Ok(new { id });
-                }
+                }   
             }
             catch (ErrorMessage ex)
             {

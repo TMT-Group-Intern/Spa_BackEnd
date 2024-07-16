@@ -70,6 +70,7 @@ namespace Spa.Infrastructure
                 Role = user.Role,
                 PhoneNumber = user.PhoneNumber,
                 Code = user.Code,
+                IsActiveAcount = user.IsActiveAcount,
             }).OrderBy(u => u.Code).ToList();
 
             return userDTOs;
@@ -91,7 +92,8 @@ namespace Spa.Infrastructure
         }
         public async Task<List<Employee>> GetAllEmployee()
         {
-            var emps = await _spaDbContext.Employees.ToListAsync();
+            var emps = await _spaDbContext.Employees
+                .ToListAsync();
             if (emps is null)
             {
                 return null;
@@ -109,6 +111,7 @@ namespace Spa.Infrastructure
                     HireDate = emp.HireDate,                    
                     Assignments = emp.Assignments,
                     JobTypeID = emp.JobTypeID,
+                    IsActive = emp.IsActive,
                 }).OrderBy(e=>e.EmployeeCode).ToList();
             return empDTOs;
         }
@@ -116,8 +119,8 @@ namespace Spa.Infrastructure
         public async Task<List<Employee>> GetEmployeeByBranchAndJob(long branchID, long jobTypeID)
         {
             var emps = await _spaDbContext.Employees
-        .Where(e => e.BranchID == branchID && e.JobTypeID == jobTypeID)
-        .ToListAsync();
+                .Where(e => e.BranchID == branchID && e.JobTypeID == jobTypeID && e.IsActive)
+                .ToListAsync();
             if (emps is null || !emps.Any())
             {
                 return null;
@@ -137,6 +140,7 @@ namespace Spa.Infrastructure
                 HireDate = emp.HireDate,
                 Assignments = emp.Assignments,
                 JobTypeID = emp.JobTypeID,
+                IsActive = emp.IsActive,
             }).OrderBy(e => e.EmployeeCode).ToList();
             return empDTOs;
         }
@@ -156,7 +160,8 @@ namespace Spa.Infrastructure
                 Email = admin.Email,
                 Phone = admin.Phone,
                 Gender = admin.Gender,
-                DateOfBirth = admin.DateOfBirth
+                DateOfBirth = admin.DateOfBirth,
+                IsActive = admin.IsActive,
             }).OrderBy(a => a.AdminCode).ToList();
 
             return adminDTOs;
@@ -176,7 +181,8 @@ namespace Spa.Infrastructure
                 UserName = userDTO.Email,
                 PhoneNumber= userDTO.PhoneNumber,
                 AdminID = userDTO.AdminID,
-                EmployeeID = userDTO.EmployeeID,    
+                EmployeeID = userDTO.EmployeeID,
+                IsActiveAcount = true,
             };
             var createUser = await _userManager.CreateAsync(newUser!, userDTO.PasswordHash);
             if (!createUser.Succeeded)
@@ -200,6 +206,7 @@ namespace Spa.Infrastructure
                 PhoneNumber = emp.Phone,
                 EmployeeID = emp.EmployeeID,
                 Id = emp.Id,
+                IsActiveAcount = true
             };
             var user = await _userManager.FindByEmailAsync(newUser.Email);
             if (user is not null)
@@ -252,26 +259,7 @@ namespace Spa.Infrastructure
             await _spaDbContext.Employees.AddAsync(newEmployee);
             await _spaDbContext.SaveChangesAsync();
         }
-        public async Task CreateJob(JobType jobDTO)
-        {
-            var newJob = new JobType()
-            {
-                JobTypeName = jobDTO.JobTypeName
-            };
-            await _spaDbContext.JobTypes.AddAsync(newJob);
-            await _spaDbContext.SaveChangesAsync();
-        }
-        public async Task CreateBranch(Branch branchDTO)
-        {
-            var newBranch = new Branch()
-            {
-                BranchName = branchDTO.BranchName,
-                BranchAddress = branchDTO.BranchAddress,
-                BranchPhone = branchDTO.BranchPhone,               
-            };
-            await _spaDbContext.Branches.AddAsync(newBranch);
-            await _spaDbContext.SaveChangesAsync();
-        }
+
         public async Task<string> LoginAccount(string Email, string Password)
         {
             if (Email is null || Password is null)
@@ -317,34 +305,48 @@ namespace Spa.Infrastructure
             if(user is null)
             {
                 var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == Email);
-                if (emp is null)
+                if (emp is null) return false;
                 {
-                    return false;
+                    emp.IsActive = false;
                 }
-                _spaDbContext.Employees.Remove(emp);
+                _spaDbContext.Employees.Update(emp);
                 _spaDbContext.SaveChanges();
                 return true;
             }
             if (user.Role == "Admin")
             {
                 var admin = await _spaDbContext.Admins.FirstOrDefaultAsync(a => a.Email == Email);
-                if (admin.Email is null)
+                if (admin.Email is null) return false;
                 {
-                    return false;
+                    admin.IsActive = false;
                 }
-                _spaDbContext.Admins.Remove(admin);
+                _spaDbContext.Admins.Update(admin);
                 _spaDbContext.SaveChanges();
+
+                var userUpdate = await _userManager.FindByEmailAsync(Email);
+                if (userUpdate is null) return false;
+                userUpdate.IsActiveAcount = false;
+                var updateUserResult = await _userManager.UpdateAsync(userUpdate);
+                if (!updateUserResult.Succeeded) return false;
+
                 return true;
             }
             else
             {
                 var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == Email);
-                if (emp.Email is null)
+                if (emp.Email is null) return false;
                 {
-                    return false;
+                    emp.IsActive = false;
                 }
-                _spaDbContext.Employees.Remove(emp);
+                _spaDbContext.Employees.Update(emp);
                 _spaDbContext.SaveChanges();
+
+                var userUpdate = await _userManager.FindByEmailAsync(Email);
+                if (userUpdate is null) return false;
+                userUpdate.IsActiveAcount = false;
+                var updateUserResult = await _userManager.UpdateAsync(userUpdate);
+                if (!updateUserResult.Succeeded) return false;
+
                 return true;
             }
         }
@@ -457,50 +459,6 @@ namespace Spa.Infrastructure
             {
                 return null;
             }
-        }
-        public async Task<string>GetJobTypeName(long? JobTypeId)
-        {
-            var Role = await _spaDbContext.JobTypes.FindAsync(JobTypeId);
-            return Role.JobTypeName;
-        }
-        public async Task<List<JobType>> GetAllJobs()
-        {
-            var jobs = await _spaDbContext.JobTypes.ToListAsync();
-            if (jobs is null)
-            {
-                return null;
-            }
-
-            var jobDTOs = jobs.Select(job => new JobType
-            {
-                JobTypeID = job.JobTypeID,
-                JobTypeName = job.JobTypeName
-            }).OrderBy(j => j.JobTypeID).ToList();
-
-            return jobDTOs;
-        }
-        public async Task<List<Branch>> GetAllBranches()
-        {
-            var brans = await _spaDbContext.Branches.ToListAsync();
-            if (brans is null)
-            {
-                return null;
-            }
-
-            var branDTOs = brans.Select(bran => new Branch
-            {
-                BranchID = bran.BranchID,
-                BranchName = bran.BranchName,
-                BranchPhone = bran.BranchPhone,
-                BranchAddress = bran.BranchAddress,
-            }).OrderBy(b => b.BranchID).ToList();
-
-            return branDTOs;
-        }
-        public async Task<string> GetBranchName(long? branchID)
-        {
-            var Branch = await _spaDbContext.Branches.FindAsync(branchID);
-            return Branch.BranchName;
         }
     }
 }

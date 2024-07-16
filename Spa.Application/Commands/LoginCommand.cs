@@ -2,12 +2,6 @@
 using Spa.Application.Authentication;
 using Spa.Application.Models;
 using Spa.Domain.IRepository;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spa.Application.Commands
 {
@@ -22,10 +16,12 @@ namespace Spa.Application.Commands
     public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthenticationResult>
     {
         private readonly IUserRepository _userRepository;
+        private readonly IBranchRepository _branchRepository;
 
-        public LoginCommandHandler(IUserRepository userRepository)
+        public LoginCommandHandler(IUserRepository userRepository, IBranchRepository branchRepository)
         {
             _userRepository = userRepository;
+            _branchRepository = branchRepository;
         }
 
         public async Task<AuthenticationResult> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -35,13 +31,28 @@ namespace Spa.Application.Commands
             {
                 return new AuthenticationResult(false,"Tài khoản không tồn tại!",null,null);
             }
+            if (!user.IsActiveAcount)
+            {
+                return new AuthenticationResult(false, "Tài khoản không được phép truy cập!", null, null);
+            }
             string token = await _userRepository.LoginAccount(request.loginDTO.Email, request.loginDTO.Password);
             if (token is null)
             {
                 return new AuthenticationResult(false,"Mật khẩu không đúng!",null,null);
             }
-            var userSession = new UserSession(user.Email,user.LastName+" "+user.FirstName,user.Role);
-            return new AuthenticationResult(true,"Thành công!",userSession,token);
+            if (user.Role != "Admin")
+            {
+                var emp = await _userRepository.GetEmpByEmail(request.loginDTO.Email);
+                string branch = await _branchRepository.GetBranchNameByID(emp.BranchID);
+                var userSession = new UserSession(user.Email, user.LastName + " " + user.FirstName, user.Role, branch,emp.BranchID);
+                return new AuthenticationResult(true, "Thành công!", userSession, token);
+            }
+            else
+            {
+                var userSession = new UserSession(user.Email, user.LastName + " " + user.FirstName, user.Role, null,1);
+                return new AuthenticationResult(true, "Thành công!", userSession, token);
+            }
+            
         }
     }
 }

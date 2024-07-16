@@ -1,15 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Primitives;
-using Microsoft.IdentityModel.Tokens;
-using Spa.Domain.Authentication;
-using Spa.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Spa.Domain.Entities;
 
 namespace Spa.Domain.IRepository
 {
@@ -26,7 +15,6 @@ namespace Spa.Domain.IRepository
         Task<List<Employee>> GetEmployeeByBranchAndJob(long branchID, long jobTypeID);
         Task<List<Admin>> GetAllAdmin();
         Task<User> CreateUser(User userDTO);
-        Task<string> GetBranchName(long? branchID);
         Task<User> CreateUserForEmployee(string Email);
         Task CreateAdmin(Admin adminDTO);
         Task CreateEmployee(Employee empDTO);
@@ -36,11 +24,9 @@ namespace Spa.Domain.IRepository
         Task<bool> UpdateUser(User UserDTO);
         Task<bool> UpdateAdmin(Admin AdminDTO);
         Task<bool> UpdateEmployee(Employee EmpDTO);
-        Task<string> GetJobTypeName(long? JobTypeId);
         Task<Admin> GetLastAdminAsync();
         Task<Employee> GetLastEmployeeAsync();
         Task<int> GetAllItemProduct();
-        Task<List<Branch>> GetAllBranches();
-        Task<List<JobType>> GetAllJobs();
+
     }
 }

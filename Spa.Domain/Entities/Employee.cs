@@ -18,7 +18,9 @@
           
         public JobType? JobType { get; set; }
         public Branch? Branch { get; set; }
-      //  public ICollection<Appointment> Appointments { get; set; }
+
+        public bool IsActive { get; set; } = true;
+        //  public ICollection<Appointment> Appointments { get; set; }
         public ICollection<Sale>? Sales { get; set; }
 
         public ICollection<Assignment>? Assignments { get; set; }

@@ -24,11 +24,11 @@ namespace Spa.Domain.Service
 
         public async Task<bool> AddPayment(Payment payment)
         {
-            var app = _appointmentRepository.GetAppointmentByID(payment.AppointmentID);
-            if (app.Status == "Already paid")
-            {
-                throw new ErrorMessage("The customer has paid");
-            }
+            //var app = _appointmentRepository.GetAppointmentByID(payment.AppointmentID);
+            //if (app.Status == "Already paid")
+            //{
+            //    throw new ErrorMessage("The customer has paid");
+            //}
             return await _paymentRepository.AddPayment(payment);
         }
 

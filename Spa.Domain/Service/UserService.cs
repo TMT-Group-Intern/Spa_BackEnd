@@ -1,14 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Spa.Domain.Authentication;
 using Spa.Domain.Entities;
-using Spa.Domain.Exceptions;
 using Spa.Domain.IRepository;
 using Spa.Domain.IService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spa.Domain.Service
 {
@@ -111,7 +104,6 @@ namespace Spa.Domain.Service
         }
         public async Task<List<Employee>> GetAllAdminsAndEmployees()
         {
-           // var admin = await _userRepository.GetAllAdmin();
             var employ = await _userRepository.GetAllAdminsAndEmployees();
 
          
@@ -158,11 +150,6 @@ namespace Spa.Domain.Service
             var emp = await _userRepository.GetEmpByEmail(email);
             return emp;
         }
-        public async Task<string> GetJobTypeName(long? JobTypeId)
-        {
-            var Role = await _userRepository.GetJobTypeName(JobTypeId);
-            return Role;
-        }
 
         public async Task<string> LoginAccount(string Email, string Password)
         {
@@ -191,21 +178,6 @@ namespace Spa.Domain.Service
         public async Task<int> GetAllItem()
         {
             return await _userRepository.GetAllItemProduct();
-        }
-        public async Task<List<JobType>> GetAllJobs()
-        {
-            var jobs = await _userRepository.GetAllJobs();
-            return jobs;
-        }
-        public async Task<List<Branch>> GetAllBranches()
-        {
-            var brans = await _userRepository.GetAllBranches();
-            return brans;
-        }
-        public async Task<string> GetBranchName(long? branchID)
-        {
-            var branch = await _userRepository.GetBranchName(branchID);
-            return branch;
         }
     }
 }

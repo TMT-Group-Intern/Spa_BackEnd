@@ -1,18 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Spa.Application.Commands;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
-using Spa.Infrastructure;
 using System.Text.Json.Serialization;
 using System.Text.Json;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Spa.Api.Controllers
 {
@@ -26,8 +20,10 @@ namespace Spa.Api.Controllers
         private readonly IMediator _mediator;
         private readonly IWebHostEnvironment _env;
         private readonly ILogger _logger;
+        private readonly IBranchService _branchService;
+        private readonly IJobService _jobService;
 
-        public UserController(IUserService userService, IMapper mapper, IMediator mediator, IWebHostEnvironment env)
+        public UserController(IUserService userService, IMapper mapper, IMediator mediator, IWebHostEnvironment env, IBranchService branchService, IJobService jobService)
         {
             _jsonSerializerOptions = new JsonSerializerOptions
             {
@@ -38,6 +34,8 @@ namespace Spa.Api.Controllers
             _mapper = mapper;
             _mediator = mediator;
             _env = env;
+            _branchService = branchService;
+            _jobService = jobService;
         }
 
         [HttpGet("onlyUser")]
@@ -46,18 +44,7 @@ namespace Spa.Api.Controllers
             var allUsers = await _userService.GetAllUsers();
             return Ok(allUsers);
         }
-        [HttpGet("allJobs")]
-        public async Task<IActionResult> GetAllJobs()
-        {
-            var allJobs = await _userService.GetAllJobs();
-            return Ok(allJobs);
-        }
-        [HttpGet("allBranches")]
-        public async Task<IActionResult> GetAllBranches()
-        {
-            var allBranches = await _userService.GetAllBranches();
-            return Ok(allBranches);
-        }
+
         [HttpGet("allUser")]
         public async Task<IActionResult> GetAllUser()
         {
@@ -78,9 +65,13 @@ namespace Spa.Api.Controllers
                     UserCode = i.AdminCode,
                     Gender = i.Gender,
                     DateOfBirth = i.DateOfBirth,
-                    isActive=true
+                    haveAccount = true,
+                    isActive=i.IsActive
                 };
-                listAllUser.Add(b);
+                if (i.IsActive)
+                {
+                    listAllUser.Add(b);
+                }
             }
 
 
@@ -94,30 +85,24 @@ namespace Spa.Api.Controllers
                   UserCode = i.EmployeeCode,
                   DateOfBirth = i.DateOfBirth,
                   Gender=i.Gender,
+                  isActive=i.IsActive
               };
-                if (a.Role.Equals("Employee"))
-                {
-                    a.Role = "Nhân viên kỹ thuật";
-                }
-                else if(a.Role.Equals("Doctor"))
-                {
-                    a.Role = "Bác sĩ";
-                }
+
+                a.UserCode = i.EmployeeCode;
+
                 string check = await _userService.GetUserBoolByEmail(i.Email);
-                if (check == "true")
+                a.haveAccount = check == "true";
+
+                if (i.IsActive)
                 {
-                 a.isActive = true;
+                    listAllUser.Add(a);
                 }
-                else
-                {
-                    a.isActive = false;
-                }
-                listAllUser.Add(a);
             }
 
             listAllUser = listAllUser
-                .OrderByDescending(u => u.Role)
-                .ThenBy(u => u.isActive is false)
+                .OrderByDescending(u => u.Role == "Quản lý")
+                .ThenBy(u => u.Role == "Bảo vệ")
+                .ThenBy(u => u.haveAccount is false)
                 .ThenBy(u => u.UserCode)
                 .ToList();
             return new JsonResult(listAllUser, _jsonSerializerOptions);
@@ -225,9 +210,10 @@ namespace Spa.Api.Controllers
                 JobTypeID = getEmpByEmail.Result.JobTypeID,
                 Password = getEmpByEmail.Result.Password,
                 Phone=getEmpByEmail.Result.Phone,
-                Role = await _userService.GetJobTypeName(getEmpByEmail.Result.JobTypeID),
-                Branch=await _userService.GetBranchName(getEmpByEmail.Result.BranchID),
+                Branch = await _branchService.GetBranchNameByID(getEmpByEmail.Result.BranchID),
             };
+            var job = await _jobService.GetJobTypeByID(empDTO.JobTypeID);
+            empDTO.Role=job.JobTypeName;
             return Ok(new { empDTO });
         }
         [HttpGet("getUserBoolByEmail")]
@@ -286,7 +272,8 @@ namespace Spa.Api.Controllers
                         JobTypeID = updateDto.JobTypeID,
                         Email = user.Email
                     };
-                    user.Role = await _userService.GetJobTypeName(emp.JobTypeID);
+                    var job = await _jobService.GetJobTypeByID(emp.JobTypeID);
+                    user.Role = job.JobTypeName;
                     await _userService.UpdateUser(user);
                     await _userService.UpdateEmployee(emp);
                     return Ok(true);
