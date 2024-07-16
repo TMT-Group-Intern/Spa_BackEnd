@@ -14,7 +14,7 @@ namespace Spa.Application.Models
         public long? BranchID { get; set; }
         public long? CustomerID { get; set; }
         //  public long EmployeeID { get; set; }
-        public string Status { get; set; }
+        public string? Status { get; set; }
         public double? Total { get; set; }
         public double? DiscountAmount { get; set; }
         public int? DiscountPercentage { get; set; }
