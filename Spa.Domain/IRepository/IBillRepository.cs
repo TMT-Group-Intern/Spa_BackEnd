@@ -21,6 +21,8 @@ namespace Spa.Domain.IRepository
 
         Task<Bill> UpdateBill(Bill bill);
 
+        Task<IEnumerable<Bill>> GetAllBillByCustomerAsync(long idCus);
+
 
     }
 }

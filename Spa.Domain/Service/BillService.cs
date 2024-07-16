@@ -67,5 +67,10 @@ namespace Spa.Domain.Service
 
             return billToUpdate!;
         }
+
+        public async Task<IEnumerable<Bill>> GetAllBillByCustomerAsync(long idCus)
+        {
+         return  await _billRepository.GetAllBillByCustomerAsync(idCus);
+        }
     }
 }

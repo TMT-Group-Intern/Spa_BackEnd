@@ -72,5 +72,9 @@ namespace Spa.Infrastructure
             return bill;
         }
 
+        public async Task<IEnumerable<Bill>> GetAllBillByCustomerAsync(long idCus)
+        {
+            return await _spaDbContext.Bill.Where(c => c.CustomerID == idCus).ToListAsync();
+        }
     }
 }

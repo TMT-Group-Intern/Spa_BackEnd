@@ -19,6 +19,8 @@ namespace Spa.Domain.IService
 
         Task<IEnumerable<Bill>> GetAllBillAsync();
 
+        Task<IEnumerable<Bill>> GetAllBillByCustomerAsync(long idCus);
+
         Task<Bill> UpdateBill(long id, Bill bill);
     }
 }
