@@ -77,6 +77,7 @@ namespace Spa.Application.Commands
                             Quantity = 1, // đổi chooseService thêm trường quatity rồi chèn vào đây
                             ServiceName = item.Service.ServiceName,
                             UnitPrice = item.Service.Price,
+                            TotalPrice = item.Service.Price,
                         });
                     }
                     await _billService.AddBillItem(newBillItems);
