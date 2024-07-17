@@ -58,6 +58,10 @@ namespace Spa.Domain.Service
                 {
                     foreach (var item in billToUpdate.BillItems)
                     {
+                       
+                        item.Note = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.Note).FirstOrDefault() ?? null;
+                        item.AmountDiscount = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.AmountDiscount).FirstOrDefault() ?? 0;
+                        item.KindofDiscount = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.KindofDiscount).FirstOrDefault() ?? null;
                         item.Quantity = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.Quantity).FirstOrDefault();
                         item.UnitPrice = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.UnitPrice).FirstOrDefault();
                     }
