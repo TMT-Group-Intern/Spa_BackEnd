@@ -76,5 +76,15 @@ namespace Spa.Domain.Service
         {
          return  await _billRepository.GetAllBillByCustomerAsync(idCus);
         }
+
+        public async Task<IEnumerable<Object>> GetRevenueReport(long idBrand, DateTime fromDate, DateTime toDate)
+        {
+            return await _billRepository.GetRevenueReport(idBrand, fromDate, toDate);
+        }
+
+        public async Task<IEnumerable<object>> GetRevenueReportByDay(long idBrand, DateTime fromDate, DateTime toDate)
+        {
+           return await _billRepository.GetRevenueReportByDay(idBrand, fromDate, toDate);   
+        }
     }
 }

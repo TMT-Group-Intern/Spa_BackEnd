@@ -23,6 +23,10 @@ namespace Spa.Domain.IRepository
 
         Task<IEnumerable<Bill>> GetAllBillByCustomerAsync(long idCus);
 
+        Task<IEnumerable<Object>> GetRevenueReport(long idBrand, DateTime fromDate, DateTime toDate); //thống kê theo fromdat todate detail
+
+        Task<IEnumerable<Object>> GetRevenueReportByDay(long idBrand, DateTime fromDate, DateTime toDate);
+
 
     }
 }

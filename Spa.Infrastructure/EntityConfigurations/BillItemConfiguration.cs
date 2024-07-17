@@ -18,7 +18,7 @@ namespace Spa.Infrastructure.EntityConfigurations
 
             builder.HasOne(b => b.Bill)
                    .WithMany(i => i.BillItems)
-                   .HasForeignKey(i => i.BillID)
+                   .HasForeignKey(i => i.BillID);
                   
         }
     }
