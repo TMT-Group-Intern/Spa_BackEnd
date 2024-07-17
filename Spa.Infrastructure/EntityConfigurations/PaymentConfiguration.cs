@@ -20,8 +20,6 @@ namespace Spa.Infrastructure.EntityConfigurations
                 .WithMany(p => p.Payments)
                 .HasForeignKey(p => p.BillID)
                 .OnDelete(DeleteBehavior.Restrict);
-
-
         }
     }
 }

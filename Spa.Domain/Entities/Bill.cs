@@ -20,6 +20,7 @@ namespace Spa.Domain.Entities
         public double? AmountInvoiced { get; set; } = 0;// thanh toán
         public double? AmountResidual { get; set; } // còn lại
 
+
         public ICollection<BillItem>? BillItems { get; set; }
 
         public Appointment? Appointment { get; set; }

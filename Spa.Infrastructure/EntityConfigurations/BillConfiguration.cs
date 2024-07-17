@@ -16,6 +16,7 @@ namespace Spa.Infrastructure.EntityConfigurations
         {
             builder.HasKey(b => b.BillID);
             builder.Property(e => e.BillID).ValueGeneratedOnAdd();
+           
 
             // Relationship
              builder.HasOne(p => p.Appointment)

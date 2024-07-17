@@ -23,6 +23,8 @@ namespace Spa.Application.Commands
         public double? AmountInvoiced { get; set; } = 0;// thanh toán
         public double? AmountResidual { get; set; } = 0; // còn lại
 
+  
+
         public ICollection<BillItem>? BillItems { get; set; }
     }
 
@@ -50,7 +52,8 @@ namespace Spa.Application.Commands
                 // BillItems = request.BillItems,
                 BillStatus = request.BillStatus,
                 CustomerID = request.CustomerID,
-
+                Date = DateTime.Now,
+            
             };
             var newBill = await _billService.CreateBill(bill);
             if (newBill != null)
@@ -62,9 +65,11 @@ namespace Spa.Application.Commands
                 {
                     List<BillItem> newBillItems = new List<BillItem>();
                     bill.TotalAmount = 0;
+                    bill.AmountResidual = 0;
                     foreach (var item in checkChooservice.ChooseServices)
                     {
                         bill.TotalAmount += item.Service.Price;
+                        bill.AmountResidual += item.Service.Price;
                         newBillItems.Add(new BillItem()
                         {
                             BillID = newBillInDatabase.BillID,
