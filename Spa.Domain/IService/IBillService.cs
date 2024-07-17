@@ -22,5 +22,9 @@ namespace Spa.Domain.IService
         Task<IEnumerable<Bill>> GetAllBillByCustomerAsync(long idCus);
 
         Task<Bill> UpdateBill(long id, Bill bill);
+
+        Task<IEnumerable<Object>> GetRevenueReport(long idBrand, DateTime fromDate, DateTime toDate); //thognke
+
+        Task<IEnumerable<Object>> GetRevenueReportByDay(long idBrand, DateTime fromDate, DateTime toDate);
     }
 }

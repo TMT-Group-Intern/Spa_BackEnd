@@ -52,6 +52,7 @@ namespace Spa.Application.Commands
                 // BillItems = request.BillItems,
                 BillStatus = request.BillStatus,
                 CustomerID = request.CustomerID,
+                Date = DateTime.Now,
             
             };
             var newBill = await _billService.CreateBill(bill);
@@ -64,6 +65,7 @@ namespace Spa.Application.Commands
                 {
                     List<BillItem> newBillItems = new List<BillItem>();
                     bill.TotalAmount = 0;
+                    bill.AmountResidual = 0;
                     foreach (var item in checkChooservice.ChooseServices)
                     {
                         bill.TotalAmount += item.Service.Price;
