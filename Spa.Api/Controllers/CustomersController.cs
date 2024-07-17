@@ -5,9 +5,6 @@ using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
-using Spa.Domain.Service;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Spa.Api.Controllers
 {
@@ -114,7 +111,6 @@ namespace Spa.Api.Controllers
                     Phone = customerDto.Phone
                 };
                 var id = await _mediator.Send(command);
-                //  return Ok(true);
                 return Ok(new { id = id });
             }
             catch (DuplicateException ex)
@@ -210,8 +206,6 @@ namespace Spa.Api.Controllers
         {
             try
             {
-                //var httpRequest = Request.Form;
-                //var postFile = httpRequest.Files[0];
                 string fileName = file.FileName;
                 var physicalPath = Path.Combine(_env.ContentRootPath, "Photos", fileName);
 
@@ -274,7 +268,6 @@ namespace Spa.Api.Controllers
             {
                 HistoryForCustomerByIdDTO historyById = new HistoryForCustomerByIdDTO
                 {
-                    // CustomerName = i.Customer.FirstName + " " + i.Customer.LastName,
                     ServiceUsed = i.ChooseServices.Select(e => e.Service.ServiceName).ToList(),
                     Date = i.AppointmentDate,
                     PhotoCustomer = i.CustomerPhotos.Select(p => p.PhotoPath).ToList()
@@ -282,7 +275,6 @@ namespace Spa.Api.Controllers
 
                 listHistoryForCus.Add(historyById);
             }
-
             return Ok(new { listHistoryForCus });
         }
 

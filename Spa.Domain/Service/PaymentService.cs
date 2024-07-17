@@ -14,22 +14,37 @@ namespace Spa.Domain.Service
     {
         private readonly IPaymentRepository _paymentRepository;
         private readonly IAppointmentRepository _appointmentRepository;
+        private readonly IBillRepository _billRepository;
 
-        public PaymentService(IPaymentRepository paymentRepository, IAppointmentRepository appointmentRepository)
+        public PaymentService(IPaymentRepository paymentRepository, IAppointmentRepository appointmentRepository, IBillRepository billRepository)
         {
 
             _paymentRepository = paymentRepository;
             _appointmentRepository = appointmentRepository;
+            _billRepository = billRepository;
         }
 
         public async Task<bool> AddPayment(Payment payment)
         {
-            //var app = _appointmentRepository.GetAppointmentByID(payment.AppointmentID);
-            //if (app.Status == "Already paid")
-            //{
-            //    throw new ErrorMessage("The customer has paid");
-            //}
-            return await _paymentRepository.AddPayment(payment);
+            try
+            {
+                var paymentProcess = await _paymentRepository.AddPayment(payment);
+                if (paymentProcess)
+                {
+                    var bill = await _billRepository.GetBillByIdAsync(payment.BillID);
+                    bill.AmountInvoiced += payment.Amount;
+                    bill.AmountResidual -= payment.Amount;
+                    if(bill.AmountResidual == 0)
+                    {
+                        bill.BillStatus = "Thanh toán hoàn tất";
+                    }
+                    await _billRepository.UpdateBill(bill);
+                }
+
+                return await _paymentRepository.AddPayment(payment);
+            } catch (Exception ex) {
+                return false;
+            }
         }
 
         public async Task<double?> GetRevenueToday()

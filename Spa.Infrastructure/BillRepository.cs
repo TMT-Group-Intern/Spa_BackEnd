@@ -15,6 +15,11 @@ namespace Spa.Infrastructure
         {
         }
 
+        public async Task<IEnumerable<Bill>> GetAllBillAsync()
+        {
+            return await _spaDbContext.Bill.ToListAsync();
+        }
+
         public async Task<bool> AddBillItem(List<BillItem> billItems)
         {
             try
@@ -38,6 +43,11 @@ namespace Spa.Infrastructure
             return bill;
         }
 
+        public async Task<Bill?> GetBillByIdAsync(long id) //Get By ID
+        {
+         return await _spaDbContext.Bill.Include(i => i.BillItems).Where(b => b.BillID == id).FirstOrDefaultAsync() ?? null;
+        }
+
         public async Task<Bill> GetNewBillAsync()
         {
             try
@@ -54,5 +64,54 @@ namespace Spa.Infrastructure
                 return null;
             }
         }
+
+        public async Task<Bill> UpdateBill(Bill bill)
+        {
+           _spaDbContext.Bill.UpdateRange(bill);
+            await _spaDbContext.SaveChangesAsync();
+            return bill;
+        }
+
+        public async Task<IEnumerable<Bill>> GetAllBillByCustomerAsync(long idCus)
+        {
+            return await _spaDbContext.Bill.Where(c => c.CustomerID == idCus).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Object>> GetRevenueReport(long idBrand, DateTime fromDate, DateTime toDate)
+        {
+            return await _spaDbContext.Bill.Include(a => a.Appointment).Include(a => a.Customer)
+                .Where(a => a.Appointment!.BranchID == idBrand && a.Date >= fromDate && a.Date <= toDate).Select(o => new
+                {
+                    dateBill = o.Date,
+                    customerCode = o.Customer!.CustomerCode,
+                    customerPhone = o.Customer.Phone,
+                    doctor = o.Doctor,
+                    teachnicalStaff = o.TechnicalStaff,
+                    totalAmount = o.TotalAmount,
+                }).ToListAsync();
+              
+        }
+
+        public async Task<IEnumerable<Object>> GetRevenueReportByDay(long idBrand, DateTime fromDate, DateTime toDate)
+        {
+
+            var revenueReport = await _spaDbContext.Bill
+               .Where(b => b.Date >= fromDate && b.Date <= toDate && b.Appointment.BranchID==idBrand)
+               .GroupBy(b => b.Date.Date) // Nhóm theo ngày (chỉ lấy phần ngày, bỏ qua phần giờ)
+               .Select(g => new
+               {
+                   Date = g.Key,
+                   TotalRevenue = g.Sum(b => b.TotalAmount),
+                   Value =  g.Sum(b => b.TotalAmount)
+                   
+               })
+               .OrderBy(r => r.Date)
+               .ToListAsync();
+
+            return revenueReport;
+        
+
+        }
+
     }
 }

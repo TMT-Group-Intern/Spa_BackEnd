@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using DocumentFormat.OpenXml.Office2010.Excel;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Spa.Application.Authentication;
 using Spa.Application.Commands;
@@ -107,10 +104,8 @@ namespace Spa.Api.Controllers
                 var command = new LoginCommand
                 {
                     loginDTO = loginDto
-                    //loginDTO = loginDto
                 };
                 var id = await _mediator.Send(command);
-                //  return Ok(true);
                 return id;
             }
             catch (DuplicateException ex)

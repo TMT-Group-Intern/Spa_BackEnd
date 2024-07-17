@@ -10,6 +10,11 @@
         public double UnitPrice { get; set; }
         public double TotalPrice => Quantity * UnitPrice; // Tính tổng giá dựa trên số lượng và đơn giá
 
-        public Bill Bill { get; set; }
+        public double? AmountDiscount { get; set; } = 0;
+        public string? KindofDiscount { get; set; }
+
+        public string? Note { get; set; }
+
+        public Bill? Bill { get; set; }
     }
 }
