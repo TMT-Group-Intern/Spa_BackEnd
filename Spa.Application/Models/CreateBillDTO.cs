@@ -10,7 +10,7 @@ namespace Spa.Application.Models
     public class CreateBillDTO
     {
         public long? CustomerID { get; set; }
-        public long AppointmentID { get; set; }
+        public long AppointmentID { get; set; } //
         public DateTime? Date { get; set; }
         public string? BillStatus { get; set; } = "Chưa thanh toán";
         public string? Doctor { get; set; }
