@@ -170,7 +170,6 @@ namespace Spa.Api.Controllers
                 Role = getAdminByEmail.Result.Role,
                 DateOfBirth=getAdminByEmail.Result.DateOfBirth,
                 Gender = getAdminByEmail.Result.Gender,
-                Password = getAdminByEmail.Result.Password,
                 Phone = getAdminByEmail.Result.Phone,
                 IsActive = getAdminByEmail.Result.IsActive
             };
@@ -193,7 +192,6 @@ namespace Spa.Api.Controllers
                 Gender=getEmpByEmail.Result.Gender,
                 HireDate = getEmpByEmail.Result.HireDate,
                 JobTypeID = getEmpByEmail.Result.JobTypeID,
-                Password = getEmpByEmail.Result.Password,
                 Phone=getEmpByEmail.Result.Phone,
                 IsActive = getEmpByEmail.Result.IsActive,
                 Branch = await _branchService.GetBranchNameByID(getEmpByEmail.Result.BranchID),
@@ -234,7 +232,6 @@ namespace Spa.Api.Controllers
                     {
                         FirstName = user.FirstName,
                         LastName = user.LastName,
-                        Password = user.PasswordHash,
                         Role = "Admin",
                         DateOfBirth = updateDto.DateOfBirth,
                         Phone = updateDto.Phone,
@@ -251,7 +248,6 @@ namespace Spa.Api.Controllers
                     {
                         FirstName = user.FirstName,
                         LastName = user.LastName,
-                        Password = user.PasswordHash,
                         Gender = updateDto.Gender,
                         HireDate = updateDto.HireDate,
                         Phone = updateDto.Phone,

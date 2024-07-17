@@ -57,8 +57,11 @@ namespace Spa.Api.Controllers
                     TechnicalStaff = createBillDTO.TechnicalStaff,
                     TotalAmount = createBillDTO.TotalAmount,
                     AmountInvoiced = createBillDTO.AmountInvoiced,
-                    AmountResidual = createBillDTO.TotalAmount, //số tiền còn lại (chưa trả)
-                                                                   //   BillItems = createBillDTO.BillItems
+                    AmountResidual = createBillDTO.TotalAmount,
+               
+                   
+                    //số tiền còn lại (chưa trả)
+                    //   BillItems = createBillDTO.BillItems
                 };
                 var item = await _mediator.Send(command);
                 return Ok(new { item });

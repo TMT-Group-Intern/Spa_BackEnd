@@ -9,7 +9,6 @@
         public string LastName { get; set; }
         public string? Phone { get; set; }
         public string Email { get; set; }
-        public string? Password { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string? Gender { get; set; }
         public DateTime? HireDate { get; set; }
@@ -20,11 +19,9 @@
         public Branch? Branch { get; set; }
 
         public bool IsActive { get; set; } = true;
-        //  public ICollection<Appointment> Appointments { get; set; }
         public ICollection<Sale>? Sales { get; set; }
 
         public ICollection<Assignment>? Assignments { get; set; }
-      //  public User? User { get; set; }
 
         public ICollection<User>? User { get; set; }
     }
