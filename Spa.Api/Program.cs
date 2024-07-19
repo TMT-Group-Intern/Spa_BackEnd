@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
@@ -96,6 +97,8 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
     };
 });
+
+builder.Services.AddHttpContextAccessor();
 /*//Add authentication to Swagger UI
 builder.Services.AddSwaggerGen(options =>
 {
@@ -162,8 +165,9 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseHttpsRedirection();  //thêm middleware để chuyển http sang https để thêm bảo mật
 
-app.UseAuthorization();  //middleware xử lí ủy uyền 
+
 app.UseAuthentication();
+app.UseAuthorization();  //middleware xử lí ủy uyền 
 app.MapControllers();  //định tuyến controller 
 
 app.Run();  // xử lí yêu cầu http đến server

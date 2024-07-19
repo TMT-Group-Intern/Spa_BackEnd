@@ -7,6 +7,7 @@ using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Spa.Api.Controllers
 {
@@ -36,6 +37,14 @@ namespace Spa.Api.Controllers
             _env = env;
             _branchService = branchService;
             _jobService = jobService;
+        }
+
+                 
+        [HttpGet("UserEmail")]
+        public async Task<IActionResult> GetUserEmail()
+        {
+            var email = _userService.GetUserEmail();
+            return Ok(email);
         }
 
         [HttpGet("onlyUser")]

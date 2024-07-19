@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Spa.Domain.Entities;
 using Spa.Domain.IRepository;
 using Spa.Domain.IService;
+using System.Security.Claims;
 
 namespace Spa.Domain.Service
 {
@@ -9,10 +11,12 @@ namespace Spa.Domain.Service
     {
         private readonly IUserRepository _userRepository;
         private readonly UserManager<User> _userManager;
-        public UserService(IUserRepository userRepository, UserManager<User> userManager)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserService(IUserRepository userRepository, UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
             _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<User> CreateUser(User userDTO)
         {
@@ -178,6 +182,34 @@ namespace Spa.Domain.Service
         public async Task<int> GetAllItem()
         {
             return await _userRepository.GetAllItemProduct();
+        }
+
+        public string GetUserId()
+        {
+            return _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        }
+
+        public  string GetUserEmail()
+        {
+
+            //  var  y = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)?.Value;
+            var x = _httpContextAccessor.HttpContext?.User?.Claims;
+            return _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value;
+        }
+
+        public string GetUserRole()
+        {
+            return _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Role)?.Value;
+        }
+
+        public string GetUserName()
+        {
+            return _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Name)?.Value;
+        }
+
+        public string GetUserBranch()
+        {
+            return _httpContextAccessor.HttpContext?.User?.FindFirst("Branch")?.Value;
         }
     }
 }

@@ -84,6 +84,7 @@ namespace Spa.Infrastructure
                 {
                     dateBill = o.Date,
                     customerCode = o.Customer!.CustomerCode,
+                    customerName = o.Customer.FirstName + " " + o.Customer.LastName,
                     customerPhone = o.Customer.Phone,
                     doctor = o.Doctor,
                     teachnicalStaff = o.TechnicalStaff,
@@ -108,9 +109,12 @@ namespace Spa.Infrastructure
                .OrderBy(r => r.Date)
                .ToListAsync();
 
-            return revenueReport;
-        
+            return revenueReport;      
+        }
 
+        public async Task<IEnumerable<Bill>> GetBillByCustomer(long id)
+        {
+            return await _spaDbContext.Bill.Where(c => c.CustomerID == id).ToListAsync();   
         }
 
     }

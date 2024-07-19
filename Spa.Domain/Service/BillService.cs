@@ -64,6 +64,7 @@ namespace Spa.Domain.Service
                         item.KindofDiscount = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.KindofDiscount).FirstOrDefault() ?? null;
                         item.Quantity = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.Quantity).FirstOrDefault();
                         item.UnitPrice = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.UnitPrice).FirstOrDefault();
+                        item.TotalPrice = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.TotalPrice).FirstOrDefault();
                     }
                 }
                 await _billRepository.UpdateBill(billToUpdate);
@@ -85,6 +86,13 @@ namespace Spa.Domain.Service
         public async Task<IEnumerable<object>> GetRevenueReportByDay(long idBrand, DateTime fromDate, DateTime toDate)
         {
            return await _billRepository.GetRevenueReportByDay(idBrand, fromDate, toDate);   
+        }
+
+        public async Task<IEnumerable<Bill>> GetBillByCustomer(long idCustomer)
+        {
+          var billList = await _billRepository.GetBillByCustomer(idCustomer);
+
+            return billList;
         }
     }
 }

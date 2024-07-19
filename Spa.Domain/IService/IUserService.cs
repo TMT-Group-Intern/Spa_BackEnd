@@ -29,5 +29,13 @@ namespace Spa.Domain.IService
         Task<Employee> GetEmpByEmail(string email);
         bool isExistUser(string email);
         Task<int> GetAllItem();
+
+
+        //lấy thông tin hiện tại user
+        string GetUserId();
+        string GetUserEmail();
+        string GetUserRole();
+        string GetUserName();
+        string GetUserBranch();
     }
 }

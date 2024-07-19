@@ -35,6 +35,26 @@ namespace Spa.Api.Controllers
             };
         }
 
+        [HttpGet("getbillhistory")]
+        public async Task<ActionResult> GetBillByCustomer(long customerId)
+        {
+            var billList = await _billService.GetBillByCustomer(customerId);
+           var billDTO =  billList.Select(e => new
+            {
+                billId = e.BillID,
+                date = e.Date,
+                totalAmount = e.TotalAmount,
+                technicalStaff = e.TechnicalStaff,
+                doctor = e.Doctor,
+                amountInvoiced = e.AmountInvoiced,
+                amountResidual = e.AmountResidual,
+                statusBill = e.BillStatus,
+
+            }).ToList();
+
+            return new JsonResult(billDTO, _jsonSerializerOptions);
+        }
+
 
         [HttpPost]
         public async Task<ActionResult> CreateBill(CreateBillDTO createBillDTO)
@@ -58,8 +78,8 @@ namespace Spa.Api.Controllers
                     TotalAmount = createBillDTO.TotalAmount,
                     AmountInvoiced = createBillDTO.AmountInvoiced,
                     AmountResidual = createBillDTO.TotalAmount,
-               
-                   
+
+
                     //số tiền còn lại (chưa trả)
                     //   BillItems = createBillDTO.BillItems
                 };
