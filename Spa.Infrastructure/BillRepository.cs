@@ -109,9 +109,12 @@ namespace Spa.Infrastructure
                .OrderBy(r => r.Date)
                .ToListAsync();
 
-            return revenueReport;
-        
+            return revenueReport;      
+        }
 
+        public async Task<IEnumerable<Bill>> GetBillByCustomer(long id)
+        {
+            return await _spaDbContext.Bill.Where(c => c.CustomerID == id).ToListAsync();   
         }
 
     }
