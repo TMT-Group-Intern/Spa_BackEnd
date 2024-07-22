@@ -54,6 +54,10 @@ namespace Spa.Domain.Service
             if (billToUpdate != null)
             {
                 billToUpdate.TotalAmount = bill.TotalAmount;
+                billToUpdate.AmountDiscount = bill.AmountDiscount;
+                billToUpdate.AmountResidual = bill.AmountResidual;
+                billToUpdate.Note = bill.Note;
+                billToUpdate.KindofDiscount = bill.KindofDiscount;
                 if (billToUpdate.BillItems != null)
                 {
                     foreach (var item in billToUpdate.BillItems)
