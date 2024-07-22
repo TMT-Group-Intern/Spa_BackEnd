@@ -31,7 +31,8 @@ namespace Spa.Api.Controllers
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 WriteIndented = true,
-                ReferenceHandler = ReferenceHandler.IgnoreCycles
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
         }
 

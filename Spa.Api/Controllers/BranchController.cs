@@ -26,7 +26,8 @@ namespace Spa.Api.Controllers
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 WriteIndented = true,
-                ReferenceHandler = ReferenceHandler.IgnoreCycles
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
             _branchService = branchService;
             _mapper = mapper;
@@ -47,7 +48,7 @@ namespace Spa.Api.Controllers
             try
             {
                 var getBranchByID = _branchService.GetBranchByID(id);
-                if(getBranchByID.Result is null)
+                if (getBranchByID.Result is null)
                 {
                     throw new Exception("Not Found!");
                 }
@@ -75,7 +76,7 @@ namespace Spa.Api.Controllers
                 {
                     throw new Exception("Not Found!");
                 }
-                return Ok(new {getBranchNameByID});
+                return Ok(new { getBranchNameByID });
             }
             catch (Exception ex)
             {
@@ -91,7 +92,7 @@ namespace Spa.Api.Controllers
                 var branch = new Branch
                 {
                     BranchPhone = branchDto.BranchPhone,
-                    BranchName= branchDto.BranchName,
+                    BranchName = branchDto.BranchName,
                     BranchAddress = branchDto.BranchAddress,
                 };
                 var newBranch = await _branchService.CreateBranch(branch);
@@ -124,9 +125,9 @@ namespace Spa.Api.Controllers
                     BranchAddress = updateDto.BranchAddress,
                 };
 
-                    await _branchService.UpdateBranch(branch);
-                    return Ok(true);
-                }
+                await _branchService.UpdateBranch(branch);
+                return Ok(true);
+            }
 
             catch (DuplicateException ex)
             {

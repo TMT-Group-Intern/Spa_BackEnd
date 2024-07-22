@@ -26,7 +26,8 @@ namespace Spa.Api.Controllers
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 WriteIndented = true,
-                ReferenceHandler = ReferenceHandler.IgnoreCycles
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
             _jobService = jobService;
             _mapper = mapper;
@@ -73,7 +74,7 @@ namespace Spa.Api.Controllers
                 {
                     JobTypeName = jobDto.JobTypeName,
                 };
-                var newjob =await _jobService.CreateJobType(job);
+                var newjob = await _jobService.CreateJobType(job);
                 return Ok(new { id = newjob });
             }
             catch (DuplicateException ex)
