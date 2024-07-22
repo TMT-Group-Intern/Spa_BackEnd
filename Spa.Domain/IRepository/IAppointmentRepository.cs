@@ -38,5 +38,7 @@ namespace Spa.Domain.IRepository
         Task<bool> UpdateAppointmentAsync(Appointment appointment); // Update Apppointment
 
         Task<Appointment> GetAppointmentByIdAsync(long idApp);
+
+        Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate);
     }
 }

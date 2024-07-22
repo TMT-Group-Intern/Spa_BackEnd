@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Spa.Api.Configuration;
 using Spa.Application.Automapper;
 using Spa.Application.Commands;
 using Spa.Domain.Entities;
@@ -16,6 +17,7 @@ using Spa.Domain.IService;
 using Spa.Domain.Service;
 using Spa.Infrastructure;
 using Spa.Infrastructures;
+using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Text;
@@ -56,6 +58,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Creat
 
 
 
+
+
 //add Mapper
 var mapperConfig = new MapperConfiguration(mc =>
 {
@@ -71,6 +75,23 @@ ConfigurationManager configuration = builder.Configuration;
 //Add Database Service
 builder.Services.AddDbContext<SpaDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
     b => b.MigrationsAssembly("Spa.Infrastructure")));
+
+
+
+//Redis Cache
+
+var redisConfiguration = new RedisConfiguration();
+configuration.GetSection("RedisConfiguration").Bind(redisConfiguration);
+builder.Services.AddSingleton(redisConfiguration);
+if (!redisConfiguration.Enabled)
+{
+    return;
+}
+builder.Services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(redisConfiguration.ConnectionString));
+builder.Services.AddStackExchangeRedisCache(option => option.Configuration = redisConfiguration.ConnectionString);
+builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+
+//Redis Cache
 
 
 builder.Services.AddIdentity<User, IdentityRole>()
