@@ -29,7 +29,8 @@ namespace Spa.Api.Controllers
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 WriteIndented = true,
-                ReferenceHandler = ReferenceHandler.IgnoreCycles
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
             _userService = userService;
             _mapper = mapper;
@@ -39,7 +40,7 @@ namespace Spa.Api.Controllers
             _jobService = jobService;
         }
 
-                 
+
         [HttpGet("UserEmail")]
         public async Task<IActionResult> GetUserEmail()
         {
@@ -72,25 +73,26 @@ namespace Spa.Api.Controllers
                     Gender = i.Gender,
                     DateOfBirth = i.DateOfBirth,
                     haveAccount = true,
-                    isActive=i.IsActive
+                    isActive = i.IsActive
                 };
                 if (i.IsActive)
                 {
                     listAllUser.Add(b);
                 }
             }
-            foreach (var i in allUsers) {
-              AllUsers a = new AllUsers
-              {
-                  Name = i.LastName + " " + i.FirstName,  
-                  Email = i.Email,
-                  Phone = i.Phone,
-                  Role = i.JobType.JobTypeName,
-                  UserCode = i.EmployeeCode,
-                  DateOfBirth = i.DateOfBirth,
-                  Gender=i.Gender,
-                  isActive=i.IsActive
-              };
+            foreach (var i in allUsers)
+            {
+                AllUsers a = new AllUsers
+                {
+                    Name = i.LastName + " " + i.FirstName,
+                    Email = i.Email,
+                    Phone = i.Phone,
+                    Role = i.JobType.JobTypeName,
+                    UserCode = i.EmployeeCode,
+                    DateOfBirth = i.DateOfBirth,
+                    Gender = i.Gender,
+                    isActive = i.IsActive
+                };
                 a.UserCode = i.EmployeeCode;
                 string check = await _userService.GetUserBoolByEmail(i.Email);
                 a.haveAccount = check == "true";
@@ -120,7 +122,7 @@ namespace Spa.Api.Controllers
                 LastName = u.LastName,
                 Email = u.Email,
                 Phone = u.PhoneNumber,
-                Role = u.Role, 
+                Role = u.Role,
             });
             var totalItems = await _userService.GetAllItem();
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
@@ -150,19 +152,19 @@ namespace Spa.Api.Controllers
         [HttpGet("getUserByEmail")]
         public async Task<IActionResult> GetUserByEmail(string email)
         {
-             var getUserByEmail = _userService.GetUserByEmail(email);
-             UserDTO userDTO = new UserDTO
-             {
-                 Id = getUserByEmail.Result.Id,
-                 FirstName = getUserByEmail.Result.FirstName,
-                 LastName = getUserByEmail.Result.LastName,
-                 Email = getUserByEmail.Result.Email,
-                 Code = getUserByEmail.Result.Code,
-                 Role = getUserByEmail.Result.Role,
-                 Phone = getUserByEmail.Result.PhoneNumber,  
-                 isActive=getUserByEmail.Result.IsActiveAcount
-             };
-             return Ok(new { userDTO });
+            var getUserByEmail = _userService.GetUserByEmail(email);
+            UserDTO userDTO = new UserDTO
+            {
+                Id = getUserByEmail.Result.Id,
+                FirstName = getUserByEmail.Result.FirstName,
+                LastName = getUserByEmail.Result.LastName,
+                Email = getUserByEmail.Result.Email,
+                Code = getUserByEmail.Result.Code,
+                Role = getUserByEmail.Result.Role,
+                Phone = getUserByEmail.Result.PhoneNumber,
+                isActive = getUserByEmail.Result.IsActiveAcount
+            };
+            return Ok(new { userDTO });
         }
 
         [HttpGet("getUserByAdmin")]
@@ -177,7 +179,7 @@ namespace Spa.Api.Controllers
                 Email = getAdminByEmail.Result.Email,
                 AdminCode = getAdminByEmail.Result.AdminCode,
                 Role = getAdminByEmail.Result.Role,
-                DateOfBirth=getAdminByEmail.Result.DateOfBirth,
+                DateOfBirth = getAdminByEmail.Result.DateOfBirth,
                 Gender = getAdminByEmail.Result.Gender,
                 Phone = getAdminByEmail.Result.Phone,
                 IsActive = getAdminByEmail.Result.IsActive
@@ -195,25 +197,25 @@ namespace Spa.Api.Controllers
                 FirstName = getEmpByEmail.Result.FirstName,
                 LastName = getEmpByEmail.Result.LastName,
                 Email = getEmpByEmail.Result.Email,
-                BranchID=getEmpByEmail.Result.BranchID,
-                DateOfBirth=getEmpByEmail.Result.DateOfBirth,
+                BranchID = getEmpByEmail.Result.BranchID,
+                DateOfBirth = getEmpByEmail.Result.DateOfBirth,
                 EmployeeCode = getEmpByEmail.Result.EmployeeCode,
-                Gender=getEmpByEmail.Result.Gender,
+                Gender = getEmpByEmail.Result.Gender,
                 HireDate = getEmpByEmail.Result.HireDate,
                 JobTypeID = getEmpByEmail.Result.JobTypeID,
-                Phone=getEmpByEmail.Result.Phone,
+                Phone = getEmpByEmail.Result.Phone,
                 IsActive = getEmpByEmail.Result.IsActive,
                 Branch = await _branchService.GetBranchNameByID(getEmpByEmail.Result.BranchID),
             };
             var job = await _jobService.GetJobTypeByID(empDTO.JobTypeID);
-            empDTO.Role=job.JobTypeName;
+            empDTO.Role = job.JobTypeName;
             return Ok(new { empDTO });
         }
 
         [HttpGet("getUserBoolByEmail")]
         public async Task<IActionResult> GetUserBoolByEmail(string email)
         {
-            string checkUser =await  _userService.GetUserBoolByEmail(email);
+            string checkUser = await _userService.GetUserBoolByEmail(email);
             return Ok(new { check = checkUser });
         }
 
@@ -230,9 +232,9 @@ namespace Spa.Api.Controllers
                 {
                     FirstName = updateDto.FirstName,
                     LastName = updateDto.LastName,
-                    PasswordHash=updateDto.Password,
+                    PasswordHash = updateDto.Password,
                     Role = updateDto.Role,
-                    PhoneNumber=updateDto.Phone,
+                    PhoneNumber = updateDto.Phone,
                     Email = email,
                 };
                 if (user.Role == "Admin")
@@ -287,8 +289,8 @@ namespace Spa.Api.Controllers
         {
             try
             {
-                    await _userService.DeleteUser(email);
-                    return Ok(true);
+                await _userService.DeleteUser(email);
+                return Ok(true);
             }
             catch (ForeignKeyViolationException ex)
             {

@@ -3,6 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Serialization;
+using Spa.Api.Attributes;
 using Spa.Application;
 using Spa.Application.Commands;
 using Spa.Application.Models;
@@ -33,11 +35,13 @@ namespace Spa.Api.Controllers
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 WriteIndented = true,
-                ReferenceHandler = ReferenceHandler.IgnoreCycles
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
         }
 
         [HttpGet]
+        [Cache(1000)]
         public ActionResult GetAll(long idBrand)
         {
             var app = _appointmentService.GetAllAppoinment().Select(a => new AppointmentDTO
@@ -106,6 +110,32 @@ namespace Spa.Api.Controllers
                 NotFound();
             }
             return new JsonResult(appByBrand, _jsonSerializerOptions);
+        }
+
+        [HttpGet("getbyday")]
+        public async Task<ActionResult> GetAppointmentByDay(long branchID, DateTime fromDate, DateTime toDate)
+        {
+            var app = await _appointmentService.GetAppointmentFromDayToDay(branchID, fromDate, toDate);
+            var appDTO = app.Select(a=> new
+            {
+                appointmentID = a.AppointmentID,
+                appointmentDate = a.AppointmentDate,
+                branchID = a.BranchID,
+                customerID = a.CustomerID,
+                status = a.Status,
+                customer = new Customer()
+                {
+                    FirstName = a.Customer.FirstName,
+                    LastName = a.Customer.LastName,
+                    CustomerCode = a.Customer.CustomerCode,
+                    Phone = a.Customer.Phone,               
+                }
+            });;
+            if (app == null)
+            {
+                NotFound();
+            }
+            return new JsonResult(appDTO, _jsonSerializerOptions);
         }
 
 
@@ -289,6 +319,8 @@ namespace Spa.Api.Controllers
             var a = await _appointmentService.UpdateDiscount(id, perDiscount);
             return Ok(a);
         }
+
+
 
     }
 

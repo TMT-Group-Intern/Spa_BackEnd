@@ -236,5 +236,10 @@ namespace Spa.Domain.Service
             }
         }
 
+      public  async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate)
+        {
+            return await _appointmentRepository.GetAppointmentFromDayToDay(brancdID, fromDate, toDate);
+        }
+
     }
 }

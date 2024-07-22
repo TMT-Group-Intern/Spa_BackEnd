@@ -19,14 +19,15 @@ namespace Spa.Api.Controllers
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 WriteIndented = true,
-                ReferenceHandler = ReferenceHandler.IgnoreCycles
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
 
         }
         [HttpGet("getdetail")]
         public async Task<ActionResult> GetRevenueReportByBranch(long idBrand, DateTime fromDate, DateTime toDate)
         {
-            var billLineByDate = await _billService.GetRevenueReport(idBrand,fromDate, toDate);
+            var billLineByDate = await _billService.GetRevenueReport(idBrand, fromDate, toDate);
             return new JsonResult(billLineByDate, _jsonSerializerOptions);
         }
         [HttpGet("getbyday")]
