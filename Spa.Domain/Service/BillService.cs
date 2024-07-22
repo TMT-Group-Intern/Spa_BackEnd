@@ -91,5 +91,12 @@ namespace Spa.Domain.Service
         {
            return await _billRepository.GetRevenueReportByDay(idBrand, fromDate, toDate);   
         }
+
+        public async Task<IEnumerable<Bill>> GetBillByCustomer(long idCustomer)
+        {
+          var billList = await _billRepository.GetBillByCustomer(idCustomer);
+
+            return billList;
+        }
     }
 }
