@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Spa.Api.Attributes;
 using Spa.Application.Authorize.HasPermissionAbtribute;
 using Spa.Application.Authorize.Permissions;
 using Spa.Application.Commands;
@@ -47,6 +48,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("Page")]
+        [Cache(1000)]
         [HasPermission(SetPermission.GetAllByPage)]
         public async Task<ActionResult> GetAllByPage(int pageNumber = 1, int pageSize = 20)
         {

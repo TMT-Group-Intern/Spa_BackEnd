@@ -58,13 +58,41 @@ namespace Spa.Domain.Service
                 {
                     foreach (var item in billToUpdate.BillItems)
                     {
-                        item.UnitPrice = bill.BillItems.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.UnitPrice).FirstOrDefault();
+                       
+                        item.Note = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.Note).FirstOrDefault() ?? null;
+                        item.AmountDiscount = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.AmountDiscount).FirstOrDefault() ?? 0;
+                        item.KindofDiscount = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.KindofDiscount).FirstOrDefault() ?? null;
+                        item.Quantity = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.Quantity).FirstOrDefault();
+                        item.UnitPrice = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.UnitPrice).FirstOrDefault();
+                        item.TotalPrice = bill.BillItems!.Where(ser => ser.ServiceID == item.ServiceID).Select(i => i.TotalPrice).FirstOrDefault();
                     }
                 }
                 await _billRepository.UpdateBill(billToUpdate);
             }
 
             return billToUpdate!;
+        }
+
+        public async Task<IEnumerable<Bill>> GetAllBillByCustomerAsync(long idCus)
+        {
+         return  await _billRepository.GetAllBillByCustomerAsync(idCus);
+        }
+
+        public async Task<IEnumerable<Object>> GetRevenueReport(long idBrand, DateTime fromDate, DateTime toDate)
+        {
+            return await _billRepository.GetRevenueReport(idBrand, fromDate, toDate);
+        }
+
+        public async Task<IEnumerable<object>> GetRevenueReportByDay(long idBrand, DateTime fromDate, DateTime toDate)
+        {
+           return await _billRepository.GetRevenueReportByDay(idBrand, fromDate, toDate);   
+        }
+
+        public async Task<IEnumerable<Bill>> GetBillByCustomer(long idCustomer)
+        {
+          var billList = await _billRepository.GetBillByCustomer(idCustomer);
+
+            return billList;
         }
     }
 }

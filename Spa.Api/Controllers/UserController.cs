@@ -10,6 +10,8 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Spa.Application.Authorize.HasPermissionAbtribute;
 using Spa.Application.Authorize.Permissions;
+using Microsoft.AspNetCore.Authorization;
+using Spa.Api.Attributes;
 
 namespace Spa.Api.Controllers
 {
@@ -31,7 +33,8 @@ namespace Spa.Api.Controllers
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 WriteIndented = true,
-                ReferenceHandler = ReferenceHandler.IgnoreCycles
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
             _userService = userService;
             _mapper = mapper;
@@ -39,6 +42,14 @@ namespace Spa.Api.Controllers
             _env = env;
             _branchService = branchService;
             _jobService = jobService;
+        }
+
+
+        [HttpGet("UserEmail")]
+        public async Task<IActionResult> GetUserEmail()
+        {
+            var email = _userService.GetUserEmail();
+            return Ok(email);
         }
 
         [HttpGet("onlyUser")]
@@ -128,6 +139,7 @@ namespace Spa.Api.Controllers
 
         [HttpGet("allEmployee")]
         [HasPermission(SetPermission.GetAllEmployee)]
+        [Cache(1000)]
         public async Task<IActionResult> GetAllEmployee()
         {
             var allEmps = await _userService.GetAllEmployee();
@@ -142,6 +154,7 @@ namespace Spa.Api.Controllers
 
         [HttpGet("allAdmin")]
         [HasPermission(SetPermission.GetAllAdmin)]
+        [Cache]
         public async Task<IActionResult> GetAllAdmin()
         {
             var allAdmins = await _userService.GetAllAdmin();
@@ -182,7 +195,6 @@ namespace Spa.Api.Controllers
                 Role = getAdminByEmail.Result.Role,
                 DateOfBirth = getAdminByEmail.Result.DateOfBirth,
                 Gender = getAdminByEmail.Result.Gender,
-                Password = getAdminByEmail.Result.Password,
                 Phone = getAdminByEmail.Result.Phone,
                 IsActive = getAdminByEmail.Result.IsActive
             };
@@ -207,6 +219,7 @@ namespace Spa.Api.Controllers
                 HireDate = getEmpByEmail.Result.HireDate,
                 JobTypeID = getEmpByEmail.Result.JobTypeID,
                 Password = getEmpByEmail.Result.Password,
+                Phone = getEmpByEmail.Result.Phone,
                 Phone = getEmpByEmail.Result.Phone,
                 IsActive = getEmpByEmail.Result.IsActive,
                 Branch = await _branchService.GetBranchNameByID(getEmpByEmail.Result.BranchID),
@@ -249,7 +262,6 @@ namespace Spa.Api.Controllers
                     {
                         FirstName = user.FirstName,
                         LastName = user.LastName,
-                        Password = user.PasswordHash,
                         Role = "Admin",
                         DateOfBirth = updateDto.DateOfBirth,
                         Phone = updateDto.Phone,
@@ -267,7 +279,6 @@ namespace Spa.Api.Controllers
                     {
                         FirstName = user.FirstName,
                         LastName = user.LastName,
-                        Password = user.PasswordHash,
                         Gender = updateDto.Gender,
                         HireDate = updateDto.HireDate,
                         Phone = updateDto.Phone,

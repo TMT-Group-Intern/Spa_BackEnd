@@ -472,7 +472,6 @@ namespace Spa.Infrastructure
                 FirstName = AdminDTO.FirstName,
                 LastName = AdminDTO.LastName,
                 Email = AdminDTO.Email,
-                Password = AdminDTO.Password,
                 Phone = AdminDTO.Phone,
                 DateOfBirth = AdminDTO.DateOfBirth,
                 Gender = AdminDTO.Gender,

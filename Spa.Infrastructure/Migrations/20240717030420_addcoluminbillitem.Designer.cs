@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spa.Infrastructure;
 
@@ -11,9 +12,11 @@ using Spa.Infrastructure;
 namespace Spa.Infrastructure.Migrations
 {
     [DbContext(typeof(SpaDbContext))]
-    partial class SpaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240717030420_addcoluminbillitem")]
+    partial class addcoluminbillitem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,9 +56,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("JobTypeID")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -68,8 +68,6 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AdminID");
-
-                    b.HasIndex("JobTypeID");
 
                     b.ToTable("Admins");
                 });
@@ -138,9 +136,6 @@ namespace Spa.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("BillID"));
 
-                    b.Property<double?>("AmountDiscount")
-                        .HasColumnType("float");
-
                     b.Property<double?>("AmountInvoiced")
                         .HasColumnType("float");
 
@@ -160,12 +155,6 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Doctor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("KindofDiscount")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TechnicalStaff")
@@ -213,9 +202,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<string>("ServiceName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float");
 
                     b.Property<double>("UnitPrice")
                         .HasColumnType("float");
@@ -465,23 +451,6 @@ namespace Spa.Infrastructure.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("Spa.Domain.Entities.Permission", b =>
-                {
-                    b.Property<long>("PermissionID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PermissionID"));
-
-                    b.Property<string>("PermissionName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PermissionID");
-
-                    b.ToTable("Permissions");
-                });
-
             modelBuilder.Entity("Spa.Domain.Entities.Product", b =>
                 {
                     b.Property<long>("ProductID")
@@ -529,21 +498,6 @@ namespace Spa.Infrastructure.Migrations
                     b.HasIndex("ProductID");
 
                     b.ToTable("Purchases");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.RolePermission", b =>
-                {
-                    b.Property<long>("PermissionID")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("JobTypeID")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("PermissionID", "JobTypeID");
-
-                    b.HasIndex("JobTypeID");
-
-                    b.ToTable("RolePermissions");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Sale", b =>
@@ -663,12 +617,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("RefreshTokenExpiryTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -717,16 +665,6 @@ namespace Spa.Infrastructure.Migrations
                     b.HasIndex("ProductID");
 
                     b.ToTable("Warehouses");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.Admin", b =>
-                {
-                    b.HasOne("Spa.Domain.Entities.JobType", "JobType")
-                        .WithMany("Admins")
-                        .HasForeignKey("JobTypeID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("JobType");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Appointment", b =>
@@ -881,25 +819,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("Sale");
                 });
 
-            modelBuilder.Entity("Spa.Domain.Entities.RolePermission", b =>
-                {
-                    b.HasOne("Spa.Domain.Entities.JobType", "JobTypes")
-                        .WithMany("RolePermission")
-                        .HasForeignKey("JobTypeID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Spa.Domain.Entities.Permission", "Permissions")
-                        .WithMany("RolePermissions")
-                        .HasForeignKey("PermissionID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("JobTypes");
-
-                    b.Navigation("Permissions");
-                });
-
             modelBuilder.Entity("Spa.Domain.Entities.Sale", b =>
                 {
                     b.HasOne("Spa.Domain.Entities.Customer", "Customer")
@@ -1010,16 +929,7 @@ namespace Spa.Infrastructure.Migrations
 
             modelBuilder.Entity("Spa.Domain.Entities.JobType", b =>
                 {
-                    b.Navigation("Admins");
-
                     b.Navigation("Employees");
-
-                    b.Navigation("RolePermission");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.Permission", b =>
-                {
-                    b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Product", b =>

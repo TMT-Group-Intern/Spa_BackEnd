@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Spa.Application.Authorize.Authorization;
+using Spa.Application.Configuration;
 using Spa.Application.Automapper;
 using Spa.Application.Commands;
 using Spa.Application.Models;
@@ -19,9 +21,11 @@ using Spa.Domain.IService;
 using Spa.Domain.Service;
 using Spa.Infrastructure;
 using Spa.Infrastructures;
+using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Text;
+using Spa.Application.MIiddleware;
 
 
 
@@ -59,6 +63,8 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Creat
 
 
 
+
+
 //add Mapper
 var mapperConfig = new MapperConfiguration(mc =>
 {
@@ -74,6 +80,23 @@ ConfigurationManager configuration = builder.Configuration;
 //Add Database Service
 builder.Services.AddDbContext<SpaDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
     b => b.MigrationsAssembly("Spa.Infrastructure")));
+
+
+
+//Redis Cache
+
+var redisConfiguration = new RedisConfiguration();
+configuration.GetSection("RedisConfiguration").Bind(redisConfiguration);
+builder.Services.AddSingleton(redisConfiguration);
+ if(redisConfiguration.Enabled)
+{
+    builder.Services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(redisConfiguration.ConnectionString));
+    builder.Services.AddStackExchangeRedisCache(option => option.Configuration = redisConfiguration.ConnectionString);
+    builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+}
+
+
+//Redis Cache
 
 
 builder.Services.AddIdentity<User, IdentityRole>()
@@ -101,6 +124,9 @@ builder.Services.AddAuthentication(options =>
     };
 });
 //Add authentication to Swagger UI
+
+builder.Services.AddHttpContextAccessor();
+/*//Add authentication to Swagger UI
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -176,10 +202,18 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseMiddleware<AuthorizationExceptionMiddleware>();
 app.UseRouting();
+app.UseMiddleware<RequestTimingMiddleware>(); //test time response
+
+app.UseHttpsRedirection();  //thêm middleware để chuyển http sang https để thêm bảo mật
+
+
+app.UseAuthentication();
 app.UseAuthorization();  //middleware xử lí ủy uyền 
 //định tuyến controller 
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
+app.MapControllers();  //định tuyến controller 
+
 app.Run();  // xử lí yêu cầu http đến server

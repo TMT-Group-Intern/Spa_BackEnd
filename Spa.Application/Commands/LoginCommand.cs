@@ -1,7 +1,12 @@
 ﻿using MediatR;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Spa.Application.Authentication;
 using Spa.Application.Models;
 using Spa.Domain.IRepository;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Spa.Application.Commands
 {
@@ -18,10 +23,13 @@ namespace Spa.Application.Commands
         private readonly IUserRepository _userRepository;
         private readonly IBranchRepository _branchRepository;
 
+
         public LoginCommandHandler(IUserRepository userRepository, IBranchRepository branchRepository)
         {
             _userRepository = userRepository;
             _branchRepository = branchRepository;
+
+      
         }
 
         public async Task<AuthenticationResult> Handle(LoginCommand request, CancellationToken cancellationToken)
