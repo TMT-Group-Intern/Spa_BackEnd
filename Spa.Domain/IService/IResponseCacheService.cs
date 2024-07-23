@@ -11,5 +11,7 @@ namespace Spa.Domain.IService
         Task SetCacheResponeAsync(string cacheKey, object respone, TimeSpan timeOut);
 
         Task<string> GetCacheResponseAsync(string cacheKey);
+
+        Task RemoveCacheResponseAsync(string pattern);
     }
 }

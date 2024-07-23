@@ -8,9 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Spa.Api.Configuration;
+using Spa.Application.Configuration;
 using Spa.Application.Automapper;
 using Spa.Application.Commands;
+using Spa.Application.Configuration;
 using Spa.Domain.Entities;
 using Spa.Domain.IRepository;
 using Spa.Domain.IService;
@@ -21,6 +22,7 @@ using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Text;
+using Spa.Application.MIiddleware;
 
 
 
@@ -83,13 +85,13 @@ builder.Services.AddDbContext<SpaDbContext>(opt => opt.UseSqlServer(configuratio
 var redisConfiguration = new RedisConfiguration();
 configuration.GetSection("RedisConfiguration").Bind(redisConfiguration);
 builder.Services.AddSingleton(redisConfiguration);
-if (!redisConfiguration.Enabled)
+ if(redisConfiguration.Enabled)
 {
-    return;
+    builder.Services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(redisConfiguration.ConnectionString));
+    builder.Services.AddStackExchangeRedisCache(option => option.Configuration = redisConfiguration.ConnectionString);
+    builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
 }
-builder.Services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(redisConfiguration.ConnectionString));
-builder.Services.AddStackExchangeRedisCache(option => option.Configuration = redisConfiguration.ConnectionString);
-builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+
 
 //Redis Cache
 
@@ -183,6 +185,8 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Photos")),
     RequestPath = "/Photos"
 });
+
+app.UseMiddleware<RequestTimingMiddleware>(); //test time response
 
 app.UseHttpsRedirection();  //thêm middleware để chuyển http sang https để thêm bảo mật
 

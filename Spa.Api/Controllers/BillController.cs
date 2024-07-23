@@ -79,7 +79,7 @@ namespace Spa.Api.Controllers
                     TotalAmount = createBillDTO.TotalAmount,
                     AmountInvoiced = createBillDTO.AmountInvoiced,
                     AmountResidual = createBillDTO.TotalAmount,
-
+                    BillItems = createBillDTO.BillItems,
 
                     //số tiền còn lại (chưa trả)
                     //   BillItems = createBillDTO.BillItems

@@ -29,6 +29,32 @@ namespace Spa.Domain.Service
             return string.IsNullOrEmpty(cacheResponse) ? null : cacheResponse;
         }
 
+        public async Task RemoveCacheResponseAsync(string pattern)
+        {
+            if (string.IsNullOrEmpty(pattern)) throw new ArgumentException("Can not null or empty");
+            await foreach (var key in GetKeyAsync(pattern + "*"))
+            {
+                await _distributedCache.RemoveAsync(key);
+            }
+        }
+
+
+        private async  IAsyncEnumerable<string> GetKeyAsync(string pattern)
+        {
+            if (string.IsNullOrEmpty(pattern)) throw new ArgumentException("Can not null or empty");
+
+            foreach (var endPoint in _connectionMultiplexer.GetEndPoints())
+            {
+                var server = _connectionMultiplexer.GetServer(endPoint);
+                foreach (var key in server.Keys(pattern: pattern))
+                {
+                    yield return key.ToString();
+                }
+
+            }
+        }
+
+
         public async Task SetCacheResponeAsync(string cacheKey, object respone, TimeSpan timeOut)
         {
             if (respone == null)
