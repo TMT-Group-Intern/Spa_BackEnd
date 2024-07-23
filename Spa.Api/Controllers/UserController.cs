@@ -8,6 +8,7 @@ using Spa.Domain.IService;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
+using Spa.Api.Attributes;
 
 namespace Spa.Api.Controllers
 {
@@ -130,6 +131,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("allEmployee")]
+        [Cache(1000)]
         public async Task<IActionResult> GetAllEmployee()
         {
             var allEmps = await _userService.GetAllEmployee();
@@ -143,6 +145,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("allAdmin")]
+        [Cache]
         public async Task<IActionResult> GetAllAdmin()
         {
             var allAdmins = await _userService.GetAllAdmin();

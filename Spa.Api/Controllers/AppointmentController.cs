@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using MediatR;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
@@ -62,6 +63,42 @@ namespace Spa.Api.Controllers
                 NotFound();
             }
             return new JsonResult(appByBrand, _jsonSerializerOptions);
+        }
+
+        [HttpGet("InfoToCreateBill")]
+         public async Task<ActionResult> GetDetailAppointmentToCreateBill(long apointmentID)
+        {
+            var app = await _appointmentService.GetDetailAppointmentToCreateBill(apointmentID);
+            List<Employee> employees = new List<Employee>();
+            List<ServiceEntity> services = new List<ServiceEntity>();
+            foreach (var item in app.ChooseServices)
+            {
+                services.Add(item.Service);
+            }
+
+            foreach (var item in app.Assignments)
+            {
+                employees.Add(item.Employees);
+            }
+            var infoToCreateBill = new
+            {
+                AppointmentID = app.AppointmentID,
+                CustomerID = app.CustomerID,
+                Employees = employees.Select(a=> new
+                {
+                    EmployeeID = a.EmployeeID,
+                    FirtName = a.FirstName,
+                    LastName = a.LastName,
+                    JobName = a.JobType.JobTypeName,
+                }),
+                Services = services.Select(s => new
+                {
+                    serviceCode = s.ServiceCode,
+                    serviceName = s.ServiceName,
+                    price = s.Price,
+                })
+            };
+            return new JsonResult(infoToCreateBill, _jsonSerializerOptions);
         }
 
         [HttpGet("/GetAllByBranch")]

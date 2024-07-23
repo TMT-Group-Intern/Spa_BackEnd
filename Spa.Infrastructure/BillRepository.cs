@@ -39,8 +39,17 @@ namespace Spa.Infrastructure
 
         public async Task<Bill> CreateBill(Bill bill)
         {
-            Add(bill);
-            return bill;
+            try
+            {
+                Add(bill);
+                return bill;
+            }
+            catch(Exception ex) { }
+            {
+                throw new Exception();
+            }
+
+
         }
 
         public async Task<Bill?> GetBillByIdAsync(long id) //Get By ID

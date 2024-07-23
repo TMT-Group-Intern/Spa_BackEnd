@@ -22,9 +22,6 @@ namespace Spa.Application.Commands
         public double? TotalAmount { get; set; }   // tổng tiền
         public double? AmountInvoiced { get; set; } = 0;// thanh toán
         public double? AmountResidual { get; set; } = 0; // còn lại
-
-  
-
         public ICollection<BillItem>? BillItems { get; set; }
     }
 
@@ -53,37 +50,37 @@ namespace Spa.Application.Commands
                 BillStatus = request.BillStatus,
                 CustomerID = request.CustomerID,
                 Date = DateTime.Now,
+                BillItems = request.BillItems,
             
             };
             var newBill = await _billService.CreateBill(bill);
-            if (newBill != null)
-            {
-                var checkChooservice = _appointmentService.GetAppointmentByIdAsync(request.AppointmentID); // check service trong appointment
-                var newBillInDatabase = await _billService.GetNewBillAsync();
-                idNewBill = newBillInDatabase.BillID;
-                if (checkChooservice.ChooseServices != null)
-                {
-                    List<BillItem> newBillItems = new List<BillItem>();
-                    bill.TotalAmount = 0;
-                    bill.AmountResidual = 0;
-                    foreach (var item in checkChooservice.ChooseServices)
-                    {
-                        bill.TotalAmount += item.Service.Price;
-                        bill.AmountResidual += item.Service.Price;
-                        newBillItems.Add(new BillItem()
-                        {
-                            BillID = newBillInDatabase.BillID,
-                            ServiceID = item.ServiceID,
-                            Quantity = 1, // đổi chooseService thêm trường quatity rồi chèn vào đây
-                            ServiceName = item.Service.ServiceName,
-                            UnitPrice = item.Service.Price,
-                            TotalPrice = item.Service.Price,
-                        });
-                    }
-                    await _billService.AddBillItem(newBillItems);
-                }
-            }
-
+            //if (newBill != null)
+            //{
+            //    var checkChooservice = _appointmentService.GetAppointmentByIdAsync(request.AppointmentID); // check service trong appointment
+            //    var newBillInDatabase = await _billService.GetNewBillAsync();
+            //    idNewBill = newBillInDatabase.BillID;
+            //    if (checkChooservice.ChooseServices != null)
+            //    {
+            //        List<BillItem> newBillItems = new List<BillItem>();
+            //        bill.TotalAmount = 0;
+            //        bill.AmountResidual = 0;
+            //        foreach (var item in checkChooservice.ChooseServices)
+            //        {
+            //            bill.TotalAmount += item.Service.Price;
+            //            bill.AmountResidual += item.Service.Price;
+            //            newBillItems.Add(new BillItem()
+            //            {
+            //                BillID = newBillInDatabase.BillID,
+            //                ServiceID = item.ServiceID,
+            //                Quantity = 1, // đổi chooseService thêm trường quatity rồi chèn vào đây
+            //                ServiceName = item.Service.ServiceName,
+            //                UnitPrice = item.Service.Price,
+            //                TotalPrice = item.Service.Price,
+            //            });
+            //        }
+            //        await _billService.AddBillItem(newBillItems);
+            //    }
+            //}
             return idNewBill;
         }
     }

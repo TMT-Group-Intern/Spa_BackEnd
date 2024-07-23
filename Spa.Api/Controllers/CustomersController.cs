@@ -45,7 +45,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("Page")]
-        [Cache(100)]
+        [Cache(1000)]
         public async Task<ActionResult> GetAllByPage(int pageNumber = 1, int pageSize = 20)
         {
             var customersFromService = await _service.GetByPages(pageNumber, pageSize);
