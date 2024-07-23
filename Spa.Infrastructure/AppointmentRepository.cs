@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Spa.Domain.Entities;
 using Spa.Domain.IRepository;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -188,6 +190,12 @@ namespace Spa.Infrastructure
                                             .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
                                             .FirstOrDefaultAsync();
             return appToUpdate!;
+        }
+
+        public async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID,DateTime fromDate, DateTime toDate)
+        {
+            var listApp = await _spaDbContext.Appointments.Include(c => c.Customer).Where(a => a.BranchID == brancdID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate).ToListAsync();
+            return listApp;
         }
 
     }

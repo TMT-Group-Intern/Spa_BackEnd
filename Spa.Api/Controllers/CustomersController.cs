@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Spa.Api.Attributes;
 using Spa.Application.Commands;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
@@ -44,6 +45,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("Page")]
+        [Cache(100)]
         public async Task<ActionResult> GetAllByPage(int pageNumber = 1, int pageSize = 20)
         {
             var customersFromService = await _service.GetByPages(pageNumber, pageSize);
