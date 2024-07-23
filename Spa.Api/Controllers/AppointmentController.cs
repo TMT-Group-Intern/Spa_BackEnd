@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using MediatR;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Spa.Application.Authorize.HasPermissionAbtribute;
+using Spa.Application.Authorize.Permissions;
 using Newtonsoft.Json.Serialization;
 using Spa.Api.Attributes;
 using Spa.Application;
@@ -12,8 +12,6 @@ using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
-using Spa.Domain.Service;
-using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -42,6 +40,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet]
+        [HasPermission(SetPermission.GetAllApointment)]
         [Cache(1000)]
         public ActionResult GetAll(long idBrand)
         {
@@ -54,6 +53,7 @@ namespace Spa.Api.Controllers
                 Total = a.Total,
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
+                EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
                 Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
                 TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
             });
@@ -102,6 +102,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("/GetAllByBranch")]
+        [HasPermission(SetPermission.GetAllByBranch)]
         public ActionResult GetAllByBranch(long idBrand)
         {
             var app = _appointmentService.GetAllAppoinment().Select(a => new AppointmentDTO
@@ -113,6 +114,7 @@ namespace Spa.Api.Controllers
                 Total = a.Total,
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
+                EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
                 Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
                 TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
             });
@@ -125,6 +127,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("/GetAppointmentByStatus")]
+        [HasPermission(SetPermission.GetAllByStatus)]
         public ActionResult GetAllByStatus(long idBrand, string status)
         {
             var app = _appointmentService.GetAllAppoinment().Select(a => new AppointmentDTO
@@ -177,6 +180,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpPost]
+        [HasPermission(SetPermission.CreateAppointment)]
         public async Task<ActionResult> Add([FromBody] CreateAppointmentDTO appointmentCreateDto)
         {
             if (!ModelState.IsValid)
@@ -206,6 +210,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [HasPermission(SetPermission.GetAppointmentById)]
         public async Task<ActionResult> GetAppointmentById(long id)
         {
             if (!ModelState.IsValid)
@@ -219,8 +224,8 @@ namespace Spa.Api.Controllers
                 TeachnicalStaff = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(n => n.Employees.LastName + " " + n.Employees.FirstName).FirstOrDefault(),
                 Doctor = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault()
             };
-             appByid.Doctor = appointmentDTO.Doctor;
-             appByid.TeachnicalStaff =  appointmentDTO.TeachnicalStaff;
+            appByid.Doctor = appointmentDTO.Doctor;
+            appByid.TeachnicalStaff = appointmentDTO.TeachnicalStaff;
             if (appByid == null)
             {
                 return NotFound();
@@ -230,6 +235,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("updatestatus/{id}")]
+        [HasPermission(SetPermission.updateStatus)]
         public async Task<ActionResult> updateStatus(long id, string status)
         {
             await _appointmentService.UpdateStatus(id, status);
@@ -237,6 +243,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("assigntechnicalstaff")]
+        [HasPermission(SetPermission.AssignTechnicalStaff)]
         public async Task<ActionResult> AssignTechnicalStaff(long idApp, long idEmploy)
         {
             await _appointmentService.AssignTechnicalStaff(idApp, idEmploy);
@@ -245,6 +252,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpPut("{id}")]
+        [HasPermission(SetPermission.updateAppointmentWithoutService)]
         public async Task<ActionResult> updateAppointmentWithoutService(long id, [FromBody] UpdateAppointmentWithoutServiceDTO updateAppointmentWithoutServiceDTO)
         {
             try
@@ -274,6 +282,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("api/UpdateAppointmentWithService/{id}/{status}")]
+        [HasPermission(SetPermission.updateAppointmentWithService)]
         public async Task<ActionResult> updateAppointmentWithService(long id, string status, [FromBody] List<long> serviceID, string? notes)
         {
             if (!ModelState.IsValid)
@@ -286,6 +295,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("Test/{id}")]
+        [HasPermission(SetPermission.UpdateAppointment)]
         public async Task<ActionResult> UpdateAppointment(long id, UpdateAppointmentDTO appointment)  //Update Appointment (RESTFUll)
         {
             ICollection<ChooseService>? chooseServices = new List<ChooseService>();
@@ -293,7 +303,7 @@ namespace Spa.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if ( _appointmentService.GetAppointmentByIdAsync(id) != null)
+            if (_appointmentService.GetAppointmentByIdAsync(id) != null)
             {
                 if (appointment.ListServiceID != null)
                 {
@@ -308,7 +318,7 @@ namespace Spa.Api.Controllers
                 Appointment app = new Appointment
                 {
                     AppointmentID = id,
-                    AppointmentDate = appointment.AppointmentDate ,
+                    AppointmentDate = appointment.AppointmentDate,
                     BranchID = appointment.BranchID,
                     CustomerID = appointment.CustomerID,
                     Notes = appointment.Notes,
@@ -326,6 +336,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpDelete("{id}")]
+        [HasPermission(SetPermission.DeleteAppointmentById)]
         public async Task<ActionResult> DeleteAppointmentById(long id)
         {
             try
@@ -337,7 +348,7 @@ namespace Spa.Api.Controllers
                 if (await _appointmentService.DeleteAppointment(id))
                 {
                     return Ok(new { id });
-                }   
+                }
             }
             catch (ErrorMessage ex)
             {
@@ -351,6 +362,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("UpdateDiscount")]
+        [HasPermission(SetPermission.UpdateDiscount)]
         public async Task<ActionResult> UpdateDiscount(long id, int perDiscount)
         {
             var a = await _appointmentService.UpdateDiscount(id, perDiscount);

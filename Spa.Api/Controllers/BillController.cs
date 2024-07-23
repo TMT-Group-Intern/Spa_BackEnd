@@ -11,6 +11,8 @@ using Spa.Domain.IService;
 using Spa.Domain.Service;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Spa.Application.Authorize.HasPermissionAbtribute;
+using Spa.Application.Authorize.Permissions;
 
 namespace Spa.Api.Controllers
 {
@@ -58,6 +60,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpPost]
+        [HasPermission(SetPermission.CreateBill)]
         public async Task<ActionResult> CreateBill(CreateBillDTO createBillDTO)
         {
             if (!ModelState.IsValid)
@@ -67,7 +70,6 @@ namespace Spa.Api.Controllers
             try
             {
                 // Appointment app = _appointmentService.GetAppointmentByIdAsync(Id);
-
                 var command = new CreateBillCommand
                 {
                     AppointmentID = createBillDTO.AppointmentID,
@@ -98,6 +100,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet]
+        [HasPermission(SetPermission.GetAllBillAsync)]
         public async Task<ActionResult> GetAllBillAsync()
         {
             var billLine = await _billService.GetAllBillAsync();
@@ -112,6 +115,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [HasPermission(SetPermission.GetBillByIdAsync)]
         public async Task<ActionResult> GetBillByIdAsync(long id)
         {
             try
@@ -134,6 +138,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [HasPermission(SetPermission.UpdateBill)]
         public async Task<ActionResult> UpdateBill(long id, Bill bill)
         {
             try

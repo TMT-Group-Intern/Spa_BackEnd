@@ -1,4 +1,5 @@
 ﻿using Spa.Domain.Entities;
+using System.Security.Claims;
 
 namespace Spa.Domain.IRepository
 {
@@ -19,7 +20,9 @@ namespace Spa.Domain.IRepository
         Task CreateAdmin(Admin adminDTO);
         Task CreateEmployee(Employee empDTO);
         Task<string> LoginAccount(string Email, string Password);
-        Task<string> GenerateToken(string Id, string Name, string Email, string Role);
+        Task<string> GenerateToken(string Id, string Name, string Email, long? jobTypeID, string Role);
+        Task<string> GenerateRefreshToken();
+        Task<(string, string)> RefreshToken(string refreshToken, string jwtToken);
         Task<bool> DeleteUser(string Email);
         Task<bool> UpdateUser(User UserDTO);
         Task<bool> UpdateAdmin(Admin AdminDTO);

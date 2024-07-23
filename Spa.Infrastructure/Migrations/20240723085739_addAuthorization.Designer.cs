@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spa.Infrastructure;
 
@@ -11,9 +12,11 @@ using Spa.Infrastructure;
 namespace Spa.Infrastructure.Migrations
 {
     [DbContext(typeof(SpaDbContext))]
-    partial class SpaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240723085739_addAuthorization")]
+    partial class addAuthorization
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,6 +61,9 @@ namespace Spa.Infrastructure.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
@@ -138,9 +144,6 @@ namespace Spa.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("BillID"));
 
-                    b.Property<double?>("AmountDiscount")
-                        .HasColumnType("float");
-
                     b.Property<double?>("AmountInvoiced")
                         .HasColumnType("float");
 
@@ -160,12 +163,6 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Doctor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("KindofDiscount")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TechnicalStaff")
@@ -192,17 +189,8 @@ namespace Spa.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("BillItemID"));
 
-                    b.Property<double?>("AmountDiscount")
-                        .HasColumnType("float");
-
                     b.Property<long>("BillID")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("KindofDiscount")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -213,9 +201,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<string>("ServiceName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float");
 
                     b.Property<double>("UnitPrice")
                         .HasColumnType("float");
@@ -396,6 +381,9 @@ namespace Spa.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
@@ -439,7 +427,7 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<long>("BillID")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Notes")
@@ -453,6 +441,7 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")

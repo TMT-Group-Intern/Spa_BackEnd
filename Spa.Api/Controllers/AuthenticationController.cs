@@ -1,13 +1,19 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Spa.Application.Authentication;
+using Spa.Application.Authorize.HasPermissionAbtribute;
+using Spa.Application.Authorize.Permissions;
 using Spa.Application.Commands;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
 using Spa.Infrastructure;
+using System.Security.Claims;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Spa.Api.Controllers
 {
@@ -30,7 +36,46 @@ namespace Spa.Api.Controllers
             _spaDbContext = spaDbContext;
         }
 
+        [HttpGet("getClaims"), Authorize]
+        public JsonResult GetClaims()
+        {
+            var claimValues = new
+            {
+                UserCode = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
+                Name = User.FindFirst(ClaimTypes.Name)?.Value,
+                Email = User.FindFirst(ClaimTypes.Email)?.Value,
+                Role = User.FindFirst(ClaimTypes.Role)?.Value
+            };
+
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                MaxDepth = 64
+            };
+            return new JsonResult(claimValues, jsonSerializerOptions);
+        }
+
+        [HttpPost("refreshToken"), Authorize]
+        public async Task<IActionResult> RefreshToken([FromBody] TokenDTO tokenDTO)
+        {
+            try
+            {
+                var token = new TokenDTO
+                {
+                    AccessToken = tokenDTO.AccessToken,
+                    RefreshToken = tokenDTO.RefreshToken
+                };
+                var refresh = await _userService.RefreshToken(token.RefreshToken, token.AccessToken);
+                return Ok(new { refresh.Item1, refresh.Item2 });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { });
+            }
+        }
+
         [HttpPost("register")]
+        [HasPermission(SetPermission.CreateUser)]
         public async Task<IActionResult> CreateUser([FromBody] UserDTO userDto)
         {
             if (!ModelState.IsValid)
@@ -42,30 +87,31 @@ namespace Spa.Api.Controllers
                 var command = new RegisterCommand
                 {
                     FirstName = userDto.FirstName,
-                    LastName = userDto.LastName,                   
+                    LastName = userDto.LastName,
                     Email = userDto.Email,
                     Password = userDto.Password,
                     Role = userDto.Role,
-                    PhoneNumber=userDto.Phone,
-                    Gender=userDto.Gender,
+                    PhoneNumber = userDto.Phone,
+                    Gender = userDto.Gender,
                     DateOfBirth = userDto.DateOfBirth,
                     HireDate = userDto.HireDate,
-                    JobTypeID =userDto.JobTypeID,
-                    BranchID=userDto.BranchID,
-    };
+                    JobTypeID = userDto.JobTypeID,
+                    BranchID = userDto.BranchID,
+                };
                 var id = await _mediator.Send(command);
-                return Ok(new {status = id});
+                return Ok(new { status = id });
             }
             catch (DuplicateException ex1)
             {
-                return Ok(new {});
+                return Ok(new { });
             }
             catch (Exception ex2)
             {
-                return Ok(new {});
+                return Ok(new { });
             }
         }
         [HttpPost("CreateUserForEmployee")]
+        [HasPermission(SetPermission.CreateUserForEmployee)]
         public async Task<IActionResult> CreateUserForEmployee([FromBody] UserForEmployeeDTO userDTO)
         {
             if (!ModelState.IsValid)
@@ -83,11 +129,11 @@ namespace Spa.Api.Controllers
             }
             catch (DuplicateException ex)
             {
-                return  Ok(new {});
+                return Ok(new { });
             }
             catch (Exception ex)
             {
-                return  Ok(new {});
+                return Ok(new { });
             }
         }
 
@@ -97,7 +143,7 @@ namespace Spa.Api.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return new AuthenticationResult(false,"Empty",null,null);
+                return new AuthenticationResult(false, "Empty", null, null, null);
             }
             try
             {
@@ -110,12 +156,34 @@ namespace Spa.Api.Controllers
             }
             catch (DuplicateException ex)
             {
-                return new AuthenticationResult(false, "Error",null,null);
+                return new AuthenticationResult(false, "Error", null, null, null);
             }
             catch (Exception ex)
             {
-                return new AuthenticationResult(false, "Error",null,null);
+                return new AuthenticationResult(false, "Error", null, null, null);
             }
+        }
+
+        [HttpGet("getCookies")]
+        public IActionResult GetUserFromCookie()
+        {
+            var userJson = Request.Cookies["User"];
+            if (userJson != null)
+            {
+                var user = JsonSerializer.Deserialize<AllUsers>(userJson);
+                return Ok(user);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost("logOut")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("User");
+            return Ok();
         }
     }
 }

@@ -3,6 +3,8 @@ using DocumentFormat.OpenXml.Drawing.Charts;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Spa.Application.Authorize.HasPermissionAbtribute;
+using Spa.Application.Authorize.Permissions;
 using Spa.Application.Commands;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
@@ -30,6 +32,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("/GetRevenueToday")]
+        [HasPermission(SetPermission.GetPaymentByDay)]
         public async Task<ActionResult> GetPaymentByDay()
         {
             var revenue = await _paymentService.GetRevenueToday();
@@ -37,9 +40,11 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("/getpaymentofcus")]
+        [HasPermission(SetPermission.GetPaymenOfCustomer)]
         public async Task<ActionResult> GetPaymenOfCustomer()
         {
-            try { 
+            try
+            {
 
 
             }
@@ -51,7 +56,8 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPayment( Payment payment) //Id bill
+        [HasPermission(SetPermission.AddPayment)]
+        public async Task<IActionResult> AddPayment(long Id)
         {
             if (!ModelState.IsValid)
             {
@@ -77,6 +83,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("/GetPaymentByBranch")]
+        [HasPermission(SetPermission.GetPaymentByBranch)]
         public async Task<ActionResult> GetPaymentByBranch(long branchID)
         {
             try
@@ -95,6 +102,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("ExportExel")]
+        [HasPermission(SetPermission.ExportExelPayment)]
         public async Task<FileResult> ExportExelPayment(long branchID)
         {
             var list = await _paymentService.GetAllPaymentsByBranch(branchID);
@@ -118,7 +126,7 @@ namespace Spa.Api.Controllers
 
             foreach (var payment in payments)
             {
-            //    dataTable.Rows.Add(payment.Customer.CustomerCode, payment.Customer.FirstName + " " + payment.Customer.LastName, payment.PaymentDate, payment.Amount, payment.PaymentMethod, payment.CreatedAt, payment.Notes == null ? "" : payment.Notes);
+                //    dataTable.Rows.Add(payment.Customer.CustomerCode, payment.Customer.FirstName + " " + payment.Customer.LastName, payment.PaymentDate, payment.Amount, payment.PaymentMethod, payment.CreatedAt, payment.Notes == null ? "" : payment.Notes);
             }
 
             using (XLWorkbook wb = new XLWorkbook())

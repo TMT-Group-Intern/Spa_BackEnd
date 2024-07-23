@@ -8,6 +8,9 @@ using Spa.Domain.IService;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
+using Spa.Application.Authorize.HasPermissionAbtribute;
+using Spa.Application.Authorize.Permissions;
+using Microsoft.AspNetCore.Authorization;
 using Spa.Api.Attributes;
 
 namespace Spa.Api.Controllers
@@ -50,6 +53,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("onlyUser")]
+        [HasPermission(SetPermission.OnlyUser)]
         public async Task<IActionResult> GetAllUsers()
         {
             var allUsers = await _userService.GetAllUsers();
@@ -57,6 +61,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("allUser")]
+        [HasPermission(SetPermission.ViewAllUser)]
         public async Task<IActionResult> GetAllUser()
         {
             var allUsers = await _userService.GetAllAdminsAndEmployees();
@@ -105,6 +110,7 @@ namespace Spa.Api.Controllers
             listAllUser = listAllUser
                 .OrderByDescending(u => u.Role == "Quản lý")
                 .ThenBy(u => u.Role == "Bảo vệ")
+                .ThenBy(u => u.Role == "Nhân viên kỹ thuật")
                 .ThenBy(u => u.haveAccount is false)
                 .ThenBy(u => u.UserCode)
                 .ToList();
@@ -112,6 +118,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("UserPage")]
+        [HasPermission(SetPermission.UserPage)]
         public async Task<ActionResult> GetAllUserByPage(int pageNumber = 1, int pageSize = 20)
         {
             var userFromService = await _userService.GetByPages(pageNumber, pageSize);
@@ -131,6 +138,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("allEmployee")]
+        [HasPermission(SetPermission.GetAllEmployee)]
         [Cache(1000)]
         public async Task<IActionResult> GetAllEmployee()
         {
@@ -145,6 +153,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("allAdmin")]
+        [HasPermission(SetPermission.GetAllAdmin)]
         [Cache]
         public async Task<IActionResult> GetAllAdmin()
         {
@@ -153,6 +162,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("getUserByEmail")]
+        [HasPermission(SetPermission.GetUserByEmail)]
         public async Task<IActionResult> GetUserByEmail(string email)
         {
             var getUserByEmail = _userService.GetUserByEmail(email);
@@ -171,6 +181,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("getUserByAdmin")]
+        [HasPermission(SetPermission.GetUserByAdmin)]
         public async Task<IActionResult> GetAdminByEmail(string email)
         {
             var getAdminByEmail = _userService.GetAdminByEmail(email);
@@ -191,6 +202,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("getUserByEmployee")]
+        [HasPermission(SetPermission.GetUserByEmployee)]
         public async Task<IActionResult> GetEmpByEmail(string email)
         {
             var getEmpByEmail = _userService.GetEmpByEmail(email);
@@ -206,6 +218,8 @@ namespace Spa.Api.Controllers
                 Gender = getEmpByEmail.Result.Gender,
                 HireDate = getEmpByEmail.Result.HireDate,
                 JobTypeID = getEmpByEmail.Result.JobTypeID,
+                Password = getEmpByEmail.Result.Password,
+                Phone = getEmpByEmail.Result.Phone,
                 Phone = getEmpByEmail.Result.Phone,
                 IsActive = getEmpByEmail.Result.IsActive,
                 Branch = await _branchService.GetBranchNameByID(getEmpByEmail.Result.BranchID),
@@ -216,6 +230,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("getUserBoolByEmail")]
+        [HasPermission(SetPermission.GetUserBoolByEmail)]
         public async Task<IActionResult> GetUserBoolByEmail(string email)
         {
             string checkUser = await _userService.GetUserBoolByEmail(email);
@@ -223,6 +238,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("updateUser")]
+        [HasPermission(SetPermission.UpdateUser)]
         public async Task<IActionResult> UpdateUser(string email, [FromBody] UpdateDTO updateDto)
         {
             try
@@ -250,7 +266,8 @@ namespace Spa.Api.Controllers
                         DateOfBirth = updateDto.DateOfBirth,
                         Phone = updateDto.Phone,
                         Gender = updateDto.Gender,
-                        Email = user.Email
+                        Email = user.Email,
+                        JobTypeID = 5,
                     };
                     await _userService.UpdateUser(user);
                     await _userService.UpdateAdmin(admin);
@@ -288,6 +305,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpDelete("deleteUser")]
+        [HasPermission(SetPermission.DeleteUser)]
         public async Task<ActionResult> DeleteUser(string email)
         {
             try
