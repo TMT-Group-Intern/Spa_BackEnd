@@ -7,6 +7,8 @@ using System.Text.Json;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
+using Spa.Application.Authorize.HasPermissionAbtribute;
+using Spa.Application.Authorize.Permissions;
 
 namespace Spa.Api.Controllers
 {
@@ -35,6 +37,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("allJobs")]
+        [HasPermission(SetPermission.GetAllJobs)]
         public async Task<IActionResult> GetAllJobs()
         {
             var allJobs = await _jobService.GetAllJobs();
@@ -42,6 +45,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("getJobTypeNameByID")]
+        [HasPermission(SetPermission.GetJobTypeByID)]
         public async Task<IActionResult> GetJobTypeByID(long id)
         {
             try
@@ -65,6 +69,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPost("createJob")]
+        [HasPermission(SetPermission.CreateJobType)]
         public async Task<IActionResult> CreateJobType([FromBody] JobDTO jobDto)
         {
             try
@@ -73,7 +78,7 @@ namespace Spa.Api.Controllers
                 {
                     JobTypeName = jobDto.JobTypeName,
                 };
-                var newjob =await _jobService.CreateJobType(job);
+                var newjob = await _jobService.CreateJobType(job);
                 return Ok(new { id = newjob });
             }
             catch (DuplicateException ex)
@@ -87,6 +92,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("updateJob")]
+        [HasPermission(SetPermission.UpdateJob)]
         public async Task<IActionResult> UpdateJob(long id, [FromBody] JobDTO updateDto)
         {
             try
@@ -115,6 +121,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpDelete("deleteJob")]
+        [HasPermission(SetPermission.DeleteJob)]
         public async Task<ActionResult> DeleteJob(long id)
         {
             try

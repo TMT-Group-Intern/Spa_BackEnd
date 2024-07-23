@@ -1,15 +1,19 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Spa.Application.Authorize.Authorization;
 using Spa.Application.Automapper;
 using Spa.Application.Commands;
+using Spa.Application.Models;
 using Spa.Domain.Entities;
+using Spa.Domain.Exceptions;
 using Spa.Domain.IRepository;
 using Spa.Domain.IService;
 using Spa.Domain.Service;
@@ -42,7 +46,7 @@ builder.Services.AddCors(options =>
 });
 //builder.Services.AddSwaggerGen(); //add swagger để test api 
 //Add authentication to Swagger UI
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 
 
 //MediatR
@@ -96,7 +100,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
     };
 });
-/*//Add authentication to Swagger UI
+//Add authentication to Swagger UI
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -106,7 +110,7 @@ builder.Services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.ApiKey
     });
     options.OperationFilter<SecurityRequirementsOperationFilter>();
-});*/
+});
 
 //Register services
 //Customer
@@ -140,6 +144,13 @@ builder.Services.AddScoped<ICustomerTypeRepository, CustomerTypeRepository>();
 builder.Services.AddScoped<IBillService, BillService>();
 builder.Services.AddScoped<IBillRepository, BillRepository>();
 
+//Permission
+builder.Services.AddScoped<IPermissionService, PermissionService>();
+builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
+builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+builder.Services.AddAuthorization();
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
 var app = builder.Build();
 
@@ -160,10 +171,15 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Photos"
 });
 
-app.UseHttpsRedirection();  //thêm middleware để chuyển http sang https để thêm bảo mật
-
-app.UseAuthorization();  //middleware xử lí ủy uyền 
+app.UseHttpsRedirection();
+//thêm middleware để chuyển http sang https để thêm bảo mật
 app.UseAuthentication();
-app.MapControllers();  //định tuyến controller 
-
+app.UseMiddleware<AuthorizationExceptionMiddleware>();
+app.UseRouting();
+app.UseAuthorization();  //middleware xử lí ủy uyền 
+//định tuyến controller 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.Run();  // xử lí yêu cầu http đến server

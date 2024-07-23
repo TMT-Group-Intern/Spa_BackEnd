@@ -21,6 +21,8 @@ namespace Spa.Domain.Entities
         public string? Gender { get; set; }
         public string Role { get; set; }
         public bool IsActive { get; set; } = true;
+        public long? JobTypeID { get; set; } = 5;
         public ICollection<User>? User { get; set; }
+        public JobType? JobType { get; set; }
     }
 }
