@@ -83,13 +83,13 @@ builder.Services.AddDbContext<SpaDbContext>(opt => opt.UseSqlServer(configuratio
 var redisConfiguration = new RedisConfiguration();
 configuration.GetSection("RedisConfiguration").Bind(redisConfiguration);
 builder.Services.AddSingleton(redisConfiguration);
-if (!redisConfiguration.Enabled)
+if (redisConfiguration.Enabled)
 {
-    return;
+    builder.Services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(redisConfiguration.ConnectionString));
+    builder.Services.AddStackExchangeRedisCache(option => option.Configuration = redisConfiguration.ConnectionString);
+    builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
 }
-builder.Services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(redisConfiguration.ConnectionString));
-builder.Services.AddStackExchangeRedisCache(option => option.Configuration = redisConfiguration.ConnectionString);
-builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+
 
 //Redis Cache
 

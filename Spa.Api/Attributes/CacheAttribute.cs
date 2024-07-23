@@ -23,8 +23,19 @@ namespace Spa.Api.Attributes
                 return;
             }
 
-            var cacheService = context.HttpContext.RequestServices.GetRequiredService<IResponseCacheService>(); // sử dụng service đã DI
-            var cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
+            IResponseCacheService cacheService = null;
+            try
+            {
+                cacheService = context.HttpContext.RequestServices.GetRequiredService<IResponseCacheService>(); // sử dụng service đã DI
+            }
+            catch (StackExchange.Redis.RedisConnectionException ex)
+            {
+                Console.WriteLine("Redis connection failed: " + ex.Message);
+                await next();
+                return;// sử dụng service đã DI
+
+            }
+                var cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
             var cacheResponse = await cacheService.GetCacheResponseAsync(cacheKey);
 
             if (cacheResponse != null)
