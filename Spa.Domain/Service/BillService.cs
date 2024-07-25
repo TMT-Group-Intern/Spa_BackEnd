@@ -94,5 +94,11 @@ namespace Spa.Domain.Service
 
             return billList;
         }
+
+        public async Task<Bill> GetBillByAppointmentID(long id)
+        {
+            var bill = await _billRepository.GetBillByAppointmentID(id);
+            return bill;
+        }
     }
 }

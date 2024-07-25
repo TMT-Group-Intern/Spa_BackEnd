@@ -19,6 +19,10 @@ namespace Spa.Application.Models
         public double? TotalAmount { get; set; }   // tổng tiền
         public double? AmountInvoiced { get; set; } = 0;// thanh toán
         public double? AmountResidual { get; set; } = 0; // còn lại
+        public string? KindofDiscount {  get; set; }
+        public string? Note { get; set; }
+        public double ? AmountDiscount { get; set; }
+
         public ICollection<BillItem>? BillItems { get; set; }
     }
 }
