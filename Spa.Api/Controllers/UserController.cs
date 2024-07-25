@@ -146,6 +146,7 @@ namespace Spa.Api.Controllers
             return Ok(allEmps);
         }
         [HttpGet("EmployeeByBranchAndJob")]
+        [Authorize]
         public async Task<IActionResult> GetEmployeeByBranchAndJob(long branchID, long jobTypeID)
         {
             var allEmps = await _userService.GetEmployeeByBranchAndJob(branchID, jobTypeID);
@@ -218,8 +219,6 @@ namespace Spa.Api.Controllers
                 Gender = getEmpByEmail.Result.Gender,
                 HireDate = getEmpByEmail.Result.HireDate,
                 JobTypeID = getEmpByEmail.Result.JobTypeID,
-                Password = getEmpByEmail.Result.Password,
-                Phone = getEmpByEmail.Result.Phone,
                 Phone = getEmpByEmail.Result.Phone,
                 IsActive = getEmpByEmail.Result.IsActive,
                 Branch = await _branchService.GetBranchNameByID(getEmpByEmail.Result.BranchID),

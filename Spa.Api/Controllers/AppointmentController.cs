@@ -56,6 +56,7 @@ namespace Spa.Api.Controllers
                 EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
                 Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
                 TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                SpaTherapist = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
             });
             var appByBrand = app.Where(e => e.BranchID == idBrand && e.AppointmentDate >= DateTime.Today);
             if (app == null)
@@ -66,7 +67,8 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("InfoToCreateBill")]
-         public async Task<ActionResult> GetDetailAppointmentToCreateBill(long apointmentID)
+        [HasPermission(SetPermission.InfoToCreateBill)]
+        public async Task<ActionResult> GetDetailAppointmentToCreateBill(long apointmentID)
         {
             var app = await _appointmentService.GetDetailAppointmentToCreateBill(apointmentID);
             List<Employee> employees = new List<Employee>();
@@ -117,6 +119,7 @@ namespace Spa.Api.Controllers
                 EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
                 Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
                 TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                SpaTherapist = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
             });
             var appByBrand = app.Where(e => e.BranchID == idBrand && e.AppointmentDate >= DateTime.Today);
             if (app == null)
@@ -141,8 +144,8 @@ namespace Spa.Api.Controllers
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
                 Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
                 TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-                EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault()
-
+                EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
+                SpaTherapist = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
             });
             var appByBrand = app.Where(e => e.BranchID == idBrand && e.Status == status && e.AppointmentDate >= DateTime.Today);
             if (app == null)
@@ -153,6 +156,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("getbyday")]
+        [HasPermission(SetPermission.GetAppointmentByDay)]
         public async Task<ActionResult> GetAppointmentByDay(long branchID, DateTime fromDate, DateTime toDate)
         {
             var app = await _appointmentService.GetAppointmentFromDayToDay(branchID, fromDate, toDate);
@@ -168,8 +172,11 @@ namespace Spa.Api.Controllers
                     FirstName = a.Customer.FirstName,
                     LastName = a.Customer.LastName,
                     CustomerCode = a.Customer.CustomerCode,
-                    Phone = a.Customer.Phone,               
-                }
+                    Phone = a.Customer.Phone,
+                    DateOfBirth=a.Customer.DateOfBirth,
+                },
+                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
             });;
             if (app == null)
             {
@@ -222,10 +229,12 @@ namespace Spa.Api.Controllers
             AppointmentDTO appointmentDTO = new AppointmentDTO
             {
                 TeachnicalStaff = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(n => n.Employees.LastName + " " + n.Employees.FirstName).FirstOrDefault(),
+                SpaTherapist = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(n => n.Employees.EmployeeCode).FirstOrDefault(),
                 Doctor = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault()
             };
             appByid.Doctor = appointmentDTO.Doctor;
             appByid.TeachnicalStaff = appointmentDTO.TeachnicalStaff;
+            appByid.SpaTherapist = appointmentDTO.SpaTherapist;
             if (appByid == null)
             {
                 return NotFound();

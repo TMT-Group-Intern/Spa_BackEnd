@@ -316,7 +316,7 @@ namespace Spa.Infrastructure
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Audience"],
                 claims: userClaims,
-                expires: DateTime.Now.AddHours(1),
+                expires: DateTime.Now.AddDays(7),
                 //expires: DateTime.MaxValue,
                 signingCredentials: credentials
                 );

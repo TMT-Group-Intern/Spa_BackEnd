@@ -126,7 +126,7 @@ builder.Services.AddAuthentication(options =>
 //Add authentication to Swagger UI
 
 builder.Services.AddHttpContextAccessor();
-/*//Add authentication to Swagger UI
+//Add authentication to Swagger UI
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme

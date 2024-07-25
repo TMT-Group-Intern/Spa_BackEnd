@@ -106,5 +106,16 @@ namespace Spa.Application.Authorize.Permissions
         UpdateUser=76,
         DeleteUser=77,
 
+        //Report
+        GetRevenueReportByBranch=78,
+        GetRevenueReportByDay=79,
+
+        //Bill
+        GetBillHistory=80,
+        GetBillByCustomer=81,
+
+        //Appointment
+        InfoToCreateBill=82,
+        GetAppointmentByDay=83,
     }
 }

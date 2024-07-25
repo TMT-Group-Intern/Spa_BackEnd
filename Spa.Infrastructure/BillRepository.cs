@@ -93,8 +93,9 @@ namespace Spa.Infrastructure
                 {
                     dateBill = o.Date,
                     customerCode = o.Customer!.CustomerCode,
-                    customerName = o.Customer.FirstName + " " + o.Customer.LastName,
+                    customerName = o.Customer.LastName + " " + o.Customer.FirstName,
                     customerPhone = o.Customer.Phone,
+                    //customerDOB=o.Customer.DateOfBirth,
                     doctor = o.Doctor,
                     teachnicalStaff = o.TechnicalStaff,
                     totalAmount = o.TotalAmount,
@@ -126,5 +127,9 @@ namespace Spa.Infrastructure
             return await _spaDbContext.Bill.Where(c => c.CustomerID == id).ToListAsync();   
         }
 
+        public async Task<Bill?> GetBillByAppointmentID(long appId)
+        {
+            return await _spaDbContext.Bill.Include(i => i.BillItems).Where(b => b.AppointmentID == appId).FirstOrDefaultAsync() ?? null;
+        }
     }
 }
