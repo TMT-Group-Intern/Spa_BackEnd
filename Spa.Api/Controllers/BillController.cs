@@ -70,7 +70,6 @@ namespace Spa.Api.Controllers
             }
             try
             {
-                // Appointment app = _appointmentService.GetAppointmentByIdAsync(Id);
                 var command = new CreateBillCommand
                 {
                     AppointmentID = createBillDTO.AppointmentID,
@@ -86,9 +85,6 @@ namespace Spa.Api.Controllers
                     KindofDiscount=createBillDTO.KindofDiscount,
                     Note=createBillDTO.Note,
                     AmountDiscount=createBillDTO.AmountDiscount,
-
-        //số tiền còn lại (chưa trả)
-        //   BillItems = createBillDTO.BillItems
     };
                 var item = await _mediator.Send(command);
                 return Ok(new { item });
