@@ -32,15 +32,18 @@ namespace Spa.Infrastructure
 
         public Appointment CreateAppointment(Appointment appointment)
         {
-            //  Add(appointment);
-            //Assignment assignment = new Assignment
-            //{
-            //    AppointmentID = appointment.AppointmentID,
-            //    EmployerID = appointment.Assignments.Select(e => e.EmployerID),
-            //};
-            // _spaDbContext.Assignments.Add(appointment.Assignments);
             Add(appointment);
             return appointment;
+        }
+
+        public async Task<Appointment> GetDetailAppointmentToCreateBill(long appointmentID)
+        {
+            var app = await _spaDbContext.Appointments.Include(a => a.Assignments)
+                .ThenInclude(a => a.Employees).ThenInclude(j => j.JobType)
+                .Include(c => c.ChooseServices)
+                .ThenInclude(c => c.Service)
+                .Where(a => a.AppointmentID == appointmentID).FirstOrDefaultAsync();
+            return app;
         }
 
         public async Task<bool> UpdateAppointmentWithoutService(Appointment appointment)

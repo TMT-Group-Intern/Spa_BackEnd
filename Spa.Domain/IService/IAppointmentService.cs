@@ -39,6 +39,8 @@ namespace Spa.Domain.IService
         Task<IEnumerable<Appointment>> getAppointmentPage(long idBranch, int pageNumber, int pageSize);
         Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate);
 
+        Task<Appointment> GetDetailAppointmentToCreateBill(long appointmentID);
+
         Task<int> GetAllItem();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Spa.Api.Configuration
+﻿namespace Spa.Application.Configuration
 {
     public class RedisConfiguration
     {

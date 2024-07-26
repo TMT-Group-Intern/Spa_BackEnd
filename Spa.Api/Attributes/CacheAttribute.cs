@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Spa.Api.Configuration;
+using Spa.Application.Configuration;
+using Spa.Application.Configuration;
 using Spa.Domain.IService;
 using System.Text;
 
@@ -23,7 +24,17 @@ namespace Spa.Api.Attributes
                 return;
             }
 
-            var cacheService = context.HttpContext.RequestServices.GetRequiredService<IResponseCacheService>(); // sử dụng service đã DI
+            IResponseCacheService cacheService = null;
+            try
+            {
+                cacheService = context.HttpContext.RequestServices.GetRequiredService<IResponseCacheService>();
+            }
+            catch (StackExchange.Redis.RedisConnectionException ex)
+            {
+                Console.WriteLine("Redis connection failed: " + ex.Message);
+                await next();
+                return;
+            }// sử dụng service đã DI
             var cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
             var cacheResponse = await cacheService.GetCacheResponseAsync(cacheKey);
 
@@ -43,10 +54,9 @@ namespace Spa.Api.Attributes
             if (excutedContext.Result is OkObjectResult objectResult)
             {
                 await cacheService.SetCacheResponeAsync(cacheKey, objectResult.Value, TimeSpan.FromSeconds(_timeToliveSeconds));
-
             }
         }
-
+        
         public static string GenerateCacheKeyFromRequest(HttpRequest request)
         {
             var keyBuilder = new StringBuilder();
@@ -57,7 +67,5 @@ namespace Spa.Api.Attributes
             }
             return keyBuilder.ToString();
         }
-
-
     }
 }

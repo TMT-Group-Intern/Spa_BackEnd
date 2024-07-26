@@ -43,6 +43,8 @@ namespace Spa.Domain.IRepository
 
         Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate);
 
+        Task<Appointment> GetDetailAppointmentToCreateBill(long appointmentID);
+
         Task<int> GetAllItems();
     }
 }

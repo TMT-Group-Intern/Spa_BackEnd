@@ -198,7 +198,8 @@ namespace Spa.Domain.Service
 
         public async Task<bool> UpdateAppointment(long idApp, Appointment appointment)
         {
-            try {
+            try
+            {
                 var appToUpdate = await _appointmentRepository.GetAppointmentByIdAsync(idApp);
                 UpdateNonNullFields(appToUpdate, appointment);
                 var chooseService = appToUpdate.ChooseServices;
@@ -209,9 +210,10 @@ namespace Spa.Domain.Service
                 }
                 return await _appointmentRepository.UpdateAppointmentAsync(appToUpdate);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw ex;
-            }           
+            }
         }
 
         private void UpdateNonNullFields(Appointment target, Appointment source)
@@ -229,11 +231,16 @@ namespace Spa.Domain.Service
             }
         }
 
-      public  async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate)
+        public async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate)
         {
             return await _appointmentRepository.GetAppointmentFromDayToDay(brancdID, fromDate, toDate);
         }
 
+        public async Task<Appointment> GetDetailAppointmentToCreateBill(long appointmentID)
+        {
+            var app = await _appointmentRepository.GetDetailAppointmentToCreateBill(appointmentID);
+            return app;
+        }
       public async Task<IEnumerable<Appointment>> getAppointmentPage(long idBranch, int pageNumber, int pageSize)
         {
             var listAppointment = await _appointmentRepository.getAppointmentPage(idBranch, pageNumber, pageSize);

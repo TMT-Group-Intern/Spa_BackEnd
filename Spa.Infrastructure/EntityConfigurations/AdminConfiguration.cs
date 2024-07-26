@@ -13,12 +13,13 @@ namespace Spa.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Admin> builder)
         {
-            builder.HasKey(e => e.AdminID);              
+            builder.HasKey(e => e.AdminID);
             builder.Property(e => e.AdminID).ValueGeneratedOnAdd();
 
-            //builder.HasOne(u => u.User)
-            //.WithMany(e => e.Admin)
-            //.HasForeignKey(e => e.Id);
+            builder.HasOne(e => e.JobType)
+                    .WithMany(e => e.Admins)
+                    .HasForeignKey(e => e.JobTypeID)
+                    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
