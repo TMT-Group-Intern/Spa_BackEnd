@@ -18,7 +18,7 @@ namespace Spa.Domain.Entities
 
         public double? TotalAmount { get; set; }   // tổng tiền
         public double? AmountInvoiced { get; set; } = 0;// thanh toán
-        public double? AmountResidual { get; set; } = 0; // còn lại
+        public double? AmountResidual { get; set; } // còn lại
 
         public double? AmountDiscount { get; set; } = 0;
         public string? KindofDiscount { get; set; }

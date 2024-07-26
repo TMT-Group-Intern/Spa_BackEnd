@@ -40,6 +40,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("getbillhistory")]
+        [HasPermission(SetPermission.GetBillHistory)]
         public async Task<ActionResult> GetBillByCustomer(long customerId)
         {
             var billList = await _billService.GetBillByCustomer(customerId);
@@ -70,7 +71,6 @@ namespace Spa.Api.Controllers
             }
             try
             {
-                // Appointment app = _appointmentService.GetAppointmentByIdAsync(Id);
                 var command = new CreateBillCommand
                 {
                     AppointmentID = createBillDTO.AppointmentID,
@@ -83,10 +83,10 @@ namespace Spa.Api.Controllers
                     AmountInvoiced = createBillDTO.AmountInvoiced,
                     AmountResidual = createBillDTO.TotalAmount,
                     BillItems = createBillDTO.BillItems,
-
-                    //số tiền còn lại (chưa trả)
-                    //   BillItems = createBillDTO.BillItems
-                };
+                    KindofDiscount=createBillDTO.KindofDiscount,
+                    Note=createBillDTO.Note,
+                    AmountDiscount=createBillDTO.AmountDiscount,
+    };
                 var item = await _mediator.Send(command);
                 return Ok(new { item });
             }
@@ -109,17 +109,19 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("getbillbycustomer")]
+        [HasPermission(SetPermission.GetBillByCustomer)]
         public async Task<ActionResult> GetAllBillByCustomerAsync(long cusId)
         {
             var billLine = await _billService.GetAllBillByCustomerAsync(cusId);
             return new JsonResult(billLine);
         }
 
-        [HttpGet("getBillByAppointmentID")]
-        public async Task<ActionResult>GetBillByAppointmentID(long appId)
+        [HttpGet("GetBillByAppointmentID")]
+        //[HasPermission(SetPermission.GetBillByCustomer)]
+        public async Task<ActionResult> GetBillByAppointmentID(long appId)
         {
             var bill = await _billService.GetBillByAppointmentID(appId);
-            return new JsonResult(bill,_jsonSerializerOptions);
+            return new JsonResult(bill, _jsonSerializerOptions);
         }
 
         [HttpGet("{id}")]

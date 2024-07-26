@@ -30,6 +30,6 @@ namespace Spa.Domain.IService
 
         Task<IEnumerable<Bill>> GetBillByCustomer(long idCustomer);
 
-        Task<Bill?> GetBillByAppointmentID(long id);
+        Task<Bill?>GetBillByAppointmentID(long appId);
     }
 }

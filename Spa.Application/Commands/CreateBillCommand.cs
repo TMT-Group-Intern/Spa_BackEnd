@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.IService;
 using Spa.Domain.Service;
@@ -22,6 +23,9 @@ namespace Spa.Application.Commands
         public double? TotalAmount { get; set; }   // tổng tiền
         public double? AmountInvoiced { get; set; } = 0;// thanh toán
         public double? AmountResidual { get; set; } = 0; // còn lại
+        public string? KindofDiscount { get; set; }
+        public string? Note { get; set; }
+        public double? AmountDiscount { get; set; }
         public ICollection<BillItem>? BillItems { get; set; }
     }
 
@@ -37,7 +41,7 @@ namespace Spa.Application.Commands
         }
         public async Task<long> Handle(CreateBillCommand request, CancellationToken cancellationToken)
         {
-            long idNewBill = 0;
+            long newIdBill = 0;
             Bill bill = new Bill()
             {
                 AppointmentID = request.AppointmentID,
@@ -47,6 +51,9 @@ namespace Spa.Application.Commands
                 Doctor = request.Doctor,
                 TotalAmount = request.TotalAmount,
                 // BillItems = request.BillItems,
+                KindofDiscount = request.KindofDiscount,
+                Note = request.Note,
+                AmountDiscount = request.AmountDiscount,
                 BillStatus = request.BillStatus,
                 CustomerID = request.CustomerID,
                 Date = DateTime.Now,

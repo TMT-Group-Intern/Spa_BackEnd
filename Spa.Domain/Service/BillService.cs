@@ -54,6 +54,10 @@ namespace Spa.Domain.Service
             if (billToUpdate != null)
             {
                 billToUpdate.TotalAmount = bill.TotalAmount;
+                billToUpdate.AmountDiscount = bill.AmountDiscount;
+                billToUpdate.AmountResidual = bill.AmountResidual;
+                billToUpdate.Note = bill.Note;
+                billToUpdate.KindofDiscount = bill.KindofDiscount;
                 if (billToUpdate.BillItems != null)
                 {
                     foreach (var item in billToUpdate.BillItems)
@@ -95,7 +99,7 @@ namespace Spa.Domain.Service
             return billList;
         }
 
-        public async Task<Bill?> GetBillByAppointmentID(long id)
+        public async Task<Bill> GetBillByAppointmentID(long id)
         {
             var bill = await _billRepository.GetBillByAppointmentID(id);
             return bill;

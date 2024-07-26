@@ -14,10 +14,10 @@ namespace Spa.Application.Authorize.Permissions
         GetAllByStatus=3,
         CreateAppointment=4,
         GetAppointmentById=5,
-        updateStatus=7,
+        UpdateStatus=7,
         AssignTechnicalStaff=8,
-        updateAppointmentWithoutService=9,
-        updateAppointmentWithService=10,
+        UpdateAppointmentWithoutService=9,
+        UpdateAppointmentWithService=10,
         UpdateAppointment=11,
         DeleteAppointmentById=12,
         UpdateDiscount=13,
@@ -55,7 +55,7 @@ namespace Spa.Application.Authorize.Permissions
         //CustomerType
         GetAllCustomerTypes=36,
         GetCustomerTypeById=37,
-        createCustomerType=38,
+        CreateCustomerType=38,
         UpdateCustomerType=39,
         DeleteCustomerType=40,
 
@@ -106,5 +106,16 @@ namespace Spa.Application.Authorize.Permissions
         UpdateUser=76,
         DeleteUser=77,
 
+        //Report
+        GetRevenueReportByBranch=78,
+        GetRevenueReportByDay=79,
+
+        //Bill
+        GetBillHistory=80,
+        GetBillByCustomer=81,
+
+        //Appointment
+        InfoToCreateBill=82,
+        GetAppointmentByDay=83,
     }
 }
