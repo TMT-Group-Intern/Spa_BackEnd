@@ -38,7 +38,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("allBranches")]
-        [HasPermission(SetPermission.GetAllBranches)]
+        //[HasPermission(SetPermission.GetAllBranches)]
         public async Task<IActionResult> GetAllBranches()
         {
             var allBranches = await _branchService.GetAllBranches();
@@ -46,7 +46,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("getBranchByID")]
-        [HasPermission(SetPermission.GetBranchByID)]
+        //[HasPermission(SetPermission.GetBranchByID)]
         public async Task<IActionResult> GetBranchByID(long id)
         {
             try
@@ -71,7 +71,7 @@ namespace Spa.Api.Controllers
             }
         }
         [HttpGet("getBranchNameByID")]
-        [HasPermission(SetPermission.GetBranchNameByID)]
+        //[HasPermission(SetPermission.GetBranchNameByID)]
         public async Task<IActionResult> GetBranchNameByID(long id)
         {
             try
@@ -90,7 +90,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPost("createBranch")]
-        [HasPermission(SetPermission.CreateBranch)]
+        //[HasPermission(SetPermission.CreateBranch)]
         public async Task<IActionResult> CreateBranch([FromBody] BranchDTO branchDto)
         {
             try
@@ -115,7 +115,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("updateBranch")]
-        [HasPermission(SetPermission.UpdateBranch)]
+        //[HasPermission(SetPermission.UpdateBranch)]
         public async Task<IActionResult> UpdateBranch(long id, [FromBody] BranchDTO updateDto)
         {
             try
@@ -147,7 +147,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpDelete("deleteBranch")]
-        [HasPermission(SetPermission.DeleteBranch)]
+        //[HasPermission(SetPermission.DeleteBranch)]
         public async Task<ActionResult> DeleteBranch(long id)
         {
             try

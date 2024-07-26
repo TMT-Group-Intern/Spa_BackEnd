@@ -13,6 +13,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using Spa.Application.Authorize.HasPermissionAbtribute;
 using Spa.Application.Authorize.Permissions;
+using DocumentFormat.OpenXml.Office2013.Drawing.ChartStyle;
 
 namespace Spa.Api.Controllers
 {
@@ -112,6 +113,13 @@ namespace Spa.Api.Controllers
         {
             var billLine = await _billService.GetAllBillByCustomerAsync(cusId);
             return new JsonResult(billLine);
+        }
+
+        [HttpGet("getBillByAppointmentID")]
+        public async Task<ActionResult>GetBillByAppointmentID(long appId)
+        {
+            var bill = await _billService.GetBillByAppointmentID(appId);
+            return new JsonResult(bill,_jsonSerializerOptions);
         }
 
         [HttpGet("{id}")]

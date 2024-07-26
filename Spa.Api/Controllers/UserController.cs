@@ -53,7 +53,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("onlyUser")]
-        [HasPermission(SetPermission.OnlyUser)]
+        //[HasPermission(SetPermission.OnlyUser)]
         public async Task<IActionResult> GetAllUsers()
         {
             var allUsers = await _userService.GetAllUsers();
@@ -218,8 +218,6 @@ namespace Spa.Api.Controllers
                 Gender = getEmpByEmail.Result.Gender,
                 HireDate = getEmpByEmail.Result.HireDate,
                 JobTypeID = getEmpByEmail.Result.JobTypeID,
-                Password = getEmpByEmail.Result.Password,
-                Phone = getEmpByEmail.Result.Phone,
                 Phone = getEmpByEmail.Result.Phone,
                 IsActive = getEmpByEmail.Result.IsActive,
                 Branch = await _branchService.GetBranchNameByID(getEmpByEmail.Result.BranchID),

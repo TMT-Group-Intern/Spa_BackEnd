@@ -126,5 +126,9 @@ namespace Spa.Infrastructure
             return await _spaDbContext.Bill.Where(c => c.CustomerID == id).ToListAsync();   
         }
 
+        public async Task<Bill?> GetBillByAppointmentID(long id) //Get By ID
+        {
+            return await _spaDbContext.Bill.Include(i => i.BillItems).Where(b => b.AppointmentID == id).FirstOrDefaultAsync() ?? null;
+        }
     }
 }

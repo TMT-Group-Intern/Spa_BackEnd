@@ -70,7 +70,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPost("createJob")]
-        [HasPermission(SetPermission.CreateJobType)]
+        //[HasPermission(SetPermission.CreateJobType)]
         public async Task<IActionResult> CreateJobType([FromBody] JobDTO jobDto)
         {
             try

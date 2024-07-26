@@ -57,7 +57,7 @@ namespace Spa.Api.Controllers
 
         [HttpPost]
         [HasPermission(SetPermission.AddPayment)]
-        public async Task<IActionResult> AddPayment(long Id)
+        public async Task<IActionResult> AddPayment(Payment payment)
         {
             if (!ModelState.IsValid)
             {

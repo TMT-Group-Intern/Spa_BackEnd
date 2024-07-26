@@ -29,6 +29,6 @@ namespace Spa.Domain.IRepository
 
         Task<IEnumerable<Bill>> GetBillByCustomer(long idCustomer);
 
-
+        Task<Bill?> GetBillByAppointmentID(long id);
     }
 }
