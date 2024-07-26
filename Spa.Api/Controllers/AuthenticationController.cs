@@ -82,6 +82,7 @@ namespace Spa.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             try
             {
                 var command = new RegisterCommand

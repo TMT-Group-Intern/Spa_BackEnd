@@ -27,7 +27,7 @@ namespace Spa.Api.Attributes
             IResponseCacheService cacheService = null;
             try
             {
-                cacheService = context.HttpContext.RequestServices.GetRequiredService<IResponseCacheService>(); // sử dụng service đã DI
+                cacheService = context.HttpContext.RequestServices.GetRequiredService<IResponseCacheService>();
             }
             catch (StackExchange.Redis.RedisConnectionException ex)
             {
@@ -54,7 +54,6 @@ namespace Spa.Api.Attributes
             if (excutedContext.Result is OkObjectResult objectResult)
             {
                 await cacheService.SetCacheResponeAsync(cacheKey, objectResult.Value, TimeSpan.FromSeconds(_timeToliveSeconds));
-
             }
         }
         
@@ -68,7 +67,5 @@ namespace Spa.Api.Attributes
             }
             return keyBuilder.ToString();
         }
-
-
     }
 }
