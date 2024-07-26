@@ -192,11 +192,26 @@ namespace Spa.Infrastructure
             return appToUpdate!;
         }
 
-        public async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID,DateTime fromDate, DateTime toDate)
+        public async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate)
         {
-            var listApp = await _spaDbContext.Appointments.Include(c => c.Customer).Where(a => a.BranchID == brancdID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate).ToListAsync();
+            var listApp = await _spaDbContext.Appointments.Where(a => a.BranchID == brancdID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate)
+                                .Include(c => c.Customer)
+                                .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
+                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
+                                .ToListAsync();
             return listApp;
         }
 
+        public async Task<IEnumerable<Appointment>> getAppointmentPage(long brancdID, int pageNumber, int pageSize)
+        {
+            return await _spaDbContext.Appointments.Where(a=>a.BranchID == brancdID).Include(c => c.Customer)
+                                .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
+                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service).OrderBy(i => i.AppointmentID).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+        }
+
+        public async Task<int> GetAllItems()
+        {
+            return await _spaDbContext.Appointments.CountAsync();
+        }
     }
 }

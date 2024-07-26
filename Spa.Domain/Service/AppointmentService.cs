@@ -1,15 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IRepository;
 using Spa.Domain.IService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spa.Domain.Service
 {
@@ -241,5 +234,15 @@ namespace Spa.Domain.Service
             return await _appointmentRepository.GetAppointmentFromDayToDay(brancdID, fromDate, toDate);
         }
 
+      public async Task<IEnumerable<Appointment>> getAppointmentPage(long idBranch, int pageNumber, int pageSize)
+        {
+            var listAppointment = await _appointmentRepository.getAppointmentPage(idBranch, pageNumber, pageSize);
+            return listAppointment;
+        }
+
+        public async Task<int> GetAllItem()
+        {
+            return await _appointmentRepository.GetAllItems();
+        }
     }
 }

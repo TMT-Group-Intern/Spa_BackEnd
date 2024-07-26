@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Wordprocessing;
 using MediatR;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
@@ -64,6 +65,35 @@ namespace Spa.Api.Controllers
             return new JsonResult(appByBrand, _jsonSerializerOptions);
         }
 
+        [HttpGet("/page")]
+        [Cache(1000)]
+        public async Task<ActionResult> GetAllPage(long idBranch, int pageNumber = 1, int pageSize = 10)
+        {
+            var appPage = await _appointmentService.getAppointmentPage(idBranch, pageNumber, pageSize);
+            var app = _appointmentService.GetAllAppoinment().Select(a => new AppointmentDTO
+            {
+                AppointmentID = a.AppointmentID,
+                BranchID = a.BranchID,
+                CustomerID = a.CustomerID,
+                Status = a.Status,
+                Total = a.Total,
+                AppointmentDate = a.AppointmentDate,
+                Customer = _mapper.Map<CustomerDTO>(a.Customer),
+                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+            });
+            var totalItems = await _appointmentService.GetAllItem();
+
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var appByBrand = app.Where(e => e.BranchID == idBranch && e.AppointmentDate >= DateTime.Today);
+            if (app == null)
+            {
+                NotFound();
+            }
+            return new JsonResult(new{ appByBrand, totalItems, totalPages },_jsonSerializerOptions);
+        }
+
         [HttpGet("/GetAllByBranch")]
         public ActionResult GetAllByBranch(long idBrand)
         {
@@ -116,7 +146,7 @@ namespace Spa.Api.Controllers
         public async Task<ActionResult> GetAppointmentByDay(long branchID, DateTime fromDate, DateTime toDate)
         {
             var app = await _appointmentService.GetAppointmentFromDayToDay(branchID, fromDate, toDate);
-            var appDTO = app.Select(a=> new
+            var appDTO = app.Select(a=> new 
             {
                 appointmentID = a.AppointmentID,
                 appointmentDate = a.AppointmentDate,
@@ -128,8 +158,11 @@ namespace Spa.Api.Controllers
                     FirstName = a.Customer.FirstName,
                     LastName = a.Customer.LastName,
                     CustomerCode = a.Customer.CustomerCode,
+                    DateOfBirth = a.Customer.DateOfBirth,
                     Phone = a.Customer.Phone,               
-                }
+                },
+                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault()
             });;
             if (app == null)
             {
