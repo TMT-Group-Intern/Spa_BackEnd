@@ -117,7 +117,8 @@ namespace Spa.Api.Controllers
                     PermissionID=rolePerDto.PermissionID,
                 };
                 var newRolePer = await _perService.CreateRolePermission(rolePer);
-                return Ok(new { newRolePer });
+                return new JsonResult(newRolePer, _jsonSerializerOptions);
+                //return Ok(new { newRolePer });
             }
             catch (Exception ex)
             {

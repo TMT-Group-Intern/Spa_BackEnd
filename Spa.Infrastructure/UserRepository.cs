@@ -307,17 +307,13 @@ namespace Spa.Infrastructure
                 new Claim(ClaimTypes.Name, Name),
                 new Claim(ClaimTypes.Email, Email),
                 new Claim(ClaimTypes.Role, Role),
+                new Claim(ClaimTypes.Actor, jobTypeID.ToString())
             };
-            foreach (var permission in await _per.GetAllPermissionNameByJobTypeID(jobTypeID))
-                userClaims.Add(new Claim(GlobalConstant.ClaimCustoms.Permissions, permission));
-
-
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Audience"],
                 claims: userClaims,
                 expires: DateTime.Now.AddDays(7),
-                //expires: DateTime.MaxValue,
                 signingCredentials: credentials
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -507,7 +503,6 @@ namespace Spa.Infrastructure
                 HireDate = EmpDTO.HireDate,
                 JobTypeID = EmpDTO.JobTypeID,
                 BranchID = EmpDTO.BranchID,
-
             };
             var empUpdate = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == newUpdate.Email);
             if (empUpdate is null) return false;
