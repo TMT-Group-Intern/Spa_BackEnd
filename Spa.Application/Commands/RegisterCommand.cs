@@ -8,12 +8,12 @@ namespace Spa.Application.Commands
     public class RegisterCommand : IRequest<string>
     {
         public string FirstName { get; set; }
-        public string LastName {  get; set; }
+        public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
         public string PhoneNumber { get; set; }
-        public string Gender {  get; set; }
+        public string Gender { get; set; }
         public long? JobTypeID { get; set; }
         public long? BranchID { get; set; }
         public DateTime? DateOfBirth { get; set; }
@@ -50,13 +50,14 @@ namespace Spa.Application.Commands
                     LastName = user.LastName,
                     Email = user.Email,
                     Role = user.Role,
-                    Phone= user.PhoneNumber,
-                    Id= user.Id.ToString(),
-                    DateOfBirth= request.DateOfBirth,
-                    Gender= request.Gender,
+                    Phone = user.PhoneNumber,
+                    Id = user.Id.ToString(),
+                    DateOfBirth = request.DateOfBirth,
+                    Gender = request.Gender,
+                    JobTypeID = 5,
                 };
                 await _userService.CreateAdmin(admin);
-                user.Code=admin.AdminCode;
+                user.Code = admin.AdminCode;
                 var newUser = await _userService.CreateUser(user);
                 if (newUser is null)
                 {

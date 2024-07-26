@@ -11,6 +11,8 @@ using Spa.Domain.IService;
 using Spa.Domain.Service;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Spa.Application.Authorize.HasPermissionAbtribute;
+using Spa.Application.Authorize.Permissions;
 
 namespace Spa.Api.Controllers
 {
@@ -37,6 +39,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("getbillhistory")]
+        [HasPermission(SetPermission.GetBillHistory)]
         public async Task<ActionResult> GetBillByCustomer(long customerId)
         {
             var billList = await _billService.GetBillByCustomer(customerId);
@@ -58,6 +61,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpPost]
+        [HasPermission(SetPermission.CreateBill)]
         public async Task<ActionResult> CreateBill(CreateBillDTO createBillDTO)
         {
             if (!ModelState.IsValid)
@@ -67,7 +71,6 @@ namespace Spa.Api.Controllers
             try
             {
                 // Appointment app = _appointmentService.GetAppointmentByIdAsync(Id);
-
                 var command = new CreateBillCommand
                 {
                     AppointmentID = createBillDTO.AppointmentID,
@@ -79,11 +82,14 @@ namespace Spa.Api.Controllers
                     TotalAmount = createBillDTO.TotalAmount,
                     AmountInvoiced = createBillDTO.AmountInvoiced,
                     AmountResidual = createBillDTO.TotalAmount,
+                    BillItems = createBillDTO.BillItems,
+                    KindofDiscount=createBillDTO.KindofDiscount,
+                    Note=createBillDTO.Note,
+                    AmountDiscount=createBillDTO.AmountDiscount,
 
-
-                    //số tiền còn lại (chưa trả)
-                    //   BillItems = createBillDTO.BillItems
-                };
+        //số tiền còn lại (chưa trả)
+        //   BillItems = createBillDTO.BillItems
+    };
                 var item = await _mediator.Send(command);
                 return Ok(new { item });
             }
@@ -98,6 +104,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet]
+        [HasPermission(SetPermission.GetAllBillAsync)]
         public async Task<ActionResult> GetAllBillAsync()
         {
             var billLine = await _billService.GetAllBillAsync();
@@ -105,13 +112,23 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("getbillbycustomer")]
+        [HasPermission(SetPermission.GetBillByCustomer)]
         public async Task<ActionResult> GetAllBillByCustomerAsync(long cusId)
         {
             var billLine = await _billService.GetAllBillByCustomerAsync(cusId);
             return new JsonResult(billLine);
         }
 
+        [HttpGet("GetBillByAppointmentID")]
+        //[HasPermission(SetPermission.GetBillByCustomer)]
+        public async Task<ActionResult> GetBillByAppointmentID(long appId)
+        {
+            var bill = await _billService.GetBillByAppointmentID(appId);
+            return new JsonResult(bill, _jsonSerializerOptions);
+        }
+
         [HttpGet("{id}")]
+        [HasPermission(SetPermission.GetBillByIdAsync)]
         public async Task<ActionResult> GetBillByIdAsync(long id)
         {
             try
@@ -134,6 +151,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("{id}")]
+        [HasPermission(SetPermission.UpdateBill)]
         public async Task<ActionResult> UpdateBill(long id, Bill bill)
         {
             try

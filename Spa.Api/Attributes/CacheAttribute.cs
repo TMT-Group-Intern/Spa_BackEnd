@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Spa.Api.Configuration;
+using Spa.Application.Configuration;
+using Spa.Application.Configuration;
 using Spa.Domain.IService;
 using System.Text;
 
@@ -32,10 +33,9 @@ namespace Spa.Api.Attributes
             {
                 Console.WriteLine("Redis connection failed: " + ex.Message);
                 await next();
-                return;// sử dụng service đã DI
-
-            }
-                var cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
+                return;
+            }// sử dụng service đã DI
+            var cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
             var cacheResponse = await cacheService.GetCacheResponseAsync(cacheKey);
 
             if (cacheResponse != null)
@@ -57,7 +57,7 @@ namespace Spa.Api.Attributes
 
             }
         }
-
+        
         public static string GenerateCacheKeyFromRequest(HttpRequest request)
         {
             var keyBuilder = new StringBuilder();

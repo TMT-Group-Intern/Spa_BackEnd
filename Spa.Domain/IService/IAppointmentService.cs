@@ -37,5 +37,7 @@ namespace Spa.Domain.IService
         Task<bool> UpdateAppointment(long idApp, Appointment appointment);
 
         Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate);
+
+        Task<Appointment> GetDetailAppointmentToCreateBill(long appointmentID);
     }
 }

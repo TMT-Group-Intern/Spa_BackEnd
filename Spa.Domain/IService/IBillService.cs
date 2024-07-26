@@ -29,5 +29,7 @@ namespace Spa.Domain.IService
         Task<IEnumerable<Object>> GetRevenueReportByDay(long idBrand, DateTime fromDate, DateTime toDate);
 
         Task<IEnumerable<Bill>> GetBillByCustomer(long idCustomer);
+
+        Task<Bill?>GetBillByAppointmentID(long appId);
     }
 }
