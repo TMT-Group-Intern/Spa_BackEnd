@@ -258,7 +258,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("updatestatus/{id}")]
-        [HasPermission(SetPermission.updateStatus)]
+        [HasPermission(SetPermission.UpdateStatus)]
         public async Task<ActionResult> updateStatus(long id, string status)
         {
             await _appointmentService.UpdateStatus(id, status);
@@ -275,7 +275,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpPut("{id}")]
-        [HasPermission(SetPermission.updateAppointmentWithoutService)]
+        [HasPermission(SetPermission.UpdateAppointmentWithoutService)]
         public async Task<ActionResult> updateAppointmentWithoutService(long id, [FromBody] UpdateAppointmentWithoutServiceDTO updateAppointmentWithoutServiceDTO)
         {
             try
@@ -305,7 +305,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("api/UpdateAppointmentWithService/{id}/{status}")]
-        [HasPermission(SetPermission.updateAppointmentWithService)]
+        [HasPermission(SetPermission.UpdateAppointmentWithService)]
         public async Task<ActionResult> updateAppointmentWithService(long id, string status, [FromBody] List<long> serviceID, string? notes)
         {
             if (!ModelState.IsValid)
