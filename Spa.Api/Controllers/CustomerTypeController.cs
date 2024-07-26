@@ -57,7 +57,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPost("createCustomerType")]
-        [HasPermission(SetPermission.createCustomerType)]
+        [HasPermission(SetPermission.CreateCustomerType)]
         public async Task<IActionResult> CreateService([FromBody] CustomerTypeDTO customerTypeDto)
         {
             try
