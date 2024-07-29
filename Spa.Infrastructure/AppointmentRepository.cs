@@ -205,16 +205,5 @@ namespace Spa.Infrastructure
             return listApp;
         }
 
-        public async Task<IEnumerable<Appointment>> getAppointmentPage(long brancdID, int pageNumber, int pageSize)
-        {
-            return await _spaDbContext.Appointments.Where(a=>a.BranchID == brancdID).Include(c => c.Customer)
-                                .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
-                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service).OrderBy(i => i.AppointmentID).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-        }
-
-        public async Task<int> GetAllItems()
-        {
-            return await _spaDbContext.Appointments.CountAsync();
-        }
     }
 }

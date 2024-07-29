@@ -241,15 +241,5 @@ namespace Spa.Domain.Service
             var app = await _appointmentRepository.GetDetailAppointmentToCreateBill(appointmentID);
             return app;
         }
-      public async Task<IEnumerable<Appointment>> getAppointmentPage(long idBranch, int pageNumber, int pageSize)
-        {
-            var listAppointment = await _appointmentRepository.getAppointmentPage(idBranch, pageNumber, pageSize);
-            return listAppointment;
-        }
-
-        public async Task<int> GetAllItem()
-        {
-            return await _appointmentRepository.GetAllItems();
-        }
     }
 }

@@ -117,5 +117,6 @@ namespace Spa.Application.Authorize.Permissions
         //Appointment
         InfoToCreateBill=82,
         GetAppointmentByDay=83,
+        GetAllPage = 84,
     }
 }
