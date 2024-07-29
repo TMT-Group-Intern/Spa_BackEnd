@@ -6,6 +6,7 @@ using Spa.Application.Models;
 using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
+using Spa.Domain.Service;
 
 namespace Spa.Api.Controllers
 {
@@ -16,13 +17,16 @@ namespace Spa.Api.Controllers
         private readonly ICustomerService _service;
         private readonly IMediator _mediator;
         private readonly IWebHostEnvironment _env;
+        private readonly ILogger<CustomersController> _logger;
+        private readonly IResponseCacheService _responseCacheService;
 
-        public CustomersController(ICustomerService service, IMediator mediator, IWebHostEnvironment env)
+        public CustomersController(ICustomerService service, IMediator mediator, IWebHostEnvironment env, ILogger<CustomersController> logger, IResponseCacheService responseCacheService)
         {
             _service = service;
             _mediator = mediator;
             _env = env;
-          
+            _logger = logger;
+            _responseCacheService = responseCacheService;
         }
 
         [HttpGet]
@@ -87,8 +91,8 @@ namespace Spa.Api.Controllers
                     LastName = getByCusByID.LastName,
                     Gender = getByCusByID.Gender,
                     Phone = getByCusByID.Phone
-
                 };
+
                 return Ok(new { customerDTO });
             }
             else
@@ -277,6 +281,7 @@ namespace Spa.Api.Controllers
 
                 listHistoryForCus.Add(historyById);
             }
+            await _responseCacheService.RemoveCacheResponseAsync("/api/Customers/");
             return Ok(new { listHistoryForCus });
         }
 
