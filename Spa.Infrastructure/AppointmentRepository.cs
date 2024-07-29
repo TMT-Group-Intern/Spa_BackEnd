@@ -195,15 +195,29 @@ namespace Spa.Infrastructure
             return appToUpdate!;
         }
 
-        public async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate)
+        public async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate,int pageNumber, int pageSize)
         {
             var listApp = await _spaDbContext.Appointments.Where(a => a.BranchID == brancdID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate)
                                 .Include(c => c.Customer)
                                 .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
                                 .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
+                                .Skip((pageNumber - 1) * pageSize).Take(pageSize)
                                 .ToListAsync();
             return listApp;
         }
 
+
+
+        public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit)
+        {
+            var searchList = await _spaDbContext.Appointments
+                .Include(c => c.Customer)
+                .Include(a => a.Assignments!).ThenInclude(e => e.Employees)
+                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
+                .Where(a => a.Customer.FirstName.Contains(searchItem) || a.Customer.LastName.Contains(searchItem) || a.Customer.Phone.Contains(searchItem))
+                .Take(limit).ToListAsync();
+
+            return searchList;
+        }
     }
 }

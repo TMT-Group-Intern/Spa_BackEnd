@@ -178,6 +178,9 @@ builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
+//Redis
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -202,7 +205,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseMiddleware<AuthorizationExceptionMiddleware>();
 app.UseRouting();
-app.UseMiddleware<RequestTimingMiddleware>(); //test time response
+//app.UseMiddleware<RequestTimingMiddleware>(); //test time response
 
 app.UseHttpsRedirection();  //thêm middleware để chuyển http sang https để thêm bảo mật
 

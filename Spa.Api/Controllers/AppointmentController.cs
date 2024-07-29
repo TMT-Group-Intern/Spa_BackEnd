@@ -15,6 +15,7 @@ using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Runtime.InteropServices;
 
 namespace Spa.Api.Controllers
 {
@@ -167,10 +168,10 @@ namespace Spa.Api.Controllers
 
         [HttpGet("getbyday")]
         [HasPermission(SetPermission.GetAppointmentByDay)]
-        public async Task<ActionResult> GetAppointmentByDay(long branchID, DateTime fromDate, DateTime toDate)
+        public async Task<ActionResult> GetAppointmentByDay(long branchID, DateTime fromDate, DateTime toDate, int pageNumber = 1, int pageSize= 10)
         {
-            var app = await _appointmentService.GetAppointmentFromDayToDay(branchID, fromDate, toDate);
-            var appDTO = app.Select(a=> new 
+            var app = await _appointmentService.GetAppointmentFromDayToDay(branchID, fromDate, toDate, pageNumber, pageSize);
+            var appDTO = app.Select(a=> new
             {
                 appointmentID = a.AppointmentID,
                 appointmentDate = a.AppointmentDate,
@@ -193,7 +194,15 @@ namespace Spa.Api.Controllers
             {
                 NotFound();
             }
-            return new JsonResult(appDTO, _jsonSerializerOptions);
+            var total =  app.Count();
+            var response = new
+            {
+                offSet = pageNumber,
+                limit = pageSize,
+                totalItem = total,
+                items = appDTO,
+            };
+            return new JsonResult(response, _jsonSerializerOptions);
         }
 
         [HttpPost]
@@ -392,5 +401,32 @@ namespace Spa.Api.Controllers
             var a = await _appointmentService.UpdateDiscount(id, perDiscount);
             return Ok(a);
         }
+
+        [HttpGet("searchAppointment")]
+        public async Task<ActionResult> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit)
+        {
+            var app = await _appointmentService.SearchAppointment(fromDate, toDate, branchId, searchItem, limit);
+            var listApp = app.Select(a => new AppointmentDTO
+            {
+                AppointmentID = a.AppointmentID,
+                BranchID = a.BranchID,
+                CustomerID = a.CustomerID,
+                Status = a.Status,
+                Total = a.Total,
+                AppointmentDate = a.AppointmentDate,
+                Customer = _mapper.Map<CustomerDTO>(a.Customer),
+                EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
+                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                SpaTherapist = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
+            });
+
+            return new JsonResult(listApp, _jsonSerializerOptions);
+        }
+
+
+     //   [HttpGet("AppointmentPagination")]
+     //   public async Task<ActionResult> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit)
+
     }
 }
