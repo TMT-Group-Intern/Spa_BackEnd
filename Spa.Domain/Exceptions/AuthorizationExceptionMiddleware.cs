@@ -32,6 +32,7 @@ namespace Spa.Domain.Exceptions
             }
             catch (Exception ex)
             {
+                throw new Exception("A new error occurred", ex);
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 await context.Response.WriteAsync("An error occurred while processing your request.");
             }
