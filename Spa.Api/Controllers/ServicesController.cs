@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Spa.Application.Authorize.HasPermissionAbtribute;
+using Spa.Application.Authorize.Permissions;
 using Spa.Application.Commands;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
@@ -26,6 +28,7 @@ namespace Spa.Api.Controllers
 
         // GET: api/<ServicesController>
         [HttpGet]
+        [HasPermission(SetPermission.GetAllService)]
         public ActionResult GetAll()
         {
             var allService = _service.GetAllService();
@@ -42,6 +45,7 @@ namespace Spa.Api.Controllers
 
         // GET api/<ServicesController>/5
         [HttpGet("{id}")]
+        [HasPermission(SetPermission.GetServiceById)]
         public ActionResult GetServiceById(long id)
         {
 
@@ -67,6 +71,7 @@ namespace Spa.Api.Controllers
 
         // POST api/<ServicesController>
         [HttpPost]
+        [HasPermission(SetPermission.CreateService)]
         public async Task<IActionResult> CreateService([FromBody] ServiceDTO serviceDto)
         {
             try
@@ -91,6 +96,7 @@ namespace Spa.Api.Controllers
 
         // PUT api/<ServicesController>/5
         [HttpPut("{serviceId}")]
+        [HasPermission(SetPermission.UpdateService)]
         public async Task<IActionResult> UpdateService(int serviceId, [FromBody] ServiceDTO serviceDto)
         {
             try
@@ -125,6 +131,7 @@ namespace Spa.Api.Controllers
 
         // DELETE api/<ServicesController>/5
         [HttpDelete("{id}")]
+        [HasPermission(SetPermission.DeleteService)]
         public async Task<ActionResult> DeleteService(int id)
         {
             try

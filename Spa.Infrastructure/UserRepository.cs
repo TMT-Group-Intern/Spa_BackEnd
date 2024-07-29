@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Spa.Domain.Entities;
 using Spa.Domain.IRepository;
+using Spa.Domain.Service;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Spa.Infrastructure
@@ -17,16 +20,20 @@ namespace Spa.Infrastructure
         private static readonly List<User> _user = new();
         private static readonly List<Admin> _admin = new();
         private static readonly List<Employee> _employee = new();
+        private readonly IPermissionRepository _per;
         private readonly IConfiguration _config;
         private readonly SpaDbContext _spaDbContext;
         public UserRepository(UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
-            SpaDbContext spaDbContext, IConfiguration config)
+            SpaDbContext spaDbContext, IConfiguration config
+            , IPermissionRepository per
+            )
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _config = config;
             _spaDbContext = spaDbContext;
+            _per = per;
         }
 
         public async Task<User> GetUserByEmail(string email)
@@ -37,7 +44,8 @@ namespace Spa.Infrastructure
         public async Task<string> GetUserBoolByEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            if (user is not null) { 
+            if (user is not null)
+            {
                 return "true";
             }
             return "false";
@@ -77,7 +85,7 @@ namespace Spa.Infrastructure
         }
         public async Task<List<Employee>> GetAllAdminsAndEmployees()
         {
-          var user = await _spaDbContext.Employees.OrderBy(u => u.EmployeeCode).Include(j => j.JobType).ToListAsync();
+            var user = await _spaDbContext.Employees.OrderBy(u => u.EmployeeCode).Include(j => j.JobType).ToListAsync();
 
             return user;
         }
@@ -98,21 +106,21 @@ namespace Spa.Infrastructure
             {
                 return null;
             }
-                var empDTOs = emps.Select(emp =>new Employee
-                {
-                    EmployeeCode = emp.EmployeeCode,
-                    FirstName = emp.FirstName,
-                    LastName = emp.LastName,
-                    Email = emp.Email,
-                    Phone = emp.Phone,
-                    Gender = emp.Gender,
-                    BranchID = emp.BranchID,
-                    DateOfBirth = emp.DateOfBirth,
-                    HireDate = emp.HireDate,                    
-                    Assignments = emp.Assignments,
-                    JobTypeID = emp.JobTypeID,
-                    IsActive = emp.IsActive,
-                }).OrderBy(e=>e.EmployeeCode).ToList();
+            var empDTOs = emps.Select(emp => new Employee
+            {
+                EmployeeCode = emp.EmployeeCode,
+                FirstName = emp.FirstName,
+                LastName = emp.LastName,
+                Email = emp.Email,
+                Phone = emp.Phone,
+                Gender = emp.Gender,
+                BranchID = emp.BranchID,
+                DateOfBirth = emp.DateOfBirth,
+                HireDate = emp.HireDate,
+                Assignments = emp.Assignments,
+                JobTypeID = emp.JobTypeID,
+                IsActive = emp.IsActive,
+            }).OrderBy(e => e.EmployeeCode).ToList();
             return empDTOs;
         }
 
@@ -179,7 +187,7 @@ namespace Spa.Infrastructure
                 Role = userDTO.Role,
                 Code = userDTO.Code,
                 UserName = userDTO.Email,
-                PhoneNumber= userDTO.PhoneNumber,
+                PhoneNumber = userDTO.PhoneNumber,
                 AdminID = userDTO.AdminID,
                 EmployeeID = userDTO.EmployeeID,
                 IsActiveAcount = true,
@@ -222,24 +230,25 @@ namespace Spa.Infrastructure
             }
             return newUser;
         }
-        public async Task CreateAdmin(Admin adminDTO) 
+        public async Task CreateAdmin(Admin adminDTO)
         {
             var newAdmin = new Admin()
-                {
-                    Email = adminDTO.Email,
-                    FirstName = adminDTO.FirstName,
-                    LastName = adminDTO.LastName,
-                    Role = adminDTO.Role,
-                    AdminCode = adminDTO.AdminCode,
-                    Id = adminDTO.Id,
-                    Phone = adminDTO.Phone,
-                    DateOfBirth = adminDTO.DateOfBirth,
-                    Gender = adminDTO.Gender,
-                };
-                await _spaDbContext.Admins.AddAsync(newAdmin);
-                await _spaDbContext.SaveChangesAsync();
-        }            
-        
+            {
+                Email = adminDTO.Email,
+                FirstName = adminDTO.FirstName,
+                LastName = adminDTO.LastName,
+                Role = adminDTO.Role,
+                AdminCode = adminDTO.AdminCode,
+                Id = adminDTO.Id,
+                Phone = adminDTO.Phone,
+                DateOfBirth = adminDTO.DateOfBirth,
+                Gender = adminDTO.Gender,
+                JobTypeID = 5,
+            };
+            await _spaDbContext.Admins.AddAsync(newAdmin);
+            await _spaDbContext.SaveChangesAsync();
+        }
+
         public async Task CreateEmployee(Employee empDTO)
         {
             var newEmployee = new Employee()
@@ -271,38 +280,113 @@ namespace Spa.Infrastructure
             bool checkUserPasswords = await _userManager.CheckPasswordAsync(getUser, Password);
             if (!checkUserPasswords)
                 return null;
-            string token = await GenerateToken(getUser.Code, (getUser.FirstName + " " + getUser.LastName), getUser.Email, getUser.Role);
-            return token;
+            getUser.RefreshToken = await GenerateRefreshToken();
+            getUser.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+            await _userManager.UpdateAsync(getUser);
+            if (getUser.Role.Equals("Admin"))
+            {
+                string token = await GenerateToken(getUser.Code, (getUser.FirstName + " " + getUser.LastName), getUser.Email, 5, getUser.Role);
+                return token;
+            }
+            else
+            {
+                var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == Email);
+                string token = await GenerateToken(getUser.Code, (getUser.FirstName + " " + getUser.LastName), getUser.Email, emp.JobTypeID, getUser.Role);
+                return token;
+            }
         }
 
-        public async Task<string> GenerateToken(string Id, string Name, string Email, string Role)
+        public async Task<string> GenerateToken(string Id, string Name, string Email, long? jobTypeID, string Role)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512);
             //claim information
-            var userClaims = new[]
+            var userClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, Id),
                 new Claim(ClaimTypes.Name, Name),
                 new Claim(ClaimTypes.Email, Email),
-                new Claim(ClaimTypes.Role, Role)
+                new Claim(ClaimTypes.Role, Role),
+                new Claim(ClaimTypes.Actor, jobTypeID.ToString())
             };
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Audience"],
                 claims: userClaims,
-                //expires: DateTime.Now.AddDays(1),
-                expires: DateTime.MaxValue,
+                expires: DateTime.Now.AddDays(7),
                 signingCredentials: credentials
                 );
-
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<string> GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
+
+        private ClaimsPrincipal? GetPrincipalFromExpiredToken(string jwtToken)
+        {
+            var jwtSettings = _config.GetSection("Jwt");
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidateLifetime = true,
+                ValidIssuer = jwtSettings["Issuer"],
+                ValidAudience = jwtSettings["Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]))
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(jwtToken, tokenValidationParameters, out securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken is null || !jwtSecurityToken.Header.Alg
+                .Equals(SecurityAlgorithms.HmacSha512, StringComparison.InvariantCultureIgnoreCase))
+            {
+                throw new SecurityTokenException("Invalid Token");
+            }
+            return principal;
+        }
+
+        public async Task<(string, string)> RefreshToken(string refreshToken, string jwtToken)
+        {
+            var principal = GetPrincipalFromExpiredToken(jwtToken);
+            if (principal?.FindFirst(ClaimTypes.Email) is null)
+                return (null, null);
+            string Email = principal?.FindFirst(ClaimTypes.Email).Value;
+            var user = await GetUserByEmail(Email);
+            if (user is null || user.RefreshToken != refreshToken ||
+                user.RefreshTokenExpiryTime < DateTime.Now)
+                return (null, null);
+            if (user.Role.Equals("Admin"))
+            {
+                string userToken = await GenerateToken(user.Code, (user.FirstName + " " + user.LastName), user.Email, 1, user.Role);
+                user.RefreshToken = await GenerateRefreshToken();
+                user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+                await _userManager.UpdateAsync(user);
+                return (user.RefreshToken, userToken);
+            }
+            else
+            {
+                var emp = await GetEmpByEmail(Email);
+                string userToken = await GenerateToken(user.Code, (user.FirstName + " " + user.LastName), user.Email, emp.JobTypeID, user.Role);
+                user.RefreshToken = await GenerateRefreshToken();
+                user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+                await _userManager.UpdateAsync(user);
+                return (user.RefreshToken, userToken);
+            }
         }
 
         public async Task<bool> DeleteUser(string Email)
         {
             var user = await _userManager.FindByEmailAsync(Email);
-            if(user is null)
+            if (user is null)
             {
                 var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == Email);
                 if (emp is null) return false;
@@ -360,7 +444,7 @@ namespace Spa.Infrastructure
                 Email = UserDTO.Email,
                 PasswordHash = UserDTO.PasswordHash,
                 Role = UserDTO.Role,
-                PhoneNumber = UserDTO.PhoneNumber,               
+                PhoneNumber = UserDTO.PhoneNumber,
             };
             var userUpdate = await _userManager.FindByEmailAsync(UserDTO.Email);
             if (userUpdate is null) return false;
@@ -387,7 +471,8 @@ namespace Spa.Infrastructure
                 Phone = AdminDTO.Phone,
                 DateOfBirth = AdminDTO.DateOfBirth,
                 Gender = AdminDTO.Gender,
-                Role= "Admin",
+                JobTypeID = 5,
+                Role = "Admin",
             };
             var adminUpdate = await _spaDbContext.Admins.FirstOrDefaultAsync(a => a.Email == newUpdate.Email);
             if (adminUpdate is null) return false;
@@ -399,6 +484,7 @@ namespace Spa.Infrastructure
                 adminUpdate.DateOfBirth = newUpdate.DateOfBirth;
                 adminUpdate.Gender = newUpdate.Gender;
                 adminUpdate.Role = newUpdate.Role;
+                adminUpdate.JobTypeID = newUpdate.JobTypeID;
             }
             _spaDbContext.Admins.Update(adminUpdate);
             _spaDbContext.SaveChanges();
@@ -416,8 +502,7 @@ namespace Spa.Infrastructure
                 Gender = EmpDTO.Gender,
                 HireDate = EmpDTO.HireDate,
                 JobTypeID = EmpDTO.JobTypeID,
-                BranchID = EmpDTO.BranchID,            
-                
+                BranchID = EmpDTO.BranchID,
             };
             var empUpdate = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == newUpdate.Email);
             if (empUpdate is null) return false;

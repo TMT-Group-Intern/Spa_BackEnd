@@ -20,9 +20,10 @@ namespace Spa.Domain.Service
         }
         public async Task<User> CreateUser(User userDTO)
         {
-            if (userDTO.Role.Equals("Admin")) {
+            if (userDTO.Role.Equals("Admin"))
+            {
                 var admin = await _userRepository.GetAdminByEmail(userDTO.Email);
-                long? AdminID= admin.AdminID;
+                long? AdminID = admin.AdminID;
                 userDTO.AdminID = AdminID;
                 var newUser = await _userRepository.CreateUser(userDTO);
                 return newUser;
@@ -46,7 +47,7 @@ namespace Spa.Domain.Service
         {
             var adminCheck = await _userRepository.GetAdminByEmail(adminDTO.Email);
             var empCheck = await _userRepository.GetEmpByEmail(adminDTO.Email);
-            if (adminCheck != null|| empCheck is not null) { throw new Exception("null"); }
+            if (adminCheck != null || empCheck is not null) { throw new Exception("null"); }
             var lastAdminID = await GenerateAdminCodeAsync();
             adminDTO.AdminCode = lastAdminID;
             await _userRepository.CreateAdmin(adminDTO);
@@ -55,8 +56,8 @@ namespace Spa.Domain.Service
         public async Task CreateEmployee(Employee empDTO)
         {
             var empCheck = await _userRepository.GetEmpByEmail(empDTO.Email);
-            var empCheckUser= await _userManager.FindByEmailAsync(empDTO.Email);
-            if (empCheck != null||empCheckUser is not null) { throw new Exception(""); }
+            var empCheckUser = await _userManager.FindByEmailAsync(empDTO.Email);
+            if (empCheck != null || empCheckUser is not null) { throw new Exception(""); }
             var lastEmpID = await GenerateEmployeeCodeAsync();
             empDTO.EmployeeCode = lastEmpID;
             await _userRepository.CreateEmployee(empDTO);
@@ -95,10 +96,21 @@ namespace Spa.Domain.Service
             return "EM" + numericPart.ToString("D4");
         }
 
-        public async Task<string> GenerateToken(string Id, string Name, string Email, string Role)
+        public async Task<string> GenerateToken(string Id, string Name, string Email, long? jobTypeID, string Role)
         {
-            string token = await _userRepository.GenerateToken(Id, Name, Email, Role);
+            string token = await _userRepository.GenerateToken(Id, Name, Email, jobTypeID, Role);
             return token;
+        }
+
+        public async Task<string> GenerateRefreshToken()
+        {
+            string refreskToken = await _userRepository.GenerateRefreshToken();
+            return refreskToken;
+        }
+
+        public async Task<(string, string)> RefreshToken(string refreshToken, string jwtToken)
+        {
+            return await _userRepository.RefreshToken(refreshToken, jwtToken);
         }
 
         public async Task<List<User>> GetAllUsers()
@@ -110,7 +122,7 @@ namespace Spa.Domain.Service
         {
             var employ = await _userRepository.GetAllAdminsAndEmployees();
 
-         
+
             return employ;
         }
         public async Task<IEnumerable<User>> GetByPages(int pageNumber, int pageSize)

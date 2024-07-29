@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Spa.Api.Attributes;
+using Spa.Application.Authorize.HasPermissionAbtribute;
+using Spa.Application.Authorize.Permissions;
 using Spa.Application.Commands;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
@@ -30,6 +32,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet]
+        [HasPermission(SetPermission.GetAllCustomer)]
         public ActionResult GetAll()
         {
             var customersFromService = _service.GetAllCustomer();
@@ -50,6 +53,7 @@ namespace Spa.Api.Controllers
 
         [HttpGet("Page")]
         [Cache(1000)]
+        [HasPermission(SetPermission.GetAllByPage)]
         public async Task<ActionResult> GetAllByPage(int pageNumber = 1, int pageSize = 20)
         {
             var customersFromService = await _service.GetByPages(pageNumber, pageSize);
@@ -75,6 +79,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [HasPermission(SetPermission.GetCusomerById)]
         public ActionResult GetCusomerById(long id)
         {
             if (_service.isExistCustomer(id))
@@ -103,6 +108,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpPost]
+        [HasPermission(SetPermission.CreateCustomer)]
         public async Task<IActionResult> CreateCustomer([FromBody] CustomerDTO customerDto)
         {
             try
@@ -131,6 +137,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpPut("{customerId}")]
+        [HasPermission(SetPermission.UpdateCustomer)]
         public async Task<IActionResult> UpdateCustomer(long customerId, [FromBody] CustomerDTO customerDto)
         {
             try
@@ -168,6 +175,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpDelete("{customerId}")]
+        [HasPermission(SetPermission.DeactivateCustomer)]
         public async Task<ActionResult> DeactivateCustomer(long customerId)
         {
             try
@@ -194,6 +202,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpGet("search")]
+        [HasPermission(SetPermission.SearchCustomers)]
         public async Task<ActionResult<List<Customer>>> SearchCustomers(string searchTerm)
         {
             try
@@ -208,6 +217,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPost("upload")]
+        [HasPermission(SetPermission.UploadImage)]
         public async Task<ActionResult> UploadImage(IFormFile file, long id)
         {
             try
@@ -229,6 +239,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPost("uploadMutil")]
+        [HasPermission(SetPermission.UploadImages)]
         public async Task<ActionResult> UploadImages(long id, List<IFormFile> files)
         {
             try
@@ -264,6 +275,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpGet("/GetHistory")]
+        [HasPermission(SetPermission.GetHistoryCustomerById)]
         public async Task<ActionResult> GetHistoryCustomerById(long cutomerId)
         {
             var listHistoryByAppointment = await _service.GetHistoryCustomerById(cutomerId);

@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Spa.Application.Authorize.HasPermissionAbtribute;
+using Spa.Application.Authorize.Permissions;
 using Spa.Application.Commands;
 using Spa.Application.Models;
 using Spa.Domain.Entities;
@@ -24,6 +26,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("allCustomerType")]
+        [HasPermission(SetPermission.GetAllCustomerTypes)]
         public ActionResult GetAll()
         {
             var allCusType = _customerTypeService.GetAllCustomerTypes();
@@ -37,12 +40,13 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet(("customerTypeById"))]
-        public async Task<IActionResult>GetCustomerTypeById(int id)
+        [HasPermission(SetPermission.GetCustomerTypeById)]
+        public async Task<IActionResult> GetCustomerTypeById(int id)
         {
             var getByCusTypeByID = _customerTypeService.GetCustomerTypeById(id);
-            if(getByCusTypeByID.Result is null)
+            if (getByCusTypeByID.Result is null)
             {
-                return Ok(new {});
+                return Ok(new { });
             }
             CustomerTypeDTO cusTypeDTO = new CustomerTypeDTO
             {
@@ -53,6 +57,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPost("createCustomerType")]
+        [HasPermission(SetPermission.CreateCustomerType)]
         public async Task<IActionResult> CreateService([FromBody] CustomerTypeDTO customerTypeDto)
         {
             try
@@ -75,6 +80,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("updateCustomerType")]
+        [HasPermission(SetPermission.UpdateCustomerType)]
         public async Task<IActionResult> UpdateCustomerType(int customerTypeId, [FromBody] CustomerTypeDTO customerTypeDto)
         {
             try
@@ -102,6 +108,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpDelete("deleteCustomerType")]
+        [HasPermission(SetPermission.DeleteCustomerType)]
         public async Task<ActionResult> DeleteCustomerType(int id)
         {
             try

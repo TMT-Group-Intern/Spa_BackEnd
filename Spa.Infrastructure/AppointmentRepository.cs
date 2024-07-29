@@ -197,9 +197,12 @@ namespace Spa.Infrastructure
 
         public async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate)
         {
-            var listApp = await _spaDbContext.Appointments.Include(c => c.Customer).Where(a => a.BranchID == brancdID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate).ToListAsync();
+            var listApp = await _spaDbContext.Appointments.Where(a => a.BranchID == brancdID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate)
+                                .Include(c => c.Customer)
+                                .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
+                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
+                                .ToListAsync();
             return listApp;
         }
-
     }
 }
