@@ -139,7 +139,6 @@ namespace Spa.Api.Controllers
 
         [HttpGet("allEmployee")]
         [HasPermission(SetPermission.GetAllEmployee)]
-        [Cache(1000)]
         public async Task<IActionResult> GetAllEmployee()
         {
             var allEmps = await _userService.GetAllEmployee();
@@ -155,7 +154,6 @@ namespace Spa.Api.Controllers
 
         [HttpGet("allAdmin")]
         [HasPermission(SetPermission.GetAllAdmin)]
-        [Cache]
         public async Task<IActionResult> GetAllAdmin()
         {
             var allAdmins = await _userService.GetAllAdmin();

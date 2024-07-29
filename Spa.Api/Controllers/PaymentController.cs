@@ -45,12 +45,9 @@ namespace Spa.Api.Controllers
         {
             try
             {
-
-
             }
             catch (Exception ex)
             {
-
             }
             return Ok();
         }
@@ -68,7 +65,7 @@ namespace Spa.Api.Controllers
                if(await _billService.GetBillByIdAsync(payment.BillID)!= null)
                 {
                     await _paymentService.AddPayment(payment); 
-                    return Ok("success");
+                    return new JsonResult("Success");
                 }
                 return NotFound();
             }
