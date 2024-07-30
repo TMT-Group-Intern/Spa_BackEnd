@@ -44,7 +44,8 @@ namespace Spa.Api.Controllers
                 UserCode = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
                 Name = User.FindFirst(ClaimTypes.Name)?.Value,
                 Email = User.FindFirst(ClaimTypes.Email)?.Value,
-                Role = User.FindFirst(ClaimTypes.Role)?.Value
+                Role = User.FindFirst(ClaimTypes.Role)?.Value,
+                Actor = User.FindFirst(ClaimTypes.Actor)?.Value,
             };
 
             var jsonSerializerOptions = new JsonSerializerOptions

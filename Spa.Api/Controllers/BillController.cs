@@ -53,6 +53,7 @@ namespace Spa.Api.Controllers
                 amountInvoiced = e.AmountInvoiced,
                 amountResidual = e.AmountResidual,
                 statusBill = e.BillStatus,
+                appointmentId=e.AppointmentID,
 
             }).ToList();
 

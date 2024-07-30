@@ -116,7 +116,8 @@ namespace Spa.Infrastructures
         public async Task<List<Customer>> SearchCustomersAsync(string searchTerm)
         {
             return await _spaDbContext.Customers
-                .Where(c => c.FirstName.Contains(searchTerm) || c.LastName.Contains(searchTerm) || c.Phone.Contains(searchTerm))
+                .Where(c => (c.LastName +" "+ c.FirstName).Contains(searchTerm) || (c.LastName + c.FirstName).Contains(searchTerm)
+                || c.FirstName.Contains(searchTerm) || c.LastName.Contains(searchTerm) || c.Phone.Contains(searchTerm))
                 .ToListAsync();
         }
 
@@ -127,12 +128,6 @@ namespace Spa.Infrastructures
             return customerPhoto.PhotoPath;
         }
 
-        //public async Task<List<Customer>> GetHistoryCustomer(long id)
-        //{
-        //   List<Customer>a  = await _spaDbContext.Customers.Where(c => c.CustomerID == id).Include(a => a.Appointments).ThenInclude(c => c.ChooseServices).ThenInclude(s => s.Service)
-        //                                           .Include(p => p.CustomerPhotos).ToListAsync();
-        //    return a;                             
-        //}
 
         public async Task<List<Appointment>> GetHistoryCustomer(long id)
         {
