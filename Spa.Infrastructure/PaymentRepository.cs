@@ -51,6 +51,7 @@ namespace Spa.Infrastructure
             var response = payments.Select(a => new
             {
                 paymentID = a.PaymentID,
+                date = a.PaymentDate,
                 amount = a.Amount,
                 paymentMethod = a.PaymentMethod
             });

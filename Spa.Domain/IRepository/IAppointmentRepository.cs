@@ -46,7 +46,7 @@ namespace Spa.Domain.IRepository
 
         Task<Object> GetAppointmentByStatus(long branchID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status);
 
-        Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset);
+        Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset, string? status);
         Task<int> CounterItemsAppointment(long branchID);
     }
 }

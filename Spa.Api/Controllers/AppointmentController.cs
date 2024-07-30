@@ -374,13 +374,13 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("searchAppointment")]
-        public async Task<ActionResult> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string? searchItem, int limit, int offset)
+        public async Task<ActionResult> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string? searchItem, int limit, int offset, string? status)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var app = await _appointmentService.SearchAppointment(fromDate, toDate, branchId, searchItem, limit, offset);
+            var app = await _appointmentService.SearchAppointment(fromDate, toDate, branchId, searchItem, limit, offset, status);
             var listApp = app.Select(a => new AppointmentDTO
             {
                 AppointmentID = a.AppointmentID,

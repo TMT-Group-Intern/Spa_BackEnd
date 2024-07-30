@@ -280,9 +280,28 @@ namespace Spa.Infrastructure
 
 
 
-        public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset)
+        //public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset, string? status)
+        //{
+        //    IQueryable<Appointment> searchList = _spaDbContext.Appointments.OrderBy( o=> o.AppointmentDate)
+        //        .Include(c => c.Customer)
+        //        .Include(a => a.Assignments!).ThenInclude(e => e.Employees)
+        //        .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
+        //        .Where(a => a.AppointmentDate >= fromDate
+        //        && a.AppointmentDate <= toDate
+        //        && a.BranchID == branchId
+        //        && a.Customer.FirstName.Contains(searchItem)
+        //        || a.Customer.LastName.Contains(searchItem)
+        //        || a.Customer.Phone.Contains(searchItem));
+
+        //    var response = await searchList.ToListAsync();
+        //    var paging = response.Skip((offset - 1) * limit)
+        //        .Take(limit);
+        //    return response;
+        //}
+
+        public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset, string? status)
         {
-            IQueryable<Appointment> searchList = _spaDbContext.Appointments.OrderBy( o=> o.AppointmentDate)
+            IQueryable<Appointment> searchList = _spaDbContext.Appointments.OrderBy(o => o.AppointmentDate)
                 .Include(c => c.Customer)
                 .Include(a => a.Assignments!).ThenInclude(e => e.Employees)
                 .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
@@ -292,6 +311,11 @@ namespace Spa.Infrastructure
                 && a.Customer.FirstName.Contains(searchItem)
                 || a.Customer.LastName.Contains(searchItem)
                 || a.Customer.Phone.Contains(searchItem));
+
+            if (!string.IsNullOrEmpty(status) && !status.Equals(""))
+            {
+                searchList = searchList.Where(a => a.Status.Equals(status));
+            }
 
             var response = await searchList.ToListAsync();
             var paging = response.Skip((offset - 1) * limit)
