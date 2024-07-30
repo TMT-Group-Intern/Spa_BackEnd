@@ -249,9 +249,19 @@ namespace Spa.Domain.Service
             return app;
         }
 
-        public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit)
+        public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset)
         {
-            return await _appointmentRepository.SearchAppointment(fromDate,toDate,branchId,searchItem,limit);
+            return await _appointmentRepository.SearchAppointment(fromDate,toDate,branchId,searchItem,limit, offset);
+        }
+
+        public async Task<List<Appointment>> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status)
+        {
+            return await _appointmentRepository.GetAppointmentByStatus(brancdID, fromDate, toDate, pageNumber, pageSize, status);
+        }
+
+        public async Task<int> CounterItemsAppointment(long branchID)
+        {
+            return await _appointmentRepository.CounterItemsAppointment(branchID);
         }
     }
 }

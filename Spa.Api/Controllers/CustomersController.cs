@@ -204,7 +204,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpGet("search")]
-        //[HasPermission(SetPermission.SearchCustomers)]
+        [HasPermission(SetPermission.SearchCustomers)]
         public async Task<ActionResult<List<Customer>>> SearchCustomers(string searchTerm)
         {
             try

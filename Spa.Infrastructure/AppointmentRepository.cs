@@ -5,6 +5,7 @@ using Spa.Domain.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -195,7 +196,7 @@ namespace Spa.Infrastructure
             return appToUpdate!;
         }
 
-        public async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate,int pageNumber, int pageSize)
+        public async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize)
         {
             var listApp = await _spaDbContext.Appointments.Where(a => a.BranchID == brancdID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate)
                                 .Include(c => c.Customer)
@@ -206,18 +207,42 @@ namespace Spa.Infrastructure
             return listApp;
         }
 
-
-
-        public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit)
+        public async Task<List<Appointment>> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status)
         {
-            var searchList = await _spaDbContext.Appointments
+            IQueryable<Appointment> query = _spaDbContext.Appointments.Where(a => a.BranchID == brancdID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate && a.Status!.Equals(status))
+                                .Include(c => c.Customer)
+                                .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
+                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
+                                .Skip((pageNumber - 1) * pageSize).Take(pageSize);
+
+            var listApp = await query.ToListAsync();
+            return listApp;
+        }
+
+
+
+        public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset)
+        {
+            IQueryable<Appointment> searchList = _spaDbContext.Appointments
                 .Include(c => c.Customer)
                 .Include(a => a.Assignments!).ThenInclude(e => e.Employees)
                 .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
-                .Where(a => a.Customer.FirstName.Contains(searchItem) || a.Customer.LastName.Contains(searchItem) || a.Customer.Phone.Contains(searchItem))
-                .Take(limit).ToListAsync();
+                .Where(a => a.AppointmentDate >= fromDate
+                && a.AppointmentDate <= toDate
+                && a.BranchID == branchId
+                && a.Customer.FirstName.Contains(searchItem)
+                || a.Customer.LastName.Contains(searchItem)
+                || a.Customer.Phone.Contains(searchItem)).Skip((offset - 1) * limit)
+                .Take(limit);
 
-            return searchList;
+            var response = await searchList.ToListAsync();
+            return response;
+        }
+
+        public async Task<int> CounterItemsAppointment(long branchID)
+        {
+            var countTotal = await _spaDbContext.Appointments.Where(e => e.BranchID == branchID).CountAsync();
+            return countTotal;
         }
     }
 }
