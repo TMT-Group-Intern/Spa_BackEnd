@@ -33,6 +33,7 @@ namespace Spa.Domain.IRepository
         Task RemoveChooseService(long id, List<long> serviceID);
 
         Task<List<double>> GetAllPriceService(long idApp);
+
         bool UpdateTotalAppointment(Appointment appointment);
 
         Task<bool> UpdateAppointmentAsync(Appointment appointment); // Update Apppointment
@@ -43,6 +44,9 @@ namespace Spa.Domain.IRepository
 
         Task<Appointment> GetDetailAppointmentToCreateBill(long appointmentID);
 
-        Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit);
+        Task<List<Appointment>> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status);
+
+        Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset);
+        Task<int> CounterItemsAppointment(long branchID);
     }
 }
