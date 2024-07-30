@@ -14,5 +14,8 @@ namespace Spa.Domain.IService
         Task<double?> GetRevenueToday();
 
         Task<List<Payment>> GetAllPaymentsByBranch(long branchID);
+
+        Task<Object> GetPaymentByBill(long billID);
+
     }
 }

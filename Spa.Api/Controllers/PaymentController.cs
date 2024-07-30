@@ -138,5 +138,22 @@ namespace Spa.Api.Controllers
                 }
             }
         }
+        [HttpGet("GetPaymentsByBill")]
+        public async Task<ActionResult> GetPaymentsByBill(long idBill)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var list = await _paymentService.GetPaymentByBill(idBill);
+                return Ok(list);
+            }
+            catch (ErrorMessage ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
