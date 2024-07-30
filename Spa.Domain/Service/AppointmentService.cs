@@ -254,9 +254,9 @@ namespace Spa.Domain.Service
             return await _appointmentRepository.SearchAppointment(fromDate,toDate,branchId,searchItem,limit, offset);
         }
 
-        public async Task<Object> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status)
+        public async Task<Object> GetAppointmentByStatus(long branchID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status)
         {
-            return await _appointmentRepository.GetAppointmentByStatus(brancdID, fromDate, toDate, pageNumber, pageSize, status);
+            return await _appointmentRepository.GetAppointmentByStatus(branchID, fromDate, toDate, pageNumber, pageSize, status);
         }
 
         public async Task<int> CounterItemsAppointment(long branchID)

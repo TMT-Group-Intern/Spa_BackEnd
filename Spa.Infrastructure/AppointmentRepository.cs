@@ -240,9 +240,9 @@ namespace Spa.Infrastructure
 
         }
 
-        public async Task<Object> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status)
+        public async Task<Object> GetAppointmentByStatus(long branchID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status)
         {
-            IQueryable<Appointment> query = _spaDbContext.Appointments.Where(a => a.BranchID == brancdID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate && a.Status!.Equals(status))
+            IQueryable<Appointment> query = _spaDbContext.Appointments.Where(a => a.BranchID == branchID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate && a.Status!.Equals(status))
                                 .Include(c => c.Customer)
                                 .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
                                 .Include(s => s.ChooseServices!).ThenInclude(se => se.Service);
@@ -282,7 +282,7 @@ namespace Spa.Infrastructure
 
         public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset)
         {
-            IQueryable<Appointment> searchList = _spaDbContext.Appointments
+            IQueryable<Appointment> searchList = _spaDbContext.Appointments.OrderBy( o=> o.AppointmentDate)
                 .Include(c => c.Customer)
                 .Include(a => a.Assignments!).ThenInclude(e => e.Employees)
                 .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
@@ -291,10 +291,11 @@ namespace Spa.Infrastructure
                 && a.BranchID == branchId
                 && a.Customer.FirstName.Contains(searchItem)
                 || a.Customer.LastName.Contains(searchItem)
-                || a.Customer.Phone.Contains(searchItem)).Skip((offset - 1) * limit)
-                .Take(limit);
+                || a.Customer.Phone.Contains(searchItem));
 
             var response = await searchList.ToListAsync();
+            var paging = response.Skip((offset - 1) * limit)
+                .Take(limit);
             return response;
         }
 
