@@ -16,6 +16,7 @@ using Spa.Domain.IService;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Runtime.InteropServices;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Spa.Api.Controllers
 {
@@ -405,6 +406,11 @@ namespace Spa.Api.Controllers
         [HttpGet("searchAppointment")]
         public async Task<ActionResult> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (searchItem == "") return Ok();
             var app = await _appointmentService.SearchAppointment(fromDate, toDate, branchId, searchItem, limit);
             var listApp = app.Select(a => new AppointmentDTO
             {
