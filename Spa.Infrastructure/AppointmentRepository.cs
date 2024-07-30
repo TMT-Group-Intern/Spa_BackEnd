@@ -308,9 +308,9 @@ namespace Spa.Infrastructure
                 .Where(a => a.AppointmentDate >= fromDate
                 && a.AppointmentDate <= toDate
                 && a.BranchID == branchId
-                && a.Customer.FirstName.Contains(searchItem)
+                && (a.Customer.FirstName.Contains(searchItem)
                 || a.Customer.LastName.Contains(searchItem)
-                || a.Customer.Phone.Contains(searchItem));
+                || a.Customer.Phone.Contains(searchItem)));
 
             if (!string.IsNullOrEmpty(status) && !status.Equals(""))
             {
