@@ -238,15 +238,30 @@ namespace Spa.Domain.Service
             }
         }
 
-        public async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate)
+        public async Task<Object> GetAppointmentFromDayToDay(long branchID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize)
         {
-            return await _appointmentRepository.GetAppointmentFromDayToDay(brancdID, fromDate, toDate);
+            return await _appointmentRepository.GetAppointmentFromDayToDay(branchID, fromDate, toDate, pageNumber, pageSize);
         }
 
         public async Task<Appointment> GetDetailAppointmentToCreateBill(long appointmentID)
         {
             var app = await _appointmentRepository.GetDetailAppointmentToCreateBill(appointmentID);
             return app;
+        }
+
+        public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset)
+        {
+            return await _appointmentRepository.SearchAppointment(fromDate,toDate,branchId,searchItem,limit, offset);
+        }
+
+        public async Task<Object> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status)
+        {
+            return await _appointmentRepository.GetAppointmentByStatus(brancdID, fromDate, toDate, pageNumber, pageSize, status);
+        }
+
+        public async Task<int> CounterItemsAppointment(long branchID)
+        {
+            return await _appointmentRepository.CounterItemsAppointment(branchID);
         }
     }
 }

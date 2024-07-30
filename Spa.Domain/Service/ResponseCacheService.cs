@@ -48,7 +48,7 @@ namespace Spa.Domain.Service
                 var server = _connectionMultiplexer.GetServer(endPoint);
                 foreach (var key in server.Keys(pattern: pattern))
                 {
-                    yield return key.ToString();
+                    yield return key;
                 }
 
             }

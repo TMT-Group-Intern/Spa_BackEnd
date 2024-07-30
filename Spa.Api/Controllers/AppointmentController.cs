@@ -14,6 +14,7 @@ using Spa.Domain.Exceptions;
 using Spa.Domain.IService;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Runtime.InteropServices;
 
 namespace Spa.Api.Controllers
 {
@@ -90,7 +91,7 @@ namespace Spa.Api.Controllers
             {
                 AppointmentID = app.AppointmentID,
                 CustomerID = app.CustomerID,
-                Employees = employees.Select(a=> new
+                Employees = employees.Select(a => new
                 {
                     EmployeeID = a.EmployeeID,
                     FirtName = a.FirstName,
@@ -164,34 +165,15 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("getbyday")]
-        [HasPermission(SetPermission.GetAppointmentByDay)]
-        public async Task<ActionResult> GetAppointmentByDay(long branchID, DateTime fromDate, DateTime toDate)
+        //[HasPermission(SetPermission.GetAppointmentByDay)]
+        public async Task<ActionResult> GetAppointmentByDay(long branchID, DateTime fromDate, DateTime toDate, int pageNumber = 1, int pageSize = 10)
         {
-            var app = await _appointmentService.GetAppointmentFromDayToDay(branchID, fromDate, toDate);
-            var appDTO = app.Select(a=> new
-            {
-                appointmentID = a.AppointmentID,
-                appointmentDate = a.AppointmentDate,
-                branchID = a.BranchID,
-                customerID = a.CustomerID,
-                status = a.Status,
-                customer = new Customer()
-                {
-                    FirstName = a.Customer.FirstName,
-                    LastName = a.Customer.LastName,
-                    CustomerCode = a.Customer.CustomerCode,
-                    Phone = a.Customer.Phone,
-                    DateOfBirth=a.Customer.DateOfBirth,
-                },
-                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-            });;
-
+            var app = await _appointmentService.GetAppointmentFromDayToDay(branchID, fromDate, toDate, pageNumber, pageSize);
             if (app == null)
             {
                 NotFound();
             }
-            return new JsonResult(appDTO, _jsonSerializerOptions);
+            return new JsonResult(app, _jsonSerializerOptions);
         }
 
         [HttpPost]
@@ -390,5 +372,60 @@ namespace Spa.Api.Controllers
             var a = await _appointmentService.UpdateDiscount(id, perDiscount);
             return Ok(a);
         }
+
+        [HttpGet("searchAppointment")]
+        public async Task<ActionResult> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string? searchItem, int limit, int offset)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var app = await _appointmentService.SearchAppointment(fromDate, toDate, branchId, searchItem, limit, offset);
+            var listApp = app.Select(a => new AppointmentDTO
+            {
+                AppointmentID = a.AppointmentID,
+                BranchID = a.BranchID,
+                CustomerID = a.CustomerID,
+                Status = a.Status,
+                Total = a.Total,
+                AppointmentDate = a.AppointmentDate,
+                Customer = _mapper.Map<CustomerDTO>(a.Customer),
+                EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
+                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                SpaTherapist = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
+            });
+            var total = app.Count();
+            var pageList = new
+            {
+                litmit = limit,
+                offSet = offset,
+                totalItems = total,
+                items = listApp
+            };
+
+            return new JsonResult(pageList, _jsonSerializerOptions);
+        }
+
+
+        [HttpGet("GetByStatusWithPaging")]
+        public async Task<ActionResult> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string? status)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var listByStatus = await _appointmentService.GetAppointmentByStatus(brancdID, fromDate, toDate, pageNumber, pageSize, status);
+               
+                return new JsonResult(listByStatus, _jsonSerializerOptions);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
     }
 }

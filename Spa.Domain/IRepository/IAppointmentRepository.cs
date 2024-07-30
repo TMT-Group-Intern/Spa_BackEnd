@@ -33,14 +33,20 @@ namespace Spa.Domain.IRepository
         Task RemoveChooseService(long id, List<long> serviceID);
 
         Task<List<double>> GetAllPriceService(long idApp);
+
         bool UpdateTotalAppointment(Appointment appointment);
 
         Task<bool> UpdateAppointmentAsync(Appointment appointment); // Update Apppointment
 
         Task<Appointment> GetAppointmentByIdAsync(long idApp);
 
-        Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate);
+        Task<Object> GetAppointmentFromDayToDay(long branchID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize);
 
         Task<Appointment> GetDetailAppointmentToCreateBill(long appointmentID);
+
+        Task<Object> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status);
+
+        Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset);
+        Task<int> CounterItemsAppointment(long branchID);
     }
 }

@@ -36,8 +36,14 @@ namespace Spa.Domain.IService
 
         Task<bool> UpdateAppointment(long idApp, Appointment appointment);
 
-        Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate);
+        Task<Object> GetAppointmentFromDayToDay(long branchID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize);
 
         Task<Appointment> GetDetailAppointmentToCreateBill(long appointmentID);
+
+        Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset);
+
+        Task<Object> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status);
+
+        Task<int> CounterItemsAppointment(long branchID);
     }
 }
