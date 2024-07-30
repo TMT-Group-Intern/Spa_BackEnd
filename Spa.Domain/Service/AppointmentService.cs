@@ -238,9 +238,9 @@ namespace Spa.Domain.Service
             }
         }
 
-        public async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate,int pageNumber,int pageSize)
+        public async Task<Object> GetAppointmentFromDayToDay(long branchID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize)
         {
-            return await _appointmentRepository.GetAppointmentFromDayToDay(brancdID, fromDate, toDate, pageNumber, pageSize);
+            return await _appointmentRepository.GetAppointmentFromDayToDay(branchID, fromDate, toDate, pageNumber, pageSize);
         }
 
         public async Task<Appointment> GetDetailAppointmentToCreateBill(long appointmentID)

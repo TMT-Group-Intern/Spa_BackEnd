@@ -196,15 +196,47 @@ namespace Spa.Infrastructure
             return appToUpdate!;
         }
 
-        public async Task<List<Appointment>> GetAppointmentFromDayToDay(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize)
+        public async Task<Object> GetAppointmentFromDayToDay(long branchID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize)
         {
-            var listApp = await _spaDbContext.Appointments.Where(a => a.BranchID == brancdID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate)
+            IQueryable<Appointment> query = _spaDbContext.Appointments.OrderBy(d => d.AppointmentDate).Where(a => a.BranchID == branchID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate)
                                 .Include(c => c.Customer)
                                 .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
-                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
-                                .Skip((pageNumber - 1) * pageSize).Take(pageSize)
+                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service);
+
+            var totalItems = await query.CountAsync();
+
+            var paging = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize)
                                 .ToListAsync();
-            return listApp;
+
+            var items = paging.Select(a => new
+            {
+                appointmentID = a.AppointmentID,
+                appointmentDate = a.AppointmentDate,
+                branchID = a.BranchID,
+                customerID = a.CustomerID,
+                status = a.Status,
+                customer = new Customer()
+                {
+                    FirstName = a.Customer.FirstName,
+                    LastName = a.Customer.LastName,
+                    CustomerCode = a.Customer.CustomerCode,
+                    Phone = a.Customer.Phone,
+                    DateOfBirth = a.Customer.DateOfBirth,
+                },
+                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+            });
+
+
+            var response = new
+            {
+                offset = pageNumber,
+                limit = pageSize,
+                totalItems = totalItems,
+                items = items
+            };
+            return response;
+
         }
 
         public async Task<List<Appointment>> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status)
