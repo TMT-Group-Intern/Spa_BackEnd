@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace Spa.Infrastructure
 {
@@ -21,8 +21,8 @@ namespace Spa.Infrastructure
 
         public async Task<bool> AddPayment(Payment payment)
         {
-           await _spaDbContext.Payments.AddAsync(payment);
-             _spaDbContext.SaveChanges();
+            await _spaDbContext.Payments.AddAsync(payment);
+            _spaDbContext.SaveChanges();
             return true;
         }
 
@@ -39,8 +39,23 @@ namespace Spa.Infrastructure
 
         public async Task<List<Payment>> GetAllPaymentByBranch(long branchID)
         {
-            return await _spaDbContext.Payments.Include(c =>c.PaymentID)   ///.customer cái cũ
+            return await _spaDbContext.Payments.Include(c => c.PaymentID)   ///.customer cái cũ
                 .Include(a => a.PaymentID).ToListAsync();
+        }
+
+        public async Task<Object> GetPaymentByBill(long billID)
+        {
+            IQueryable<Payment> query = _spaDbContext.Payments.Where(a => a.BillID == billID);
+
+            var payments = await query.ToListAsync();
+            var response = payments.Select(a => new
+            {
+                paymentID = a.PaymentID,
+                amount = a.Amount,
+                paymentMethod = a.PaymentMethod
+            });
+
+            return response;
         }
 
 
