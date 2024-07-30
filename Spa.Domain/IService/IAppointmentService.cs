@@ -40,7 +40,7 @@ namespace Spa.Domain.IService
 
         Task<Appointment> GetDetailAppointmentToCreateBill(long appointmentID);
 
-        Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset);
+        Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset, string? status);
 
         Task<Object> GetAppointmentByStatus(long branchID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status);
 
