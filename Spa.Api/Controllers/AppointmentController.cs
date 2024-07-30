@@ -409,7 +409,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpGet("GetByStatusWithPaging")]
-        public async Task<ActionResult> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string? status)
+        public async Task<ActionResult> GetAppointmentByStatus(long branchID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string? status)
         {
             if (!ModelState.IsValid)
             {
@@ -417,7 +417,7 @@ namespace Spa.Api.Controllers
             }
             try
             {
-                var listByStatus = await _appointmentService.GetAppointmentByStatus(brancdID, fromDate, toDate, pageNumber, pageSize, status);
+                var listByStatus = await _appointmentService.GetAppointmentByStatus(branchID, fromDate, toDate, pageNumber, pageSize, status);
                
                 return new JsonResult(listByStatus, _jsonSerializerOptions);
             }
