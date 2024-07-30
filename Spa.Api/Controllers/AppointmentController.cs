@@ -408,7 +408,7 @@ namespace Spa.Api.Controllers
         }
 
 
-        [HttpGet("AppointmentPagination")]
+        [HttpGet("GetByStatusWithPaging")]
         public async Task<ActionResult> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string? status)
         {
             if (!ModelState.IsValid)
@@ -418,29 +418,8 @@ namespace Spa.Api.Controllers
             try
             {
                 var listByStatus = await _appointmentService.GetAppointmentByStatus(brancdID, fromDate, toDate, pageNumber, pageSize, status);
-                var listDTO = listByStatus.Select(a => new AppointmentDTO
-                {
-                    AppointmentID = a.AppointmentID,
-                    BranchID = a.BranchID,
-                    CustomerID = a.CustomerID,
-                    Status = a.Status,
-                    Total = a.Total,
-                    AppointmentDate = a.AppointmentDate,
-                    Customer = _mapper.Map<CustomerDTO>(a.Customer),
-                    EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
-                    Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-                    TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-                    SpaTherapist = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
-                });
-                var countTotal = listByStatus.Count();
-                var response = new
-                {
-                    limit = pageSize,
-                    offset = pageNumber,
-                    totalItems = countTotal,
-                    items = listDTO
-                };
-                return new JsonResult(response, _jsonSerializerOptions);
+               
+                return new JsonResult(listByStatus, _jsonSerializerOptions);
             }
             catch (Exception ex)
             {

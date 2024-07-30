@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Spa.Domain.Entities;
 using Spa.Domain.IRepository;
@@ -239,16 +240,42 @@ namespace Spa.Infrastructure
 
         }
 
-        public async Task<List<Appointment>> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status)
+        public async Task<Object> GetAppointmentByStatus(long brancdID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status)
         {
             IQueryable<Appointment> query = _spaDbContext.Appointments.Where(a => a.BranchID == brancdID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate && a.Status!.Equals(status))
                                 .Include(c => c.Customer)
                                 .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
-                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
-                                .Skip((pageNumber - 1) * pageSize).Take(pageSize);
+                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service);
+            var countTotal = query.Count();
 
-            var listApp = await query.ToListAsync();
-            return listApp;
+            var listApp = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            var listAppDTO = listApp.Select(a => new
+            {
+                appointmentID = a.AppointmentID,
+                appointmentDate = a.AppointmentDate,
+                branchID = a.BranchID,
+                customerID = a.CustomerID,
+                status = a.Status,
+                customer = new Customer()
+                {
+                    FirstName = a.Customer.FirstName,
+                    LastName = a.Customer.LastName,
+                    CustomerCode = a.Customer.CustomerCode,
+                    Phone = a.Customer.Phone,
+                    DateOfBirth = a.Customer.DateOfBirth,
+                },
+                Doctor = a.Assignments!.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+            });
+
+            var response = new
+            {
+                offset = pageNumber,
+                limit = pageSize,
+                totalItems = countTotal,
+                items = listAppDTO
+            };
+            return response;
         }
 
 
