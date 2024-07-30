@@ -169,38 +169,11 @@ namespace Spa.Api.Controllers
         public async Task<ActionResult> GetAppointmentByDay(long branchID, DateTime fromDate, DateTime toDate, int pageNumber = 1, int pageSize = 10)
         {
             var app = await _appointmentService.GetAppointmentFromDayToDay(branchID, fromDate, toDate, pageNumber, pageSize);
-            var appDTO = app.Select(a => new
-            {
-                appointmentID = a.AppointmentID,
-                appointmentDate = a.AppointmentDate,
-                branchID = a.BranchID,
-                customerID = a.CustomerID,
-                status = a.Status,
-                customer = new Customer()
-                {
-                    FirstName = a.Customer.FirstName,
-                    LastName = a.Customer.LastName,
-                    CustomerCode = a.Customer.CustomerCode,
-                    Phone = a.Customer.Phone,
-                    DateOfBirth = a.Customer.DateOfBirth,
-                },
-                Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-            }); ;
-
             if (app == null)
             {
                 NotFound();
             }
-            var total = app.Count();
-            var response = new
-            {
-                offSet = pageNumber,
-                limit = pageSize,
-                totalItem = total,
-                items = appDTO,
-            };
-            return new JsonResult(response, _jsonSerializerOptions);
+            return new JsonResult(app, _jsonSerializerOptions);
         }
 
         [HttpPost]
