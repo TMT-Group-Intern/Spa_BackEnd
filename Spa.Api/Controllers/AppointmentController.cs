@@ -15,6 +15,8 @@ using Spa.Domain.IService;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Runtime.InteropServices;
+using Spa.Application.SignalR;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Spa.Api.Controllers
 {
@@ -26,12 +28,14 @@ namespace Spa.Api.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
+        private readonly IHubContext<ChatHub> _hubContext;
 
-        public AppointmentController(IAppointmentService appointmentService, IMediator mediator, IMapper mapper)
+        public AppointmentController(IAppointmentService appointmentService, IMediator mediator, IMapper mapper, IHubContext<ChatHub> hubContext)
         {
             _appointmentService = appointmentService;
             _mediator = mediator;
             _mapper = mapper;
+            _hubContext = hubContext;
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 WriteIndented = true,
@@ -243,7 +247,19 @@ namespace Spa.Api.Controllers
         [HasPermission(SetPermission.UpdateStatus)]
         public async Task<ActionResult> updateStatus(long id, string status)
         {
-            await _appointmentService.UpdateStatus(id, status);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                await _appointmentService.UpdateStatus(id, status);
+                await _hubContext.Clients.All.SendAsync("ChangeStatus", "true");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
             return Ok();
         }
 
@@ -333,6 +349,7 @@ namespace Spa.Api.Controllers
                 };
 
                 await _appointmentService.UpdateAppointment(id, app);
+                await _hubContext.Clients.All.SendAsync("ChangeStatus", "true");
                 return Ok(new { id, appointment });
             }
             return NotFound();
@@ -426,6 +443,10 @@ namespace Spa.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        
+
+
 
     }
 }

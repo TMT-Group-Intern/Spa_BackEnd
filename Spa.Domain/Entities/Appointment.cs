@@ -20,6 +20,7 @@ namespace Spa.Domain.Entities
         public int? DiscountPercentage {  get; set; }
         public string? Notes { get; set; }
         public Bill? Bill { get; set; }
+        public long? TreatmentID { get; set; }
         public ICollection<ChooseService>? ChooseServices { get; set; }
 
         public ICollection<CustomerPhoto>? CustomerPhotos { get; set; }

@@ -76,7 +76,7 @@ namespace Spa.Api.Controllers
                     AppointmentID = createBillDTO.AppointmentID,
                     CustomerID = createBillDTO.CustomerID,
                     Date = DateTime.Now,
-                    BillStatus = "Đang điều trị",
+                    BillStatus = createBillDTO.BillStatus,
                     Doctor = createBillDTO.Doctor,
                     TechnicalStaff = createBillDTO.TechnicalStaff,
                     TotalAmount = createBillDTO.TotalAmount,

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spa.Infrastructure;
 
@@ -11,9 +12,11 @@ using Spa.Infrastructure;
 namespace Spa.Infrastructure.Migrations
 {
     [DbContext(typeof(SpaDbContext))]
-    partial class SpaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240801100631_mess")]
+    partial class mess
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,9 +108,6 @@ namespace Spa.Infrastructure.Migrations
 
                     b.Property<double?>("Total")
                         .HasColumnType("float");
-
-                    b.Property<long?>("TreatmentID")
-                        .HasColumnType("bigint");
 
                     b.HasKey("AppointmentID");
 
@@ -614,16 +614,7 @@ namespace Spa.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsTreatment")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("NumbersOfSessions")
-                        .HasColumnType("int");
-
                     b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<double>("PriceByTreatment")
                         .HasColumnType("float");
 
                     b.Property<string>("ServiceCode")
@@ -634,95 +625,9 @@ namespace Spa.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeSpan>("TimeApart")
-                        .HasColumnType("time");
-
                     b.HasKey("ServiceID");
 
                     b.ToTable("Services");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.TreatmendSessionDetail", b =>
-                {
-                    b.Property<long?>("TreatmendDetailID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("TreatmendDetailID"));
-
-                    b.Property<long>("ServiceID")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("SessionID")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("TreatmendDetailID");
-
-                    b.HasIndex("SessionID");
-
-                    b.ToTable("TreatmendSessionDetails");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.TreatmentCard", b =>
-                {
-                    b.Property<long?>("TreatmentID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("TreatmentID"));
-
-                    b.Property<string>("CreateBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("CustomerID")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TotalSessions")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TreatmentName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TreatmentID");
-
-                    b.HasIndex("CustomerID");
-
-                    b.ToTable("TreatmentCards");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.TreatmentSession", b =>
-                {
-                    b.Property<long?>("SessionID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("SessionID"));
-
-                    b.Property<int>("SessionNumber")
-                        .HasColumnType("int");
-
-                    b.Property<long>("TreatmentID")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("isDone")
-                        .HasColumnType("bit");
-
-                    b.HasKey("SessionID");
-
-                    b.HasIndex("TreatmentID");
-
-                    b.ToTable("TreatmentSessions");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.User", b =>
@@ -1041,39 +946,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("Spa.Domain.Entities.TreatmendSessionDetail", b =>
-                {
-                    b.HasOne("Spa.Domain.Entities.TreatmentSession", "TreatmentSession")
-                        .WithMany("TreatmendSessionDetail")
-                        .HasForeignKey("SessionID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("TreatmentSession");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.TreatmentCard", b =>
-                {
-                    b.HasOne("Spa.Domain.Entities.Customer", "Customer")
-                        .WithMany("TreatmentCards")
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.TreatmentSession", b =>
-                {
-                    b.HasOne("Spa.Domain.Entities.TreatmentCard", "TreatmentCard")
-                        .WithMany("TreatmentSessions")
-                        .HasForeignKey("TreatmentID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("TreatmentCard");
-                });
-
             modelBuilder.Entity("Spa.Domain.Entities.User", b =>
                 {
                     b.HasOne("Spa.Domain.Entities.Admin", "Admin")
@@ -1147,8 +1019,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("Sales");
-
-                    b.Navigation("TreatmentCards");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.CustomerType", b =>
@@ -1194,16 +1064,6 @@ namespace Spa.Infrastructure.Migrations
             modelBuilder.Entity("Spa.Domain.Entities.ServiceEntity", b =>
                 {
                     b.Navigation("ChooseServices");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.TreatmentCard", b =>
-                {
-                    b.Navigation("TreatmentSessions");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.TreatmentSession", b =>
-                {
-                    b.Navigation("TreatmendSessionDetail");
                 });
 #pragma warning restore 612, 618
         }

@@ -26,6 +26,8 @@ using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Text;
 using Spa.Application.MIiddleware;
+using Spa.Application.SignalR;
+
 
 
 
@@ -45,7 +47,10 @@ builder.Services.AddCors(options =>
     {
         builder.AllowAnyOrigin()
         .AllowAnyMethod()
-        .AllowAnyHeader();
+        .AllowCredentials()
+        .AllowAnyHeader()
+        .WithOrigins("http://localhost:4200");
+     
     });
 });
 //builder.Services.AddSwaggerGen(); //add swagger để test api 
@@ -180,6 +185,12 @@ builder.Services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
+//TreatmentCard
+builder.Services.AddScoped<ITreatmentRepository, TreatmentRepository>();
+builder.Services.AddScoped<ITreatmentService, TreatmentService>();
+
+//SignalR
+builder.Services.AddSignalR();
 //Redis
 
 
@@ -218,6 +229,8 @@ app.UseAuthorization();  //middleware xử lí ủy uyền
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
+    endpoints.MapHub<ChatHub>("/chatHub");
+
 });
 app.MapControllers();  //định tuyến controller 
 

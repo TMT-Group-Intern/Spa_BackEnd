@@ -53,6 +53,7 @@ namespace Spa.Domain.Service
 
             if (billToUpdate != null)
             {
+                billToUpdate.BillStatus = bill.BillStatus;
                 billToUpdate.TotalAmount = bill.TotalAmount;
                 if (billToUpdate.BillItems != null)
                 {
