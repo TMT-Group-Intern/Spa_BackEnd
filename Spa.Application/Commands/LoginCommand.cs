@@ -32,7 +32,7 @@ namespace Spa.Application.Commands
 
         public async Task<AuthenticationResult> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetUserByEmail(request.loginDTO.Email);
+            var user = await _userRepository.GetUserByUserName(request.loginDTO.UserName);
             if (user == null)
             {
                 return new AuthenticationResult(false, "Tài khoản không tồn tại!", null, null, null);
@@ -41,24 +41,24 @@ namespace Spa.Application.Commands
             {
                 return new AuthenticationResult(false, "Tài khoản không được phép truy cập!", null, null, null);
             }
-            string token = await _userRepository.LoginAccount(request.loginDTO.Email, request.loginDTO.Password);
+            string token = await _userRepository.LoginAccount(request.loginDTO.UserName, request.loginDTO.Password);
             if (token is null)
             {
                 return new AuthenticationResult(false, "Mật khẩu không đúng!", null, null, null);
             }
-            var userLogin = await _userRepository.GetUserByEmail(request.loginDTO.Email);
+            //var userLogin = await _userRepository.GetUserByEmail(request.loginDTO.UserName);
             if (user.Role != "Admin")
             {
-                var emp = await _userRepository.GetEmpByEmail(request.loginDTO.Email);
+                var emp = await _userRepository.GetEmpByEmail(user.Email);
                 var permission = await _permissionRepository.GetAllPermissionNameByJobTypeID(emp.JobTypeID);
                 string branch = await _branchRepository.GetBranchNameByID(emp.BranchID);
-                var userSession = new UserSession(user.Email, user.LastName + " " + user.FirstName,emp.JobTypeID, user.Role,permission, branch, emp.BranchID, emp.EmployeeCode);
+                var userSession = new UserSession(user.Email,user.UserName, user.LastName + " " + user.FirstName,emp.JobTypeID, user.Role,permission, branch, emp.BranchID, emp.EmployeeCode);
                 return new AuthenticationResult(true, "Thành công!", userSession, token, user.RefreshToken);
             }
             else
             {
                 var permission = await _permissionRepository.GetAllPermissionNameByJobTypeID(5);
-                var userSession = new UserSession(user.Email, user.LastName + " " + user.FirstName,5,user.Role,permission, null, 1, user.Code);
+                var userSession = new UserSession(user.Email, user.UserName, user.LastName + " " + user.FirstName,5,user.Role,permission, null, 1, user.Code);
                 return new AuthenticationResult(true, "Thành công!", userSession, token, user.RefreshToken);
             }
         }

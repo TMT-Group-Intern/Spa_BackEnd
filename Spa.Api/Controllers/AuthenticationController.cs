@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -112,6 +113,72 @@ namespace Spa.Api.Controllers
                 return Ok(new { });
             }
         }
+
+        [HttpPost("createAdmin")]
+        //[HasPermission(SetPermission.CreateUser)]
+        public async Task<IActionResult> CreateAdmin([FromBody] UserDTO userDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var command = new CreateAdminCommand
+                {
+                    FirstName = userDto.FirstName,
+                    LastName = userDto.LastName,
+                    Email = userDto.Email,
+                    UserName= userDto.UserName,
+                    Password = userDto.Password,
+                    PhoneNumber = userDto.Phone,
+                    Gender = userDto.Gender,
+                    DateOfBirth = userDto.DateOfBirth,
+                };
+                var id = await _mediator.Send(command);
+                return Ok(new { status = id });
+            }
+            catch (DuplicateException ex1)
+            {
+                return Ok(new { });
+            }
+            catch (Exception ex2)
+            {
+                return Ok(new { });
+            }
+        }
+
+        [HttpPost("createAccount")]
+        //[HasPermission(SetPermission.CreateUser)]
+        public async Task<IActionResult> CreateAccount([FromBody] AccountDTO accountDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var command = new CreateAccountCommand
+                {
+                    Password = accountDto.Password,
+                    UserName = accountDto.UserName,
+                    ConfirmPassword = accountDto.ConfirmPassword,
+                };
+                var id = await _mediator.Send(command);
+                return Ok(new { status = id });
+            }
+            catch (DuplicateException ex1)
+            {
+                return Ok(new { });
+            }
+            catch (Exception ex2)
+            {
+                return Ok(new { });
+            }
+        }
+
         [HttpPost("CreateUserForEmployee")]
         [HasPermission(SetPermission.CreateUserForEmployee)]
         public async Task<IActionResult> CreateUserForEmployee([FromBody] UserForEmployeeDTO userDTO)
@@ -160,9 +227,9 @@ namespace Spa.Api.Controllers
             {
                 return new AuthenticationResult(false, "Error", null, null, null);
             }
-            catch (Exception ex)
+            catch (Exception cannotLogin)
             {
-                return new AuthenticationResult(false, "Error", null, null, null);
+                return new AuthenticationResult(false, "Tài khoản không được phép truy cập!", null, null, null);
             }
         }
 
@@ -172,7 +239,7 @@ namespace Spa.Api.Controllers
             var userJson = Request.Cookies["User"];
             if (userJson != null)
             {
-                var user = JsonSerializer.Deserialize<AllUsers>(userJson);
+                var user = JsonSerializer.Deserialize<Domain.Entities.AllUsers>(userJson);
                 return Ok(user);
             }
             else
