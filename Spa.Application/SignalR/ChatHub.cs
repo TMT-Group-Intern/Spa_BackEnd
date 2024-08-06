@@ -12,17 +12,22 @@ using Spa.Application.Models;
 using AutoMapper;
 using static StackExchange.Redis.Role;
 using Spa.Domain.Entities;
+using Spa.Domain.Service;
 
 namespace Spa.Application.SignalR
 {
     public class ChatHub : Hub
     {
-        public ChatHub()
+        private readonly MessageService _messageService;
+
+        public ChatHub(MessageService messageService)
         {
+            _messageService = messageService;
         }
 
         public async Task SendMessage(string user, string message)
         {
+           await _messageService.AddMessagesAsync(user, message);
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
 

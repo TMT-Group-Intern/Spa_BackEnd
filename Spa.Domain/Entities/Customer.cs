@@ -20,6 +20,7 @@ namespace Spa.Domain.Entities
         public int CustomerTypeID { get; set; } = 1;
 
         public ICollection<Appointment> Appointments { get; set; }
+        public ICollection<TreatmentCard> TreatmentCards { get; set; }
         public ICollection<Sale> Sales { get; set; }
         public CustomerType CustomerType { get; set; }
     }
