@@ -13,7 +13,7 @@ namespace Spa.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Appointment> builder)
         {
-          
+
             builder.HasKey(e => e.AppointmentID);
             builder.Property(e => e.AppointmentID).ValueGeneratedOnAdd(); //tự tăng
 

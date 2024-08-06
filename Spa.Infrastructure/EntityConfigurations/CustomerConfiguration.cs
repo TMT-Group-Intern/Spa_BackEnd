@@ -21,9 +21,6 @@ namespace Spa.Infrastructure.EntityConfigurations
                 .WithMany(e => e.Customers)
                 .HasForeignKey(e => e.CustomerTypeID)
                 .OnDelete(DeleteBehavior.Restrict);
-
-      
-
         }
     }
 }

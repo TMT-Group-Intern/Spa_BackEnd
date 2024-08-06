@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spa.Infrastructure;
 
@@ -11,9 +12,11 @@ using Spa.Infrastructure;
 namespace Spa.Infrastructure.Migrations
 {
     [DbContext(typeof(SpaDbContext))]
-    partial class SpaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240805084818_addnewtreatment")]
+    partial class addnewtreatment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -644,11 +647,11 @@ namespace Spa.Infrastructure.Migrations
 
             modelBuilder.Entity("Spa.Domain.Entities.TreatmendSessionDetail", b =>
                 {
-                    b.Property<long?>("TreatmendDetailID")
+                    b.Property<long>("TreatmendDetailID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("TreatmendDetailID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TreatmendDetailID"));
 
                     b.Property<long>("ServiceID")
                         .HasColumnType("bigint");
@@ -665,11 +668,11 @@ namespace Spa.Infrastructure.Migrations
 
             modelBuilder.Entity("Spa.Domain.Entities.TreatmentCard", b =>
                 {
-                    b.Property<long?>("TreatmentID")
+                    b.Property<long>("TreatmentID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("TreatmentID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TreatmentID"));
 
                     b.Property<string>("CreateBy")
                         .IsRequired()
@@ -678,6 +681,9 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<long>("CustomerID")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("Interval")
+                        .HasColumnType("int");
+
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
@@ -685,6 +691,11 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TimeUnit")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TotalSessions")
@@ -703,11 +714,11 @@ namespace Spa.Infrastructure.Migrations
 
             modelBuilder.Entity("Spa.Domain.Entities.TreatmentSession", b =>
                 {
-                    b.Property<long?>("SessionID")
+                    b.Property<long>("SessionID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long?>("SessionID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("SessionID"));
 
                     b.Property<int>("SessionNumber")
                         .HasColumnType("int");

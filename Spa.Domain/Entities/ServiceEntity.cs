@@ -12,7 +12,15 @@ namespace Spa.Domain.Entities
         public string ServiceCode { get; set; }
         public string ServiceName { get; set; }
         public string Description { get; set; }
-        public double Price { get; set; }
+        public double Price { get; set; } // giá buổi lẻ
+
+        public bool IsTreatment { get; set; }
+
+        public int NumbersOfSessions { get; set; }
+
+        public TimeSpan TimeApart {  get; set; }
+
+        public double PriceByTreatment { get; set; }
 
         public ICollection<ChooseService> ChooseServices { get; set; }
     }
