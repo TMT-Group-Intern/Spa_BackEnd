@@ -20,6 +20,7 @@ namespace Spa.Application.Models
         public string? Password { get; set; }
         [Compare(nameof(Password))]
         public string? ConfirmPassword { get; set; }
+        public string? OldPassword {  get; set; }
         //public string? Code { get; set; }
         //public string? Role { get; set; }
         //public bool? IsActiveAcount { get; set; }

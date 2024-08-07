@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using NMemory.Linq;
 using Spa.Domain.Entities;
 using Spa.Domain.IRepository;
 using Spa.Domain.IService;
@@ -128,7 +129,7 @@ namespace Spa.Infrastructure
            from a in _spaDbContext.Admins
            join jt in _spaDbContext.JobTypes on a.JobTypeID equals jt.JobTypeID
            from u in _spaDbContext.Users.Where(u => u.Code == a.AdminCode).DefaultIfEmpty()
-           where a.IsActive
+           /*where a.IsActive*/
            select new AllUsers
            {
                Name = a.LastName + " " + a.FirstName,
@@ -139,7 +140,8 @@ namespace Spa.Infrastructure
                DateOfBirth = a.DateOfBirth,
                Gender = a.Gender,
                haveAccount = u != null,
-               isActive = a.IsActive
+               isActive = a.IsActive,
+               Status = a.IsActive == true ? "Đang hoạt động" : "Ngừng hoạt động",
            }).ToListAsync();
             listAllUser.AddRange(adminUsers);
 
@@ -147,7 +149,7 @@ namespace Spa.Infrastructure
            from e in _spaDbContext.Employees
            join jt in _spaDbContext.JobTypes on e.JobTypeID equals jt.JobTypeID
            from u in _spaDbContext.Users.Where(u => u.Code == e.EmployeeCode).DefaultIfEmpty()
-           where e.IsActive
+           /*where e.IsActive*/
            select new AllUsers
            {
                Name = e.LastName + " " + e.FirstName,
@@ -158,7 +160,8 @@ namespace Spa.Infrastructure
                DateOfBirth = e.DateOfBirth,
                Gender = e.Gender,
                haveAccount = u != null,
-               isActive = e.IsActive
+               isActive = e.IsActive,
+               Status = e.IsActive == true ? "Đang hoạt động" : "Ngừng hoạt động",
            }).ToListAsync();
             listAllUser.AddRange(employeeUsers);
 
@@ -219,8 +222,9 @@ namespace Spa.Infrastructure
             listAllAccount.AddRange(account);
 
             listAllAccount = listAllAccount
-                .OrderByDescending(u => u.IsActiveAcount == "Đang hoạt động")
-                .ThenBy(u => u.Code)
+                //.OrderByDescending(u => u.IsActiveAcount == "Đang hoạt động")
+                //.ThenBy(u => u.Code)
+                .OrderBy(u=>u.Code)
                 .ToList();
             return listAllAccount.Skip((pageNumber - 1) * pageSize).Take(pageSize);
         }
@@ -267,7 +271,7 @@ namespace Spa.Infrastructure
                     Email = u.Email,
                     UserName = u.UserName,
                     PhoneNumber = u.PhoneNumber,
-                    IsActiveAcount = "Đang hoạt động",
+                    IsActiveAcount = "Ngừng hoạt động",
                     Id = u.Id.ToString(),
                 }).ToListAsync();
 
@@ -653,34 +657,12 @@ namespace Spa.Infrastructure
 
         public async Task<bool> DeleteUser(string Email)
         {
-            var user = await _userManager.FindByEmailAsync(Email);
-            if (user is null)
+            var admin = await _spaDbContext.Admins.FirstOrDefaultAsync(a => a.Email == Email);
+            if (admin != null)
             {
-                var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == Email);
-                if (emp is null) return false;
-                {
-                    emp.IsActive = false;
-                }
-                _spaDbContext.Employees.Update(emp);
-                _spaDbContext.SaveChanges();
-                return true;
-            }
-            if (user.Role == "Admin")
-            {
-                var admin = await _spaDbContext.Admins.FirstOrDefaultAsync(a => a.Email == Email);
-                if (admin.Email is null) return false;
-                {
-                    admin.IsActive = false;
-                }
+                admin.IsActive = !admin.IsActive;
                 _spaDbContext.Admins.Update(admin);
                 _spaDbContext.SaveChanges();
-
-                var userUpdate = await _userManager.FindByEmailAsync(Email);
-                if (userUpdate is null) return false;
-                userUpdate.IsActiveAcount = false;
-                var updateUserResult = await _userManager.UpdateAsync(userUpdate);
-                if (!updateUserResult.Succeeded) return false;
-
                 return true;
             }
             else
@@ -688,18 +670,11 @@ namespace Spa.Infrastructure
                 var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == Email);
                 if (emp.Email is null) return false;
                 {
-                    emp.IsActive = false;
+                    emp.IsActive = !emp.IsActive;
+                    _spaDbContext.Employees.Update(emp);
+                    _spaDbContext.SaveChanges();
+                    return true;
                 }
-                _spaDbContext.Employees.Update(emp);
-                _spaDbContext.SaveChanges();
-
-                var userUpdate = await _userManager.FindByEmailAsync(Email);
-                if (userUpdate is null) return false;
-                userUpdate.IsActiveAcount = false;
-                var updateUserResult = await _userManager.UpdateAsync(userUpdate);
-                if (!updateUserResult.Succeeded) return false;
-
-                return true;
             }
         }
 
@@ -720,9 +695,6 @@ namespace Spa.Infrastructure
             userUpdate.LastName = newUpdate.LastName;
             userUpdate.Role = newUpdate.Role;
             userUpdate.PhoneNumber = newUpdate.PhoneNumber;
-
-/*            var passwordHasher = new PasswordHasher<User>();
-            userUpdate.PasswordHash = passwordHasher.HashPassword(userUpdate, newUpdate.PasswordHash);*/
             var updateUserResult = await _userManager.UpdateAsync(userUpdate);
             if (!updateUserResult.Succeeded)
                 return false;
@@ -745,6 +717,22 @@ namespace Spa.Infrastructure
             var passwordHasher = new PasswordHasher<User>();
             userUpdate.PasswordHash = passwordHasher.HashPassword(userUpdate, newUpdate.PasswordHash);
 
+            var updateUserResult = await _userManager.UpdateAsync(userUpdate);
+            if (!updateUserResult.Succeeded)
+                return false;
+            return true;
+        }
+
+        public async Task<bool> ChangePassword(Account AccountDTO)
+        {
+            var newUpdate = new User
+            {
+                UserName = AccountDTO.UserName,
+                PasswordHash = AccountDTO.Password,
+            };
+            var userUpdate = await GetUserByUserName(AccountDTO.UserName);
+            var passwordHasher = new PasswordHasher<User>();
+            userUpdate.PasswordHash = passwordHasher.HashPassword(userUpdate, newUpdate.PasswordHash);
             var updateUserResult = await _userManager.UpdateAsync(userUpdate);
             if (!updateUserResult.Succeeded)
                 return false;

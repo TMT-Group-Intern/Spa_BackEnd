@@ -260,6 +260,36 @@ namespace Spa.Domain.Service
             }
             await _userRepository.UpdateAccount(AccountDTO);
         }
+        public async Task<object> ChangePassword(Account AccountDTO)
+        {
+            var userUpdate = await _userRepository.GetUserByUserName(AccountDTO.UserName);
+            if (userUpdate is null)
+                return new
+                {
+                    flag = false,
+                    message = "Tài khoản không tồn tại!"
+                };
+
+            bool checkUserPasswords = await _userManager.CheckPasswordAsync(userUpdate, AccountDTO.OldPassword);
+            if (!checkUserPasswords)
+                return new
+                {
+                    flag = false,
+                    message = "Mật khẩu hiện tại không đúng!"
+                };
+
+            bool change = await _userRepository.ChangePassword(AccountDTO);
+            if (!change) return new
+            {
+                flag = change,
+                message = "Đổi mật khẩu thất bại!"
+            };
+            return new
+            {
+                flag = change,
+                message = "Đổi mật khẩu thành công!"
+            };
+        }
         public bool isExistUser(string Email)
         {
             return _userRepository.GetUserByEmail(Email) == null ? false : true;
