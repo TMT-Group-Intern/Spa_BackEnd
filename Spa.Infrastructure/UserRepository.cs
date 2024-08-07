@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Spa.Domain.Entities;
 using Spa.Domain.IRepository;
+using Spa.Domain.IService;
 using Spa.Domain.Service;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -21,12 +22,13 @@ namespace Spa.Infrastructure
         private static readonly List<Admin> _admin = new();
         private static readonly List<Employee> _employee = new();
         private readonly IPermissionRepository _per;
+        private readonly IJobRepository _job;
         private readonly IConfiguration _config;
         private readonly SpaDbContext _spaDbContext;
         public UserRepository(UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
             SpaDbContext spaDbContext, IConfiguration config
-            , IPermissionRepository per
+            , IPermissionRepository per, IJobRepository job
             )
         {
             _userManager = userManager;
@@ -34,11 +36,23 @@ namespace Spa.Infrastructure
             _config = config;
             _spaDbContext = spaDbContext;
             _per = per;
+            _job = job;
         }
 
         public async Task<User> GetUserByEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
+            return user;
+        }
+
+        public async Task<User> GetUserByUserName(string userName)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+            return user;
+        }
+        public async Task<User> GetUserByUserID(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
             return user;
         }
         public async Task<string> GetUserBoolByEmail(string email)
@@ -94,10 +108,206 @@ namespace Spa.Infrastructure
         {
             return await _userManager.Users.CountAsync();
         }
+        public async Task<int> GetAllItemEmp()
+        {
+            return await _spaDbContext.Employees.CountAsync();
+        }
+        public async Task<int> GetAllItemAdmin()
+        {
+            return await _spaDbContext.Admins.CountAsync();
+        }
         public async Task<IEnumerable<User>> GetByPages(int pageNumber, int pageSize)
         {
             return await _userManager.Users.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         }
+
+        public async Task<IEnumerable<AllUsers>> GetAllUserByPages(int pageNumber, int pageSize)
+        {
+            var listAllUser = new List<AllUsers>();
+            var adminUsers = await (
+           from a in _spaDbContext.Admins
+           join jt in _spaDbContext.JobTypes on a.JobTypeID equals jt.JobTypeID
+           from u in _spaDbContext.Users.Where(u => u.Code == a.AdminCode).DefaultIfEmpty()
+           where a.IsActive
+           select new AllUsers
+           {
+               Name = a.LastName + " " + a.FirstName,
+               UserCode = a.AdminCode,
+               Phone = a.Phone,
+               Role = "Quản lý",
+               Email = a.Email,
+               DateOfBirth = a.DateOfBirth,
+               Gender = a.Gender,
+               haveAccount = u != null,
+               isActive = a.IsActive
+           }).ToListAsync();
+            listAllUser.AddRange(adminUsers);
+
+            var employeeUsers = await (
+           from e in _spaDbContext.Employees
+           join jt in _spaDbContext.JobTypes on e.JobTypeID equals jt.JobTypeID
+           from u in _spaDbContext.Users.Where(u => u.Code == e.EmployeeCode).DefaultIfEmpty()
+           where e.IsActive
+           select new AllUsers
+           {
+               Name = e.LastName + " " + e.FirstName,
+               UserCode = e.EmployeeCode,
+               Phone = e.Phone,
+               Role = jt.JobTypeName,
+               Email = e.Email,
+               DateOfBirth = e.DateOfBirth,
+               Gender = e.Gender,
+               haveAccount = u != null,
+               isActive = e.IsActive
+           }).ToListAsync();
+            listAllUser.AddRange(employeeUsers);
+
+            listAllUser = listAllUser
+                    .OrderByDescending(u => u.Role == "Quản lý")
+                    .ThenBy(u => u.Role == "Bảo vệ")
+                    .ThenBy(u => u.Role == "Nhân viên kỹ thuật")
+                    .ThenBy(u => u.haveAccount is false)
+                    .ThenBy(u => u.UserCode)
+                    .ToList();
+            return listAllUser.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        }
+
+        public async Task<IEnumerable<AllUsers>> GetAllAdminByPages(int pageNumber, int pageSize)
+        {
+            var listAllUser = new List<AllUsers>();
+            var adminUsers = await _spaDbContext.Admins
+                .Where(a => a.IsActive)
+                .Select(a => new AllUsers
+                {
+                    Name = a.LastName + " " + a.FirstName,
+                    UserCode = a.AdminCode,
+                    Phone = a.Phone,
+                    Role = "Quản lý",
+                    Email = a.Email,
+                    DateOfBirth = a.DateOfBirth,
+                    Gender = a.Gender,
+                    haveAccount = true,
+                    isActive = a.IsActive
+                }).ToListAsync();
+            listAllUser.AddRange(adminUsers);
+
+            listAllUser = listAllUser
+                    .OrderBy(u => u.UserCode)
+                    .ToList();
+            return listAllUser.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        }
+
+        public async Task<IEnumerable<Account>> GetAllAccountByPages(int pageNumber, int pageSize)
+        {
+            var listAllAccount = new List<Account>();
+            var account = await _userManager.Users
+                .Select(u => new Account
+                {
+                    
+                    Code = u.Code,
+                    LastName = u.LastName,
+                    FirstName = u.FirstName,
+                    Role = u.Role,
+                    Email = u.Email,
+                    UserName = u.UserName,                  
+                    PhoneNumber = u.PhoneNumber,
+                    IsActiveAcount = u.IsActiveAcount == true ? "Đang hoạt động" : "Ngừng hoạt động",
+                    //Id = u.Role == "Admin" ? u.AdminID : u.EmployeeID,
+                    Id = u.Id.ToString(),
+                }).ToListAsync();
+
+            listAllAccount.AddRange(account);
+
+            listAllAccount = listAllAccount
+                .OrderByDescending(u => u.IsActiveAcount == "Đang hoạt động")
+                .ThenBy(u => u.Code)
+                .ToList();
+            return listAllAccount.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        }
+
+        public async Task<IEnumerable<Account>> GetAllAccountActiveByPages(int pageNumber, int pageSize)
+        {
+            var listAllAccount = new List<Account>();
+            var account = await _userManager.Users
+                .Where(u => u.IsActiveAcount)
+                .Select(u => new Account
+                {
+
+                    Code = u.Code,
+                    LastName = u.LastName,
+                    FirstName = u.FirstName,
+                    Role = u.Role,
+                    Email = u.Email,
+                    UserName = u.UserName,
+                    PhoneNumber = u.PhoneNumber,
+                    IsActiveAcount = "Đang hoạt động",
+                    Id = u.Id.ToString(),
+                }).ToListAsync();
+
+            listAllAccount.AddRange(account);
+
+            listAllAccount = listAllAccount
+                    .OrderBy(u => u.Code)
+                    .ToList();
+            return listAllAccount.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        }
+
+        public async Task<IEnumerable<Account>> GetAllAccountNotActiveByPages(int pageNumber, int pageSize)
+        {
+            var listAllAccount = new List<Account>();
+            var account = await _userManager.Users
+                .Where(u => !u.IsActiveAcount)
+                .Select(u => new Account
+                {
+
+                    Code = u.Code,
+                    LastName = u.LastName,
+                    FirstName = u.FirstName,
+                    Role = u.Role,
+                    Email = u.Email,
+                    UserName = u.UserName,
+                    PhoneNumber = u.PhoneNumber,
+                    IsActiveAcount = "Đang hoạt động",
+                    Id = u.Id.ToString(),
+                }).ToListAsync();
+
+            listAllAccount.AddRange(account);
+
+            listAllAccount = listAllAccount
+                    .OrderBy(u => u.Code)
+                    .ToList();
+            return listAllAccount.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        }
+
+        public async Task<IEnumerable<AllUsers>> GetAllUserByPagesAndJobType(int jobTypeId,int pageNumber, int pageSize)
+        {
+            var listAllUserByJob = new List<AllUsers>();
+            var employeeUsers = await (
+           from e in _spaDbContext.Employees
+           join jt in _spaDbContext.JobTypes on e.JobTypeID equals jt.JobTypeID
+           from u in _spaDbContext.Users.Where(u => u.Code == e.EmployeeCode).DefaultIfEmpty()
+           where e.IsActive && e.JobTypeID == jobTypeId
+           select new AllUsers
+           {
+               Name = e.LastName + " " + e.FirstName,
+               UserCode = e.EmployeeCode,
+               Phone = e.Phone,
+               Role = jt.JobTypeName,
+               Email = e.Email,
+               DateOfBirth = e.DateOfBirth,
+               Gender = e.Gender,
+               haveAccount = u != null,
+               isActive = e.IsActive
+           }).ToListAsync();
+            listAllUserByJob.AddRange(employeeUsers);
+
+            listAllUserByJob = listAllUserByJob
+                    .OrderBy(u => u.UserCode)
+                    .ToList();
+            return listAllUserByJob.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        }
+
+
         public async Task<List<Employee>> GetAllEmployee()
         {
             var emps = await _spaDbContext.Employees
@@ -199,10 +409,68 @@ namespace Spa.Infrastructure
             }
             return newUser;
         }
+        public async Task<Account> CreateAccount(Account accountDTO)
+        {
+            if (accountDTO is null) return null;
+            var newUser = new User()
+            {
+                LastName = accountDTO.LastName ?? "Chưa có",
+                FirstName = accountDTO.FirstName ?? "Chưa có",
+                Email = accountDTO.UserName,
+                PasswordHash = accountDTO.Password,
+                Role = accountDTO.Role ?? "Chưa có",
+                Code = accountDTO.Code ?? "Chưa có",
+                UserName = accountDTO.UserName,
+                PhoneNumber = accountDTO.PhoneNumber ?? "Chưa có",
+                IsActiveAcount = true,
+            };
+            try
+            {
+                var createUser = await _userManager.CreateAsync(newUser!, accountDTO.Password);
+                if (!createUser.Succeeded)
+                {
+                    throw null;
+                }
+                return accountDTO;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+
+        }
         public async Task<User> CreateUserForEmployee(string Email)
         {
             var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == Email);
-            if (emp is null) return null;
+            //if (emp is null) return null;
+            if (emp is null)
+            {
+                var ad = await _spaDbContext.Admins.FirstOrDefaultAsync(a => a.Email == Email);
+                {
+                    var newAdmin = new User()
+                    {
+                        FirstName = ad.FirstName,
+                        LastName = ad.LastName,
+                        Email = ad.Email,
+                        PasswordHash = "Spa@12345",
+                        Code = ad.AdminCode,
+                        UserName = ad.Email,
+                        PhoneNumber = ad.Phone,
+                        AdminID = ad.AdminID,
+                        Id = ad.Id,
+                        Role="Admin",
+                        IsActiveAcount = true
+                    };
+                    var createUserForAdmin = await _userManager.CreateAsync(newAdmin!, newAdmin.PasswordHash);
+                    if (!createUserForAdmin.Succeeded)
+                    {
+                        return null;
+                    }
+                    return newAdmin;
+                }
+            }
             var newUser = new User()
             {
                 FirstName = emp.FirstName,
@@ -269,12 +537,12 @@ namespace Spa.Infrastructure
             await _spaDbContext.SaveChangesAsync();
         }
 
-        public async Task<string> LoginAccount(string Email, string Password)
+        public async Task<string> LoginAccount(string UserName, string Password)
         {
-            if (Email is null || Password is null)
+            if (UserName is null || Password is null)
                 return "Empty";
 
-            var getUser = await _userManager.FindByEmailAsync(Email);
+            var getUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == UserName); ;
             if (getUser is null)
                 return "User not exist";
             bool checkUserPasswords = await _userManager.CheckPasswordAsync(getUser, Password);
@@ -290,7 +558,7 @@ namespace Spa.Infrastructure
             }
             else
             {
-                var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == Email);
+                var emp = await _spaDbContext.Employees.FirstOrDefaultAsync(e => e.Email == getUser.Email);
                 string token = await GenerateToken(getUser.Code, (getUser.FirstName + " " + getUser.LastName), getUser.Email, emp.JobTypeID, getUser.Role);
                 return token;
             }
@@ -453,8 +721,30 @@ namespace Spa.Infrastructure
             userUpdate.Role = newUpdate.Role;
             userUpdate.PhoneNumber = newUpdate.PhoneNumber;
 
+/*            var passwordHasher = new PasswordHasher<User>();
+            userUpdate.PasswordHash = passwordHasher.HashPassword(userUpdate, newUpdate.PasswordHash);*/
+            var updateUserResult = await _userManager.UpdateAsync(userUpdate);
+            if (!updateUserResult.Succeeded)
+                return false;
+            return true;
+        }
+
+        public async Task<bool> UpdateAccount(Account AccountDTO)
+        {
+            var newUpdate = new User
+            {
+                Id= AccountDTO.Id,
+                UserName = AccountDTO.UserName,
+                PasswordHash = AccountDTO.Password,
+            };
+            var userUpdate = await GetUserByUserID(AccountDTO.Id);
+            if (userUpdate is null) return false;
+
+            userUpdate.UserName = newUpdate.UserName;
+
             var passwordHasher = new PasswordHasher<User>();
             userUpdate.PasswordHash = passwordHasher.HashPassword(userUpdate, newUpdate.PasswordHash);
+
             var updateUserResult = await _userManager.UpdateAsync(userUpdate);
             if (!updateUserResult.Succeeded)
                 return false;
@@ -533,6 +823,20 @@ namespace Spa.Infrastructure
                 return null;
             }
         }
+        public async Task<User> GetLastUserAsync()
+        {
+            try
+            {
+                return await _userManager.Users
+                              .Where(u => u.Code.StartsWith("AC"))
+                              .OrderByDescending(u => u.Code)
+                              .FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public async Task<Employee> GetLastEmployeeAsync()
         {
             try
@@ -543,6 +847,37 @@ namespace Spa.Infrastructure
             {
                 return null;
             }
+        }
+
+        public async Task<bool> DeleteAccount(string userName)
+        {
+            var user = await GetUserByUserName(userName);
+            if (user is not null)
+            {
+                var result = await _userManager.DeleteAsync(user);
+                return result.Succeeded;
+            }
+            return false;
+        }
+
+        public async Task<bool> ChangeStatusAccount(string userName)
+        {
+            var user = await GetUserByUserName(userName);
+            if (user != null)
+            {
+                user.IsActiveAcount = !user.IsActiveAcount;
+                var result = await _userManager.UpdateAsync(user);
+                return result.Succeeded;
+            }
+            return false;
+        }
+
+        public async Task<List<Employee>> SearchEmployeesAsync(string searchTerm)
+        {
+            return await _spaDbContext.Employees
+                .Where(c => (c.LastName + " " + c.FirstName).Contains(searchTerm) || (c.LastName + c.FirstName).Contains(searchTerm)
+                || c.FirstName.Contains(searchTerm) || c.LastName.Contains(searchTerm) || c.Phone.Contains(searchTerm))
+                .ToListAsync();
         }
     }
 }

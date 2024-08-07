@@ -37,6 +37,13 @@ namespace Spa.Domain.Service
                 return newUser;
             }
         }
+        public async Task<Account> CreateAccount(Account accountDTO)
+        {
+            var lastUserID = await GenerateCodeAsync();
+            accountDTO.Code = lastUserID;
+            var newUser = await _userRepository.CreateAccount(accountDTO);
+            return newUser;
+        }
         public async Task<User> CreateUserForEmployee(string Email)
         {
             var newUser = await _userRepository.CreateUserForEmployee(Email);
@@ -80,6 +87,19 @@ namespace Spa.Domain.Service
             int numericPart = int.Parse(lastCode.Substring(2));
             numericPart++;
             return "AD" + numericPart.ToString("D4");
+        }
+        public async Task<string> GenerateCodeAsync()
+        {
+            var lastUserCode = await _userRepository.GetLastUserAsync();
+
+            if (lastUserCode == null)
+            {
+                return "AC0001";
+            }
+            var lastCode = lastUserCode.Code;
+            int numericPart = int.Parse(lastCode.Substring(2));
+            numericPart++;
+            return "AC" + numericPart.ToString("D4");
         }
 
         public async Task<string> GenerateEmployeeCodeAsync()
@@ -130,6 +150,38 @@ namespace Spa.Domain.Service
             var listUser = await _userRepository.GetByPages(pageNumber, pageSize);
             return listUser;
         }
+
+        public async Task<IEnumerable<AllUsers>> GetAllUserByPagesAndJobType(int jobTypeId, int pageNumber, int pageSize)
+        {
+            var listUser = await _userRepository.GetAllUserByPagesAndJobType(jobTypeId,pageNumber, pageSize);
+            return listUser;
+        }
+
+        public async Task<IEnumerable<AllUsers>> GetAllUserByPages(int pageNumber, int pageSize)
+        {
+            var listUser = await _userRepository.GetAllUserByPages(pageNumber, pageSize);
+            return listUser;
+        }
+        public async Task<IEnumerable<AllUsers>> GetAllAdminByPages(int pageNumber, int pageSize)
+        {
+            var listAdmin = await _userRepository.GetAllAdminByPages(pageNumber, pageSize);
+            return listAdmin;
+        }
+        public async Task<IEnumerable<Account>> GetAllAccountByPages(int pageNumber, int pageSize)
+        {
+            var listAccount = await _userRepository.GetAllAccountByPages(pageNumber, pageSize);
+            return listAccount;
+        }
+        public async Task<IEnumerable<Account>> GetAllAccountActiveByPages(int pageNumber, int pageSize)
+        {
+            var listAccount = await _userRepository.GetAllAccountActiveByPages(pageNumber, pageSize);
+            return listAccount;
+        }
+        public async Task<IEnumerable<Account>> GetAllAccountNotActiveByPages(int pageNumber, int pageSize)
+        {
+            var listAccount = await _userRepository.GetAllAccountNotActiveByPages(pageNumber, pageSize);
+            return listAccount;
+        }
         public async Task<List<Employee>> GetAllEmployee()
         {
             var emps = await _userRepository.GetAllEmployee();
@@ -151,6 +203,17 @@ namespace Spa.Domain.Service
             var user = await _userRepository.GetUserByEmail(email);
             return user;
         }
+
+        public async Task<User> GetUserByUserName(string userName)
+        {
+            var user = await _userRepository.GetUserByUserName(userName);
+            return user;
+        }
+        public async Task<User> GetUserByUserID(string id)
+        {
+            var user = await _userRepository.GetUserByUserID(id);
+            return user;
+        }
         public async Task<string> GetUserBoolByEmail(string email)
         {
             string checkUser = await _userRepository.GetUserBoolByEmail(email);
@@ -167,9 +230,9 @@ namespace Spa.Domain.Service
             return emp;
         }
 
-        public async Task<string> LoginAccount(string Email, string Password)
+        public async Task<string> LoginAccount(string UserName, string Password)
         {
-            string token = await _userRepository.LoginAccount(Email, Password);
+            string token = await _userRepository.LoginAccount(UserName, Password);
             return token;
         }
 
@@ -187,6 +250,16 @@ namespace Spa.Domain.Service
         {
             await _userRepository.UpdateUser(UserDTO);
         }
+
+        public async Task UpdateAccount(Account AccountDTO)
+        {
+            var user = await _userRepository.GetUserByUserName(AccountDTO.UserName);
+            if (user is not null && user.Id != AccountDTO.Id)
+            {
+                throw new Exception("Tài khoản đã tồn tại!");
+            }
+            await _userRepository.UpdateAccount(AccountDTO);
+        }
         public bool isExistUser(string Email)
         {
             return _userRepository.GetUserByEmail(Email) == null ? false : true;
@@ -194,6 +267,15 @@ namespace Spa.Domain.Service
         public async Task<int> GetAllItem()
         {
             return await _userRepository.GetAllItemProduct();
+        }
+
+        public async Task<int> GetAllItemEmp()
+        {
+            return await _userRepository.GetAllItemEmp();
+        }
+        public async Task<int> GetAllItemAdmin()
+        {
+            return await _userRepository.GetAllItemAdmin();
         }
 
         public string GetUserId()
@@ -222,6 +304,21 @@ namespace Spa.Domain.Service
         public string GetUserBranch()
         {
             return _httpContextAccessor.HttpContext?.User?.FindFirst("Branch")?.Value;
+        }
+
+        public async Task<bool> DeleteAccount(string userName)
+        {
+            return await _userRepository.DeleteAccount(userName);
+        }
+
+        public async Task<bool> ChangeStatusAccount(string userName)
+        {
+            return await _userRepository.ChangeStatusAccount(userName);
+        }
+
+        public async Task<List<Employee>> SearchEmployeesAsync(string searchTerm)
+        {
+            return await _userRepository.SearchEmployeesAsync(searchTerm);
         }
     }
 }
