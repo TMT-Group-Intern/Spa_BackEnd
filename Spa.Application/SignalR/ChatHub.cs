@@ -20,14 +20,15 @@ namespace Spa.Application.SignalR
     {
         private readonly MessageService _messageService;
 
-        public ChatHub(MessageService messageService)
+        public ChatHub(/*MessageService messageService*/)
         {
-            _messageService = messageService;
+           /* _messageService = messageService;*/
         }
 
         public async Task SendMessage(string user, string message)
+        
         {
-           await _messageService.AddMessagesAsync(user, message);
+    //       await _messageService.AddMessagesAsync(user, message);
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
 

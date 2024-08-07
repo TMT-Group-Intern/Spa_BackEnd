@@ -7,6 +7,7 @@ using Spa.Domain.Entities;
 using Spa.Domain.IService;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using DocumentFormat.OpenXml.Presentation;
 
 namespace Spa.Api.Controllers
 {
@@ -97,7 +98,7 @@ namespace Spa.Api.Controllers
             }
         }
         [HttpPut("{treatmentID}")]
-        public async Task<ActionResult> UpdateTreatment(long treatmentID, TreatmentCardDTO  treatmentCardDTO)
+        public async Task<ActionResult> UpdateTreatment(long treatmentID, TreatmentCardDTO treatmentCardDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -106,24 +107,27 @@ namespace Spa.Api.Controllers
 
             try
             {
-                TreatmentCard treatmentCard = new TreatmentCard {
+                TreatmentCard treatmentCard = new TreatmentCard
+                {
                     CreateBy = treatmentCardDTO.CreateBy,
-                    CustomerID = treatmentCardDTO.CustomerID,   
+                    CustomerID = treatmentCardDTO.CustomerID,
                     StartDate = treatmentCardDTO.StartDate,
                     Notes = treatmentCardDTO.Notes,
                     TotalSessions = treatmentCardDTO.TotalSessions,
                     TreatmentName = treatmentCardDTO.TreatmentName,
-                    TreatmentSessions = treatmentCardDTO.TreatmentSessionsDTO.Select(a => new TreatmentSession {
-                    isDone = a.isDone,
-                    SessionID = a.SessionID,
-                    SessionNumber = a.SessionNumber,
-                    TreatmendSessionDetail = a.TreatmendSessionDetailDTO.Select(a=> new TreatmendSessionDetail {
-                    SessionID = a.SessionID,
-                    ServiceID = a.ServiceID,                   
-                    }).ToList()                                
-                    }).ToList(),              
+                    TreatmentSessions = treatmentCardDTO.TreatmentSessionsDTO.Select(a => new TreatmentSession
+                    {
+                        isDone = a.isDone,
+                        SessionID = a.SessionID,
+                        SessionNumber = a.SessionNumber,
+                        TreatmendSessionDetail = a.TreatmendSessionDetailDTO.Select(a => new TreatmendSessionDetail
+                        {
+                            SessionID = a.SessionID,
+                            ServiceID = a.ServiceID,
+                        }).ToList()
+                    }).ToList(),
                 };
-            var  updateTreatment =  await _treatmentService.UpdateTreatment(treatmentID, treatmentCard);
+                var updateTreatment = await _treatmentService.UpdateTreatment(treatmentID, treatmentCard);
                 return Ok();
             }
             catch (Exception ex)
@@ -131,6 +135,26 @@ namespace Spa.Api.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpPut("UpdateStatuSsession")]
+        public async Task<ActionResult> UpdateStatusSession(long sessionID, bool status)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var update = _treatmentService.UpdateStatusSession(sessionID, status);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
 
     }
 }

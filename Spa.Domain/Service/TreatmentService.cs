@@ -71,5 +71,13 @@ namespace Spa.Domain.Service
                 }
             }
         }
+
+
+       public bool UpdateStatusSession(long id, bool status)
+        {
+            _treatmentRepository.UpdateStatusSession(id, status);
+            return true;
+        }
+
     }
 }

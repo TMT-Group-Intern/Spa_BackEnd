@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Spa.Domain.Entities;
 using Spa.Domain.IRepository;
 using System;
@@ -43,7 +44,7 @@ namespace Spa.Infrastructure
             var response = await _spaDbContext.TreatmentCards
                 .Where(a => a.TreatmentID == treatmendID)
                 .Include(a => a.TreatmentSessions)
-                .ThenInclude(a => a.TreatmendSessionDetail).ThenInclude(e=> e.Service).FirstOrDefaultAsync();
+                .ThenInclude(a => a.TreatmendSessionDetail).ThenInclude(e => e.Service).FirstOrDefaultAsync();
             return response;
         }
 
@@ -59,6 +60,27 @@ namespace Spa.Infrastructure
                 throw new Exception();
             }
             return true;
+        }
+
+        public bool UpdateStatusSession(long id, bool status)
+        {
+            try
+            {
+                var session = GetSessionByID(id);
+                session.isDone = status;
+                _spaDbContext.TreatmentSessions.Update(session);
+                _spaDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+            return true;
+        }
+
+        private TreatmentSession GetSessionByID(long id)
+        {
+            return _spaDbContext.TreatmentSessions.Where(e => e.SessionID == id).FirstOrDefault();
         }
 
     }
