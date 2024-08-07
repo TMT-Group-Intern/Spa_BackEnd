@@ -20,6 +20,12 @@ namespace Spa.Infrastructure.EntityConfigurations
                 .WithMany(e => e.TreatmendSessionDetail)
                 .HasForeignKey(e => e.SessionID)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(e => e.Service)
+                .WithMany(e => e.TreatmendSessionDetail)
+                .HasForeignKey(e => e.ServiceID)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

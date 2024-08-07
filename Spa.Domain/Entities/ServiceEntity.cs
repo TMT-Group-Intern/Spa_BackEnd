@@ -23,5 +23,7 @@ namespace Spa.Domain.Entities
         public double PriceByTreatment { get; set; }
 
         public ICollection<ChooseService> ChooseServices { get; set; }
+
+        public ICollection<TreatmendSessionDetail>? TreatmendSessionDetail { get;  set; }
     }
 }
