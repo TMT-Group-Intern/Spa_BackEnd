@@ -21,5 +21,6 @@ namespace Spa.Application.Models
         public string Role { get; set; }
         public long? JobTypeID { get; set; }
         public bool? IsActive { get; set; }
+        public string? UserName { get; set; }
     }
 }

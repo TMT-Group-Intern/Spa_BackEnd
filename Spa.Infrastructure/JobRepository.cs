@@ -29,7 +29,8 @@ namespace Spa.Infrastructure
             {
                 JobTypeID = job.JobTypeID,
                 JobTypeName = job.JobTypeName
-            }).OrderBy(j => j.JobTypeID).ToList();
+            })  .Where(j => j.JobTypeName != "Admin")
+                .OrderBy(j => j.JobTypeID).ToList();
 
             return jobDTOs;
         }

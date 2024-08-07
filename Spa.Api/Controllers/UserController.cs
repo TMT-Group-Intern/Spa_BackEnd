@@ -12,6 +12,7 @@ using Spa.Application.Authorize.HasPermissionAbtribute;
 using Spa.Application.Authorize.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Spa.Api.Attributes;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Spa.Api.Controllers
 {
@@ -66,10 +67,10 @@ namespace Spa.Api.Controllers
         {
             var allUsers = await _userService.GetAllAdminsAndEmployees();
             var admin = await _userService.GetAllAdmin();
-            List<AllUsers> listAllUser = new List<AllUsers>();
+            List<Domain.Entities.AllUsers> listAllUser = new List<Domain.Entities.AllUsers>();
             foreach (var i in admin)
             {
-                AllUsers b = new AllUsers
+                Domain.Entities.AllUsers b = new Domain.Entities.AllUsers
                 {
                     Name = i.LastName + " " + i.FirstName,
                     Email = i.Email,
@@ -88,7 +89,7 @@ namespace Spa.Api.Controllers
             }
             foreach (var i in allUsers)
             {
-                AllUsers a = new AllUsers
+                Domain.Entities.AllUsers a = new Domain.Entities.AllUsers
                 {
                     Name = i.LastName + " " + i.FirstName,
                     Email = i.Email,
@@ -137,6 +138,67 @@ namespace Spa.Api.Controllers
             return Ok(new { item = userDTO, totalItems, totalPages });
         }
 
+        [HttpGet("AllUserPage")]
+        //[HasPermission(SetPermission.UserPage)]
+        public async Task<ActionResult> GetAllUserByPages(int pageNumber = 1, int pageSize = 20)
+        {
+            var userFromService = await _userService.GetAllUserByPages(pageNumber, pageSize);
+            var totalItems = await _userService.GetAllItemEmp() + await _userService.GetAllItemAdmin();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            return Ok(new { item = userFromService, totalItems, totalPages });
+        }
+
+        [HttpGet("AllEmpPage")]
+        //[HasPermission(SetPermission.UserPage)]
+        public async Task<ActionResult> GetAllUserByPagesAndJobType(int jobTypeId, int pageNumber = 1, int pageSize = 20)
+        {
+            var userFromService = await _userService.GetAllUserByPagesAndJobType(jobTypeId,pageNumber, pageSize);
+            var totalItems = await _userService.GetAllItemEmp();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            return Ok(new { item = userFromService, totalItems, totalPages, jobTypeId });
+        }
+
+        [HttpGet("AllAdminPage")]
+        //[HasPermission(SetPermission.UserPage)]
+        public async Task<ActionResult> GetAllAdminByPages(int pageNumber = 1, int pageSize = 20)
+        {
+            var userFromService = await _userService.GetAllAdminByPages(pageNumber, pageSize);
+            var totalItems = await _userService.GetAllItemAdmin();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            return Ok(new { item = userFromService, totalItems, totalPages });
+        }
+
+        [HttpGet("AllAccountPage")]
+        //[HasPermission(SetPermission.UserPage)]
+        public async Task<ActionResult> GetAllAccountByPages(int pageNumber = 1, int pageSize = 20)
+        {
+            var userFromService = await _userService.GetAllAccountByPages(pageNumber, pageSize);
+            var totalItems = await _userService.GetAllItem();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            return Ok(new { item = userFromService, totalItems, totalPages });
+        }
+
+        [HttpGet("AllAccountActivePage")]
+        //[HasPermission(SetPermission.UserPage)]
+        public async Task<ActionResult> GetAllAccountActiveByPages(int pageNumber = 1, int pageSize = 20)
+        {
+            var userFromService = await _userService.GetAllAccountActiveByPages(pageNumber, pageSize);
+            var totalItems = await _userService.GetAllItem();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            return Ok(new { item = userFromService, totalItems, totalPages });
+        }
+
+        [HttpGet("AllAccountNotActivePage")]
+        //[HasPermission(SetPermission.UserPage)]
+        public async Task<ActionResult> GetAllAccountNotActiveByPages(int pageNumber = 1, int pageSize = 20)
+        {
+            var userFromService = await _userService.GetAllAccountNotActiveByPages(pageNumber, pageSize);
+            var totalItems = await _userService.GetAllItem();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            return Ok(new { item = userFromService, totalItems, totalPages });
+        }
+
+
         [HttpGet("allEmployee")]
         [HasPermission(SetPermission.GetAllEmployee)]
         public async Task<IActionResult> GetAllEmployee()
@@ -179,6 +241,45 @@ namespace Spa.Api.Controllers
             return Ok(new { userDTO });
         }
 
+        [HttpGet("getUserByUserName")]
+        //[HasPermission(SetPermission.GetUserByEmail)]
+        public async Task<IActionResult> GetUserByUserName(string userName)
+        {
+            var user = _userService.GetUserByUserName(userName);
+            UserDTO userDTO = new UserDTO
+            {
+                Id = user.Result.Id,
+                FirstName = user.Result.FirstName,
+                LastName = user.Result.LastName,
+                UserName = user.Result.UserName,
+                Email = user.Result.Email,
+                Code = user.Result.Code,
+                Role = user.Result.Role,
+                Phone = user.Result.PhoneNumber,
+                isActive = user.Result.IsActiveAcount
+            };
+            return Ok(new { userDTO });
+        }
+        [HttpGet("getUserByUserID")]
+        //[HasPermission(SetPermission.GetUserByEmail)]
+        public async Task<IActionResult> GetUserByUserID(string id)
+        {
+            var user = _userService.GetUserByUserID(id);
+            UserDTO userDTO = new UserDTO
+            {
+                Id = user.Result.Id.ToString(),
+                FirstName = user.Result.FirstName,
+                LastName = user.Result.LastName,
+                UserName = user.Result.UserName,
+                Email = user.Result.Email,
+                Code = user.Result.Code,
+                Role = user.Result.Role,
+                Phone = user.Result.PhoneNumber,
+                isActive = user.Result.IsActiveAcount
+            };
+            return Ok(new { userDTO });
+        }
+
         [HttpGet("getUserByAdmin")]
         [HasPermission(SetPermission.GetUserByAdmin)]
         public async Task<IActionResult> GetAdminByEmail(string email)
@@ -195,7 +296,8 @@ namespace Spa.Api.Controllers
                 DateOfBirth = getAdminByEmail.Result.DateOfBirth,
                 Gender = getAdminByEmail.Result.Gender,
                 Phone = getAdminByEmail.Result.Phone,
-                IsActive = getAdminByEmail.Result.IsActive
+                IsActive = getAdminByEmail.Result.IsActive,
+                JobTypeID=getAdminByEmail.Result.JobTypeID,
             };
             return Ok(new { adminDTO });
         }
@@ -248,7 +350,6 @@ namespace Spa.Api.Controllers
                 {
                     FirstName = updateDto.FirstName,
                     LastName = updateDto.LastName,
-                    PasswordHash = updateDto.Password,
                     Role = updateDto.Role,
                     PhoneNumber = updateDto.Phone,
                     Email = email,
@@ -301,6 +402,35 @@ namespace Spa.Api.Controllers
             }
         }
 
+        [HttpPut("updateAccount")]
+        //[HasPermission(SetPermission.UpdateUser)]
+        public async Task<IActionResult> UpdateAccount(string id, [FromBody] AccountDTO accDto)
+        {
+            try
+            {
+                if (accDto == null || !ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                Account acc = new Account
+                {
+                    Id = id,
+                    UserName = accDto.UserName,
+                    Password = accDto.Password,
+                };              
+                    await _userService.UpdateAccount(acc);
+                    return Ok(true);
+            }
+            catch (DuplicateException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+
         [HttpDelete("deleteUser")]
         [HasPermission(SetPermission.DeleteUser)]
         public async Task<ActionResult> DeleteUser(string email)
@@ -317,6 +447,59 @@ namespace Spa.Api.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+
+        [HttpPost("changeStatusAccount")]
+        //[HasPermission(SetPermission.DeleteUser)]
+        public async Task<ActionResult> ChangeStatusAccount(string userName)
+        {
+            try
+            {
+                await _userService.ChangeStatusAccount(userName);
+                return Ok(true);
+            }
+            catch (ForeignKeyViolationException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+
+        [HttpDelete("deleteAccount")]
+        //[HasPermission(SetPermission.DeleteUser)]
+        public async Task<ActionResult> DeleteAccount(string userName)
+        {
+            try
+            {
+                await _userService.DeleteAccount(userName);
+                return Ok(true);
+            }
+            catch (ForeignKeyViolationException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+
+        [HttpGet("searchEmployee")]
+        //[HasPermission(SetPermission.SearchCustomers)]
+        public async Task<ActionResult<List<Employee>>> SearchEmployees(string searchTerm)
+        {
+            try
+            {
+                var emps = await _userService.SearchEmployeesAsync(searchTerm);
+                return Ok(new { emps });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }
