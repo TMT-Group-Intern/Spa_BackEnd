@@ -14,5 +14,6 @@ namespace Spa.Domain.IRepository
         Task<TreatmentCard> GetTreatmentCardDetailAsyncByID(long treatmendID);
 
         bool UpdateTreatment(TreatmentCard treatmentCard);
+        bool UpdateStatusSession(long id, bool status);
     }
 }

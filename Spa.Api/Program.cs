@@ -189,8 +189,13 @@ builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizat
 builder.Services.AddScoped<ITreatmentRepository, TreatmentRepository>();
 builder.Services.AddScoped<ITreatmentService, TreatmentService>();
 
+
+
 //SignalR
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(o =>
+{
+    o.EnableDetailedErrors = true;
+});
 //Redis
 
 
@@ -232,6 +237,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHub<ChatHub>("/chatHub");
 
 });
+
 app.MapControllers();  //định tuyến controller 
 
 app.Run();  // xử lí yêu cầu http đến server
