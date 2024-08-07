@@ -43,7 +43,7 @@ namespace Spa.Infrastructure
             var response = await _spaDbContext.TreatmentCards
                 .Where(a => a.TreatmentID == treatmendID)
                 .Include(a => a.TreatmentSessions)
-                .ThenInclude(a => a.TreatmendSessionDetail).FirstOrDefaultAsync();
+                .ThenInclude(a => a.TreatmendSessionDetail).ThenInclude(e=> e.Service).FirstOrDefaultAsync();
             return response;
         }
 
