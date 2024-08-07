@@ -33,7 +33,7 @@ namespace Spa.Infrastructure
 
         public async Task<IEnumerable<TreatmentCard>> GetTreatmentCardAsyncByCustomer(long customerId)
         {
-            var respone = await _spaDbContext.TreatmentCards.Where(a => a.CustomerID == customerId)               
+            var respone = await _spaDbContext.TreatmentCards.Where(a => a.CustomerID == customerId)
                 .ToListAsync();
             return respone;
         }
@@ -41,10 +41,25 @@ namespace Spa.Infrastructure
         public async Task<TreatmentCard> GetTreatmentCardDetailAsyncByID(long treatmendID)
         {
             var response = await _spaDbContext.TreatmentCards
-                .Where(a=> a.TreatmentID == treatmendID)
+                .Where(a => a.TreatmentID == treatmendID)
                 .Include(a => a.TreatmentSessions)
-                .ThenInclude(a=> a.TreatmendSessionDetail).FirstOrDefaultAsync();
+                .ThenInclude(a => a.TreatmendSessionDetail).FirstOrDefaultAsync();
             return response;
         }
+
+        public bool UpdateTreatment(TreatmentCard treatmentCard)
+        {
+            try
+            {
+                _spaDbContext.TreatmentCards.UpdateRange(treatmentCard);
+                _spaDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
+            return true;
+        }
+
     }
 }

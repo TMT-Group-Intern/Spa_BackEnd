@@ -12,5 +12,6 @@ namespace Spa.Domain.IService
         Task CreateTreatmentCard(TreatmentCard treatmentCard);
         Task<IEnumerable<TreatmentCard>> GetTreatmentCardAsyncByCustomer(long customerId);
         Task<TreatmentCard> GetTreatmentCardDetailAsyncByID(long treatmendID);
+        Task<bool> UpdateTreatment(long treatmendID, TreatmentCard treatmentCard);
     }
 }

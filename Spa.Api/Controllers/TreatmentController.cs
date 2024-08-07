@@ -69,7 +69,7 @@ namespace Spa.Api.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> CreateTreatmentCard(CreateTreatmentCardDTO treatmentCard)
+        public async Task<ActionResult> CreateTreatmentCard(TreatmentCardDTO treatmentCard)
         {
             if (!ModelState.IsValid)
             {
@@ -96,5 +96,41 @@ namespace Spa.Api.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+        [HttpPut("{treatmentID}")]
+        public async Task<ActionResult> UpdateTreatment(long treatmentID, TreatmentCardDTO  treatmentCardDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                TreatmentCard treatmentCard = new TreatmentCard {
+                    CreateBy = treatmentCardDTO.CreateBy,
+                    CustomerID = treatmentCardDTO.CustomerID,   
+                    StartDate = treatmentCardDTO.StartDate,
+                    Notes = treatmentCardDTO.Notes,
+                    TotalSessions = treatmentCardDTO.TotalSessions,
+                    TreatmentName = treatmentCardDTO.TreatmentName,
+                    TreatmentSessions = treatmentCardDTO.TreatmentSessionsDTO.Select(a => new TreatmentSession {
+                    isDone = a.isDone,
+                    SessionID = a.SessionID,
+                    SessionNumber = a.SessionNumber,
+                    TreatmendSessionDetail = a.TreatmendSessionDetailDTO.Select(a=> new TreatmendSessionDetail {
+                    SessionID = a.SessionID,
+                    ServiceID = a.ServiceID,                   
+                    }).ToList()                                
+                    }).ToList(),              
+                };
+            var  updateTreatment =  await _treatmentService.UpdateTreatment(treatmentID, treatmentCard);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
     }
 }

@@ -19,7 +19,7 @@ namespace Spa.Infrastructure.EntityConfigurations
             builder.HasOne(e => e.TreatmentSession)
                 .WithMany(e => e.TreatmendSessionDetail)
                 .HasForeignKey(e => e.SessionID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -6,8 +6,5 @@
         public long SessionID { get; set; }
         public long ServiceID { get; set; } // số dịch vụ chọn trong buổi
         public TreatmentSession? TreatmentSession { get; set; }
-
-
-
     }
 }
