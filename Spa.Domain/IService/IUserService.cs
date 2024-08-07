@@ -32,6 +32,7 @@ namespace Spa.Domain.IService
         Task DeleteUser(string Email);
         Task UpdateUser(User UserDTO);
         Task UpdateAccount(Account AccountDTO);
+        Task<object> ChangePassword(Account AccountDTO);
         Task UpdateAdmin(Admin AdminDTO);
         Task UpdateEmployee(Employee EmpDTO);
         Task<User> GetUserByEmail(string email);

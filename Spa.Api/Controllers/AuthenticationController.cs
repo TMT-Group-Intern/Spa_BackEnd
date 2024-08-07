@@ -114,6 +114,36 @@ namespace Spa.Api.Controllers
             }
         }
 
+        [HttpPost("changePassword")]
+        //[HasPermission(SetPermission.CreateUser)]
+        public async Task<IActionResult> changePassword([FromBody] AccountDTO accountDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var account = new Account
+                {
+                    UserName = accountDto.UserName,
+                    OldPassword = accountDto.OldPassword,
+                    Password = accountDto.Password,
+                };
+                var id = await _userService.ChangePassword(account);
+                return Ok(id);
+            }
+            catch (DuplicateException ex1)
+            {
+                return Ok(new { });
+            }
+            catch (Exception ex2)
+            {
+                return Ok(new { });
+            }
+        }
+
         [HttpPost("createAdmin")]
         //[HasPermission(SetPermission.CreateUser)]
         public async Task<IActionResult> CreateAdmin([FromBody] UserDTO userDto)

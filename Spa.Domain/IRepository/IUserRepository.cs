@@ -35,6 +35,7 @@ namespace Spa.Domain.IRepository
         Task<bool> DeleteUser(string Email);
         Task<bool> UpdateUser(User UserDTO);
         Task<bool> UpdateAccount(Account AccountDTO);
+        Task<bool> ChangePassword(Account AccountDTO);
         Task<bool> UpdateAdmin(Admin AdminDTO);
         Task<bool> UpdateEmployee(Employee EmpDTO);
         Task<Admin> GetLastAdminAsync();

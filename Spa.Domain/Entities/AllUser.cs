@@ -17,5 +17,6 @@ namespace Spa.Domain.Entities
             public string? Gender { get; set; }
             public bool? haveAccount { get; set; }
             public bool? isActive { get; set; }
+            public string? Status {  get; set; }
         }
 }
