@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Spa.Application.Models
 {
-    public class CreateTreatmentCardDTO
+    public class TreatmentCardDTO
     {
         public string TreatmentName { get; set; }  //lấy tên dịch vụ + số buổi làm
 
