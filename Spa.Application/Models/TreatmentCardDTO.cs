@@ -18,7 +18,6 @@ namespace Spa.Application.Models
         public int TotalSessions { get; set; }    // tổng số buổi làm(có thể thay đổi)
 
         public string? Notes { get; set; }
-
         public string CreateBy { get; set; }
 
         public ICollection<TreatmentSessionDTO> TreatmentSessionsDTO { get; set; }

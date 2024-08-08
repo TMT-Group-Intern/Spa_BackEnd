@@ -12,7 +12,6 @@ namespace Spa.Domain.IRepository
         Task CreateTreatmentCard(TreatmentCard treatmentCard);
         Task<IEnumerable<TreatmentCard>> GetTreatmentCardAsyncByCustomer(long customerId);
         Task<TreatmentCard> GetTreatmentCardDetailAsyncByID(long treatmendID);
-
         bool UpdateTreatment(TreatmentCard treatmentCard);
         bool UpdateStatusSession(long id, bool status);
     }

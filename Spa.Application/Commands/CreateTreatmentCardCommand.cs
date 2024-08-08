@@ -54,6 +54,7 @@ namespace Spa.Application.Commands
                 {
                     SessionID = d.SessionID,
                     ServiceID = d.ServiceID,
+                    Price = d.Price,
                 }).ToList()
 
             }).ToList();
