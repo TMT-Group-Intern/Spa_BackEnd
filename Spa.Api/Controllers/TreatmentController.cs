@@ -124,7 +124,9 @@ namespace Spa.Api.Controllers
                         {
                             SessionID = a.SessionID,
                             ServiceID = a.ServiceID,
-                        }).ToList()
+                            Price  = a.Price,
+                            IsDone = a.IsDone,
+                        }).ToList(),
                     }).ToList(),
                 };
                 var updateTreatment = await _treatmentService.UpdateTreatment(treatmentID, treatmentCard);

@@ -19,6 +19,7 @@ namespace Spa.Domain.Service
         }
         public async Task CreateTreatmentCard(TreatmentCard treatmentCard)
         {
+
             await _treatmentRepository.CreateTreatmentCard(treatmentCard);
         }
 

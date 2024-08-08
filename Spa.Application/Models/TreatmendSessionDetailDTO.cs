@@ -10,5 +10,8 @@ namespace Spa.Application.Models
     {
         public long SessionID { get; set; }
         public long ServiceID { get; set; } // số dịch vụ chọn trong buổi
+        public double Price { get; set; }
+        public bool IsDone { get; set; }
+
     }
 }
