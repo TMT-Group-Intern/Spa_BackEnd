@@ -36,19 +36,19 @@ namespace Spa.Domain.Service
         public async Task<bool> UpdateTreatment(long treatmendID, TreatmentCard treatmentCard)
         {
             var treatmentToUpdate = await _treatmentRepository.GetTreatmentCardDetailAsyncByID(treatmendID);
-            if(treatmentToUpdate != null)
+            if (treatmentToUpdate != null)
             {
                 treatmentToUpdate.TreatmentName = treatmentCard.TreatmentName;
                 treatmentToUpdate.StartDate = treatmentCard.StartDate;
                 treatmentToUpdate.Status = treatmentCard.Status;
-                treatmentToUpdate.Notes = treatmentCard.Notes;          
+                treatmentToUpdate.Notes = treatmentCard.Notes;
                 treatmentToUpdate.TotalSessions = treatmentCard.TotalSessions;
                 treatmentToUpdate.TreatmentSessions.Clear();
                 treatmentToUpdate.TreatmentSessions = treatmentCard.TreatmentSessions.Select(a => new TreatmentSession
                 {
                     SessionNumber = a.SessionNumber,
                     TreatmendSessionDetail = a.TreatmendSessionDetail.Select(a => new TreatmendSessionDetail
-                    {               
+                    {
                         ServiceID = a.ServiceID,
                     }).ToList()
 
@@ -58,6 +58,7 @@ namespace Spa.Domain.Service
             //   treatmentToUpdate = treatmentCard;
             var update = _treatmentRepository.UpdateTreatment(treatmentToUpdate);
             return update;
+            //return true;
         }
 
         private void UpdateNonNullFields(TreatmentCard target, TreatmentCard source)
