@@ -16,6 +16,11 @@ namespace Spa.Domain.Service
             var jobs = await _jobRepository.GetAllJobs();
             return jobs;
         }
+        public async Task<List<JobType>> GetAllJobForPermissions()
+        {
+            var jobs = await _jobRepository.GetAllJobForPermissions();
+            return jobs;
+        }
 
         public async Task<JobType> GetJobTypeByID(long? jobTypeID)
         {
