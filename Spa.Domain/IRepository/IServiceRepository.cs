@@ -27,7 +27,7 @@ namespace Spa.Domain.IRepository
 
         Task<bool> CheckExistNameCreateService(string nameService);
 
-
+        Task<List<ServiceEntity>> SearchServicesAsync(string searchTerm);
         Task<double> GetPriceService(long serviceID);
     }
 }

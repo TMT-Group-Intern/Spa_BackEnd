@@ -64,6 +64,7 @@ namespace Spa.Infrastructure
             modelBuilder.ApplyConfiguration(new TreatmentCardConfiguation());
             modelBuilder.ApplyConfiguration(new TreatmentSessionConfiguration());
             modelBuilder.ApplyConfiguration(new TreatmentSessionDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new MessageConfiguration());
         }
     }
 

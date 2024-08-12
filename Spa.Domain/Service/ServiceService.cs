@@ -44,6 +44,11 @@ namespace Spa.Domain.Service
             }
         }
 
+        public async Task<List<ServiceEntity>> SearchServicesAsync(string searchTerm)
+        {
+            return await _serviceRepository.SearchServicesAsync(searchTerm);
+        }
+
         public async Task<string> GenerateServiceCodeAsync()
         {
             var lastServiceCode = await _serviceRepository.GetLastServiceEntityAsync();

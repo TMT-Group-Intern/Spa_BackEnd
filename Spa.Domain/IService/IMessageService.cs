@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Spa.Domain.IService
 {
-    internal interface IMessageService
+    public interface IMessageService
     {
         Task<List<Message>> GetMessagesAsync();
 
