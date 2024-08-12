@@ -69,6 +69,21 @@ namespace Spa.Api.Controllers
             }
         }
 
+        [HttpGet("searchService")]
+        //[HasPermission(SetPermission.SearchCustomers)]
+        public async Task<ActionResult<List<ServiceEntity>>> SearchServices(string searchTerm)
+        {
+            try
+            {
+                var services = await _service.SearchServicesAsync(searchTerm);
+                return Ok(new { services });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         // POST api/<ServicesController>
         [HttpPost]
         [HasPermission(SetPermission.CreateService)]
