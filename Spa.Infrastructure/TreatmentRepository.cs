@@ -43,8 +43,8 @@ namespace Spa.Infrastructure
         {
             var response = await _spaDbContext.TreatmentCards
                 .Where(a => a.TreatmentID == treatmendID)
-                .Include(a => a.TreatmentSessions)
-                .ThenInclude(a => a.TreatmendSessionDetail).ThenInclude(e => e.Service).FirstOrDefaultAsync();
+                .Include(a => a.TreatmentDetails)
+                .FirstOrDefaultAsync();
             return response;
         }
 
@@ -64,7 +64,7 @@ namespace Spa.Infrastructure
 
         public bool UpdateStatusSession(long id, bool status)
         {
-            try
+          /*  try
             {
                 var session = GetSessionByID(id);
                 session.isDone = status;
@@ -74,13 +74,13 @@ namespace Spa.Infrastructure
             catch (Exception ex)
             {
                 throw new Exception();
-            }
+            }*/
             return true;
         }
 
-        private TreatmentSession GetSessionByID(long id)
+        private TreatmentDetail GetSessionByID(long id)
         {
-            return _spaDbContext.TreatmentSessions.Where(e => e.SessionID == id).FirstOrDefault();
+            return _spaDbContext.TreatmentDetails.Where(e => e.TreatmentDetailID == id).FirstOrDefault();
         }
 
     }

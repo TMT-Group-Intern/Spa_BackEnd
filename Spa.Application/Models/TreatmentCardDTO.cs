@@ -9,17 +9,15 @@ namespace Spa.Application.Models
 {
     public class TreatmentCardDTO
     {
-        public string TreatmentName { get; set; }  //lấy tên dịch vụ + số buổi làm
+        public string TreatmentCode { get; set; }  //lấy tên dịch vụ + số buổi làm
 
         public long CustomerID { get; set; }
 
         public DateTime StartDate { get; set; }
 
-        public int TotalSessions { get; set; }    // tổng số buổi làm(có thể thay đổi)
-
         public string? Notes { get; set; }
         public string CreateBy { get; set; }
 
-        public ICollection<TreatmentSessionDTO> TreatmentSessionsDTO { get; set; }
+        public ICollection<TreatmentDetailDTO> TreatmentDetailDTOs { get; set; }
     }
 }

@@ -220,8 +220,7 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseHttpsRedirection();
 //thêm middleware để chuyển http sang https để thêm bảo mật
-app.UseAuthentication();
-app.UseMiddleware<AuthorizationExceptionMiddleware>();
+//app.UseMiddleware<AuthorizationExceptionMiddleware>();
 app.UseRouting();
 //app.UseMiddleware<RequestTimingMiddleware>(); //test time response
 

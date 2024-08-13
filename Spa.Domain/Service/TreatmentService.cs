@@ -35,29 +35,30 @@ namespace Spa.Domain.Service
 
         public async Task<bool> UpdateTreatment(long treatmendID, TreatmentCard treatmentCard)
         {
-            var treatmentToUpdate = await _treatmentRepository.GetTreatmentCardDetailAsyncByID(treatmendID);
-            if(treatmentToUpdate != null)
-            {
-                treatmentToUpdate.TreatmentName = treatmentCard.TreatmentName;
-                treatmentToUpdate.StartDate = treatmentCard.StartDate;
-                treatmentToUpdate.Status = treatmentCard.Status;
-                treatmentToUpdate.Notes = treatmentCard.Notes;          
-                treatmentToUpdate.TotalSessions = treatmentCard.TotalSessions;
-                treatmentToUpdate.TreatmentSessions.Clear();
-                treatmentToUpdate.TreatmentSessions = treatmentCard.TreatmentSessions.Select(a => new TreatmentSession
-                {
-                    SessionNumber = a.SessionNumber,
-                    TreatmendSessionDetail = a.TreatmendSessionDetail.Select(a => new TreatmendSessionDetail
-                    {               
-                        ServiceID = a.ServiceID,
-                    }).ToList()
+            /*   var treatmentToUpdate = await _treatmentRepository.GetTreatmentCardDetailAsyncByID(treatmendID);
+               if(treatmentToUpdate != null)
+               {
+                   treatmentToUpdate.TreatmentName = treatmentCard.TreatmentName;
+                   treatmentToUpdate.StartDate = treatmentCard.StartDate;
+                   treatmentToUpdate.Status = treatmentCard.Status;
+                   treatmentToUpdate.Notes = treatmentCard.Notes;          
+                   treatmentToUpdate.TotalSessions = treatmentCard.TotalSessions;
+                   treatmentToUpdate.TreatmentSessions.Clear();
+                   treatmentToUpdate.TreatmentSessions = treatmentCard.TreatmentSessions.Select(a => new TreatmentSession
+                   {
+                       SessionNumber = a.SessionNumber,
+                       TreatmendSessionDetail = a.TreatmendSessionDetail.Select(a => new TreatmendSessionDetail
+                       {               
+                           ServiceID = a.ServiceID,
+                       }).ToList()
 
-                }).ToList();
+                   }).ToList();
 
-            }
-            //   treatmentToUpdate = treatmentCard;
-            var update = _treatmentRepository.UpdateTreatment(treatmentToUpdate);
-            return update;
+               }
+               //   treatmentToUpdate = treatmentCard;
+               var update = _treatmentRepository.UpdateTreatment(treatmentToUpdate);*/
+            // return update;
+            return true;
         }
 
         private void UpdateNonNullFields(TreatmentCard target, TreatmentCard source)
@@ -74,11 +75,27 @@ namespace Spa.Domain.Service
         }
 
 
-       public bool UpdateStatusSession(long id, bool status)
+        public bool UpdateStatusSession(long id, bool status)
         {
             _treatmentRepository.UpdateStatusSession(id, status);
             return true;
         }
 
+
+        public async Task<string> GenerateTreatmentCodeAsync()
+        {
+
+            //var lastCustomerCode = await _customerRepository.GetLastCustomerAsync();
+
+            /* if (lastCustomerCode == null)
+             {
+                 return "KH0001";
+             }
+             var lastCode = lastCustomerCode.CustomerCode;
+             int numericPart = int.Parse(lastCode.Substring(2));
+             numericPart++;
+             return "KH" + numericPart.ToString("D4");*/
+            return "";
+        }
     }
 }

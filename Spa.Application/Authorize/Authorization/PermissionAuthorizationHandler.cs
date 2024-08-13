@@ -33,14 +33,20 @@ namespace Spa.Application.Authorize.Authorization
         }
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirment requirement)
         {
-            var actorClaim = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Actor);
-            long actorValue = 0;
-            long.TryParse(actorClaim.Value, out actorValue);
-            var permissions = await _perService.GetAllPermissionNameByJobTypeID(actorValue);
-            if (permissions.Contains(requirement.Permission))
-                context.Succeed(requirement);
-            else
-                throw new InsufficientPermissionsException("Bạn không có quyền thực hiện hành động này.");
+            try
+            {
+                var actorClaim = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Actor);
+                long actorValue = 0;
+                long.TryParse(actorClaim.Value, out actorValue);
+                var permissions = await _perService.GetAllPermissionNameByJobTypeID(actorValue);
+                if (permissions.Contains(requirement.Permission))
+                    context.Succeed(requirement);
+                else
+                    throw new InsufficientPermissionsException("Bạn không có quyền thực hiện hành động này.");
+            }
+            catch (Exception ex) {
+            }
+           
         }
     }
 }

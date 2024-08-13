@@ -210,6 +210,10 @@ namespace Spa.Domain.Service
                 var appToUpdate = await _appointmentRepository.GetAppointmentByIdAsync(idApp);
                 UpdateNonNullFields(appToUpdate, appointment);
                 var chooseService = appToUpdate.ChooseServices;
+                if(appointment.ChooseServiceTreatments != null)
+                {
+                    appToUpdate.ChooseServiceTreatments = appointment.ChooseServiceTreatments;
+                }
                 appToUpdate.Total = 0;
                 foreach (var item in chooseService)
                 {

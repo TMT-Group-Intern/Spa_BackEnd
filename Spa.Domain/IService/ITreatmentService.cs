@@ -1,4 +1,5 @@
 ﻿using Spa.Domain.Entities;
+using Spa.Domain.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,8 @@ namespace Spa.Domain.IService
         Task<TreatmentCard> GetTreatmentCardDetailAsyncByID(long treatmendID);
         Task<bool> UpdateTreatment(long treatmendID, TreatmentCard treatmentCard);
         bool UpdateStatusSession(long id, bool status);
+
+         Task<string> GenerateTreatmentCodeAsync();
+        
     }
 }

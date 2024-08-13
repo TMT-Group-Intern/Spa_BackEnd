@@ -27,6 +27,6 @@ namespace Spa.Domain.Entities
 
         public ICollection<Assignment>? Assignments { get; set; }
 
-      
+        public ICollection<ChooseServiceTreatment> ChooseServiceTreatments { get; set; }
     }
 }
