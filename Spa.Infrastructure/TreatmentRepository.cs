@@ -48,6 +48,14 @@ namespace Spa.Infrastructure
             return response;
         }
 
+        public async Task<TreatmentDetail> GetTreatmentDetailAsyncByID(long treatmendDetailID)
+        {
+            var response = await _spaDbContext.TreatmentDetails
+                .Where(a => a.TreatmentDetailID == treatmendDetailID)
+                .FirstOrDefaultAsync();
+            return response;
+        }
+
         public bool UpdateTreatment(TreatmentCard treatmentCard)
         {
             try
@@ -81,6 +89,18 @@ namespace Spa.Infrastructure
         private TreatmentDetail GetSessionByID(long id)
         {
             return _spaDbContext.TreatmentDetails.Where(e => e.TreatmentDetailID == id).FirstOrDefault();
+        }
+
+        public async Task<string> GetLastCodeAsync()
+        {
+            try
+            {
+                return await _spaDbContext.TreatmentCards.OrderByDescending(c => c.TreatmentID).Select(e => e.TreatmentCode).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
     }

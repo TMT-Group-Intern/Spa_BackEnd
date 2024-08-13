@@ -31,6 +31,18 @@ namespace Spa.Application.Commands
         {
             _treatmentService = treatmentService;
         }
+        private async Task<string> GenerateTreatmentCodeAsync()
+        {
+            var lastTreatmentCode = await _treatmentService.GetLastCodeAsync();
+             if (lastTreatmentCode == null)
+             {
+                 return "LT0001";
+             }
+            var lastCode = lastTreatmentCode;
+             int numericPart = int.Parse(lastCode.Substring(2));
+             numericPart++;
+             return "LT" + numericPart.ToString("D4");
+        }
         public async Task<string> Handle(CreateTreatmentCardCommand request, CancellationToken cancellationToken)
         {
             ICollection<TreatmentDetail> treatmentDetail = new List<TreatmentDetail>();
@@ -44,7 +56,7 @@ namespace Spa.Application.Commands
 
             TreatmentCard treatmentCard = new TreatmentCard
             {
-                TreatmentCode = request.TreatmentCode,
+                TreatmentCode = await GenerateTreatmentCodeAsync(),
                 CustomerID = request.CustomerID,           
                 StartDate = request.StartDate,            
                 CreateBy = request.CreateBy,

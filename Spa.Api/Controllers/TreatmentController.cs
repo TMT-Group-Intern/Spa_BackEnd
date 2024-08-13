@@ -82,8 +82,7 @@ namespace Spa.Api.Controllers
                 var command = new CreateTreatmentCardCommand
                 {                 
                     CustomerID = treatmentCard.CustomerID,
-                    StartDate = treatmentCard.StartDate,
-                    TreatmentCode = treatmentCard.TreatmentCode,
+                    StartDate = treatmentCard.StartDate,                
                     CreateBy = treatmentCard.CreateBy,
                     Notes = treatmentCard.Notes,
                     TreatmentDetailDTO = treatmentCard.TreatmentDetailDTOs
@@ -106,29 +105,21 @@ namespace Spa.Api.Controllers
 
             try
             {
-             /*   TreatmentCard treatmentCard = new TreatmentCard
+                TreatmentCard treatmentCard = new TreatmentCard
                 {
                     CreateBy = treatmentCardDTO.CreateBy,
                     CustomerID = treatmentCardDTO.CustomerID,
                     StartDate = treatmentCardDTO.StartDate,
-                    Notes = treatmentCardDTO.Notes,
-                    TotalSessions = treatmentCardDTO.TotalSessions,
-                    TreatmentName = treatmentCardDTO.TreatmentName,
-                    TreatmentSessions = treatmentCardDTO.TreatmentSessionsDTO.Select(a => new TreatmentSession
+                    Notes = treatmentCardDTO.Notes,               
+                    TreatmentDetails = treatmentCardDTO.TreatmentDetailDTOs.Select(a => new TreatmentDetail
                     {
-                        isDone = a.isDone,
-                        SessionID = a.SessionID,
-                        SessionNumber = a.SessionNumber,
-                        TreatmendSessionDetail = a.TreatmendSessionDetailDTO.Select(a => new TreatmendSessionDetail
-                        {
-                            SessionID = a.SessionID,
-                            ServiceID = a.ServiceID,
-                            Price  = a.Price,
-                            IsDone = a.IsDone,
-                        }).ToList(),
+                       ServiceID = a.ServiceID,
+                       Price = a.Price,
+                       Quantity = a.Quantity,
+                       IsDone = a.IsDone
                     }).ToList(),
-                };*/
-              //  var updateTreatment = await _treatmentService.UpdateTreatment(treatmentID, treatmentCard);
+                };
+                var updateTreatment = await _treatmentService.UpdateTreatment(treatmentID, treatmentCard);
                 return Ok();
             }
             catch (Exception ex)

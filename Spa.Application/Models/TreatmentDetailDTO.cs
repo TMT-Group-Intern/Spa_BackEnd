@@ -13,5 +13,7 @@ namespace Spa.Application.Models
         public long ServiceID { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
+        
+        public bool? IsDone { get; set; }
      }
 }
