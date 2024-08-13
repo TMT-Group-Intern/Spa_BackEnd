@@ -23,6 +23,6 @@ namespace Spa.Domain.IService
 
         bool isExistService(long id); // check customer exist by Id
 
-       
+        Task<List<ServiceEntity>> SearchServicesAsync(string searchTerm);
     }
 }

@@ -53,7 +53,6 @@ namespace Spa.Domain.Service
                        }).ToList()
 
                    }).ToList();
-
                }
                //   treatmentToUpdate = treatmentCard;
                var update = _treatmentRepository.UpdateTreatment(treatmentToUpdate);*/
