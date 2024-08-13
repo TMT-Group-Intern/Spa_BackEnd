@@ -33,6 +33,13 @@ namespace Spa.Infrastructure
             return false;
         }
 
+        public async Task<List<ServiceEntity>> SearchServicesAsync(string searchTerm)
+        {
+            return await _spaDbContext.Services
+                .Where(s => (s.ServiceName).Contains(searchTerm))
+                .ToListAsync();
+        }
+
         public IEnumerable<ServiceEntity> GetAllServiceEntity()
         {
             return GetAll();

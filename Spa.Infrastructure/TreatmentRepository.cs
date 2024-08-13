@@ -39,6 +39,15 @@ namespace Spa.Infrastructure
             return respone;
         }
 
+        /*public async Task<TreatmentCard> GetTreatmentCardDetailAsyncByID(long treatmendID)
+        {
+            *//*            var response = await _spaDbContext.TreatmentCards
+                            .Where(a => a.TreatmentID == treatmendID)
+                            .Include(a => a.TreatmentSessions)
+                            .ThenInclude(a => a.TreatmendSessionDetail).ThenInclude(e => e.Service).FirstOrDefaultAsync();
+                        return response;*//*
+        }*/
+
         public async Task<TreatmentCard> GetTreatmentCardDetailAsyncByID(long treatmendID)
         {
             var response = await _spaDbContext.TreatmentCards

@@ -16,21 +16,50 @@ using Spa.Domain.Service;
 
 namespace Spa.Application.SignalR
 {
+    /*    public class ChatHub : Hub
+        {
+            private readonly MessageService _messageService;
+
+            public ChatHub(*//*MessageService messageService*//*)
+            {
+               *//* _messageService = messageService;*//*
+            }
+
+            public async Task SendMessage(string user, string message)
+
+            {
+        //       await _messageService.AddMessagesAsync(user, message);
+                await Clients.All.SendAsync("ReceiveMessage", user, message);
+            }
+
+        }*/
     public class ChatHub : Hub
     {
-        private readonly MessageService _messageService;
+        private readonly IMessageService _messageService;
 
-        public ChatHub(/*MessageService messageService*/)
+        // Constructor nhận IMessageService qua DI
+        public ChatHub(IMessageService messageService)
         {
-           /* _messageService = messageService;*/
+            _messageService = messageService;
         }
 
         public async Task SendMessage(string user, string message)
-        
         {
-    //       await _messageService.AddMessagesAsync(user, message);
+            // Giả sử AddMessagesAsync nhận các tham số kiểu Message
+            var messageModel = new Message
+            {
+                UserName = user,
+                Content = message
+            };
+
+            await _messageService.AddMessagesAsync(messageModel.UserName,messageModel.Content);
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
 
+        public async Task<List<Message>> GetMessages()
+        {
+            var messages = await _messageService.GetMessagesAsync();
+            return messages;
+        }
     }
 }

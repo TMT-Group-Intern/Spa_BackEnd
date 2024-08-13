@@ -1,6 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR.Protocol;
+using Spa.Application.Authorize.HasPermissionAbtribute;
+using Spa.Application.Authorize.Permissions;
+using Spa.Application.Commands;
+using Spa.Application.Models;
+using Spa.Domain.Exceptions;
+using Spa.Domain.IService;
 using Spa.Domain.Service;
 
 namespace Spa.Api.Controllers
@@ -9,16 +16,18 @@ namespace Spa.Api.Controllers
     [ApiController]
     public class ChatController : ControllerBase
     {
-        private readonly MessageService _messageService;
+        private readonly IMessageService _messageService;
+        private readonly IMediator _mediator;
 
-        public ChatController(MessageService messageService)
+        public ChatController(IMessageService messageService, IMediator mediator)
         {
             _messageService = messageService;
+            _mediator = mediator;
         }
-        [HttpGet]
+        [HttpGet("allMess")]
         public async Task<ActionResult> GetMessage()
         {
-           var listMess = await _messageService.GetMessagesAsync();
+            var listMess = await _messageService.GetMessagesAsync();
             return new JsonResult(listMess);
         }
     }

@@ -45,6 +45,14 @@ namespace Spa.Api.Controllers
             return Ok(allJobs);
         }
 
+        [HttpGet("allJobForPermissions")]
+        //[HasPermission(SetPermission.GetAllJobs)]
+        public async Task<IActionResult> GetAllJobForPermissions()
+        {
+            var allJobs = await _jobService.GetAllJobForPermissions();
+            return Ok(allJobs);
+        }
+
         [HttpGet("getJobTypeNameByID")]
         [HasPermission(SetPermission.GetJobTypeByID)]
         public async Task<IActionResult> GetJobTypeByID(long id)

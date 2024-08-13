@@ -34,7 +34,24 @@ namespace Spa.Infrastructure
 
             return jobDTOs;
         }
-        
+
+        public async Task<List<JobType>> GetAllJobForPermissions()
+        {
+            var jobs = await _spaDbContext.JobTypes.ToListAsync();
+            if (jobs is null)
+            {
+                return null;
+            }
+
+            var jobDTOs = jobs.Select(job => new JobType
+            {
+                JobTypeID = job.JobTypeID,
+                JobTypeName = job.JobTypeName
+            }).OrderByDescending(j => j.JobTypeID).ToList();
+
+            return jobDTOs;
+        }
+
         public async Task<string> GetJobTypeNameByID(long? JobTypeId)
         {
             var Role = await _spaDbContext.JobTypes.FindAsync(JobTypeId);
