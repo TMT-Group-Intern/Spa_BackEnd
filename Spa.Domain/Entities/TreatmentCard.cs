@@ -10,7 +10,7 @@ namespace Spa.Domain.Entities
     public class TreatmentCard
     {
         public long? TreatmentID { get; set; }
-        public string TreatmentCode { get; set; }  //lấy tên dịch vụ + số buổi làm
+        public string? TreatmentCode { get; set; }  //lấy tên dịch vụ + số buổi làm
         public long CustomerID { get; set; }    
         public DateTime? StartDate { get; set; }
         public string? Notes { get; set; }

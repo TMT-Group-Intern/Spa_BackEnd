@@ -14,7 +14,7 @@ namespace Spa.Domain.Entities
         public int Quantity { get; set; } 
         public int QuantityDone { get; set; }
         public long TreatmentID { get; set; }
-        public bool IsDone { get; set; } = false;
+        public bool? IsDone { get; set; } = false;
         public ServiceEntity? Service { get; set; }
         public TreatmentCard? TreatmentCard { get; set; }
        public ICollection<ChooseServiceTreatment> ChooseServiceTreatment { get; set; }

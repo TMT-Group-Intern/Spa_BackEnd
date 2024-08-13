@@ -15,8 +15,8 @@ namespace Spa.Domain.IService
         Task<TreatmentCard> GetTreatmentCardDetailAsyncByID(long treatmendID);
         Task<bool> UpdateTreatment(long treatmendID, TreatmentCard treatmentCard);
         bool UpdateStatusSession(long id, bool status);
+        Task<string> GetLastCodeAsync();
 
-         Task<string> GenerateTreatmentCodeAsync();
-        
+
     }
 }
