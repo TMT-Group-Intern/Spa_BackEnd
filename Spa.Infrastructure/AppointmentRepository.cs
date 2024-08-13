@@ -85,7 +85,8 @@ namespace Spa.Infrastructure
                                              .Include(c => c.Customer)
                                              .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
                                              .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
-                                             .FirstOrDefault()!;
+                                             .Include(c => c.ChooseServiceTreatments).ThenInclude(de => de.TreatmentDetail)
+                                            .FirstOrDefault()!;
         }
 
 

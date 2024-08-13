@@ -12,27 +12,16 @@ namespace Spa.Application.Commands
 {
     public class CreateTreatmentCardCommand : IRequest<string>
     {
-        public string TreatmentName { get; set; }  //lấy tên dịch vụ + số buổi làm
-
+        public string TreatmentCode { get; set; }  //lấy tên dịch vụ + số buổi làm
         public long CustomerID { get; set; }
-
         public long ServiceID { get; set; }
-
-        //public long? AppointmentID { get; set; }
-
         public DateTime? StartDate { get; set; }
-
         public int TotalSessions { get; set; }    // tổng số buổi làm(có thể thay đổi)
-
         public int Interval { get; set; }
-
         public string TimeUnit { get; set; }
-
         public string? Notes { get; set; }
-
         public string CreateBy { get; set; }
-
-        public ICollection<TreatmentSessionDTO> TreatmentSessionsDTO { get; set; }
+        public ICollection<TreatmentDetailDTO> TreatmentDetailDTO { get; set; }
     }
 
     public class CreateTreatmentCardCommandHandler : IRequestHandler<CreateTreatmentCardCommand, string>
@@ -44,32 +33,23 @@ namespace Spa.Application.Commands
         }
         public async Task<string> Handle(CreateTreatmentCardCommand request, CancellationToken cancellationToken)
         {
-            ICollection<TreatmentSession> treatmentSession = new List<TreatmentSession>();
+            ICollection<TreatmentDetail> treatmentDetail = new List<TreatmentDetail>();
 
-            treatmentSession = request.TreatmentSessionsDTO.Select(a => new TreatmentSession
+            treatmentDetail = request.TreatmentDetailDTO.Select(a => new TreatmentDetail
             {
-                SessionNumber = a.SessionNumber,
-                TreatmentID = a.TreatmentID,
-                TreatmendSessionDetail = a.TreatmendSessionDetailDTO.Select(d => new TreatmendSessionDetail
-                {
-                    SessionID = d.SessionID,
-                    ServiceID = d.ServiceID,
-                    Price = d.Price,
-                }).ToList()
-
+             ServiceID = a.ServiceID,
+             Price = a.Price,
+             Quantity = a.Quantity,
             }).ToList();
-
-
 
             TreatmentCard treatmentCard = new TreatmentCard
             {
-                TreatmentName = request.TreatmentName,
+                TreatmentCode = request.TreatmentCode,
                 CustomerID = request.CustomerID,           
-                TotalSessions = request.TotalSessions,
                 StartDate = request.StartDate,            
                 CreateBy = request.CreateBy,
                 Notes = request.Notes,
-                TreatmentSessions = treatmentSession,
+                TreatmentDetails = treatmentDetail,
                 Status = "Đang điều trị"
             };
             await _treatmentService.CreateTreatmentCard(treatmentCard);

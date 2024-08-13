@@ -19,7 +19,9 @@ namespace Spa.Application.Automapper
             CreateMap<ChooseService, ChooseServiceDTO>();
             CreateMap<ServiceEntity, ServiceDTO>();
             CreateMap<Assignment, AssignmentDTO>();
-            
+            CreateMap<ChooseServiceTreatment, ChooseServiceTreatmentDTO>();
+            CreateMap<TreatmentDetail, TreatmentDetailDTO>();
+
         }
     }
 }

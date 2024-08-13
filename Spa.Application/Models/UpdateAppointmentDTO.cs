@@ -1,6 +1,7 @@
 ﻿using Spa.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,5 +21,6 @@ namespace Spa.Application.Models
 
         public List<long>? ListServiceID { get; set; }
 
+        public ICollection<ChooseServiceTreatmentDTO>? ChooseServiceTreatmentDTO { get; set; }
     }
 }

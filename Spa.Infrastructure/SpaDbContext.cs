@@ -34,9 +34,7 @@ namespace Spa.Infrastructure
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<TreatmentCard> TreatmentCards { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<TreatmendSessionDetail> TreatmendSessionDetails { get; set; }
-        public DbSet<TreatmentSession> TreatmentSessions { get; set; }
-
+        public DbSet<TreatmentDetail> TreatmentDetails { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -62,9 +60,9 @@ namespace Spa.Infrastructure
             modelBuilder.ApplyConfiguration(new PermissionConfiguration());
             modelBuilder.ApplyConfiguration(new RolePermissionConfiguration());
             modelBuilder.ApplyConfiguration(new TreatmentCardConfiguation());
-            modelBuilder.ApplyConfiguration(new TreatmentSessionConfiguration());
-            modelBuilder.ApplyConfiguration(new TreatmentSessionDetailConfiguration());
-            modelBuilder.ApplyConfiguration(new MessageConfiguration());
+            modelBuilder.ApplyConfiguration(new TreatmentDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new ChooseServiceTreatmentConfiguration());
+
         }
     }
 

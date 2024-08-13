@@ -80,14 +80,13 @@ namespace Spa.Api.Controllers
             try
             {
                 var command = new CreateTreatmentCardCommand
-                {
+                {                 
                     CustomerID = treatmentCard.CustomerID,
                     StartDate = treatmentCard.StartDate,
-                    TotalSessions = treatmentCard.TotalSessions,
-                    TreatmentName = treatmentCard.TreatmentName,
+                    TreatmentCode = treatmentCard.TreatmentCode,
                     CreateBy = treatmentCard.CreateBy,
                     Notes = treatmentCard.Notes,
-                    TreatmentSessionsDTO = treatmentCard.TreatmentSessionsDTO
+                    TreatmentDetailDTO = treatmentCard.TreatmentDetailDTOs
                 };
                 var id = await _mediator.Send(command);
                 return Ok();
@@ -107,7 +106,7 @@ namespace Spa.Api.Controllers
 
             try
             {
-                TreatmentCard treatmentCard = new TreatmentCard
+             /*   TreatmentCard treatmentCard = new TreatmentCard
                 {
                     CreateBy = treatmentCardDTO.CreateBy,
                     CustomerID = treatmentCardDTO.CustomerID,
@@ -128,8 +127,8 @@ namespace Spa.Api.Controllers
                             IsDone = a.IsDone,
                         }).ToList(),
                     }).ToList(),
-                };
-                var updateTreatment = await _treatmentService.UpdateTreatment(treatmentID, treatmentCard);
+                };*/
+              //  var updateTreatment = await _treatmentService.UpdateTreatment(treatmentID, treatmentCard);
                 return Ok();
             }
             catch (Exception ex)

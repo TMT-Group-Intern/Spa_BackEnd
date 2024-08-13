@@ -52,70 +52,9 @@ namespace Spa.Infrastructure
         {
             var response = await _spaDbContext.TreatmentCards
                 .Where(a => a.TreatmentID == treatmendID)
-                .Select(a => new
-                {
-                    a.TreatmentID,
-                    a.TreatmentName,
-                    a.CustomerID,
-                    a.StartDate,
-                    a.TotalSessions,
-                    a.CreateBy,
-                    a.Notes,
-                    a.Status,
-                    TreatmentSessions = a.TreatmentSessions.Select(s => new
-                    {
-                        s.SessionID,
-                        s.SessionNumber,
-                        s.TreatmentID,
-                        s.isDone,
-                        TreatmendSessionDetail = s.TreatmendSessionDetail.Select(t => new
-                        {
-                            t.TreatmendDetailID,
-                            t.ServiceID,
-                            t.SessionID,
-                            t.IsDone,
-                            t.Price,
-                            Service = t.Service
-                        }),
-                    })
-                }).FirstOrDefaultAsync();
-
-            if (response != null)
-            {
-                var treatmentCard = new TreatmentCard
-                {
-                    TreatmentID = response.TreatmentID,
-                    TreatmentName = response.TreatmentName,
-                    CustomerID = response.CustomerID,
-                    StartDate = response.StartDate,
-                    TotalSessions = response.TotalSessions,
-                    CreateBy = response.CreateBy,
-                    Notes = response.Notes,
-                    Status = response.Status,
-                    TreatmentSessions = response.TreatmentSessions.Select(s => new TreatmentSession
-                    {
-                        SessionID = s.SessionID,
-                        SessionNumber = s.SessionNumber,
-                        TreatmentID = s.TreatmentID,
-                        isDone = s.isDone,
-                        TreatmendSessionDetail = s.TreatmendSessionDetail.Select(t => new TreatmendSessionDetail
-                        {
-                            TreatmendDetailID = t.TreatmendDetailID,
-                            ServiceID = t.ServiceID,
-                            SessionID = t.SessionID,
-                            IsDone = t.IsDone,
-                            Price = t.Price,
-                            Service = t.Service
-                        }).ToList()
-                    }).ToList()
-                };
-
-                return treatmentCard;
-            }
-            else
-            {
-                return null;
-            }
+                .Include(a => a.TreatmentDetails)
+                .FirstOrDefaultAsync();
+            return response;
         }
 
         public bool UpdateTreatment(TreatmentCard treatmentCard)
@@ -134,7 +73,7 @@ namespace Spa.Infrastructure
 
         public bool UpdateStatusSession(long id, bool status)
         {
-            try
+          /*  try
             {
                 var session = GetSessionByID(id);
                 session.isDone = status;
@@ -144,13 +83,13 @@ namespace Spa.Infrastructure
             catch (Exception ex)
             {
                 throw new Exception();
-            }
+            }*/
             return true;
         }
 
-        private TreatmentSession GetSessionByID(long id)
+        private TreatmentDetail GetSessionByID(long id)
         {
-            return _spaDbContext.TreatmentSessions.Where(e => e.SessionID == id).FirstOrDefault();
+            return _spaDbContext.TreatmentDetails.Where(e => e.TreatmentDetailID == id).FirstOrDefault();
         }
 
     }

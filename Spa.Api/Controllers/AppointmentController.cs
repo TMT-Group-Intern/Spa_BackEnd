@@ -211,7 +211,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        [HasPermission(SetPermission.GetAppointmentById)]
+       // [HasPermission(SetPermission.GetAppointmentById)]
         public async Task<ActionResult> GetAppointmentById(long id)
         {
             if (!ModelState.IsValid)
@@ -316,10 +316,11 @@ namespace Spa.Api.Controllers
         }
 
         [HttpPut("Test/{id}")]
-        [HasPermission(SetPermission.UpdateAppointment)]
+       // [HasPermission(SetPermission.UpdateAppointment)]
         public async Task<ActionResult> UpdateAppointment(long id, UpdateAppointmentDTO appointment)  //Update Appointment (RESTFUll)
         {
             ICollection<ChooseService>? chooseServices = new List<ChooseService>();
+            ICollection<ChooseServiceTreatment>? choosetreatmentDetails = new List<ChooseServiceTreatment>();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -329,12 +330,23 @@ namespace Spa.Api.Controllers
                 if (appointment.ListServiceID != null)
                 {
                     foreach (var item in appointment.ListServiceID)
-                    {
-                        {
-                            chooseServices!.Add(new ChooseService { AppointmentID = id, ServiceID = item });
-                        };
+                    {                      
+                            chooseServices!.Add(new ChooseService { AppointmentID = id, ServiceID = item });                        
                     }
                 }
+                if (appointment.ChooseServiceTreatmentDTO != null)
+                {
+                   foreach(var item in appointment.ChooseServiceTreatmentDTO)
+                    {
+                        choosetreatmentDetails.Add(new ChooseServiceTreatment
+                        {
+                            TreatmentDetailID = item.TreatmentDetailID,
+                            AppointmentID = id,
+                            QualityChooses = item.QualityChooses,
+                        });
+                    }
+                }
+
 
                 Appointment app = new Appointment
                 {
@@ -345,7 +357,9 @@ namespace Spa.Api.Controllers
                     Notes = appointment.Notes,
                     DiscountPercentage = appointment.DiscountPercentage,
                     Status = appointment.Status,
-                    ChooseServices = chooseServices
+                    ChooseServices = chooseServices,
+                    ChooseServiceTreatments = choosetreatmentDetails
+
                 };
 
                 await _appointmentService.UpdateAppointment(id, app);

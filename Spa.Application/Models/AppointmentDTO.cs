@@ -33,5 +33,7 @@ namespace Spa.Application.Models
         public string? EmployeeCode { get; set; }
         
         public string? Notes { get; set;}
+
+        public ICollection<ChooseServiceTreatmentDTO>? ChooseServiceTreatments { get; set; }
     }
 }
