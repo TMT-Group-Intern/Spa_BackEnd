@@ -38,14 +38,14 @@ namespace Spa.Application.Commands
         {
             Payment payment = new Payment
             {
-             //   AppointmentID = request.AppointmentID,
+                //   AppointmentID = request.AppointmentID,
                 Amount = request.Amount,
                 PaymentMethod = request.PaymentMethod,
-//CustomerID = request.CustomerID,
+                //CustomerID = request.CustomerID,
                 Notes = request.Notes,
                 CreatedAt = request.CreatedAt,
                 Status = request.Status,
-                PaymentDate = request.PaymentDate,              
+                PaymentDate = DateTime.Now,
             };
 
             await _paymentService.AddPayment(payment);

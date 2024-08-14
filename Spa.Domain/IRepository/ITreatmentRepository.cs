@@ -16,5 +16,7 @@ namespace Spa.Domain.IRepository
         bool UpdateTreatment(TreatmentCard treatmentCard);
         bool UpdateStatusSession(long id, bool status);
         Task<string> GetLastCodeAsync();
-    }
+        Task<bool> DeleteTreatmentDetail(long id);
+
+    }  
 }

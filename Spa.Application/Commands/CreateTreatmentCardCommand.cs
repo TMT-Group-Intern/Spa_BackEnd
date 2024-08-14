@@ -52,6 +52,10 @@ namespace Spa.Application.Commands
              ServiceID = a.ServiceID,
              Price = a.Price,
              Quantity = a.Quantity,
+             AmountDiscount = a.AmountDiscount,
+             TotalAmount = a.TotalAmount,
+             KindofDiscount = a.KindofDiscount,
+             Note = a.Note
             }).ToList();
 
             TreatmentCard treatmentCard = new TreatmentCard

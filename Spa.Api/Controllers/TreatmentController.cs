@@ -102,7 +102,6 @@ namespace Spa.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             try
             {
                 TreatmentCard treatmentCard = new TreatmentCard
@@ -139,6 +138,24 @@ namespace Spa.Api.Controllers
             try
             {
                 var update = _treatmentService.UpdateStatusSession(sessionID, status);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> DeleteTreatmentDetail(long treatmentDetailID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                 await _treatmentService.DeleteTreatmentDetail(treatmentDetailID);
                 return Ok();
             }
             catch (Exception ex)
