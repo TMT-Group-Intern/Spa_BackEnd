@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Spa.Domain.Entities
 {
-    public static class GlobalConstant
+    public class IncomeExpenses
     {
-        public static class ClaimCustoms
-        {
-            public const string Permissions = "Permissions";
-        }
     }
 }

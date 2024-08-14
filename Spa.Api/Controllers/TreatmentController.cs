@@ -115,7 +115,11 @@ namespace Spa.Api.Controllers
                        ServiceID = a.ServiceID,
                        Price = a.Price,
                        Quantity = a.Quantity,
-                       IsDone = a.IsDone
+                       IsDone = a.IsDone,
+                       AmountDiscount = a.AmountDiscount,
+                       KindofDiscount = a.KindofDiscount,
+                       Note =a.Note,
+                       TotalAmount = a.TotalAmount,
                     }).ToList(),
                 };
                 var updateTreatment = await _treatmentService.UpdateTreatment(treatmentID, treatmentCard);
