@@ -76,5 +76,14 @@ namespace Spa.Domain.Service
         {
             return await _treatmentRepository.GetLastCodeAsync();
         }
+
+        public  async Task<bool> DeleteTreatmentDetail(long id){
+         var flag =   await _treatmentRepository.DeleteTreatmentDetail(id);
+            if (flag)
+            {
+                return true;
+            }
+            else throw new Exception("Dịch vụ đã sử dụng không thể xóa");
+        }
     }
 }

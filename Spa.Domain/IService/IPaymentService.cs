@@ -17,5 +17,6 @@ namespace Spa.Domain.IService
 
         Task<Object> GetPaymentByBill(long billID);
 
+        Task<object> Getfinance();
     }
 }

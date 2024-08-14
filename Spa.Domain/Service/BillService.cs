@@ -101,5 +101,10 @@ namespace Spa.Domain.Service
             var bill = await _billRepository.GetBillByAppointmentID(id);
             return bill;
         }
+
+        public async Task<string> GetLastCodeAsync()
+        {
+            return await _billRepository.GetLastCodeAsync();
+        }
     }
 }

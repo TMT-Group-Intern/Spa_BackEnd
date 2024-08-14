@@ -16,5 +16,7 @@ namespace Spa.Domain.IRepository
         Task<List<Payment>> GetAllPaymentByBranch(long branchID);
 
         Task<Object> GetPaymentByBill(long billID);
+
+        Task<object> Getfinance();
     }
 }

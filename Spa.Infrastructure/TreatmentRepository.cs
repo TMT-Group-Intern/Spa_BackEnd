@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using NMemory.Linq;
 using Spa.Domain.Entities;
 using Spa.Domain.IRepository;
 using System;
@@ -39,20 +40,12 @@ namespace Spa.Infrastructure
             return respone;
         }
 
-        /*public async Task<TreatmentCard> GetTreatmentCardDetailAsyncByID(long treatmendID)
-        {
-            *//*            var response = await _spaDbContext.TreatmentCards
-                            .Where(a => a.TreatmentID == treatmendID)
-                            .Include(a => a.TreatmentSessions)
-                            .ThenInclude(a => a.TreatmendSessionDetail).ThenInclude(e => e.Service).FirstOrDefaultAsync();
-                        return response;*//*
-        }*/
-
         public async Task<TreatmentCard> GetTreatmentCardDetailAsyncByID(long treatmendID)
         {
             var response = await _spaDbContext.TreatmentCards
                 .Where(a => a.TreatmentID == treatmendID)
                 .Include(a => a.TreatmentDetails)
+                .ThenInclude(e => e.Service)
                 .FirstOrDefaultAsync();
             return response;
         }
@@ -95,7 +88,7 @@ namespace Spa.Infrastructure
             return true;
         }
 
-        private TreatmentDetail GetSessionByID(long id)
+        private TreatmentDetail GetTreatmentDetailByID(long id)
         {
             return _spaDbContext.TreatmentDetails.Where(e => e.TreatmentDetailID == id).FirstOrDefault();
         }
@@ -110,6 +103,12 @@ namespace Spa.Infrastructure
             {
                 return null;
             }
+        }
+
+        public async Task<bool> DeleteTreatmentDetail(long id)
+        {
+            _spaDbContext.TreatmentDetails.Remove(GetTreatmentDetailByID(id));
+            return true;
         }
 
     }
