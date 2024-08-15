@@ -35,6 +35,7 @@ namespace Spa.Infrastructure
         public DbSet<TreatmentCard> TreatmentCards { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<TreatmentDetail> TreatmentDetails { get; set; }
+        public DbSet<IncomeExpenses> IncomeExpenses { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -62,6 +63,7 @@ namespace Spa.Infrastructure
             modelBuilder.ApplyConfiguration(new TreatmentCardConfiguation());
             modelBuilder.ApplyConfiguration(new TreatmentDetailConfiguration());
             modelBuilder.ApplyConfiguration(new ChooseServiceTreatmentConfiguration());
+            modelBuilder.ApplyConfiguration(new IncomeExpensesConfiguration());
 
         }
     }

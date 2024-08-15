@@ -153,6 +153,25 @@ namespace Spa.Api.Controllers
             }
         }
 
+        [HttpPut("UpdateStatusTreatmentCard")]
+        public async Task<ActionResult> UpdateStatusTreatmentCard(long treatmentCardId, string status)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var update = await _treatmentService.UpdateStatusTreatmentCard(treatmentCardId, status);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         [HttpDelete]
         public async Task<ActionResult> DeleteTreatmentDetail(long treatmentDetailID)
         {
