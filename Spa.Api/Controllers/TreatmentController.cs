@@ -85,7 +85,8 @@ namespace Spa.Api.Controllers
                     StartDate = treatmentCard.StartDate,                
                     CreateBy = treatmentCard.CreateBy,
                     Notes = treatmentCard.Notes,
-                    TreatmentDetailDTO = treatmentCard.TreatmentDetailDTOs
+                    TreatmentDetailDTO = treatmentCard.TreatmentDetailDTOs,
+                    status = treatmentCard.status                 
                 };
                 var id = await _mediator.Send(command);
                 return Ok();
