@@ -74,17 +74,17 @@ namespace Spa.Infrastructure
 
         public bool UpdateStatusSession(long id, bool status)
         {
-          /*  try
-            {
-                var session = GetSessionByID(id);
-                session.isDone = status;
-                _spaDbContext.TreatmentSessions.Update(session);
-                _spaDbContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception();
-            }*/
+            /*  try
+              {
+                  var session = GetSessionByID(id);
+                  session.isDone = status;
+                  _spaDbContext.TreatmentSessions.Update(session);
+                  _spaDbContext.SaveChanges();
+              }
+              catch (Exception ex)
+              {
+                  throw new Exception();
+              }*/
             return true;
         }
 
@@ -108,6 +108,7 @@ namespace Spa.Infrastructure
         public async Task<bool> DeleteTreatmentDetail(long id)
         {
             _spaDbContext.TreatmentDetails.Remove(GetTreatmentDetailByID(id));
+            await _spaDbContext.SaveChangesAsync();
             return true;
         }
 

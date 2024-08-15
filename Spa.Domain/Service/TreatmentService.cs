@@ -42,7 +42,8 @@ namespace Spa.Domain.Service
                 treatmentToUpdate.StartDate = treatmentCard.StartDate;
                 treatmentToUpdate.Status = treatmentCard.Status;
                 treatmentToUpdate.Notes = treatmentCard.Notes;
-                treatmentDetailList = treatmentToUpdate.TreatmentDetails;
+                /*treatmentDetailList = treatmentToUpdate.TreatmentDetails;*/
+                treatmentToUpdate.TreatmentDetails.Clear();
                 foreach (var item in treatmentCard.TreatmentDetails)
                 {
                     treatmentDetailList.Add(item);
