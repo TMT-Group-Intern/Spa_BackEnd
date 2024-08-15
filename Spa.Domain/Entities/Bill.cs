@@ -23,9 +23,6 @@ namespace Spa.Domain.Entities
         public string? KindofDiscount { get; set; }
         public string? Note { get; set; }
 
-
-
-
         public ICollection<BillItem>? BillItems { get; set; }
 
         public Appointment? Appointment { get; set; }

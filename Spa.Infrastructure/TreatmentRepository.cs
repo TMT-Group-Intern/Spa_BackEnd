@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using NMemory.Linq;
 using Spa.Domain.Entities;
@@ -42,12 +43,19 @@ namespace Spa.Infrastructure
 
         public async Task<TreatmentCard> GetTreatmentCardDetailAsyncByID(long treatmendID)
         {
-            var response = await _spaDbContext.TreatmentCards
-                .Where(a => a.TreatmentID == treatmendID)
-                .Include(a => a.TreatmentDetails)
-                .ThenInclude(e => e.Service)
-                .FirstOrDefaultAsync();
-            return response;
+            try
+            {
+                var response = await _spaDbContext.TreatmentCards
+              .Where(a => a.TreatmentID == treatmendID)
+              .Include(a => a.TreatmentDetails)
+              .ThenInclude(e => e.Service)
+              .FirstOrDefaultAsync();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public async Task<TreatmentDetail> GetTreatmentDetailAsyncByID(long treatmendDetailID)
@@ -112,5 +120,6 @@ namespace Spa.Infrastructure
             return true;
         }
 
+      
     }
 }

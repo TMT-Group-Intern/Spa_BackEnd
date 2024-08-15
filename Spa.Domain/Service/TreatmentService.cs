@@ -86,5 +86,12 @@ namespace Spa.Domain.Service
             }
             else throw new Exception("Dịch vụ đã sử dụng không thể xóa");
         }
+
+        public async Task<bool> UpdateStatusTreatmentCard(long treatmendID, string status)
+        {
+            var updateStatusTreatment = await _treatmentRepository.GetTreatmentCardDetailAsyncByID(treatmendID);
+                updateStatusTreatment.Status = status;  
+            return  _treatmentRepository.UpdateTreatment(updateStatusTreatment);
+        }
     }
 }

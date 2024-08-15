@@ -17,6 +17,6 @@ namespace Spa.Domain.IService
         bool UpdateStatusSession(long id, bool status);
         Task<string> GetLastCodeAsync();
         Task<bool> DeleteTreatmentDetail(long id);
-        
+        Task<bool> UpdateStatusTreatmentCard(long treatmendID, string status);
         }
 }
