@@ -110,7 +110,8 @@ namespace Spa.Api.Controllers
                     CreateBy = treatmentCardDTO.CreateBy,
                     CustomerID = treatmentCardDTO.CustomerID,
                     StartDate = treatmentCardDTO.StartDate,
-                    Notes = treatmentCardDTO.Notes,               
+                    Notes = treatmentCardDTO.Notes,        
+                    Status = treatmentCardDTO.status,
                     TreatmentDetails = treatmentCardDTO.TreatmentDetailDTOs.Select(a => new TreatmentDetail
                     {
                        ServiceID = a.ServiceID,
