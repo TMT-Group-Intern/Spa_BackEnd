@@ -116,6 +116,7 @@ namespace Spa.Api.Controllers
                        Price = a.Price,
                        Quantity = a.Quantity,
                        IsDone = a.IsDone,
+                       QuantityDone = a.QuantityDone,
                        AmountDiscount = a.AmountDiscount,
                        KindofDiscount = a.KindofDiscount,
                        Note =a.Note,
