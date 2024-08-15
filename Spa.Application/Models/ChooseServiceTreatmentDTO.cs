@@ -11,6 +11,6 @@ namespace Spa.Application.Models
         public long AppointmentID { get; set; }
         public long TreatmentDetailID { get; set; }
         public int QualityChooses { get; set; }
-        public TreatmentDetailDTO TreatmentDetail { get; set; }
+        public TreatmentDetailDTO? TreatmentDetail { get; set; }
     }
 }
