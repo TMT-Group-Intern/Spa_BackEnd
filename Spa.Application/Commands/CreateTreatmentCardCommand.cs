@@ -21,6 +21,7 @@ namespace Spa.Application.Commands
         public string TimeUnit { get; set; }
         public string? Notes { get; set; }
         public string CreateBy { get; set; }
+        public string? status { get; set; }
         public ICollection<TreatmentDetailDTO> TreatmentDetailDTO { get; set; }
     }
 
@@ -66,7 +67,7 @@ namespace Spa.Application.Commands
                 CreateBy = request.CreateBy,
                 Notes = request.Notes,
                 TreatmentDetails = treatmentDetail,
-                Status = "Đang điều trị"
+                Status = request.status
             };
             await _treatmentService.CreateTreatmentCard(treatmentCard);
             string status = "success";

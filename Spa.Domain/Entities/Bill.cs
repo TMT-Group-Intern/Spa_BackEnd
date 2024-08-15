@@ -9,7 +9,7 @@ namespace Spa.Domain.Entities
     public class Bill
     {
         public long BillID { get; set; }
-        public string BillCode { get; set; }
+        public string? BillCode { get; set; }
         public long? CustomerID { get; set; }
         public long AppointmentID { get; set; }
         public DateTime Date { get; set; }

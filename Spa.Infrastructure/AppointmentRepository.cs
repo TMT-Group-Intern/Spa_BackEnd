@@ -40,11 +40,14 @@ namespace Spa.Infrastructure
 
         public async Task<Appointment> GetDetailAppointmentToCreateBill(long appointmentID)
         {
-            var app = await _spaDbContext.Appointments.Include(a => a.Assignments)
-                .ThenInclude(a => a.Employees).ThenInclude(j => j.JobType)
-                .Include(c => c.ChooseServices)
+            IQueryable<Appointment> query = _spaDbContext.Appointments.Include(a => a.Assignments!)
+                .ThenInclude(a => a.Employees!).ThenInclude(j => j.JobType!)
+                .Include(c => c.ChooseServices!)
                 .ThenInclude(c => c.Service)
-                .Where(a => a.AppointmentID == appointmentID).FirstOrDefaultAsync();
+                .Where(a => a.AppointmentID == appointmentID);
+
+            var app = await query.FirstOrDefaultAsync();
+
             return app;
         }
 
@@ -61,7 +64,7 @@ namespace Spa.Infrastructure
             return assignment;
         }
 
-        public bool DeleteAppointment(Appointment appointment)
+        public bool DeleteAppointment(Appointment appointment)   // không dùng
         {
             var idApp = appointment.AppointmentID;
             var listIdDelete = _spaDbContext.ChooseServices.Where(c => c.AppointmentID == appointment.AppointmentID).ToList();
@@ -73,20 +76,22 @@ namespace Spa.Infrastructure
 
         public IEnumerable<Appointment> GetAllAppointment()
         {
-            return _spaDbContext.Appointments
+            IQueryable<Appointment> query = _spaDbContext.Appointments
                                 .Include(c => c.Customer)
                                 .Include(a => a.Assignments!).ThenInclude(e => e.Employees)
-                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service).ToList();
+                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service);
+
+            return query.ToList();
         }
 
         public Appointment GetAppointmentByID(long appointmentId)
         {
-            return _spaDbContext.Appointments.Where(a => a.AppointmentID == appointmentId)
+            IQueryable<Appointment> query = _spaDbContext.Appointments.Where(a => a.AppointmentID == appointmentId)
                                              .Include(c => c.Customer)
                                              .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
                                              .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
-                                             .Include(c => c.ChooseServiceTreatments).ThenInclude(de => de.TreatmentDetail)
-                                            .FirstOrDefault()!;
+                                             .Include(c => c.ChooseServiceTreatments).ThenInclude(de => de.TreatmentDetail);
+            return query.FirstOrDefault()!;
         }
 
 
@@ -94,14 +99,14 @@ namespace Spa.Infrastructure
         public void UpdateAppointment(Appointment appointment)
         {
             Update(appointment);
-
         }
 
         public async Task<Appointment?> GetNewAppoinmentAsync()
         {
             try
             {
-                var app = await _spaDbContext.Appointments.OrderByDescending(c => c.AppointmentID).FirstOrDefaultAsync();
+                IQueryable<Appointment> query = _spaDbContext.Appointments.OrderByDescending(c => c.AppointmentID);
+                var app = await query.FirstOrDefaultAsync();
                 if (app is not null)
                 {
                     return app;
@@ -145,7 +150,8 @@ namespace Spa.Infrastructure
 
         public async Task<IEnumerable<ChooseService>> ListService(long id)
         {
-            return await _spaDbContext.ChooseServices.Where(a => a.AppointmentID == id).ToListAsync();
+            IQueryable<ChooseService> query = _spaDbContext.ChooseServices.Where(a => a.AppointmentID == id);
+            return await query.ToListAsync();
         }
 
         public async Task RemoveChooseService(long id, List<long> serviceIDs)
@@ -165,7 +171,8 @@ namespace Spa.Infrastructure
 
         public async Task<List<double>> GetAllPriceService(long idApp)
         {
-            return await _spaDbContext.ChooseServices.Where(c => c.AppointmentID == idApp).Include(se => se.Service).Select(p => p.Service.Price).ToListAsync();
+            IQueryable<double> query = _spaDbContext.ChooseServices.Where(c => c.AppointmentID == idApp).Include(se => se.Service).Select(p => p.Service.Price);
+            return await query.ToListAsync();
         }
 
         public bool UpdateTotalAppointment(Appointment appointment)
@@ -190,11 +197,12 @@ namespace Spa.Infrastructure
 
         public async Task<Appointment> GetAppointmentByIdAsync(long idApp)
         {
-            var appToUpdate = await _spaDbContext.Appointments.Where(a => a.AppointmentID == idApp)
+            IQueryable<Appointment> query = _spaDbContext.Appointments.Where(a => a.AppointmentID == idApp)
                                             .Include(c => c.Customer)
                                             .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
-                                            .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
-                                            .FirstOrDefaultAsync();
+                                            .Include(s => s.ChooseServices!).ThenInclude(se => se.Service);
+
+            var appToUpdate = await query.FirstOrDefaultAsync();
             return appToUpdate!;
         }
 
@@ -279,27 +287,6 @@ namespace Spa.Infrastructure
             return response;
         }
 
-
-
-        //public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset, string? status)
-        //{
-        //    IQueryable<Appointment> searchList = _spaDbContext.Appointments.OrderBy( o=> o.AppointmentDate)
-        //        .Include(c => c.Customer)
-        //        .Include(a => a.Assignments!).ThenInclude(e => e.Employees)
-        //        .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
-        //        .Where(a => a.AppointmentDate >= fromDate
-        //        && a.AppointmentDate <= toDate
-        //        && a.BranchID == branchId
-        //        && a.Customer.FirstName.Contains(searchItem)
-        //        || a.Customer.LastName.Contains(searchItem)
-        //        || a.Customer.Phone.Contains(searchItem));
-
-        //    var response = await searchList.ToListAsync();
-        //    var paging = response.Skip((offset - 1) * limit)
-        //        .Take(limit);
-        //    return response;
-        //}
-
         public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset, string? status)
         {
             IQueryable<Appointment> searchList = _spaDbContext.Appointments.OrderBy(o => o.AppointmentDate)
@@ -326,7 +313,8 @@ namespace Spa.Infrastructure
 
         public async Task<int> CounterItemsAppointment(long branchID)
         {
-            var countTotal = await _spaDbContext.Appointments.Where(e => e.BranchID == branchID).CountAsync();
+            IQueryable<Appointment> query = _spaDbContext.Appointments.Where(e => e.BranchID == branchID);
+            var countTotal = await query.CountAsync();
             return countTotal;
         }
     }
