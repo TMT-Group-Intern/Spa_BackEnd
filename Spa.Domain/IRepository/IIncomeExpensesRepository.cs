@@ -10,5 +10,9 @@ namespace Spa.Domain.IRepository
     public interface IIncomeExpensesRepository
     {
         Task<bool> AddncomeExpensesAsync(IncomeExpenses incomeExpenses);
+
+        Task<string> GetLastCodeAsync();
+
+        Task<object> GetIncomes();
     }
 }

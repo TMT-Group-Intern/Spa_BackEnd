@@ -57,6 +57,11 @@ namespace Spa.Infrastructure
          return await _spaDbContext.Bill.Include(i => i.BillItems).Where(b => b.BillID == id).FirstOrDefaultAsync() ?? null;
         }
 
+        public async Task<Bill?> GetBillDetailHaveCusAndAppByIdAsync(long id) //Get By ID
+        {
+            return await _spaDbContext.Bill.Include(i => i.BillItems).Include(a => a.Appointment).Include(a=> a.Customer).Where(b => b.BillID == id).FirstOrDefaultAsync() ?? null;
+        }
+
         public async Task<Bill> GetNewBillAsync()
         {
             try

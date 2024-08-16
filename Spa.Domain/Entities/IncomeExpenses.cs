@@ -14,8 +14,8 @@ namespace Spa.Domain.Entities
         public string PartnerName { get; set; }
         public string PayMethod { get; set; }
         public string TypeOfIncome { get; set; }   // thu hoặc chi
-        public double Amount { get; set; }
-        public long BranchID { get; set; }
+        public double? Amount { get; set; }
+        public long? BranchID { get; set; }
         public long? PaymentID { get; set; }
         public Payment? Payment { get; set; }
     }

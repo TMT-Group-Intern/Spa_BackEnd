@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Spa.Domain.Service
 {
-    public class IncomeExpensesSevice : IIncomeExpensesSevice
+    public class IncomeExpensesService : IIncomeExpensesService
     {
         private readonly IIncomeExpensesRepository _incomeExpensesRepository;
 
-        public IncomeExpensesSevice(IIncomeExpensesRepository incomeExpensesRepository )
+        public IncomeExpensesService(IIncomeExpensesRepository incomeExpensesRepository )
         {
             _incomeExpensesRepository = incomeExpensesRepository;
         }
@@ -21,6 +21,11 @@ namespace Spa.Domain.Service
         public Task<bool> AddncomeExpensesAsync(IncomeExpenses incomeExpenses)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<object> GetIncomes()
+        {
+            return await _incomeExpensesRepository.GetIncomes();
         }
     }
 }
