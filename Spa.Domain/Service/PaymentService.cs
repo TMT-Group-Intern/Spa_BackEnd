@@ -28,6 +28,8 @@ namespace Spa.Domain.Service
         {
             try
             {
+                payment.PaymentDate = DateTime.Now;
+                payment.CreatedAt = DateTime.Now;
                 var paymentProcess = await _paymentRepository.AddPayment(payment);
                 if (paymentProcess)
                 {
@@ -40,8 +42,8 @@ namespace Spa.Domain.Service
                     }
                     await _billRepository.UpdateBill(bill);
                 }
-
-                return await _paymentRepository.AddPayment(payment);
+               
+                return true;
             } catch (Exception ex) {
                 return false;
             }

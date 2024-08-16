@@ -190,6 +190,7 @@ builder.Services.AddScoped<ITreatmentService, TreatmentService>();
 //Message
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
@@ -222,7 +223,7 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseHttpsRedirection();
 //thêm middleware để chuyển http sang https để thêm bảo mật
-//app.UseMiddleware<AuthorizationExceptionMiddleware>();
+app.UseMiddleware<AuthorizationExceptionMiddleware>();
 app.UseRouting();
 //app.UseMiddleware<RequestTimingMiddleware>(); //test time response
 

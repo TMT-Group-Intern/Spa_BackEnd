@@ -37,6 +37,11 @@ namespace Spa.Domain.Service
             return await _billRepository.GetBillByIdAsync(id);
         }
 
+        public async Task<Bill?> GetBillByPayment(long id)
+        {
+            return await _billRepository.GetBillByPayment(id);
+        }
+
         public async Task<Bill> GetNewBillAsync()
         {
             return await _billRepository.GetNewBillAsync();

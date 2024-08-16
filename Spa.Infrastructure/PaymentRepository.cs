@@ -59,7 +59,22 @@ namespace Spa.Infrastructure
             return response;
         }
 
+        public async Task<Object> GetPaymentByID(long id)
+        {
+            IQueryable<Payment> query = _spaDbContext.Payments.Where(a => a.PaymentID == id);
 
+            var payments = await query.ToListAsync();
+            var response = payments.Select(a => new
+            {
+                paymentID = a.PaymentID,
+                date = a.PaymentDate,
+                amount = a.Amount,
+                paymentMethod = a.PaymentMethod,
+                
+            });
+
+            return response;
+        }
 
     }
 }

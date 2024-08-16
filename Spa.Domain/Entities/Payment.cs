@@ -11,7 +11,7 @@ namespace Spa.Domain.Entities
         public long PaymentID { get; set; }
         public long BillID { get; set; } 
         public double? Amount { get; set; }
-        public DateTime PaymentDate { get; set; }
+        public DateTime PaymentDate { get; set; } = DateTime.Now;
         public string PaymentMethod { get; set; }
         public string? Status { get; set; }
         public string? Notes { get; set; }

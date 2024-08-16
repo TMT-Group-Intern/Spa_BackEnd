@@ -12,6 +12,7 @@ namespace Spa.Domain.IService
        Task CreateAppointmentAsync(Appointment appointment);
 
        IEnumerable<Appointment> GetAllAppoinment();
+        IEnumerable<Appointment> GetAllAppointmentByBranchAndToday(long branchID);
 
         Appointment GetAppointmentByIdAsync(long id);
 

@@ -9,6 +9,8 @@ using Spa.Domain.Entities;
 using Spa.Domain.Exceptions;
 using Spa.Application.Authorize.HasPermissionAbtribute;
 using Spa.Application.Authorize.Permissions;
+using Spa.Domain.Service;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace Spa.Api.Controllers
 {
@@ -62,6 +64,7 @@ namespace Spa.Api.Controllers
                     BranchName = getBranchByID.Result.BranchName,
                     BranchAddress = getBranchByID.Result.BranchAddress,
                     BranchPhone = getBranchByID.Result.BranchPhone,
+                    IsActive = getBranchByID.Result.IsActive,
                 };
                 return Ok(new { branchDTO });
             }
@@ -100,6 +103,7 @@ namespace Spa.Api.Controllers
                     BranchPhone = branchDto.BranchPhone,
                     BranchName = branchDto.BranchName,
                     BranchAddress = branchDto.BranchAddress,
+                    IsActive = true,
                 };
                 var newBranch = await _branchService.CreateBranch(branch);
                 return Ok(new { id = newBranch });
@@ -146,6 +150,25 @@ namespace Spa.Api.Controllers
             }
         }
 
+        [HttpPost("changeStatusBranch")]
+        //[HasPermission(SetPermission.DeleteUser)]
+        public async Task<ActionResult> ChangeStatusBranch(long id)
+        {
+            try
+            {
+                await _branchService.ChangeStatusBranch(id);
+                return Ok(true);
+            }
+            catch (ForeignKeyViolationException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+
         [HttpDelete("deleteBranch")]
         [HasPermission(SetPermission.DeleteBranch)]
         public async Task<ActionResult> DeleteBranch(long id)
@@ -163,6 +186,36 @@ namespace Spa.Api.Controllers
             {
                 return StatusCode(500, "An unexpected error occurred.");
             }
+        }
+
+        [HttpGet("AllBranchPage")]
+        //[HasPermission(SetPermission.UserPage)]
+        public async Task<ActionResult> GetAllBranchByPages(int pageNumber = 1, int pageSize = 20)
+        {
+            var branchFromService = await _branchService.GetAllBranchByPages(pageNumber, pageSize);
+            var totalItems = await _branchService.GetAllItemBranch();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            return Ok(new { item = branchFromService, totalItems, totalPages });
+        }
+
+        [HttpGet("AllBranchActivePage")]
+        //[HasPermission(SetPermission.UserPage)]
+        public async Task<ActionResult> GetAllBranchActiveByPages(int pageNumber = 1, int pageSize = 20)
+        {
+            var branchFromService = await _branchService.GetAllBranchActiveByPages(pageNumber, pageSize);
+            var totalItems = await _branchService.GetAllItemBranch();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            return Ok(new { item = branchFromService, totalItems, totalPages });
+        }
+
+        [HttpGet("AllBranchNotActivePage")]
+        //[HasPermission(SetPermission.UserPage)]
+        public async Task<ActionResult> GetAllBranchNotActiveByPages(int pageNumber = 1, int pageSize = 20)
+        {
+            var branchFromService = await _branchService.GetAllBranchNotActiveByPages(pageNumber, pageSize);
+            var totalItems = await _branchService.GetAllItemBranch();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            return Ok(new { item = branchFromService, totalItems, totalPages });
         }
     }
 }

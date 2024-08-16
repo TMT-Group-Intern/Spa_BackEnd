@@ -45,7 +45,7 @@ namespace Spa.Application.Commands
                 Notes = request.Notes,
                 CreatedAt = request.CreatedAt,
                 Status = request.Status,
-                PaymentDate = request.PaymentDate,              
+                PaymentDate = DateTime.Now,              
             };
 
             await _paymentService.AddPayment(payment);

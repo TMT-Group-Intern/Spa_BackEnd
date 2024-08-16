@@ -14,6 +14,8 @@ namespace Spa.Domain.IRepository
         Appointment CreateAppointment(Appointment customer);
         IEnumerable<Appointment> GetAllAppointment();
 
+        IEnumerable<Appointment> GetAllAppointmentByBranchAndToday(long branchID);
+
         Appointment GetAppointmentByID(long appointmentId) ;
 
         Task<bool> AddChooseService(long idApp, long idSer);

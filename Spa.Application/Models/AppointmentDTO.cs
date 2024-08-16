@@ -18,13 +18,14 @@ namespace Spa.Application.Models
         public double? Total { get; set; }
         public double? DiscountAmount { get; set; }
         public int? DiscountPercentage { get; set; }
+        public string? BillStatus { get; set; }
         public CustomerDTO? Customer { get; set; }
         // public EmployeeDTO? Employee { get; set; }
         public ICollection<ChooseServiceDTO>? ChooseServices { get; set; }
 
         public ICollection<AssignmentDTO>? Assignments { get; set; }
 
-        public string? TeachnicalStaff {get; set;}
+        public string? TechnicalStaff {get; set;}
         
         public string? Doctor { get; set;}
 

@@ -2,6 +2,7 @@
 using Spa.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Spa.Domain.IRepository;
+using Microsoft.AspNetCore.Identity;
 
 namespace Spa.Infrastructure
 {
@@ -55,6 +56,7 @@ namespace Spa.Infrastructure
                 BranchName = branchDTO.BranchName,
                 BranchAddress = branchDTO.BranchAddress,
                 BranchPhone = branchDTO.BranchPhone,
+                IsActive = branchDTO.IsActive,
             };
             await _spaDbContext.Branches.AddAsync(newBranch);
             await _spaDbContext.SaveChangesAsync();
@@ -82,6 +84,19 @@ namespace Spa.Infrastructure
             return true;
         }
 
+        public async Task<bool> ChangeStatusBranch(long id)
+        {
+            var branch = await GetBranchByID(id);
+            if (branch != null)
+            {
+                branch.IsActive = !branch.IsActive;
+                _spaDbContext.Branches.Update(branch);
+                _spaDbContext.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public async Task<bool> DeleteBranch(long? BranchID)
         {
                 var branch = await _spaDbContext.Branches.FirstOrDefaultAsync(a => a.BranchID == BranchID);
@@ -92,6 +107,76 @@ namespace Spa.Infrastructure
                 _spaDbContext.Branches.Remove(branch);
                 _spaDbContext.SaveChanges();
                 return true;
+        }
+
+        public async Task<IEnumerable<Branch>> GetAllBranchByPages(int pageNumber, int pageSize)
+        {
+            var listAllBranch = new List<Branch>();
+            var branch = await _spaDbContext.Branches
+                .Select(b => new Branch
+                {
+                    BranchID = b.BranchID,
+                    BranchName = b.BranchName,
+                    BranchAddress = b.BranchAddress,
+                    BranchPhone = b.BranchPhone,
+                    IsActive = b.IsActive,
+                }).ToListAsync();
+
+            listAllBranch.AddRange(branch);
+
+            listAllBranch = listAllBranch
+                .OrderBy(b => b.BranchID)
+                .ToList();
+            return listAllBranch.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        }
+
+        public async Task<IEnumerable<Branch>> GetAllBranchActiveByPages(int pageNumber, int pageSize)
+        {
+            var listAllBranch = new List<Branch>();
+            var branch = await _spaDbContext.Branches
+                .Where(b => b.IsActive)
+                .Select(b => new Branch
+                {
+                    BranchID = b.BranchID,
+                    BranchName = b.BranchName,
+                    BranchAddress = b.BranchAddress,
+                    BranchPhone = b.BranchPhone,
+                    IsActive = b.IsActive,
+                }).ToListAsync();
+
+            listAllBranch.AddRange(branch);
+
+            listAllBranch = listAllBranch
+                    .OrderBy(b => b.BranchID)
+                    .ToList();
+            return listAllBranch.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        }
+
+        public async Task<IEnumerable<Branch>> GetAllBranchNotActiveByPages(int pageNumber, int pageSize)
+        {
+            var listAllBranch = new List<Branch>();
+            var branch = await _spaDbContext.Branches
+                .Where(b => b.IsActive==false)
+                .Select(b => new Branch
+                {
+                    BranchID = b.BranchID,
+                    BranchName = b.BranchName,
+                    BranchAddress = b.BranchAddress,
+                    BranchPhone = b.BranchPhone,
+                    IsActive = b.IsActive,
+                }).ToListAsync();
+
+            listAllBranch.AddRange(branch);
+
+            listAllBranch = listAllBranch
+                    .OrderBy(b => b.BranchID)
+                    .ToList();
+            return listAllBranch.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        }
+
+        public async Task<int> GetAllItemBranch()
+        {
+            return await _spaDbContext.Branches.CountAsync();
         }
     }
 }

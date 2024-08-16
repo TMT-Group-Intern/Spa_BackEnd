@@ -10,5 +10,10 @@ namespace Spa.Domain.IService
         Task<Branch> CreateBranch(Branch branchDTO);
         Task UpdateBranch(Branch branchDTO);
         Task DeleteBranch(long? id);
+        Task<IEnumerable<Branch>> GetAllBranchByPages(int pageNumber, int pageSize);
+        Task<IEnumerable<Branch>> GetAllBranchActiveByPages(int pageNumber, int pageSize);
+        Task<IEnumerable<Branch>> GetAllBranchNotActiveByPages(int pageNumber, int pageSize);
+        Task<int> GetAllItemBranch();
+        Task<bool> ChangeStatusBranch(long id);
     }
 }

@@ -32,7 +32,10 @@ namespace Spa.Domain.Service
         {
             return _appointmentRepository.GetAllAppointment();
         }
-
+        public IEnumerable<Appointment> GetAllAppointmentByBranchAndToday(long branchID)
+        {
+            return _appointmentRepository.GetAllAppointmentByBranchAndToday(branchID);
+        }
         public Appointment GetAppointmentByIdAsync(long id)
         {
             return _appointmentRepository.GetAppointmentByID(id);

@@ -147,6 +147,29 @@ namespace Spa.Api.Controllers
             }
         }
 
+        [HttpGet("GetBillByPayment")]
+        //[HasPermission(SetPermission.GetBillByIdAsync)]
+        public async Task<ActionResult> GetBillByPayment(long id)
+        {
+            try
+            {
+                var bill = await _billService.GetBillByPayment(id);
+                if (bill != null)
+                {
+                    return new JsonResult(bill, _jsonSerializerOptions);
+                }
+                return NotFound();
+            }
+            catch (ErrorMessage ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         [HttpPut("{id}")]
         [HasPermission(SetPermission.UpdateBill)]
         public async Task<ActionResult> UpdateBill(long id, Bill bill)

@@ -20,6 +20,17 @@ namespace Spa.Infrastructure
         {
         }
 
+        public IEnumerable<Appointment> GetAllAppointmentByBranchAndToday(long branchID)
+
+        {
+            var applist = _spaDbContext.Appointments.Where(a => a.BranchID == branchID && a.AppointmentDate >= DateTime.Today)
+                                .Include(c => c.Customer)
+                                .Include(a => a.Assignments!).ThenInclude(e => e.Employees)
+                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
+                                .Include(b => b.Bill!).ToList();
+            return applist;
+        }
+
         public async Task<bool> AddChooseService(long idApp, long idSer)
         {
             ChooseService chooseService = new ChooseService
@@ -73,10 +84,12 @@ namespace Spa.Infrastructure
 
         public IEnumerable<Appointment> GetAllAppointment()
         {
-            return _spaDbContext.Appointments
+            var applist= _spaDbContext.Appointments
                                 .Include(c => c.Customer)
                                 .Include(a => a.Assignments!).ThenInclude(e => e.Employees)
                                 .Include(s => s.ChooseServices!).ThenInclude(se => se.Service).ToList();
+                                //.Include(b => b.Bill!).ToList();
+            return applist;
         }
 
         public Appointment GetAppointmentByID(long appointmentId)
@@ -203,7 +216,8 @@ namespace Spa.Infrastructure
             IQueryable<Appointment> query = _spaDbContext.Appointments.OrderBy(d => d.AppointmentDate).Where(a => a.BranchID == branchID && a.AppointmentDate >= fromDate && a.AppointmentDate <= toDate)
                                 .Include(c => c.Customer)
                                 .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
-                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service);
+                                .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
+                                .Include(b => b.Bill);
 
             var totalItems = await query.CountAsync();
 
@@ -226,7 +240,24 @@ namespace Spa.Infrastructure
                     DateOfBirth = a.Customer.DateOfBirth,
                 },
                 Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TechnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                //Bill= a.Bill,
+                bill = a.Bill != null ? new
+                {
+                    BillID = a.Bill.BillID,
+                    AmountDiscount = a.Bill.AmountDiscount,
+                    AmountInvoiced = a.Bill.AmountInvoiced,
+                    AmountResidual = a.Bill.AmountResidual,
+                    AppointmentID = a.Bill.AppointmentID,
+                    BillStatus = a.Bill.BillStatus,
+                    CustomerID = a.Bill.CustomerID,
+                    Date = a.Bill.Date,
+                    Doctor = a.Bill.Doctor,
+                    TechnicalStaff = a.Bill.TechnicalStaff,
+                    TotalAmount = a.Bill.TotalAmount,
+                    KindofDiscount = a.Bill.KindofDiscount,
+                    Note = a.Bill.Note,
+                } : null // Trả về null nếu không có Bill
             });
 
 
@@ -266,7 +297,7 @@ namespace Spa.Infrastructure
                     DateOfBirth = a.Customer.DateOfBirth,
                 },
                 Doctor = a.Assignments!.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TechnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
             });
 
             var response = new

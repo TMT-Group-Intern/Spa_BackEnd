@@ -12,11 +12,11 @@ namespace Spa.Domain.Entities
         public string BranchName { get; set; }
         public string BranchAddress { get; set; }
         public string BranchPhone { get; set; }
+        public bool IsActive { get; set; }
 
         
         public ICollection<Employee> Employees { get; set; }
         public ICollection<Appointment> Appointments { get; set; }
-
         public ICollection<Warehouse> Warehouse { get; set; }
     }
 }
