@@ -12,5 +12,6 @@ namespace Spa.Application.Models
         public string BranchName { get; set; }
         public string BranchAddress { get; set; }
         public string BranchPhone { get; set; }
+        public bool? IsActive {  get; set; }
     }
 }

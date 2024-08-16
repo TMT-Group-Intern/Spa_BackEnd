@@ -400,7 +400,7 @@ namespace Spa.Infrastructure
                 PasswordHash = userDTO.PasswordHash,
                 Role = userDTO.Role,
                 Code = userDTO.Code,
-                UserName = userDTO.Email,
+                UserName = userDTO.UserName,
                 PhoneNumber = userDTO.PhoneNumber,
                 AdminID = userDTO.AdminID,
                 EmployeeID = userDTO.EmployeeID,

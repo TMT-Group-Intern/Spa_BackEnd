@@ -49,7 +49,38 @@ namespace Spa.Api.Controllers
         [Cache(1000)]
         public ActionResult GetAll(long idBrand)
         {
-            var app = _appointmentService.GetAllAppoinment().Select(a => new AppointmentDTO
+                var app = _appointmentService.GetAllAppoinment().Select(a => new AppointmentDTO
+                {
+                    AppointmentID = a.AppointmentID,
+                    BranchID = a.BranchID,
+                    CustomerID = a.CustomerID,
+                    Status = a.Status,
+                    Total = a.Total,
+                    AppointmentDate = a.AppointmentDate,
+                    Customer = _mapper.Map<CustomerDTO>(a.Customer),
+                    EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
+                    Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                    TechnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                    SpaTherapist = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
+                    //BillStatus = a.Bill?.BillStatus,
+                });
+
+                var appByBrand = app.Where(e => e.BranchID == idBrand && e.AppointmentDate >= DateTime.Today);
+
+                if (app == null)
+                {
+                    NotFound();
+                }
+                return new JsonResult(appByBrand, _jsonSerializerOptions);
+
+        }
+
+        [HttpGet("GetAllByBranchAndToday")]
+        [HasPermission(SetPermission.GetAllApointment)]
+        [Cache(1000)]
+        public ActionResult GetAllByBranchAndToday(long idBrand)
+        {
+            var app = _appointmentService.GetAllAppointmentByBranchAndToday(idBrand).Select(a => new AppointmentDTO
             {
                 AppointmentID = a.AppointmentID,
                 BranchID = a.BranchID,
@@ -60,8 +91,9 @@ namespace Spa.Api.Controllers
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
                 EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
                 Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TechnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
                 SpaTherapist = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
+                BillStatus = a.Bill?.BillStatus,
             });
 
             var appByBrand = app.Where(e => e.BranchID == idBrand && e.AppointmentDate >= DateTime.Today);
@@ -127,7 +159,7 @@ namespace Spa.Api.Controllers
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
                 EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
                 Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TechnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
                 SpaTherapist = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
             });
 
@@ -154,7 +186,7 @@ namespace Spa.Api.Controllers
                 AppointmentDate = a.AppointmentDate,
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
                 Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TechnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
                 EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
                 SpaTherapist = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
             });
@@ -223,7 +255,7 @@ namespace Spa.Api.Controllers
             var appByid = _mapper.Map<AppointmentDTO>(_appointmentService.GetAppointmentByIdAsync(id));
             AppointmentDTO appointmentDTO = new AppointmentDTO
             {
-                TeachnicalStaff = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 3)
+                TechnicalStaff = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 3)
                 .Select(n => n.Employees.LastName + " " + n.Employees.FirstName).FirstOrDefault(),
 
                 SpaTherapist = getDoctorAndStaff.Assignments.Where(e => e.Employees.JobTypeID == 3)
@@ -233,7 +265,7 @@ namespace Spa.Api.Controllers
                 .Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault()
             };
             appByid.Doctor = appointmentDTO.Doctor;
-            appByid.TeachnicalStaff = appointmentDTO.TeachnicalStaff;
+            appByid.TechnicalStaff = appointmentDTO.TechnicalStaff;
             appByid.SpaTherapist = appointmentDTO.SpaTherapist;
 
             if (appByid == null)
@@ -423,7 +455,7 @@ namespace Spa.Api.Controllers
                 Customer = _mapper.Map<CustomerDTO>(a.Customer),
                 EmployeeCode = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
                 Doctor = a.Assignments.Where(e => e.Employees.JobTypeID == 2).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
-                TeachnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
+                TechnicalStaff = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.LastName + " " + e.Employees.FirstName).FirstOrDefault(),
                 SpaTherapist = a.Assignments.Where(e => e.Employees.JobTypeID == 3).Select(e => e.Employees.EmployeeCode).FirstOrDefault(),
             });
             var total = app.Count();

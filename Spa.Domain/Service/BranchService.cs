@@ -50,5 +50,29 @@ namespace Spa.Domain.Service
             await _branchRepository.DeleteBranch(id);
         }
 
+        public async Task<IEnumerable<Branch>> GetAllBranchByPages(int pageNumber, int pageSize)
+        {
+            var listAccount = await _branchRepository.GetAllBranchByPages(pageNumber, pageSize);
+            return listAccount;
+        }
+        public async Task<IEnumerable<Branch>> GetAllBranchActiveByPages(int pageNumber, int pageSize)
+        {
+            var listAccount = await _branchRepository.GetAllBranchActiveByPages(pageNumber, pageSize);
+            return listAccount;
+        }
+        public async Task<IEnumerable<Branch>> GetAllBranchNotActiveByPages(int pageNumber, int pageSize)
+        {
+            var listAccount = await _branchRepository.GetAllBranchNotActiveByPages(pageNumber, pageSize);
+            return listAccount;
+        }
+
+        public async Task<int> GetAllItemBranch()
+        {
+            return await _branchRepository.GetAllItemBranch();
+        }
+        public async Task<bool> ChangeStatusBranch(long id)
+        {
+            return await _branchRepository.ChangeStatusBranch(id);
+        }
     }
 }

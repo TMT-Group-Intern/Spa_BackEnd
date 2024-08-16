@@ -18,6 +18,8 @@ namespace Spa.Domain.IService
 
         Task<Bill?> GetBillByIdAsync(long id);
 
+        Task<Bill?> GetBillByPayment(long id);
+
         Task<IEnumerable<Bill>> GetAllBillAsync();
 
         Task<IEnumerable<Bill>> GetAllBillByCustomerAsync(long idCus);

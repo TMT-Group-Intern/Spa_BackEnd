@@ -54,7 +54,20 @@ namespace Spa.Infrastructure
 
         public async Task<Bill?> GetBillByIdAsync(long id) //Get By ID
         {
-         return await _spaDbContext.Bill.Include(i => i.BillItems).Where(b => b.BillID == id).FirstOrDefaultAsync() ?? null;
+            return await _spaDbContext.Bill.Include(i => i.BillItems)
+                                .Include(i => i.Customer)
+                                .Include(i => i.Payments.OrderByDescending(p => p.PaymentDate).Take(1))
+                                .Where(b => b.BillID == id)
+                                .FirstOrDefaultAsync() ?? null;
+        }
+
+        public async Task<Bill?> GetBillByPayment(long paymentId) //Get By ID
+        {
+            return await _spaDbContext.Bill.Include(i => i.BillItems)
+                                .Include(i => i.Customer)
+                                .Include(i => i.Payments.Where(p => p.PaymentID==paymentId))
+                                .Where(b => b.Payments.Any(p => p.PaymentID == paymentId))
+                                .FirstOrDefaultAsync() ?? null;
         }
 
         public async Task<Bill?> GetBillDetailHaveCusAndAppByIdAsync(long id) //Get By ID

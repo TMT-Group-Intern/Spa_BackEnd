@@ -16,6 +16,7 @@ namespace Spa.Domain.IRepository
         Task<bool> AddBillItem(List<BillItem> billItems);
 
         Task<Bill?> GetBillByIdAsync(long id);
+        Task<Bill?> GetBillByPayment(long id);
 
         Task<IEnumerable<Bill>> GetAllBillAsync();
 

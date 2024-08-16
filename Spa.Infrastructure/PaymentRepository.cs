@@ -58,7 +58,7 @@ namespace Spa.Infrastructure
 
             return response;
         }
-
+        
         public async Task<object> Getfinance() {
             var cash = _spaDbContext.Payments.Where(a => a.PaymentMethod == "Tiền mặt").Select(a => a.Amount).Sum();
             var bank = _spaDbContext.Payments.Where(a => a.PaymentMethod == "Chuyển khoản").Select(a => a.Amount).Sum();
@@ -67,9 +67,6 @@ namespace Spa.Infrastructure
                 cash = cash,
                 bank = bank 
             };
-        }
-
-
-
+        } 
     }
 }
