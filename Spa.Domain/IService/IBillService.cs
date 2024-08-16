@@ -33,5 +33,7 @@ namespace Spa.Domain.IService
         Task<IEnumerable<Bill>> GetBillByCustomer(long idCustomer);
 
         Task<Bill?>GetBillByAppointmentID(long appId);
+
+        Task<string> GetLastCodeAsync();
     }
 }

@@ -58,23 +58,15 @@ namespace Spa.Infrastructure
 
             return response;
         }
-
-        public async Task<Object> GetPaymentByID(long id)
-        {
-            IQueryable<Payment> query = _spaDbContext.Payments.Where(a => a.PaymentID == id);
-
-            var payments = await query.ToListAsync();
-            var response = payments.Select(a => new
+        
+        public async Task<object> Getfinance() {
+            var cash = _spaDbContext.Payments.Where(a => a.PaymentMethod == "Tiền mặt").Select(a => a.Amount).Sum();
+            var bank = _spaDbContext.Payments.Where(a => a.PaymentMethod == "Chuyển khoản").Select(a => a.Amount).Sum();
+            return new
             {
-                paymentID = a.PaymentID,
-                date = a.PaymentDate,
-                amount = a.Amount,
-                paymentMethod = a.PaymentMethod,
-                
-            });
-
-            return response;
-        }
-
+                cash = cash,
+                bank = bank 
+            };
+        } 
     }
 }

@@ -17,7 +17,7 @@ namespace Spa.Domain.Entities
         public string? Notes { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
-
-        public Bill? Bill { get; set; }
+        public Bill? Bill { get; set; }    
+        public IncomeExpenses? IncomeExpenses { get; set; }
     }
 }

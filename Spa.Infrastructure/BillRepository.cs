@@ -70,6 +70,11 @@ namespace Spa.Infrastructure
                                 .FirstOrDefaultAsync() ?? null;
         }
 
+        public async Task<Bill?> GetBillDetailHaveCusAndAppByIdAsync(long id) //Get By ID
+        {
+            return await _spaDbContext.Bill.Include(i => i.BillItems).Include(a => a.Appointment).Include(a=> a.Customer).Where(b => b.BillID == id).FirstOrDefaultAsync() ?? null;
+        }
+
         public async Task<Bill> GetNewBillAsync()
         {
             try
@@ -143,6 +148,18 @@ namespace Spa.Infrastructure
         public async Task<Bill?> GetBillByAppointmentID(long appId)
         {
             return await _spaDbContext.Bill.Include(i => i.BillItems).Where(b => b.AppointmentID == appId).FirstOrDefaultAsync() ?? null;
+        }
+
+        public async Task<string> GetLastCodeAsync()
+        {
+            try
+            {
+                return await _spaDbContext.Bill.OrderByDescending(c => c.BillID).Select(e => e.BillCode).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

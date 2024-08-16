@@ -21,6 +21,7 @@ namespace Spa.Application.Commands
         public string TimeUnit { get; set; }
         public string? Notes { get; set; }
         public string CreateBy { get; set; }
+        public string? status { get; set; }
         public ICollection<TreatmentDetailDTO> TreatmentDetailDTO { get; set; }
     }
 
@@ -31,6 +32,18 @@ namespace Spa.Application.Commands
         {
             _treatmentService = treatmentService;
         }
+        private async Task<string> GenerateTreatmentCodeAsync()
+        {
+            var lastTreatmentCode = await _treatmentService.GetLastCodeAsync();
+             if (lastTreatmentCode == null)
+             {
+                 return "LT0001";
+             }
+            var lastCode = lastTreatmentCode;
+             int numericPart = int.Parse(lastCode.Substring(2));
+             numericPart++;
+             return "LT" + numericPart.ToString("D4");
+        }
         public async Task<string> Handle(CreateTreatmentCardCommand request, CancellationToken cancellationToken)
         {
             ICollection<TreatmentDetail> treatmentDetail = new List<TreatmentDetail>();
@@ -40,17 +53,21 @@ namespace Spa.Application.Commands
              ServiceID = a.ServiceID,
              Price = a.Price,
              Quantity = a.Quantity,
+             AmountDiscount = a.AmountDiscount,
+             TotalAmount = a.TotalAmount,
+             KindofDiscount = a.KindofDiscount,
+             Note = a.Note
             }).ToList();
 
             TreatmentCard treatmentCard = new TreatmentCard
             {
-                TreatmentCode = request.TreatmentCode,
+                TreatmentCode = await GenerateTreatmentCodeAsync(),
                 CustomerID = request.CustomerID,           
                 StartDate = request.StartDate,            
                 CreateBy = request.CreateBy,
                 Notes = request.Notes,
                 TreatmentDetails = treatmentDetail,
-                Status = "Đang điều trị"
+                Status = request.status
             };
             await _treatmentService.CreateTreatmentCard(treatmentCard);
             string status = "success";

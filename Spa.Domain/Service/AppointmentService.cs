@@ -17,11 +17,13 @@ namespace Spa.Domain.Service
     {
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IServiceRepository _serviceRepository;
+        private readonly ITreatmentRepository _treatmentRepository;
 
-        public AppointmentService(IAppointmentRepository appointmentRepository, IServiceRepository serviceRepository)
+        public AppointmentService(IAppointmentRepository appointmentRepository, IServiceRepository serviceRepository, ITreatmentRepository treatmentRepository)
         {
             _appointmentRepository = appointmentRepository;
             _serviceRepository = serviceRepository;
+            _treatmentRepository = treatmentRepository;
         }
         public async Task CreateAppointmentAsync(Appointment appointment)
         {
@@ -213,9 +215,18 @@ namespace Spa.Domain.Service
                 var appToUpdate = await _appointmentRepository.GetAppointmentByIdAsync(idApp);
                 UpdateNonNullFields(appToUpdate, appointment);
                 var chooseService = appToUpdate.ChooseServices;
-                if(appointment.ChooseServiceTreatments != null)
+                if (appointment.ChooseServiceTreatments != null)
                 {
                     appToUpdate.ChooseServiceTreatments = appointment.ChooseServiceTreatments;
+                }
+                foreach (var item in appointment.ChooseServiceTreatments)
+                {
+                    var treatmentdetail = await _treatmentRepository.GetTreatmentDetailAsyncByID(item.TreatmentDetailID);
+                    treatmentdetail.QuantityDone++;
+                    if (treatmentdetail.QuantityDone == treatmentdetail.Quantity)
+                    {
+                        treatmentdetail.IsDone = true;
+                    }
                 }
                 appToUpdate.Total = 0;
                 foreach (var item in chooseService)
@@ -258,7 +269,7 @@ namespace Spa.Domain.Service
 
         public async Task<List<Appointment>> SearchAppointment(DateTime fromDate, DateTime toDate, long branchId, string searchItem, int limit, int offset, string? status)
         {
-            return await _appointmentRepository.SearchAppointment(fromDate,toDate,branchId,searchItem,limit, offset, status);
+            return await _appointmentRepository.SearchAppointment(fromDate, toDate, branchId, searchItem, limit, offset, status);
         }
 
         public async Task<Object> GetAppointmentByStatus(long branchID, DateTime fromDate, DateTime toDate, int pageNumber, int pageSize, string status)

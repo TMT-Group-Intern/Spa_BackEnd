@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spa.Infrastructure;
 
@@ -11,9 +12,11 @@ using Spa.Infrastructure;
 namespace Spa.Infrastructure.Migrations
 {
     [DbContext(typeof(SpaDbContext))]
-    partial class SpaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240814072419_addnewColumDiscountInTreatment")]
+    partial class addnewColumDiscountInTreatment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,6 +157,7 @@ namespace Spa.Infrastructure.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("BillCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BillStatus")
@@ -252,9 +256,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<string>("BranchPhone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.HasKey("BranchID");
 
@@ -436,50 +437,6 @@ namespace Spa.Infrastructure.Migrations
                     b.HasIndex("JobTypeID");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.IncomeExpenses", b =>
-                {
-                    b.Property<long>("IncomeExpensID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IncomeExpensID"));
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<long>("BranchID")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("IncomeExpensesCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PartnerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PayMethod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("PaymentID")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("TypeOfIncome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IncomeExpensID");
-
-                    b.HasIndex("PaymentID")
-                        .IsUnique()
-                        .HasFilter("[PaymentID] IS NOT NULL");
-
-                    b.ToTable("IncomeExpenses");
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.JobType", b =>
@@ -1061,16 +1018,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("JobType");
                 });
 
-            modelBuilder.Entity("Spa.Domain.Entities.IncomeExpenses", b =>
-                {
-                    b.HasOne("Spa.Domain.Entities.Payment", "Payment")
-                        .WithOne("IncomeExpenses")
-                        .HasForeignKey("Spa.Domain.Entities.IncomeExpenses", "PaymentID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Payment");
-                });
-
             modelBuilder.Entity("Spa.Domain.Entities.Payment", b =>
                 {
                     b.HasOne("Spa.Domain.Entities.Bill", "Bill")
@@ -1269,12 +1216,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Navigation("Employees");
 
                     b.Navigation("RolePermission");
-                });
-
-            modelBuilder.Entity("Spa.Domain.Entities.Payment", b =>
-                {
-                    b.Navigation("IncomeExpenses")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Spa.Domain.Entities.Permission", b =>

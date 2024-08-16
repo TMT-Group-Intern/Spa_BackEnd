@@ -82,11 +82,11 @@ namespace Spa.Api.Controllers
                 var command = new CreateTreatmentCardCommand
                 {                 
                     CustomerID = treatmentCard.CustomerID,
-                    StartDate = treatmentCard.StartDate,
-                    TreatmentCode = treatmentCard.TreatmentCode,
+                    StartDate = treatmentCard.StartDate,                
                     CreateBy = treatmentCard.CreateBy,
                     Notes = treatmentCard.Notes,
-                    TreatmentDetailDTO = treatmentCard.TreatmentDetailDTOs
+                    TreatmentDetailDTO = treatmentCard.TreatmentDetailDTOs,
+                    status = treatmentCard.status                 
                 };
                 var id = await _mediator.Send(command);
                 return Ok();
@@ -103,32 +103,29 @@ namespace Spa.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             try
             {
-             /*   TreatmentCard treatmentCard = new TreatmentCard
+                TreatmentCard treatmentCard = new TreatmentCard
                 {
                     CreateBy = treatmentCardDTO.CreateBy,
                     CustomerID = treatmentCardDTO.CustomerID,
                     StartDate = treatmentCardDTO.StartDate,
-                    Notes = treatmentCardDTO.Notes,
-                    TotalSessions = treatmentCardDTO.TotalSessions,
-                    TreatmentName = treatmentCardDTO.TreatmentName,
-                    TreatmentSessions = treatmentCardDTO.TreatmentSessionsDTO.Select(a => new TreatmentSession
+                    Notes = treatmentCardDTO.Notes,        
+                    Status = treatmentCardDTO.status,
+                    TreatmentDetails = treatmentCardDTO.TreatmentDetailDTOs.Select(a => new TreatmentDetail
                     {
-                        isDone = a.isDone,
-                        SessionID = a.SessionID,
-                        SessionNumber = a.SessionNumber,
-                        TreatmendSessionDetail = a.TreatmendSessionDetailDTO.Select(a => new TreatmendSessionDetail
-                        {
-                            SessionID = a.SessionID,
-                            ServiceID = a.ServiceID,
-                            Price  = a.Price,
-                            IsDone = a.IsDone,
-                        }).ToList(),
+                       ServiceID = a.ServiceID,
+                       Price = a.Price,
+                       Quantity = a.Quantity,
+                       IsDone = a.IsDone,
+                       QuantityDone = a.QuantityDone,
+                       AmountDiscount = a.AmountDiscount,
+                       KindofDiscount = a.KindofDiscount,
+                       Note =a.Note,
+                       TotalAmount = a.TotalAmount,
                     }).ToList(),
-                };*/
-              //  var updateTreatment = await _treatmentService.UpdateTreatment(treatmentID, treatmentCard);
+                };
+                var updateTreatment = await _treatmentService.UpdateTreatment(treatmentID, treatmentCard);
                 return Ok();
             }
             catch (Exception ex)
@@ -148,6 +145,43 @@ namespace Spa.Api.Controllers
             try
             {
                 var update = _treatmentService.UpdateStatusSession(sessionID, status);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPut("UpdateStatusTreatmentCard")]
+        public async Task<ActionResult> UpdateStatusTreatmentCard(long treatmentCardId, string status)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var update = await _treatmentService.UpdateStatusTreatmentCard(treatmentCardId, status);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> DeleteTreatmentDetail(long treatmentDetailID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                 await _treatmentService.DeleteTreatmentDetail(treatmentDetailID);
                 return Ok();
             }
             catch (Exception ex)

@@ -45,6 +45,7 @@ namespace Spa.Api.Controllers
             var billList = await _billService.GetBillByCustomer(customerId);
            var billDTO =  billList.Select(e => new
             {
+                billCode = e.BillCode,
                 billId = e.BillID,
                 date = e.Date,
                 totalAmount = e.TotalAmount,

@@ -31,5 +31,9 @@ namespace Spa.Domain.IRepository
         Task<IEnumerable<Bill>> GetBillByCustomer(long idCustomer);
 
         Task<Bill?> GetBillByAppointmentID(long appId);
+
+        Task<string> GetLastCodeAsync();
+
+        Task<Bill?> GetBillDetailHaveCusAndAppByIdAsync(long id);
     }
 }

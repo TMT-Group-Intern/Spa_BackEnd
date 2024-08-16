@@ -6,7 +6,9 @@ using Spa.Domain.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Spa.Application.Commands
@@ -39,18 +41,38 @@ namespace Spa.Application.Commands
             _appointmentService = appointmentService;
             _billService = billService;
         }
+
+        private bool IsValidFormat(string input)
+        {
+            string pattern = @"^[A-Z]{2}\d{4}$";
+            Regex regex = new Regex(pattern);
+            return regex.IsMatch(input);
+        }
+
+        private async Task<string> GenerateBillCodeAsync()
+        {
+            var lastBillCode = await _billService.GetLastCodeAsync();
+            if (lastBillCode == null || IsValidFormat(lastBillCode) == false)
+            {
+                return "HD0001";
+            }
+            var lastCode = lastBillCode;
+            int numericPart = int.Parse(lastCode.Substring(2));
+            numericPart++;
+            return "HD" + numericPart.ToString("D4");
+        }
         public async Task<long> Handle(CreateBillCommand request, CancellationToken cancellationToken)
         {
             long idNewBill = 0;
             Bill bill = new Bill()
             {
+                BillCode = await GenerateBillCodeAsync(),
                 AppointmentID = request.AppointmentID,
                 AmountResidual = request.TotalAmount,
                 AmountInvoiced = request.AmountInvoiced,
                 TechnicalStaff = request.TechnicalStaff,
                 Doctor = request.Doctor,
                 TotalAmount = request.TotalAmount,
-                // BillItems = request.BillItems,
                 KindofDiscount = request.KindofDiscount,
                 Note = request.Note,
                 AmountDiscount = request.AmountDiscount,
