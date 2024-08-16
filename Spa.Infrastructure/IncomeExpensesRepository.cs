@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Spa.Domain.Entities;
+using Spa.Domain.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Spa.Infrastructure
 {
-    public class IncomeExpensesRepository
+    public class IncomeExpensesRepository : IIncomeExpensesRepository
     {
         private readonly SpaDbContext _spaDbContext;
         public IncomeExpensesRepository(SpaDbContext spaDbContext)
@@ -29,5 +30,16 @@ namespace Spa.Infrastructure
                 return false;
             }
         }
+
+        public async Task<string> GetLastCodeAsync()
+        {
+            return await _spaDbContext.IncomeExpenses.OrderBy(e => e.IncomeExpensID!).Select(e => e.IncomeExpensesCode!).FirstOrDefaultAsync();
+        }
+
+        public async Task<object> GetIncomes()
+        {
+            return await _spaDbContext.IncomeExpenses.ToListAsync();
+        }
+
     }
 }

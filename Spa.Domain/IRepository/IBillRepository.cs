@@ -32,5 +32,7 @@ namespace Spa.Domain.IRepository
         Task<Bill?> GetBillByAppointmentID(long appId);
 
         Task<string> GetLastCodeAsync();
+
+        Task<Bill?> GetBillDetailHaveCusAndAppByIdAsync(long id);
     }
 }

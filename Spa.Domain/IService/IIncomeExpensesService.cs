@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Spa.Domain.IService
 {
-    internal interface IIncomeExpensesSevice
+    public interface IIncomeExpensesService
     {
         Task<bool> AddncomeExpensesAsync(IncomeExpenses incomeExpenses);
+
+        Task<object> GetIncomes();
     }
 }

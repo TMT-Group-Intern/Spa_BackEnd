@@ -193,6 +193,10 @@ builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
+// Phieuthuchi
+builder.Services.AddScoped<IIncomeExpensesRepository, IncomeExpensesRepository>();
+builder.Services.AddScoped<IIncomeExpensesService, IncomeExpensesService>();
+
 //SignalR
 builder.Services.AddSignalR(o =>
 {

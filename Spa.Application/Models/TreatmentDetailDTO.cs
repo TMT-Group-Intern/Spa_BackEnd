@@ -19,5 +19,6 @@ namespace Spa.Application.Models
         public double? AmountDiscount { get; set; } = 0;
         public string? KindofDiscount { get; set; }
         public string? Note { get; set; }
+        public ServiceDTO? Service { get; set; }
     }
 }
