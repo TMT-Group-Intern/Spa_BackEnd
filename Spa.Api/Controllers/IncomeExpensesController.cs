@@ -1,5 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Spa.Domain.Entities;
+using Spa.Domain.IService;
+using Spa.Domain.Service;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace Spa.Api.Controllers
 {
@@ -7,6 +13,39 @@ namespace Spa.Api.Controllers
     [ApiController]
     public class IncomeExpensesController : ControllerBase
     {
-        
+        private readonly IIncomeExpensesService _incomeExpensesService;
+
+        public IncomeExpensesController(IIncomeExpensesService incomeExpensesService)
+        {
+            _incomeExpensesService = incomeExpensesService;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> TaoPhieuThuChi(IncomeExpenses incomeExpenses)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var create = new IncomeExpenses
+                {
+                    Amount = incomeExpenses.Amount,
+                    PartnerName = "__",
+                    PayMethod = incomeExpenses.PayMethod,
+                    TypeOfIncome = incomeExpenses.TypeOfIncome,
+                    Date = DateTime.Now,
+                    BranchID = incomeExpenses.BranchID,                  
+                };
+                await _incomeExpensesService.AddncomeExpensesAsync(incomeExpenses);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }

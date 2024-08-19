@@ -8,10 +8,10 @@ namespace Spa.Domain.Entities
 {
     public class IncomeExpenses
     {
-        public long IncomeExpensID { get; set; }
+        public long? IncomeExpensID { get; set; }
         public string? IncomeExpensesCode { get; set; }
         public DateTime Date { get; set; }
-        public string PartnerName { get; set; }
+        public string? PartnerName { get; set; }
         public string PayMethod { get; set; }
         public string TypeOfIncome { get; set; }   // thu hoặc chi
         public double? Amount { get; set; }

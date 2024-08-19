@@ -60,7 +60,7 @@ namespace Spa.Infrastructure
 
         public async Task<TreatmentDetail> GetTreatmentDetailAsyncByID(long treatmendDetailID)
         {
-            var response = await _spaDbContext.TreatmentDetails
+            var response = await _spaDbContext.TreatmentDetails.Include(s => s.Service)
                 .Where(a => a.TreatmentDetailID == treatmendDetailID)
                 .FirstOrDefaultAsync();
             return response;
