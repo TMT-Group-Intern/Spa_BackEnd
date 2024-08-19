@@ -52,6 +52,7 @@ namespace Spa.Domain.Service
                         BranchID = bill.Appointment.BranchID,
                         PayMethod = payment.PaymentMethod,
                         TypeOfIncome = "Thu",
+                        Description= "Phải Thu Của Khách",
                         IncomeExpensesCode = await GenerateBillCodeAsync(),                       
                     };
                     await _incomeExpensesRepository.AddncomeExpensesAsync(incomeExpenses);
