@@ -36,9 +36,10 @@ namespace Spa.Api.Controllers
                     PayMethod = incomeExpenses.PayMethod,
                     TypeOfIncome = incomeExpenses.TypeOfIncome,
                     Date = DateTime.Now,
-                    BranchID = incomeExpenses.BranchID,                  
+                    BranchID = incomeExpenses.BranchID,   
+                    Description = incomeExpenses.Description,
                 };
-                await _incomeExpensesService.AddncomeExpensesAsync(incomeExpenses);
+                await _incomeExpensesService.AddncomeExpensesAsync(create);
 
                 return Ok();
             }

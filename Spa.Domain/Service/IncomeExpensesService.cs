@@ -19,9 +19,9 @@ namespace Spa.Domain.Service
             _incomeExpensesRepository = incomeExpensesRepository;
         }
 
-        public Task<bool> AddncomeExpensesAsync(IncomeExpenses incomeExpenses)
+        public async Task<bool> AddncomeExpensesAsync(IncomeExpenses incomeExpenses)
         {
-            throw new NotImplementedException();
+            return await _incomeExpensesRepository.AddncomeExpensesAsync(incomeExpenses);
         }
 
         public async Task<object> GetIncomes()

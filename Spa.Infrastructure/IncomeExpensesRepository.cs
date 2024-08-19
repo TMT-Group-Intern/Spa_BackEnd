@@ -33,7 +33,7 @@ namespace Spa.Infrastructure
 
         public async Task<string> GetLastCodeAsync()
         {
-            return await _spaDbContext.IncomeExpenses.OrderBy(e => e.IncomeExpensID!).Select(e => e.IncomeExpensesCode!).FirstOrDefaultAsync();
+            return await _spaDbContext.IncomeExpenses.OrderByDescending(e => e.IncomeExpensID!).Select(e => e.IncomeExpensesCode!).FirstOrDefaultAsync();
         }
 
         public async Task<object> GetIncomes()
