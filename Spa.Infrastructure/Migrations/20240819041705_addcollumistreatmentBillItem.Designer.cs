@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spa.Infrastructure;
 
@@ -11,9 +12,11 @@ using Spa.Infrastructure;
 namespace Spa.Infrastructure.Migrations
 {
     [DbContext(typeof(SpaDbContext))]
-    partial class SpaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240819041705_addcollumistreatmentBillItem")]
+    partial class addcollumistreatmentBillItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -255,9 +258,6 @@ namespace Spa.Infrastructure.Migrations
                     b.Property<string>("BranchPhone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.HasKey("BranchID");
 

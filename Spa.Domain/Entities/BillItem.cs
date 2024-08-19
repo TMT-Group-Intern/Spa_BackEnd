@@ -9,12 +9,10 @@
         public int Quantity { get; set; }
         public double UnitPrice { get; set; }
         public double TotalPrice { get; set; } // Tính tổng giá dựa trên số lượng và đơn giá
-
         public double? AmountDiscount { get; set; } = 0;
         public string? KindofDiscount { get; set; }
-
         public string? Note { get; set; }
-
+        public bool? IsTreatment { get; set; }
         public Bill? Bill { get; set; }
     }
 }
