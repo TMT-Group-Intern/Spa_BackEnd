@@ -54,7 +54,7 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("Page")]
-       // [Cache(1000)]
+        [Cache(1000)]
         [HasPermission(SetPermission.GetAllByPage)]
         public async Task<ActionResult> GetAllByPage(int pageNumber = 1, int pageSize = 20)
         {

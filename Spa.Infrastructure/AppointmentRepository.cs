@@ -90,7 +90,7 @@ namespace Spa.Infrastructure
                                              .Include(c => c.Customer)
                                              .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
                                              .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
-                                             .Include(c => c.ChooseServiceTreatments).ThenInclude(de => de.TreatmentDetail);
+                                               .Include(s => s.ChooseServiceTreatments).ThenInclude(a => a.TreatmentDetail).ThenInclude(s => s.Service);
             return query.FirstOrDefault()!;
         }
 
@@ -200,7 +200,8 @@ namespace Spa.Infrastructure
             IQueryable<Appointment> query = _spaDbContext.Appointments.Where(a => a.AppointmentID == idApp)
                                             .Include(c => c.Customer)
                                             .Include(e => e.Assignments!).ThenInclude(em => em.Employees)
-                                            .Include(s => s.ChooseServices!).ThenInclude(se => se.Service);
+                                            .Include(s => s.ChooseServices!).ThenInclude(se => se.Service)
+                                            .Include(s => s.ChooseServiceTreatments).ThenInclude(a => a.TreatmentDetail).ThenInclude(s => s.Service);
 
             var appToUpdate = await query.FirstOrDefaultAsync();
             return appToUpdate!;
