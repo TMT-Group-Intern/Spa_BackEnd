@@ -21,12 +21,20 @@ namespace Spa.Domain.Service
 
         public async Task<bool> AddncomeExpensesAsync(IncomeExpenses incomeExpenses)
         {
+            if(incomeExpenses.TypeOfIncome == "Thu")
+            {
+                incomeExpenses.IncomeExpensesCode = await  GeneratePhieuThuCodeAsync();
+            }
+            else
+            {
+                incomeExpenses.IncomeExpensesCode = await GeneratePhieuChiCodeAsync();
+            }
             return await _incomeExpensesRepository.AddncomeExpensesAsync(incomeExpenses);
         }
 
-        public async Task<object> GetIncomes()
+        public async Task<object> GetIncomes(int offset, int limit)
         {
-            return await _incomeExpensesRepository.GetIncomes();
+            return await _incomeExpensesRepository.GetIncomes(offset, limit);
         }
 
         private bool IsValidFormat(string input)
@@ -36,7 +44,7 @@ namespace Spa.Domain.Service
             return regex.IsMatch(input);
         }
 
-        private async Task<string> GenerateBillCodeAsync()
+        private async Task<string> GeneratePhieuThuCodeAsync()
         {
             var lastBillCode = await _incomeExpensesRepository.GetLastCodeAsync();
             if (lastBillCode == null || IsValidFormat(lastBillCode) == false)
@@ -47,6 +55,24 @@ namespace Spa.Domain.Service
             int numericPart = int.Parse(lastCode.Substring(2));
             numericPart++;
             return "PT" + numericPart.ToString("D4");
+        }
+
+        private async Task<string> GeneratePhieuChiCodeAsync()
+        {
+            var lastBillCode = await _incomeExpensesRepository.GetLastCodeAsync();
+            if (lastBillCode == null || IsValidFormat(lastBillCode) == false)
+            {
+                return "PC0001";
+            }
+            var lastCode = lastBillCode;
+            int numericPart = int.Parse(lastCode.Substring(2));
+            numericPart++;
+            return "PC" + numericPart.ToString("D4");
+        }
+
+        public async Task<object> TotalAmountThuChi()
+        {
+            return await _incomeExpensesRepository.TotalAmountThuChi();
         }
     }
 }

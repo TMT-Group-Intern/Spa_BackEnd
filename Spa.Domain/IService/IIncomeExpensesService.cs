@@ -11,6 +11,8 @@ namespace Spa.Domain.IService
     {
         Task<bool> AddncomeExpensesAsync(IncomeExpenses incomeExpenses);
 
-        Task<object> GetIncomes();
+        Task<object> GetIncomes(int offset, int limit);
+
+        Task<object> TotalAmountThuChi();
     }
 }

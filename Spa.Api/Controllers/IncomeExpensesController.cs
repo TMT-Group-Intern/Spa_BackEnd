@@ -29,6 +29,10 @@ namespace Spa.Api.Controllers
             }
             try
             {
+                if(incomeExpenses.TypeOfIncome == "Chi")
+                {
+                    incomeExpenses.Amount = - incomeExpenses.Amount;
+                }
                 var create = new IncomeExpenses
                 {
                     Amount = incomeExpenses.Amount,
@@ -42,6 +46,26 @@ namespace Spa.Api.Controllers
                 await _incomeExpensesService.AddncomeExpensesAsync(create);
 
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("AllCashAndBank")]
+        public async Task<ActionResult> GetAllBankAndCash()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                
+               var respone = await _incomeExpensesService.TotalAmountThuChi();
+
+                return Ok(new { respone });
             }
             catch (Exception ex)
             {

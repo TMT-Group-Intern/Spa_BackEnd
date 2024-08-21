@@ -7,6 +7,8 @@ using System.Text.Json;
 using Spa.Application.Authorize.HasPermissionAbtribute;
 using Spa.Application.Authorize.Permissions;
 using Spa.Domain.IRepository;
+using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Math;
 
 namespace Spa.Api.Controllers
 {
@@ -55,9 +57,9 @@ namespace Spa.Api.Controllers
         }
 
         [HttpGet("PhieuThuChi")]
-        public async Task<ActionResult> AllThuChi()
+        public async Task<ActionResult> AllThuChi(int offset = 1, int limit = 10)
         {
-            var finance = await _incomeExpensesService.GetIncomes();
+            var finance = await _incomeExpensesService.GetIncomes( offset,  limit);
             return new JsonResult(finance, _jsonSerializerOptions);
         }
     }

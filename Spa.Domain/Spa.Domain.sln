@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spa.Domain", "Spa.Domain.csproj", "{97AA7350-4EB4-4D36-B48C-50CB672EB02D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spa.Domain", "Spa.Domain.csproj", "{97AA7350-4EB4-4D36-B48C-50CB672EB02D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spa.Application", "..\Spa.Application\Spa.Application.csproj", "{74B3821A-B1A5-4A77-97BE-68A40A984730}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spa.Application", "..\Spa.Application\Spa.Application.csproj", "{74B3821A-B1A5-4A77-97BE-68A40A984730}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spa.Api", "..\Spa.Api\Spa.Api.csproj", "{42727B55-726D-45E6-9BC1-CB6DFE224412}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spa.Api", "..\Spa.Api\Spa.Api.csproj", "{42727B55-726D-45E6-9BC1-CB6DFE224412}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spa.Infrastructure", "..\Spa.Infrastructure\Spa.Infrastructure.csproj", "{847EA113-34B0-413E-811C-015641748DE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spa.Infrastructure", "..\Spa.Infrastructure\Spa.Infrastructure.csproj", "{847EA113-34B0-413E-811C-015641748DE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

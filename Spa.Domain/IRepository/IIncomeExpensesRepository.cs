@@ -13,6 +13,8 @@ namespace Spa.Domain.IRepository
 
         Task<string> GetLastCodeAsync();
 
-        Task<object> GetIncomes();
+        Task<object> GetIncomes(int offset, int limit);
+
+        Task<object> TotalAmountThuChi();
     }
 }

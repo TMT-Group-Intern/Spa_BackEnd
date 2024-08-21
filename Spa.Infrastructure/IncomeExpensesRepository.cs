@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using Spa.Domain.Entities;
 using Spa.Domain.IRepository;
 using System;
@@ -36,10 +37,29 @@ namespace Spa.Infrastructure
             return await _spaDbContext.IncomeExpenses.OrderByDescending(e => e.IncomeExpensID!).Select(e => e.IncomeExpensesCode!).FirstOrDefaultAsync();
         }
 
-        public async Task<object> GetIncomes()
+        public async Task<object> GetIncomes(int offset, int limit)
         {
-            return await _spaDbContext.IncomeExpenses.ToListAsync();
+            IQueryable<IncomeExpenses> query = _spaDbContext.IncomeExpenses.OrderByDescending(e => e.IncomeExpensID).Skip((offset - 1) * limit)
+              .Take(limit); 
+            var total = await CountTotalIncomes();
+            var items = await query.ToListAsync();
+            return new { items, total };
         }
+
+        private async Task<int> CountTotalIncomes()
+        {
+            return await _spaDbContext.IncomeExpenses.CountAsync();
+        }
+
+        public async Task<object> TotalAmountThuChi()
+        {
+            IQueryable<IncomeExpenses> queryTotalBank = _spaDbContext.IncomeExpenses.Where(e => e.PayMethod.Equals("Chuyển khoản"));
+            IQueryable<IncomeExpenses> queryTotalCash = _spaDbContext.IncomeExpenses.Where(e => e.PayMethod.Equals("Tiền mặt"));
+            var totalCash = await queryTotalCash.Select(e => e.Amount).SumAsync();
+            var totalBank = await queryTotalBank.Select(e => e.Amount).SumAsync();
+            return new { totalCash, totalBank };
+        }
+
 
     }
 }
